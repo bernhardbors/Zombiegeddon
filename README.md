@@ -1,4 +1,4 @@
-# INF112 libGDX + Maven template 
+# INF112 - Zoombies 
 Simple skeleton with [libGDX](https://libgdx.com/). 
 
 **Important:** Replace this README with info about *your* project!
@@ -97,7 +97,12 @@ If you look at *Settings → Repository* in GitLab, you can protect branches –
 
 ## Credits
 ### Authors
-* *TODO: list team members*
+* *Isak Graarud*
+* *Bernhard Bors*
+* *Synne Berg Hermansen*
+* *Tuva Kvamme*
+* *Theodor Flornes*
+* *Johannes Moe*
 
 ### Contributors
 * *TODO: did you include code from anyone else? Did you use AI/LLMs to generate or edit the code?*
