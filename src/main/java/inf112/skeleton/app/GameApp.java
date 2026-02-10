@@ -5,17 +5,18 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import inf112.skeleton.view.MainMenuView;
 
 public class GameApp extends Game {
     public SpriteBatch batch;
-    //public Skin skin;
+    public Skin skin;
     public Preferences prefs;
 
     @Override
     public void create() {
 
-        //skin = new Skin(Gdx.files.internal("assets/ui/default/skin/uiskin.json"));
+        skin = new Skin(Gdx.files.internal("ui/skin/uiskin.json"));
         batch = new SpriteBatch();
 
         loadPreferences();
@@ -45,6 +46,6 @@ public class GameApp extends Game {
     @Override
     public void dispose() {
         batch.dispose();
-        //skin.dispose();
+        skin.dispose();
     }
 }
