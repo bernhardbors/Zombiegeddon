@@ -23,12 +23,9 @@ public class Main {
 
 		Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
 		cfg.setTitle("Zoombies");
-		cfg.setWindowedMode(1280, 768); // change default window size if this is too large or small
-		// (there are lots of other interesting configuration options
+		cfg.setWindowedMode(1280, 768);
 
-		// This object is our application. It'll "listen" to events from
-		// the LibGDX main loop.
-		ApplicationListener appListener = new GameApp(); // Replace this with your own
+		ApplicationListener appListener = new GameApp();
 
 		// Start the application framework. The constructor call won't return until
 		// Gdx.app.exit() is called.
