@@ -8,14 +8,12 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.utils.Os;
 import com.badlogic.gdx.utils.SharedLibraryLoader;
 
-import inf112.skeleton._example.controller.AppController;
-
-public class MvcMain {
+public class Main {
 	public static void main(String[] args) {
 		// enable assertion checking by default
-		MvcMain.class.getClassLoader().setDefaultAssertionStatus(true);
+		Main.class.getClassLoader().setDefaultAssertionStatus(true);
 
-		// Workaround for Mac OS problem – alternatively, we could start the JVM with
+		// Workaround for macOS problem – alternatively, we could start the JVM with
 		// the -XstartOnFirstThread option.
 		// See https://javadoc.lwjgl.org/org/lwjgl/glfw/package-summary.html for
 		// explanation
@@ -24,13 +22,13 @@ public class MvcMain {
 		}
 
 		Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
-		cfg.setTitle("MVC Example");
+		cfg.setTitle("Zoombies");
 		cfg.setWindowedMode(1280, 768); // change default window size if this is too large or small
 		// (there are lots of other interesting configuration options
 
 		// This object is our application. It'll "listen" to events from
 		// the LibGDX main loop.
-		ApplicationListener appListener = new AppController(); // Replace this with your own
+		ApplicationListener appListener = new GameApp(); // Replace this with your own
 
 		// Start the application framework. The constructor call won't return until
 		// Gdx.app.exit() is called.
