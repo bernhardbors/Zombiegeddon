@@ -59,7 +59,7 @@ cache:
       - target/
 
 # run mvn verify to compile and test the project
-verify:
+.verify:
   stage: test
   script:
     - 'mvn $MAVEN_CLI_OPTS clean compile verify'

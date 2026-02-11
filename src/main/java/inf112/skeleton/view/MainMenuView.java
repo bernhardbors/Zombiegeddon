@@ -27,7 +27,7 @@ public class MainMenuView extends ScreenAdapter {
         float buttonHeight = (float) Gdx.graphics.getHeight() / 15;
 
         UIUtils.addButton("Start", skin, table,buttonWidth,buttonHeight,() -> Gdx.app.exit());
-        UIUtils.addButton("Settings", skin, table,buttonWidth,buttonHeight,() -> Gdx.app.exit());
+        UIUtils.addButton("Settings", skin, table,buttonWidth,buttonHeight,() -> app.setScreen(new SettingsView(app)));
         UIUtils.addButton("Exit", skin, table,buttonWidth,buttonHeight,() -> Gdx.app.exit());
     }
 
