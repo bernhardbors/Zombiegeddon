@@ -4,6 +4,7 @@ package inf112.skeleton.app;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import inf112.skeleton.view.screens.MainMenuScreen;
@@ -13,15 +14,21 @@ public class GameApp extends Game {
     public Skin skin;
     public Preferences prefs;
 
+    public AssetManager manager;
+
     @Override
     public void create() {
 
-        skin = new Skin(Gdx.files.internal("ui/skin/uiskin.json"));
         batch = new SpriteBatch();
+        manager = new AssetManager();
+
+        manager.load("ui/skin/uiskin.json", Skin.class);
+        manager.finishLoading();
+
+        this.skin = manager.get("ui/skin/uiskin.json", Skin.class);
 
         loadPreferences();
         setResolutionOnStartup();
-
         Gdx.graphics.setForegroundFPS(60);
 
         this.setScreen(new MainMenuScreen(this));

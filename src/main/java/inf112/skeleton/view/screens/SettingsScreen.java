@@ -1,6 +1,8 @@
 package inf112.skeleton.view.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import inf112.skeleton.app.GameApp;
 import inf112.skeleton.utils.UIUtils;
 
@@ -8,9 +10,13 @@ public class SettingsScreen extends AbstractMenuScreen {
 
     public SettingsScreen(final GameApp app) {
         super(app);
+    }
 
-        float buttonWidth = (float) Gdx.graphics.getWidth() / 5;
-        float buttonHeight = (float) Gdx.graphics.getHeight() / 15;
+    @Override
+    public void buildScreen() {
+        super.buildScreen();
+        table.add();
+        DrawHeading("SETTINGS", Color.WHITE, 4);
 
         String[] resolutions = {
                 "1280 x 720", "1366 x 768", "1600 x 900",
@@ -22,9 +28,9 @@ public class SettingsScreen extends AbstractMenuScreen {
         UIUtils.addSelectBox("Resolutions:", resolutions, skin, table, buttonWidth, buttonHeight, this::changeResolution)
                 .setSelected(savedRes);
 
-        UIUtils.addButton("Back", skin, table, buttonWidth, buttonHeight, () ->
-                app.setScreen(new MainMenuScreen(app))
-        );
+        table.add();
+
+        UIUtils.addButton("Back", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new MainMenuScreen(app))).row();
     }
 
     public void changeResolution(String resolution) {
