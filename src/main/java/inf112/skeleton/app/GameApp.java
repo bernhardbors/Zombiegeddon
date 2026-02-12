@@ -6,7 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import inf112.skeleton.view.MainMenuView;
+import inf112.skeleton.view.screens.MainMenuScreen;
 
 public class GameApp extends Game {
     public SpriteBatch batch;
@@ -24,7 +24,7 @@ public class GameApp extends Game {
 
         Gdx.graphics.setForegroundFPS(60);
 
-        this.setScreen(new MainMenuView(this));
+        this.setScreen(new MainMenuScreen(this));
     }
 
     private void loadPreferences() {
