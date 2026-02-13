@@ -34,7 +34,7 @@ Viktige aspekter i spillet:
   * Man starter med ett liv - power-ups gir ekstra liv. Om man blir tatt med power-ups mister man kreftene og er tilbake til ett liv
 6. Brukergrensesnitt og stil:
   * Spillet har en klassisk, Mario-aktig tegneserie-estetikk
-  * Hovedmeny med instillinger, oversikt over nivåer og karakterer
+  * Hovedmeny med innstillinger, oversikt over nivåer og karakterer
 
 
 
@@ -57,10 +57,20 @@ Hybrid mellom Scrum og Kanban:
 - Lag en tavle (Kanban) og legg inn oppgaver (Issues).
 - Jobb i Sprints: Sett mål for hver uke.
 - Bruker trello for å sette spesifikke oppgaver som fordeles på teamet.
+  - Link til trello: https://trello.com/b/UkQgtCrS/inf112-a-laget
 - Discord og notion for å samle informasjon og dele lenker.
-- Roller: La Team Lead styre tavlen, mens Strukturansvarlig passer på at ingen "pusher" rotete kode til GitHub.
+- Roller: Team Lead styrer tavlen, mens Strukturansvarlig passer på at ingen pusher rotete kode til GitHub.
 
 
 ---
 
+## Status:
+**Retroperspektiv:**
+* Blitt enig om å møtes tirsdager og i gruppetimer på fredager
+* Kommunikasjon og samarbeid fungerer godt så langt
+* Satt oss inn i trello og andre kommunikasjonsverktøy
 
+**Plan videre:**
+* Sette oss inn i Libgdx og andre biblioteker
+* Finne sprites, frames osv.
+* Begynne på MVP
