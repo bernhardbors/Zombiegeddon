@@ -25,7 +25,7 @@ Pay attention to these folders:
 ```xml
 
 	< !-- FIXME - set group id -->
-	<groupId>inf112.skeleton.app</groupId>
+	<groupId>inf112.zoombiegeddon.app</groupId>
 	< !-- FIXME - set artifact name -->
 	<artifactId>gdx-app</artifactId>
 	<version>1.0-SNAPSHOT</version>

@@ -4,10 +4,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>A-laget</groupId>
-	<artifactId>Zoombies-Inf122-semesteroppgave</artifactId>
+	<artifactId>zoombiegeddon-krills-Army-of-the-undead</artifactId>
 	<version>1.26-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>Zoombies</name>
+	<name>zoombiegeddon</name>
 	<url>https://git.app.uib.no/inf112/26v/proj/a-laget</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,7 +15,7 @@
 		<libgdx.version>1.14.0</libgdx.version>
 		<slf4j.version>2.0.17</slf4j.version>
 		<junit.version>6.0.2</junit.version>
-		<main.class>inf112.skeleton.app.Main</main.class>
+		<main.class>inf112.zoombiegeddon.app.Main</main.class>
 		<jvm.extra.args>--enable-native-access=ALL-UNNAMED</jvm.extra.args>
 	</properties>
 	<dependencies>
@@ -295,7 +295,6 @@
 						</properties>
 						<!-- ignore Java module system while testing -->
 						<useModulePath>false</useModulePath>
-						<argLine></argLine>
 					</configuration>
 				</plugin>
 				<plugin>
