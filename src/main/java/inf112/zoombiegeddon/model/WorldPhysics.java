@@ -19,11 +19,11 @@ public class WorldPhysics {
     // from https://gafferongames.com/post/fix_your_timestep/
 
     public void update(float delta) {
+        float timeStep = 1/60f;
         accumulatedTime += delta;
-        while (accumulatedTime >= (1 / 60f)) {
-            accumulatedTime -= (1 / 60f);
-            world.step(0.05f, 6, 2);
-            accumulatedTime -= (1 / 60f);
+        while (accumulatedTime >= timeStep) {
+            world.step(timeStep, 6, 2);
+            accumulatedTime -= timeStep;
         }
     }
 

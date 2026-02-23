@@ -2,28 +2,44 @@ package inf112.zoombiegeddon.model;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
 
 public class Player extends Sprite {
 
-    public Body b2body;
+    public Body playerBody;
 
     public Player(World world) {
-        // super(new Texture("PACEHOLDER.png"));
+        super(new Texture("src/main/resources/assets/TestMapAndTilesets+PlayerDevSprite/Player.png"));
 
-        float width = getTexture().getWidth();
-        float height = getTexture().getHeight();
-        setSize(width, height);
+        // TODO: fix magic numbers
+        float spriteWidth = getTexture().getWidth() / 32.0f;
+        float spriteHeight = getTexture().getHeight() / 32.0f;
+        setSize(spriteWidth, spriteHeight);
 
-        // Create Hitbox
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(10, 10);
+        playerBody = world.createBody(bodyDef);
 
-        // .dispose() of the hitbox shape
+        PolygonShape playerHitbox = new PolygonShape();
+        playerHitbox.setAsBox(spriteWidth / 2, spriteHeight / 2);
+
+        FixtureDef fixtureDef = new FixtureDef();
+
+        fixtureDef.shape = playerHitbox;
+
+        playerBody.createFixture(fixtureDef);
+        playerBody.setFixedRotation(true);
+
+        playerHitbox.dispose();
     }
 
     // update player position
-    public void update(float dt){
-        // setPosition(getX(), getY());
+    public void update() {
+        setPosition(
+                playerBody.getPosition().x - getWidth() / 2,
+                playerBody.getPosition().y - getHeight() / 2
+        );
     }
-
 }

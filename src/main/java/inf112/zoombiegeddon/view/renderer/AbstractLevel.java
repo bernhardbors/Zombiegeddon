@@ -1,14 +1,13 @@
 package inf112.zoombiegeddon.view.renderer;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.model.WorldPhysics;
@@ -17,7 +16,7 @@ public abstract class AbstractLevel extends ScreenAdapter {
 
     protected final GameApp app;
     protected final OrthographicCamera camera;
-    protected final FitViewport viewport;
+    protected final ExtendViewport viewport;
 
     protected final WorldPhysics worldPhysics;
 
@@ -28,20 +27,22 @@ public abstract class AbstractLevel extends ScreenAdapter {
         this.camera = new OrthographicCamera();
         this.worldPhysics = new WorldPhysics(gravity);
 
-        this.viewport = new FitViewport(20, 20, camera);
+        this.viewport = new ExtendViewport(10,10,camera);
     }
 
     @Override
     public void render(float delta) {
+        update(delta);
+
         ScreenUtils.clear(Color.LIGHT_GRAY);
 
-        app.batch.setProjectionMatrix(camera.combined);
 
         if (mapRenderer != null) {
             mapRenderer.setView(camera);
             mapRenderer.render();
         }
 
+        app.batch.setProjectionMatrix(camera.combined);
         app.batch.begin();
         draw(app.batch);
         app.batch.end();

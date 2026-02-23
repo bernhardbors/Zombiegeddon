@@ -1,11 +1,12 @@
-package inf112.zoombiegeddon.model;
+package inf112.zoombiegeddon.utils;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import inf112.zoombiegeddon.model.Player;
 
-public class CameraUtil {
+public class CameraUtils {
 
     public static void updateCamera(Player player, OrthographicCamera camera) {
-        
+
         float DEADZONE_WIDTH = 4f;
         float DEADZONE_HEIGHT = 3f;
         float VERTICAL_OFFSET = 1.5f;

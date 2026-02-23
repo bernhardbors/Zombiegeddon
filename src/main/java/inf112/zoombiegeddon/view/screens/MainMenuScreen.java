@@ -20,7 +20,7 @@ public class MainMenuScreen extends AbstractMenuScreen {
 
         DrawHeading("MAIN MENU", Color.WHITE, 4);
 
-        UIUtils.addButton("Start", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new TestLevel01(app, new Vector2(0,0))));
+        UIUtils.addButton("Start", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new TestLevel01(app, new Vector2(0,-9.81f))));
 
         UIUtils.addButton("How To Play", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new HowToScreen(app)));
 

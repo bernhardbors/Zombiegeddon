@@ -8,14 +8,15 @@ import java.util.ArrayList;
 
 public class WorldLayerCreator {
 
-    private record CellCord(int x, int y) {}
+    private record CellCord(int x, int y) {
+    }
 
     private final World world;
     private final BodyDef bodyDef;
     private final FixtureDef fixtureDef;
     private final PolygonShape tileShape;
 
-    public WorldLayerCreator(World world, TiledMap tilemap, String layer) {
+    public WorldLayerCreator(World world, TiledMap tilemap, String layer, float PIXEL_PR_TILE) {
 
         this.world = world;
 
@@ -26,24 +27,23 @@ public class WorldLayerCreator {
         // tile config
         fixtureDef.density = 1;
         fixtureDef.friction = 1;
-        fixtureDef.restitution = 1;
 
         // Get collision level in the tile map.
         TiledMapTileLayer tileMapLayer = (TiledMapTileLayer) tilemap.getLayers().get(layer);
 
         float tileSize = tileMapLayer.getTileWidth();
 
-        createCollisionTilesFromLayer(tileMapLayer, tileSize);
+        createCollisionTilesFromLayer(tileMapLayer, tileSize, PIXEL_PR_TILE);
 
         dispose();
     }
 
     /*
-    *   param @tileSize pixels pr tile
-    *   param @tileMapLayer tile map layer from the map
-    *
+     *   param @tileSize pixels pr tile
+     *   param @tileMapLayer tile map layer from the map
+     *
      */
-    private void createCollisionTilesFromLayer(TiledMapTileLayer tileMapLayer, float tileSize) {
+    private void createCollisionTilesFromLayer(TiledMapTileLayer tileMapLayer, float tileSize, float PIXEL_PR_TILE) {
 
         ArrayList<CellCord> cellArray = new ArrayList<>();
 
@@ -60,7 +60,8 @@ public class WorldLayerCreator {
 
                     if (!cellArray.isEmpty()) {
 
-                        createStaticBody(world, cellArray, tileSize, bodyDef, fixtureDef, tileShape);
+                        createStaticBody(world, cellArray, tileSize, PIXEL_PR_TILE
+                                , bodyDef, fixtureDef, tileShape);
                         cellArray.clear();
                     }
 
@@ -69,10 +70,9 @@ public class WorldLayerCreator {
         }
     }
 
-    private void createStaticBody(World world, ArrayList<CellCord> tiles, float tileSize,
+    private void createStaticBody(World world, ArrayList<CellCord> tiles, float tileSize, float PIXEL_PR_TILE,
                                   BodyDef bodyDef, FixtureDef fixtureDef, PolygonShape shape) {
-        
-        float PIXEL_PR_TILE = 32;
+
         int count = tiles.size();
 
         float widthMeters = (count * tileSize) / PIXEL_PR_TILE;
