@@ -6,7 +6,7 @@ import inf112.zoombiegeddon.utils.UIUtils;
 
 public class HowToScreen extends AbstractMenuScreen {
 
-    HowToScreen(GameApp app) {
+    public HowToScreen(GameApp app) {
         super(app);
 
     }
