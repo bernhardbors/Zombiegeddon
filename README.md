@@ -19,23 +19,7 @@ Pay attention to these folders:
 * `src/test/java` – JUnit tests
 * `target/classes` – compiled Java class files
 
-**TODO:** You should probably edit the `pom.xml` and fill in details such as the project `name` and `artifactId`:
 
-
-```xml
-
-	< !-- FIXME - set group id -->
-	<groupId>inf112.zoombiegeddon.app</groupId>
-	< !-- FIXME - set artifact name -->
-	<artifactId>gdx-app</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
-
-	< !-- FIXME - set app name -->
-	<name>mvn-app</name>
-	< !-- FIXME change it to the project's website -->
-	<url>http://www.example.com</url>
-```
 
 ## Code Structure
 * `inf112.skeleton` – code you can use as a starting point (rename to something sensible!)
@@ -78,22 +62,10 @@ If you look at *Settings → Repository* in GitLab, you can protect branches –
 
 ## Good luck!
 
-*↑ TODO: delete above text and make your own README*
 
-# *README template* (← TODO: replace with name of your project)
-*TODO: If you want you can include "badges" with current test status, etc here – see bottom of Settings → CI/CD Settings → General for examples. Also, you might want to have a lead paragraph / tagline / very short introduction so it's immediately obvious what the project is about.*
 
-*TODO: Other useful stuff to include:*
-* **Project description** – what it is, why you made it, etc
-* **Installation and Running** – Explain how to install / clone+compile project, and how to run it. Also, any requirements (e.g., Java version), additional dependencies that must be installed, how to run tests, etc. See/copy text above.
-* **Usage / Documentation** – Explain how to use it. E.g., which keys to use, how to control player, where to find out more etc. Examples are good!
-* **Security** – any security considerations the user should be aware of (probably not applicable for INF112)
-* **Bugs/issues** –  if applicable, list bugs/problems a normal user should be aware of. Also, where to file bug reports.
-* **Code structure** – where to find important parts of the code (might go under *Contributing*)
-* **Contributing** – how to contribute to the project (often found in a separate `CONTRIBUTING` file)
-* **License** – copyright information (often found in a separate `LICENSE` file)
-* **Authors / Credits** – who's responsible for the project, and who made the graphics, sounds, code copied from somewhere else, etc (attribution)
-* *Use clear and concise language and good structure in the README file!*
+# *README template* 
+*
 
 ## Credits
 ### Authors
@@ -105,7 +77,7 @@ If you look at *Settings → Repository* in GitLab, you can protect branches –
 * *Johannes Moe*
 
 ### Contributors
-* *TODO: did you include code from anyone else? Did you use AI/LLMs to generate or edit the code?*
+* https://gafferongames.com/post/fix_your_timestep/ is used in the class WorldPhysics
 
 ### Sound and Graphics
 * `src/main/resources/obligator.png` – Ingrid Næss Johansen
