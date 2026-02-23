@@ -64,8 +64,7 @@ If you look at *Settings → Repository* in GitLab, you can protect branches –
 
 
 
-# *README template* 
-*
+
 
 ## Credits
 ### Authors
