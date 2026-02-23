@@ -5,6 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -20,16 +21,14 @@ public abstract class AbstractLevel extends ScreenAdapter {
 
     protected final WorldPhysics worldPhysics;
 
-    protected final Box2DDebugRenderer debugRenderer;
+    protected OrthogonalTiledMapRenderer mapRenderer;
 
-    AbstractLevel(GameApp app) {
+    public AbstractLevel(GameApp app, Vector2 gravity) {
         this.app = app;
         this.camera = new OrthographicCamera();
-        this.viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
+        this.worldPhysics = new WorldPhysics(gravity);
 
-        this.debugRenderer = new Box2DDebugRenderer();
-
-        this.worldPhysics = new WorldPhysics(new Vector2(0f, 0f));
+        this.viewport = new FitViewport(20, 20, camera);
     }
 
     @Override
@@ -38,10 +37,18 @@ public abstract class AbstractLevel extends ScreenAdapter {
 
         app.batch.setProjectionMatrix(camera.combined);
 
+        if (mapRenderer != null) {
+            mapRenderer.setView(camera);
+            mapRenderer.render();
+        }
+
         app.batch.begin();
         draw(app.batch);
         app.batch.end();
+    }
 
+    protected void update(float delta) {
+        worldPhysics.update(delta);
     }
 
     protected abstract void draw(SpriteBatch batch);
@@ -52,24 +59,8 @@ public abstract class AbstractLevel extends ScreenAdapter {
     }
 
     @Override
-    public void show() {
-    }
-
-    @Override
-    public void hide() {
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
     public void dispose() {
-        debugRenderer.dispose();
+        mapRenderer.dispose();
         worldPhysics.dispose();
     }
 

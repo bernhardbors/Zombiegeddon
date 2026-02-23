@@ -6,19 +6,17 @@ import com.badlogic.gdx.physics.box2d.*;
 
 import java.util.ArrayList;
 
-import static com.badlogic.gdx.scenes.scene2d.ui.Table.Debug.cell;
-
-public class WorldCreator {
+public class WorldLayerCreator {
 
     private record CellCord(int x, int y) {}
-    
+
     private final World world;
-    private final BodyDef bodyDef; 
+    private final BodyDef bodyDef;
     private final FixtureDef fixtureDef;
     private final PolygonShape tileShape;
 
-    WorldCreator(final World world, TiledMap tilemap) {
-        
+    public WorldLayerCreator(World world, TiledMap tilemap, String layer) {
+
         this.world = world;
 
         this.bodyDef = new BodyDef();
@@ -31,28 +29,37 @@ public class WorldCreator {
         fixtureDef.restitution = 1;
 
         // Get collision level in the tile map.
-        TiledMapTileLayer tileMapLayer = (TiledMapTileLayer) tilemap.getLayers().get("collision");
-        createCollisionTilesFromLayer(tileMapLayer);
-    }
-
-    private void createCollisionTilesFromLayer(TiledMapTileLayer tileMapLayer) {
+        TiledMapTileLayer tileMapLayer = (TiledMapTileLayer) tilemap.getLayers().get(layer);
 
         float tileSize = tileMapLayer.getTileWidth();
-        
+
+        createCollisionTilesFromLayer(tileMapLayer, tileSize);
+
+        dispose();
+    }
+
+    /*
+    *   param @tileSize pixels pr tile
+    *   param @tileMapLayer tile map layer from the map
+    *
+     */
+    private void createCollisionTilesFromLayer(TiledMapTileLayer tileMapLayer, float tileSize) {
+
+        ArrayList<CellCord> cellArray = new ArrayList<>();
+
         for (int y = 0; y < tileMapLayer.getHeight(); y++) {
 
-            // create a new array for every line of y_Axis cords
-            ArrayList<CellCord> cellArray = new ArrayList<>();
-
             for (int x = 0; x < tileMapLayer.getWidth(); x++) {
-
                 TiledMapTileLayer.Cell cell = tileMapLayer.getCell(x, y);
 
                 if (cell != null && cell.getTile() != null) {
                     cellArray.add(new CellCord(x, y));
                 }
+
                 if (cell == null || cell.getTile() == null || x == tileMapLayer.getWidth() - 1) {
+
                     if (!cellArray.isEmpty()) {
+
                         createStaticBody(world, cellArray, tileSize, bodyDef, fixtureDef, tileShape);
                         cellArray.clear();
                     }
@@ -63,27 +70,30 @@ public class WorldCreator {
     }
 
     private void createStaticBody(World world, ArrayList<CellCord> tiles, float tileSize,
-                                  BodyDef bdef, FixtureDef fdef, PolygonShape shape) {
+                                  BodyDef bodyDef, FixtureDef fixtureDef, PolygonShape shape) {
         
         float PIXEL_PR_TILE = 32;
         int count = tiles.size();
-        float startX = tiles.get(0).x();
-        float y = tiles.get(0).y();
 
-        float totalWidth = count * tileSize;
-        float centerX = (startX * tileSize + (totalWidth / 2f)) / PIXEL_PR_TILE;
-        float centerY = (y * tileSize + (tileSize / 2f)) / PIXEL_PR_TILE;
+        float widthMeters = (count * tileSize) / PIXEL_PR_TILE;
+        float heightMeters = tileSize / PIXEL_PR_TILE;
 
-        bdef.type = BodyDef.BodyType.StaticBody;
-        bdef.position.set(centerX, centerY);
+        float startX = (tiles.getFirst().x() * tileSize) / PIXEL_PR_TILE;
+        float startY = (tiles.getFirst().y() * tileSize) / PIXEL_PR_TILE;
 
-        Body body = world.createBody(bdef);
+        float centerX = startX + (widthMeters / 2f);
+        float centerY = startY + (heightMeters / 2f);
 
-        float halfWidth = (totalWidth / 2f) / PIXEL_PR_TILE;
-        float halfHeight = (tileSize / 2f) / PIXEL_PR_TILE;
+        bodyDef.position.set(centerX, centerY);
+        Body body = world.createBody(bodyDef);
 
-        shape.setAsBox(halfWidth, halfHeight);
-        fdef.shape = shape;
-        body.createFixture(fdef);
+        shape.setAsBox(widthMeters / 2f, heightMeters / 2f);
+
+        fixtureDef.shape = shape;
+        body.createFixture(fixtureDef);
+    }
+
+    public void dispose() {
+        tileShape.dispose();
     }
 }

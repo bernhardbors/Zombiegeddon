@@ -7,12 +7,10 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Player extends Sprite {
 
-    private int id;
     public Body b2body;
 
     public Player(World world) {
         // super(new Texture("PACEHOLDER.png"));
-        this.id = 1;
 
         float width = getTexture().getWidth();
         float height = getTexture().getHeight();

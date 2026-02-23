@@ -2,8 +2,10 @@ package inf112.zoombiegeddon.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
+import inf112.zoombiegeddon.view.levels.TestLevel01;
 
 public class MainMenuScreen extends AbstractMenuScreen {
 
@@ -18,7 +20,7 @@ public class MainMenuScreen extends AbstractMenuScreen {
 
         DrawHeading("MAIN MENU", Color.WHITE, 4);
 
-        UIUtils.addButton("Start", skin, table, buttonWidth, buttonHeight, () -> {});
+        UIUtils.addButton("Start", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new TestLevel01(app, new Vector2(0,0))));
 
         UIUtils.addButton("How To Play", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new HowToScreen(app)));
 

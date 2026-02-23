@@ -17,6 +17,7 @@ public class WorldPhysics {
     }
 
     // from https://gafferongames.com/post/fix_your_timestep/
+
     public void update(float delta) {
         accumulatedTime += delta;
         while (accumulatedTime >= (1 / 60f)) {
