@@ -22,7 +22,7 @@ public class Main {
 		}
 
 		Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
-		cfg.setTitle("Zoombies");
+		cfg.setTitle("Zoombiegeddon: Krill's Army of the Undead");
 		cfg.setWindowedMode(1280, 768);
 
 		ApplicationListener appListener = new GameApp();
