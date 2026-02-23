@@ -11,8 +11,8 @@ import java.util.HashMap;
 public class PlayerController extends InputAdapter {
 
     private final Player player;
-    private final float MAX_VELOCITY = 4.0f;
-    private final float JUMP_FORCE = 5.0f;
+    private final float MAX_VELOCITY = 0.0f;
+    private final float JUMP_FORCE = 0.0f;
 
     private final HashMap<String, int[]> keyBindings = new HashMap<>();
 
@@ -50,12 +50,12 @@ public class PlayerController extends InputAdapter {
         boolean rightPressed = isActionPressed("RIGHT");
 
         if (leftPressed && vel.x > -MAX_VELOCITY) {
-            player.b2body.applyLinearImpulse(new Vector2(-0.4f, 0), pos, true);
+            player.b2body.applyLinearImpulse(new Vector2(-0.5f, 0), pos, true);
         } else if (rightPressed && vel.x < MAX_VELOCITY) {
-            player.b2body.applyLinearImpulse(new Vector2(0.4f, 0), pos, true);
+            player.b2body.applyLinearImpulse(new Vector2(0.5f, 0), pos, true);
         } else {
 
-            player.b2body.setLinearVelocity(vel.x * 0.8f, vel.y);
+            player.b2body.setLinearVelocity(vel.x * 0.5f, vel.y);
 
             if (Math.abs(vel.x) < 0.1f) {
                 player.b2body.setLinearVelocity(0, vel.y);
