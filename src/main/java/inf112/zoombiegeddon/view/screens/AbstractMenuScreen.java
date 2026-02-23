@@ -60,11 +60,9 @@ public abstract class AbstractMenuScreen implements Screen {
 
         ScreenUtils.clear(Color.DARK_GRAY);
 
-<<<<<<< HEAD
-        //table.background(new TextureRegionDrawable(new Texture(Gdx.files.internal(""))));
-=======
-        table.background(new TextureRegionDrawable(new Texture(Gdx.files.internal("src/main/resources/assets/tilemap/tilemap.png"))));
->>>>>>> cc12fb992a4c8d76dd1339c379f0f63678064ef2
+
+        // table.background(new TextureRegionDrawable(new Texture(Gdx.files.internal("src/main/resources/assets/tilemap/tilemap.png"))));
+
         stage.act(Math.min(delta, 1 / 30f));
         stage.draw();
     }
