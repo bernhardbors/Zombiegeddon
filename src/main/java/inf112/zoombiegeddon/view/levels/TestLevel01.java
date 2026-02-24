@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.Player;
-import inf112.zoombiegeddon.model.WorldLayerCreator;
+import inf112.zoombiegeddon.model.WorldCollisionLayerCreator;
 import inf112.zoombiegeddon.utils.CameraUtils;
 import inf112.zoombiegeddon.view.renderer.AbstractLevel;
 
@@ -46,7 +46,7 @@ public class TestLevel01 extends AbstractLevel {
             map = new TmxMapLoader().load(file);
             mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / PIXEL_PR_TILE);
         }
-        new WorldLayerCreator(worldPhysics.getWorld(), map, layerName, PIXEL_PR_TILE);
+        new WorldCollisionLayerCreator(worldPhysics.getWorld(), map, layerName, PIXEL_PR_TILE);
     }
 
     @Override
