@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
 
-public class HowToScreen extends AbstractMenuScreen {
+public class HowToScreen extends AbstractScreen {
 
     public HowToScreen(GameApp app) {
         super(app);

@@ -12,7 +12,7 @@ public class PlayerController extends InputAdapter {
 
     private final Player player;
     private final float MAX_VELOCITY = 4.0f;
-    private final float JUMP_FORCE = 12.0f;
+    private final float JUMP_FORCE = 6.0f;
 
     private final HashMap<String, int[]> keyBindings = new HashMap<>();
 

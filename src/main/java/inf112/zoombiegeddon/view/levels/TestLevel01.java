@@ -27,7 +27,7 @@ public class TestLevel01 extends AbstractLevel {
     public TestLevel01(GameApp app, Vector2 gravity) {
         super(app, gravity, 10, true);
 
-        TextureRegion[][] allFrames = TextureRegion.split(app.characterSpriteSheet, 32, 32);
+        TextureRegion[][] allFrames = TextureRegion.split(app.characterSpriteSheet, 16, 16);
         this.playerIdle = allFrames[0][0];
 
         this.player = new Player(worldPhysics.getWorld(), playerIdle, new Vector2(10,10));

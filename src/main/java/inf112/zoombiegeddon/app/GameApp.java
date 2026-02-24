@@ -32,11 +32,11 @@ public class GameApp extends Game {
         manager = new AssetManager();
 
         manager.load("ui/skin/uiskin.json", Skin.class);
-        manager.load("src/main/resources/assets/character sprite/Characters_spritesheet.png", Texture.class);
+        manager.load("src/main/resources/assets/character sprite/Eris Esra's Character Template 4.0/16x16/16x16 Idle-Sheet.png", Texture.class);
         manager.finishLoading();
 
         this.skin = manager.get("ui/skin/uiskin.json", Skin.class);
-        this.characterSpriteSheet = manager.get("src/main/resources/assets/character sprite/Characters_spritesheet.png", Texture.class);
+        this.characterSpriteSheet = manager.get("src/main/resources/assets/character sprite/Eris Esra's Character Template 4.0/16x16/16x16 Idle-Sheet.png", Texture.class);
 
         font = new FontGenerator();
         font.create("fonts/pixbobMiniLiteFont.ttf");

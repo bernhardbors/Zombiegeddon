@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.zoombiegeddon.app.GameApp;
 
-public abstract class AbstractMenuScreen implements Screen {
+public abstract class AbstractScreen implements Screen {
 
     protected final Stage stage;
     protected final Skin skin;
@@ -24,7 +24,7 @@ public abstract class AbstractMenuScreen implements Screen {
     protected float buttonHeight;
 
 
-    AbstractMenuScreen(final GameApp app) {
+    AbstractScreen(final GameApp app) {
 
         this.app = app;
         this.stage = new Stage(new ScreenViewport());
@@ -54,9 +54,6 @@ public abstract class AbstractMenuScreen implements Screen {
     public void render(float delta) {
 
         ScreenUtils.clear(Color.DARK_GRAY);
-
-
-        // table.background(new TextureRegionDrawable(new Texture(Gdx.files.internal("src/main/resources/assets/tilemap/tilemap.png"))));
 
         stage.act(Math.min(delta, 1 / 30f));
         stage.draw();

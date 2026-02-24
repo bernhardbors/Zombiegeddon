@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
 
-public class SettingsScreen extends AbstractMenuScreen {
+public class SettingsScreen extends AbstractScreen {
 
     public SettingsScreen(final GameApp app) {
         super(app);
