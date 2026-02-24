@@ -2,21 +2,27 @@ package inf112.zoombiegeddon.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
 import inf112.zoombiegeddon.view.levels.TestLevel01;
 
 public class MainMenuScreen extends AbstractMenuScreen {
 
+    private Texture background;
+
     public MainMenuScreen(final GameApp app) {
         super(app);
-
+        this.background = new Texture("background/background1.png");
     }
 
     @Override
     public void buildScreen() {
         super.buildScreen();
+
+        table.setBackground(new TextureRegionDrawable(background));
 
         DrawHeading("MAIN MENU", Color.WHITE, 4);
 
@@ -28,5 +34,12 @@ public class MainMenuScreen extends AbstractMenuScreen {
 
         UIUtils.addButton("Exit", skin, table, buttonWidth, buttonHeight, () -> Gdx.app.exit());
 
+    }
+    @Override
+    public void dispose() {
+        super.dispose();
+        if (background != null) {
+            background.dispose();
+        }
     }
 }

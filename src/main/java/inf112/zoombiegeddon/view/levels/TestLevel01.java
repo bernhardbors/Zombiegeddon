@@ -1,7 +1,9 @@
 package inf112.zoombiegeddon.view.levels;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -20,11 +22,16 @@ public class TestLevel01 extends AbstractLevel {
 
     private final Player player;
     private final PlayerController controller;
+    public TextureRegion playerIdle;
 
     public TestLevel01(GameApp app, Vector2 gravity) {
         super(app, gravity, 10, true);
 
-        this.player = new Player(worldPhysics.getWorld());
+        TextureRegion[][] allFrames = TextureRegion.split(app.characterSpriteSheet, 32, 32);
+        this.playerIdle = allFrames[0][0];
+
+        this.player = new Player(worldPhysics.getWorld(), playerIdle, new Vector2(10,10));
+
         this.controller = new PlayerController(player);
 
         drawMapLayer("src/main/resources/assets/TestMapAndTilesets+PlayerDevSprite/TestMap.tmx", "collision");
