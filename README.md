@@ -77,7 +77,7 @@ If you look at *Settings → Repository* in GitLab, you can protect branches –
 
 ### Contributors
 * https://gafferongames.com/post/fix_your_timestep/ is used in the class WorldPhysics
-
+* //https://libgdxinfo.wordpress.com/basic-label/ 23.02.2026 used in FontGenerator
 ### Sound and Graphics
 * `src/main/resources/obligator.png` – Ingrid Næss Johansen
 * `src/main/resources/blipp.ogg`– Dr. Richard Boulanger et al (CC-BY-3.0)

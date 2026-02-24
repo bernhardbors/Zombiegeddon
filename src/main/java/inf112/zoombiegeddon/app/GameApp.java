@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import inf112.zoombiegeddon.view.FontsGenerator;
+import inf112.zoombiegeddon.view.FontGenerator;
 import inf112.zoombiegeddon.view.screens.MainMenuScreen;
 
 public class GameApp extends Game {
@@ -20,7 +20,7 @@ public class GameApp extends Game {
 
     public AssetManager manager;
 
-    public FontsGenerator font;
+    public FontGenerator font;
 
     @Override
     public void create() {
@@ -33,8 +33,8 @@ public class GameApp extends Game {
 
         this.skin = manager.get("ui/skin/uiskin.json", Skin.class);
 
-        font = new FontsGenerator();
-        font.create();
+        font = new FontGenerator();
+        font.create("fonts/pixbobMiniLiteFont.ttf");
 
         skin.add("default-font", font.mainFont, BitmapFont.class);
         skin.add("title-font", font.titleFont, BitmapFont.class);

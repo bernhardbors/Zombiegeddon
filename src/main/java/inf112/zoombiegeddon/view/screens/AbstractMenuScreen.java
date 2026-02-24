@@ -96,7 +96,6 @@ public abstract class AbstractMenuScreen implements Screen {
     protected void DrawHeading(String heading, Color color, Integer Scale) {
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = app.font.titleFont;
-        //style.font = this.font;
         style.fontColor = color;
 
         float screenScale = Gdx.graphics.getHeight() / 1080f;
