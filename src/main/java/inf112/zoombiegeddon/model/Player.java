@@ -10,6 +10,7 @@ public class Player extends Sprite {
     public Body playerBody;
 
     public Player(World world) {
+
         super(new Texture("src/main/resources/assets/TestMapAndTilesets+PlayerDevSprite/Player.png"));
 
         // TODO: fix magic numbers

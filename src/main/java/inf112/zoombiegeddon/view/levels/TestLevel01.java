@@ -6,7 +6,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.Player;
@@ -17,24 +16,18 @@ import inf112.zoombiegeddon.view.renderer.AbstractLevel;
 public class TestLevel01 extends AbstractLevel {
 
     public final float PIXEL_PR_TILE = 32.0f;
-    protected final Box2DDebugRenderer debugRenderer;
     protected TiledMap map;
 
     private final Player player;
     private final PlayerController controller;
 
     public TestLevel01(GameApp app, Vector2 gravity) {
-        super(app, gravity);
-
-        map = new TmxMapLoader().load("src/main/resources/assets/TestMapAndTilesets+PlayerDevSprite/TestMap.tmx");
-        mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / PIXEL_PR_TILE);
+        super(app, gravity, 10, true);
 
         this.player = new Player(worldPhysics.getWorld());
-
         this.controller = new PlayerController(player);
 
-        new WorldLayerCreator(worldPhysics.getWorld(), map, "collision", PIXEL_PR_TILE);
-        this.debugRenderer = new Box2DDebugRenderer();
+        drawMapLayer("src/main/resources/assets/TestMapAndTilesets+PlayerDevSprite/TestMap.tmx", "collision");
     }
 
     @Override
@@ -48,8 +41,18 @@ public class TestLevel01 extends AbstractLevel {
     }
 
     @Override
+    protected void drawMapLayer(String file, String layerName) {
+        if (map == null) {
+            map = new TmxMapLoader().load(file);
+            mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / PIXEL_PR_TILE);
+        }
+        new WorldLayerCreator(worldPhysics.getWorld(), map, layerName, PIXEL_PR_TILE);
+    }
+
+    @Override
     protected void update(float delta) {
         super.update(delta);
+
         controller.update(delta);
         player.update();
 
@@ -59,14 +62,11 @@ public class TestLevel01 extends AbstractLevel {
     @Override
     public void render(float delta) {
         super.render(delta);
-
-        debugRenderer.render(worldPhysics.getWorld(), camera.combined);
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        debugRenderer.dispose();
     }
 
 }
