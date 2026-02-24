@@ -61,7 +61,7 @@ public class TestLevel01 extends AbstractLevel {
         super.update(delta);
 
         controller.update(delta);
-        player.update();
+        player.update(delta);
 
         CameraUtils.updateCamera(player, camera);
     }
