@@ -82,7 +82,9 @@ public abstract class AbstractScreen implements Screen {
     }
 
     public void dispose() {
-        stage.dispose();
+        if (stage != null) {
+            stage.dispose();
+        }
     }
 
     private void calculateButtonSize(){
@@ -90,15 +92,17 @@ public abstract class AbstractScreen implements Screen {
         this.buttonHeight = (float) Gdx.graphics.getHeight() / 15;
     }
 
-    protected void DrawHeading(String heading, Color color, Integer Scale) {
+    protected Label formatText(String text, Color color, float scale) {
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = app.font.titleFont;
         style.fontColor = color;
 
         float screenScale = Gdx.graphics.getHeight() / 1080f;
 
-        Label title = new Label(heading, style);
-        title.setFontScale(Scale * screenScale);
-        table.add(title).row();
+        Label textBody = new Label(text, style);
+        textBody.setFontScale(scale * screenScale);
+        table.add(textBody).row();
+
+        return textBody;
     }
 }

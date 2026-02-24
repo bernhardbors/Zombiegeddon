@@ -1,52 +1,95 @@
 package inf112.zoombiegeddon.view.screens;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.ScreenUtils;
 import inf112.zoombiegeddon.app.GameApp;
 
+/**
+ * The SplashScreen is the first screen shown when the game starts.
+ * It displays animated text presenting the project and
+ * handles the transition to the Main Menu.
+ */
 public class SplashScreen extends AbstractScreen {
 
-    private float displayTime = 0;
-    private final float MAX_DISPLAY_TIME = 3.0f; // 3 sekunder
+    private static float fadeInDuration = 1.5f;
+    private static float fadeOutDuration = 1.5f;
+    private static float delayDuration = 1f;
 
+
+    /**
+     * Constructor for the SplashScreen.
+     *
+     * @param app The main application instance used to switch screens and access assets.
+     */
     public SplashScreen(GameApp app) {
         super(app);
     }
 
+    /**
+     * Builds the screen layout and defines the animation sequence for the text.
+     * Uses LibGDX Actions to control fading effects and text replacement.
+     */
     @Override
     public void buildScreen() {
-        // Vi tømmer tabellen (gjort i super, men greit å være sikker)
-        table.clear();
+        super.buildScreen();
 
-        // 1. Hent logo/bilde fra assets
-        // Tips: Bruk en sti som matcher resources-mappen din
-        Texture logoTexture = new Texture("background/background1.png");
-        Image logo = new Image(logoTexture);
+        Runnable toMainMenu = () -> app.setScreen(new MainMenuScreen(app));
 
-        // 2. Legg logoen i tabellen (denne er sentrert pga table.setFillParent(true))
-        table.add(logo).center();
+        final Label text = formatText("ALaget Presenter", Color.WHITE, 2.0f);
 
-        // Valgfritt: Legg til en tittel under logoen ved å bruke din egen metode
-        // DrawHeading("ZOOMBIEGEDDON", Color.RED, 2);
+        /* * Animation Sequence:
+         * Fade in -> Delay -> Fade out -> Change Text -> Fade in -> Delay -> Fade out -> Switch Screen
+         */
+        text.getColor().a = 0;
+        text.addAction(Actions.sequence(
+                Actions.fadeIn(fadeInDuration),
+                Actions.delay(delayDuration),
+                Actions.fadeOut(fadeOutDuration),
+                Actions.run(() -> text.setText("Et INF112 Semester Projekt")),
+                Actions.fadeIn(fadeInDuration),
+                Actions.delay(delayDuration),
+                Actions.fadeOut(fadeOutDuration),
+                Actions.run(toMainMenu)
+        ));
+
+        skipToMainMenu(toMainMenu);
     }
 
+    /**
+     * Adds a listener to the stage that allows the user to skip the
+     * splash screen animations by pressing any key or clicking the mouse.
+     *
+     * @param toMainMenu The logic to execute for switching to the main menu.
+     */
+    private void skipToMainMenu(Runnable toMainMenu) {
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                toMainMenu.run();
+                return true;
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                toMainMenu.run();
+                return true;
+            }
+        });
+    }
+
+    /**
+     * Renders the screen every frame.
+     * Clears the screen with black and updates the stage actions.
+     *
+     * @param delta Time in seconds since the last frame.
+     */
     @Override
     public void render(float delta) {
-        // Bruker super for å tegne stage (logoen vår)
+        ScreenUtils.clear(Color.BLACK);
         super.render(delta);
-
-        displayTime += delta;
-
-        // Logikk for å bytte skjerm
-        if (displayTime >= MAX_DISPLAY_TIME) {
-            app.setScreen(new MainMenuScreen(app));
-        }
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        // Husk å dispose ting som ikke er i skin/stage hvis du lager nye her
     }
 }

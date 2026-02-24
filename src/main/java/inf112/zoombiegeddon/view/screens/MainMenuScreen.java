@@ -9,32 +9,45 @@ import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
 import inf112.zoombiegeddon.view.levels.TestLevel01;
 
+/**
+ * The MainMenuScreen provides the primary user interface for navigation.
+ * It allows players to start the game, view instructions, adjust settings, or exit.
+ */
 public class MainMenuScreen extends AbstractScreen {
 
     private Texture background;
 
+    /**
+     * Constructor for MainMenuScreen.
+     * @param app The main application instance used for global asset access and screen management.
+     */
     public MainMenuScreen(final GameApp app) {
         super(app);
         this.background = new Texture("background/background1.png");
     }
 
+    /**
+     * Sets up the UI layout for the main menu.
+     * Configures the background, title, and navigation buttons.
+     */
     @Override
     public void buildScreen() {
         super.buildScreen();
 
         table.setBackground(new TextureRegionDrawable(background));
 
-        DrawHeading("MAIN MENU", Color.WHITE, 4);
+        formatText("Zoombiegeddon", Color.WHITE, 2f);
 
         UIUtils.addButton("Start", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new TestLevel01(app, new Vector2(0,-9.81f))));
-
         UIUtils.addButton("How To Play", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new HowToScreen(app)));
-
         UIUtils.addButton("Settings", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new SettingsScreen(app)));
-
         UIUtils.addButton("Exit", skin, table, buttonWidth, buttonHeight, () -> Gdx.app.exit());
-
     }
+
+    /**
+     * Releases all resources used by this screen.
+     * Specifically disposes of the background texture to prevent memory leaks.
+     */
     @Override
     public void dispose() {
         super.dispose();

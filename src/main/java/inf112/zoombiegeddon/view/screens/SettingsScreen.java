@@ -15,7 +15,7 @@ public class SettingsScreen extends AbstractScreen {
     public void buildScreen() {
         super.buildScreen();
         table.add();
-        DrawHeading("SETTINGS", Color.WHITE, 4);
+        formatText("SETTINGS", Color.WHITE, 2f);
 
         String[] resolutions = {
                 "1280 x 720", "1366 x 768", "1600 x 900",

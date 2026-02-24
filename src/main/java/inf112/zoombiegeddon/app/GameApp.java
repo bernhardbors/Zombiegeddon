@@ -14,32 +14,38 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import inf112.zoombiegeddon.view.FontGenerator;
 import inf112.zoombiegeddon.view.screens.MainMenuScreen;
+import inf112.zoombiegeddon.view.screens.SplashScreen;
 
 public class GameApp extends Game {
-    public SpriteBatch batch;
-    public Skin skin;
-    public Preferences prefs;
 
+    public Skin skin;
+    public SpriteBatch batch;
+    public Preferences prefs;
+    public FontGenerator font;
     public AssetManager manager;
     public Texture characterSpriteSheet;
 
-    public FontGenerator font;
-
+    public static final String UI_SKIN = "ui/skin/uiskin.json";
+    public static final String SPLASH_LOGO = "background/background1.png";
+    public static final String CHAR_SHEET = "src/main/resources/assets/character sprite/Eris Esra's Character Template 4.0/16x16/16x16 Idle-Sheet.png";
+    public static final String FONT_PATH = "fonts/pixbobMiniLiteFont.ttf";
     @Override
     public void create() {
 
         batch = new SpriteBatch();
         manager = new AssetManager();
 
-        manager.load("ui/skin/uiskin.json", Skin.class);
-        manager.load("src/main/resources/assets/character sprite/Eris Esra's Character Template 4.0/16x16/16x16 Idle-Sheet.png", Texture.class);
+        manager.load(UI_SKIN, Skin.class);
+        manager.load(SPLASH_LOGO, Texture.class);
+        manager.load(CHAR_SHEET, Texture.class);
+
         manager.finishLoading();
 
-        this.skin = manager.get("ui/skin/uiskin.json", Skin.class);
+        this.skin = manager.get(UI_SKIN, Skin.class);
         this.characterSpriteSheet = manager.get("src/main/resources/assets/character sprite/Eris Esra's Character Template 4.0/16x16/16x16 Idle-Sheet.png", Texture.class);
 
         font = new FontGenerator();
-        font.create("fonts/pixbobMiniLiteFont.ttf");
+        font.create(FONT_PATH);
 
         skin.add("default-font", font.mainFont, BitmapFont.class);
         skin.add("title-font", font.titleFont, BitmapFont.class);
@@ -54,7 +60,7 @@ public class GameApp extends Game {
         setResolutionOnStartup();
         Gdx.graphics.setForegroundFPS(60);
 
-        this.setScreen(new MainMenuScreen(this));
+        this.setScreen(new SplashScreen(this));
     }
 
     private void loadPreferences() {
