@@ -16,7 +16,7 @@ public class MainMenuScreen extends AbstractMenuScreen {
     public void buildScreen() {
         super.buildScreen();
 
-        DrawHeading("MAIN MENU", Color.WHITE, 4);
+        DrawHeading("MAIN MENU", Color.BLUE, 10);
 
         UIUtils.addButton("Start", skin, table, buttonWidth, buttonHeight, () -> {});
 

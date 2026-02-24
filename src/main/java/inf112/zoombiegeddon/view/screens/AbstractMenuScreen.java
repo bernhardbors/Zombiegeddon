@@ -4,13 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.zoombiegeddon.app.GameApp;
@@ -22,7 +19,6 @@ public abstract class AbstractMenuScreen implements Screen {
     protected final GameApp app;
     protected final Table table;
     protected Preferences prefs;
-    protected BitmapFont font;
 
     protected float buttonWidth;
     protected float buttonHeight;
@@ -36,7 +32,6 @@ public abstract class AbstractMenuScreen implements Screen {
         this.table = new Table();
         this.prefs = app.prefs;
 
-        this.font = skin.getFont("default-font");
 
 
         table.setFillParent(true);
@@ -100,7 +95,8 @@ public abstract class AbstractMenuScreen implements Screen {
 
     protected void DrawHeading(String heading, Color color, Integer Scale) {
         Label.LabelStyle style = new Label.LabelStyle();
-        style.font = this.font;
+        style.font = app.font.titleFont;
+        //style.font = this.font;
         style.fontColor = color;
 
         float screenScale = Gdx.graphics.getHeight() / 1080f;
