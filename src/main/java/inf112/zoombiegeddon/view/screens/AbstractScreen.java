@@ -71,12 +71,15 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void pause() {
+        Gdx.app.log("AbstractScreen", "pause() called");
     }
 
     @Override
     public void resume() {
+        Gdx.app.log("AbstractScreen", "resume() called");
     }
 
+    @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
     }

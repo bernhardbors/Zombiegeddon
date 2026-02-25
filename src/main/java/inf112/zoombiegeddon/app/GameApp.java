@@ -25,6 +25,12 @@ public class GameApp extends Game {
     public static final String CHARACTER_SPRITE_SHEET = "assets/characterSprite32x32/MaleSkin1-Sheet.png";
 
     public static final String FONT_PATH = "fonts/pixbobMiniLiteFont.ttf";
+    
+    // Preferences Constants
+    public static final String PREFS_NAME = "Preferences";
+    public static final String PREF_WIDTH = "width";
+    public static final String PREF_HEIGHT = "height";
+    public static final String PREF_RES_STRING = "resString";
 
     @Override
     public void create() {
@@ -39,12 +45,12 @@ public class GameApp extends Game {
     }
 
     private void loadPreferences() {
-        this.prefs = Gdx.app.getPreferences("Preferences");
+        this.prefs = Gdx.app.getPreferences(PREFS_NAME);
     }
 
     private void setResolutionOnStartup() {
-        int width = prefs.getInteger("width", 1280);
-        int height = prefs.getInteger("height", 720);
+        int width = prefs.getInteger(PREF_WIDTH, 1280);
+        int height = prefs.getInteger(PREF_HEIGHT, 720);
 
         Gdx.graphics.setWindowedMode(width, height);
     }
@@ -52,6 +58,8 @@ public class GameApp extends Game {
     @Override
     public void dispose() {
         if (batch != null) batch.dispose();
-        if (batch != null) manager.dispose();
+        if (manager != null) manager.dispose();
+        if (font != null) font.dispose();
+        if (skin != null) skin.dispose();
     }
 }

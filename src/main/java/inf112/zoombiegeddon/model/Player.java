@@ -5,26 +5,29 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import inf112.zoombiegeddon.controller.PlayerController;
 
 import java.util.Map;
 
 public class Player extends Sprite {
 
-    public enum state { IDLE, WALKING, RUNNING, JUMPING, FALLING, PUNCHING, DEAD }
+    public enum State {IDLE, WALKING, RUNNING, JUMPING, FALLING, PUNCHING, DEAD}
+
     public static final float PPM = 32.0f;
 
-    public state currentState = state.IDLE;
-    public state previousState = state.IDLE;
+    public State currentState = State.IDLE;
+    public State previousState = State.IDLE;
 
-    private final Map<state, Animation<TextureRegion>> animations;
+    private final Map<State, Animation<TextureRegion>> animations;
 
     public Body playerBody;
     private float stateTime;
 
     private boolean runningRight;
+    public static boolean isRunning;
 
-    public Player(World world, Map<state, Animation<TextureRegion>> animations, Vector2 spawnPos) {
-        super(animations.get(state.IDLE).getKeyFrame(0));
+    public Player(World world, Map<State, Animation<TextureRegion>> animations, Vector2 spawnPos) {
+        super(animations.get(State.IDLE).getKeyFrame(0));
         this.animations = animations;
 
         this.stateTime = 0f;
@@ -46,8 +49,8 @@ public class Player extends Sprite {
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
 
-        float hitboxWidthMeters = 20f / PPM;
-        float hitboxHeightMeters = 34f / PPM;
+        float hitboxWidthMeters = 15f / PPM;
+        float hitboxHeightMeters = 40f / PPM;
         shape.setAsBox(hitboxWidthMeters / 2, hitboxHeightMeters / 2);
 
         fdef.shape = shape;
@@ -74,7 +77,10 @@ public class Player extends Sprite {
 
     private TextureRegion getFrame(float dt) {
         currentState = getState();
-        TextureRegion region = animations.get(currentState).getKeyFrame(stateTime, true);
+
+        boolean loop = (currentState != State.PUNCHING);
+
+        TextureRegion region = animations.get(currentState).getKeyFrame(stateTime, loop);
         float velocityX = playerBody.getLinearVelocity().x;
 
         if (velocityX > 0.1f) {
@@ -85,23 +91,33 @@ public class Player extends Sprite {
 
         if (runningRight && !region.isFlipX()) {
             region.flip(true, false);
-        }
-        else if (!runningRight && region.isFlipX()) {
+        } else if (!runningRight && region.isFlipX()) {
             region.flip(true, false);
         }
 
-        if (currentState != previousState) {
-            stateTime = 0;
-        }
+        if (currentState != previousState) stateTime = 0;
         previousState = currentState;
-
         return region;
     }
 
-    private state getState() {
-        if (playerBody.getLinearVelocity().y > 0.1f) return state.JUMPING;
-        if (playerBody.getLinearVelocity().y < -0.1f) return state.FALLING;
-        if (Math.abs(playerBody.getLinearVelocity().x) > 0.1f) return state.WALKING;
-        return state.IDLE;
+    private State getState() {
+        if (previousState == State.PUNCHING && !animations.get(State.PUNCHING).isAnimationFinished(stateTime)) {
+            return State.PUNCHING;
+        }
+        if (PlayerController.hitPressed()) return State.PUNCHING;
+        if (playerBody.getLinearVelocity().y < -0.1f) return State.FALLING;
+        if (playerBody.getLinearVelocity().y > 0.1f) return State.JUMPING;
+        if (isRunning) return State.RUNNING;
+        if (Math.abs(playerBody.getLinearVelocity().x) > 0.1f) return State.WALKING;
+
+        return State.IDLE;
     }
+
+    /**
+     * Helper method for the controller to check if the player is currently "busy".
+     */
+    public boolean isPerformingAction() {
+        return currentState == State.PUNCHING && !animations.get(State.PUNCHING).isAnimationFinished(stateTime);
+    }
+
 }

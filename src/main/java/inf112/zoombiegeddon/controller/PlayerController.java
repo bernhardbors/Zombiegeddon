@@ -8,29 +8,49 @@ import inf112.zoombiegeddon.model.Player;
 
 import java.util.HashMap;
 
+/**
+ * Handles input management and physics updates for the Player character.
+ * Extends {@link InputAdapter} to handle discrete input events while
+ * using polling for continuous movement logic.
+ */
 public class PlayerController extends InputAdapter {
 
+    /** The player instance controlled by this controller. */
     private final Player player;
-    private final float MAX_VELOCITY = 4.0f;
-    private final float JUMP_FORCE = 6.0f;
 
-    private final HashMap<String, int[]> keyBindings = new HashMap<>();
+    /** Map storing action names linked to multiple possible key codes. */
+    private static final HashMap<String, int[]> keyBindings = new HashMap<>();
 
+    /** The current maximum horizontal velocity allowed, adjusted by sprinting. */
+    private float MAX_VELOCITY;
+
+    /**
+     * Constructs a new PlayerController and initializes default key bindings.
+     * @param player The player model to be controlled.
+     */
     public PlayerController(Player player) {
         this.player = player;
         setupDefaultBindings();
     }
 
+    /**
+     * Initializes the default keyboard mappings for movement, jumping, and system actions.
+     */
     private void setupDefaultBindings() {
         keyBindings.put("LEFT", new int[]{Input.Keys.A, Input.Keys.LEFT});
         keyBindings.put("RIGHT", new int[]{Input.Keys.D, Input.Keys.RIGHT});
         keyBindings.put("JUMP", new int[]{Input.Keys.SPACE, Input.Keys.W, Input.Keys.UP});
+        keyBindings.put("SHIFT", new int[]{Input.Keys.SHIFT_LEFT, Input.Keys.SHIFT_RIGHT});
+        keyBindings.put("HIT", new int[]{Input.Keys.K});
+        keyBindings.put("QUIT", new int[]{Input.Keys.ESCAPE});
     }
 
     /**
-     * Checks if any key bound to the given action is currently pressed (Polling)
+     * Checks if any key bound to a specific action is currently being held down.
+     * @param action The string identifier for the action.
+     * @return true if any assigned key is pressed, false otherwise.
      */
-    private boolean isActionPressed(String action) {
+    private static boolean isActionPressed(String action) {
         if (!keyBindings.containsKey(action)) return false;
         for (int key : keyBindings.get(action)) {
             if (Gdx.input.isKeyPressed(key)) return true;
@@ -38,42 +58,97 @@ public class PlayerController extends InputAdapter {
         return false;
     }
 
+    /**
+     * Updates player movement and system inputs. Should be called once per frame.
+     * * @param dt The time in seconds since the last render.
+     */
     public void update(float dt) {
+        if (player.isPerformingAction()) {
+            return;
+        }
+
         handlePlayerMovement();
+        handleSystemInput();
     }
 
+    /**
+     * Processes movement-related input polling and updates the player's physical state.
+     */
     private void handlePlayerMovement() {
+
+        boolean rightPressed = isActionPressed("RIGHT");
+        boolean leftPressed = isActionPressed("LEFT");
+
         Vector2 vel = player.playerBody.getLinearVelocity();
         Vector2 pos = player.playerBody.getWorldCenter();
 
-        boolean leftPressed = isActionPressed("LEFT");
-        boolean rightPressed = isActionPressed("RIGHT");
+        if (!hitPressed()) {
+            if (isActionPressed("JUMP")) applyJump();
+            moveLeftOrRight(leftPressed, vel, pos, rightPressed);
+            isRunning();
+        }
+    }
 
+    /**
+     * Processes system-level inputs, such as quitting the application.
+     */
+    private void handleSystemInput() {
+        if (isActionPressed("QUIT")) Gdx.app.exit();
+    }
+
+
+    /**
+     * Applies horizontal impulses to the player's body based on input.
+     * If no movement keys are pressed, applies a friction-like slowdown.
+     * @param leftPressed  Whether the left action is active.
+     * @param vel          The current linear velocity of the player.
+     * @param pos          The world center position of the player's body.
+     * @param rightPressed Whether the right action is active.
+     */
+    private void moveLeftOrRight(boolean leftPressed, Vector2 vel, Vector2 pos, boolean rightPressed) {
         if (leftPressed && vel.x > -MAX_VELOCITY) {
             player.playerBody.applyLinearImpulse(new Vector2(-0.5f, 0), pos, true);
         } else if (rightPressed && vel.x < MAX_VELOCITY) {
             player.playerBody.applyLinearImpulse(new Vector2(0.5f, 0), pos, true);
         } else {
-
             player.playerBody.setLinearVelocity(vel.x * 0.5f, vel.y);
-
             if (Math.abs(vel.x) < 0.1f) {
                 player.playerBody.setLinearVelocity(0, vel.y);
             }
         }
     }
 
-    @Override
-    public boolean keyDown(int keycode) {
-        System.out.println("Key pressed: " + keycode);
-        for (int boundKey : keyBindings.get("JUMP")) {
-            if (keycode == boundKey) {
-                if (Math.abs(player.playerBody.getLinearVelocity().y) < 0.01f) {
-                    player.playerBody.applyLinearImpulse(new Vector2(0, JUMP_FORCE), player.playerBody.getWorldCenter(), true);
-                }
-                return true;
-            }
+    /**
+     * Executes a jump by applying a vertical linear impulse to the player's body.
+     * To prevent "infinite jumping" in mid-air, the impulse is only applied if
+     * the vertical velocity is near zero (simulating a ground check).
+     */
+    private void applyJump() {
+        if (Math.abs(player.playerBody.getLinearVelocity().y) < 0.01f) {
+            player.playerBody.applyLinearImpulse(new Vector2(0, (float) 6.0), player.playerBody.getWorldCenter(), true);
         }
-        return false;
+    }
+
+    /**
+     * Updates the player's movement speed and state based on the "SHIFT" key.
+     * Toggles between walking and running velocities and updates the static
+     * {@link Player#isRunning} flag.
+     */
+    private void isRunning() {
+        if (!isActionPressed("SHIFT")) {
+            MAX_VELOCITY = 1.0f;
+            Player.isRunning = false;
+        } else {
+            MAX_VELOCITY = 4.0f;
+            Player.isRunning = true;
+        }
+    }
+    /**
+     * Static utility to check if the attack/hit action is currently triggered.
+     * Used by the {@link Player} class to determine animation state transitions.
+     * @return true if the "HIT" key is pressed, false otherwise.
+     */
+    public static Boolean hitPressed() {
+        return isActionPressed("HIT");
     }
 }

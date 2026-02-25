@@ -3,7 +3,9 @@ package inf112.zoombiegeddon.view.renderer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -12,8 +14,12 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.zoombiegeddon.app.GameApp;
+import inf112.zoombiegeddon.model.Player;
 import inf112.zoombiegeddon.model.WorldCollisionLayerCreator;
 import inf112.zoombiegeddon.model.WorldPhysics;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Base class for all game levels. Handles the boilerplate for physics updates,
@@ -35,9 +41,10 @@ public abstract class AbstractLevel extends ScreenAdapter {
     protected final Box2DDebugRenderer debugRenderer;
 
     protected TiledMap map;
-    public final float PIXEL_PR_TILE = 32.0f;
+    protected final float PIXEL_PR_TILE = 32.0f;
 
     private final Boolean debugMode;
+    protected final Map<Player.State, Animation<TextureRegion>> playerAnimations = new HashMap<>();
 
     /**
      * @param app         The main GameApp instance for shared resources (batch, assets).
@@ -53,6 +60,30 @@ public abstract class AbstractLevel extends ScreenAdapter {
         this.worldPhysics = new WorldPhysics(gravity);
         this.debugRenderer = new Box2DDebugRenderer();
         this.viewport = new ExtendViewport(worldWidth, worldHeight, camera);
+        createPlayerAnimationMap();
+    }
+
+    private void createPlayerAnimationMap(){
+        TextureRegion[][] characterFrames = TextureRegion.split(app.characterSpriteSheet, 80, 64);
+
+        playerAnimations.put(Player.State.IDLE ,createAnimation(characterFrames[0],4, 0.3f));
+        playerAnimations.put(Player.State.WALKING ,createAnimation(characterFrames[1],7, 0.06f));
+        playerAnimations.put(Player.State.RUNNING ,createAnimation(characterFrames[2],7, 0.06f));
+        playerAnimations.put(Player.State.JUMPING ,createAnimation(characterFrames[3],3, 0.1f));
+        playerAnimations.put(Player.State.FALLING ,createAnimation(characterFrames[4],3, 0.1f));
+        playerAnimations.put(Player.State.PUNCHING ,createAnimation(characterFrames[5],5, 0.1f));
+        playerAnimations.put(Player.State.DEAD ,createAnimation(characterFrames[6],9, 0.1f));
+    }
+
+    /**
+     * Extracts a specific number of frames from a row to prevent "blinking" blank frames.
+     */
+    private Animation<TextureRegion> createAnimation(TextureRegion[] row, int frameCount, float frameDuration) {
+        TextureRegion[] frames = new TextureRegion[frameCount];
+        for (int i = 0; i < frameCount; i++) {
+            frames[i] = row[i];
+        }
+        return new Animation<>(frameDuration, frames);
     }
 
     @Override
@@ -110,7 +141,7 @@ public abstract class AbstractLevel extends ScreenAdapter {
      * @param file      The internal path to the .tmx map file (e.g., "maps/level1.tmx").
      * @param layerName The name of the object layer in Tiled to be converted into physics collisions.
      */
-    protected void drawMapCollisionLayer(String file, String layerName, int nrOfLayers) {
+    protected void drawMapCollisionLayer(String file, String layerName) {
         if (map == null) {
             map = new TmxMapLoader().load(file);
             mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / PIXEL_PR_TILE);

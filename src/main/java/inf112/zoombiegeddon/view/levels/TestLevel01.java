@@ -18,38 +18,16 @@ public class TestLevel01 extends AbstractLevel {
 
     private final Player player;
     private final PlayerController controller;
-    private final Map<Player.state, Animation<TextureRegion>> animations = new HashMap<>();
 
 
     public TestLevel01(GameApp app, Vector2 gravity) {
-        super(app, gravity, 10, 10,false);
+        super(app, gravity, 10, 10,true);
 
-        TextureRegion[][] IdelAnimation = TextureRegion.split(app.characterSpriteSheet, 80, 64);
-
-        animations.put(Player.state.IDLE ,createAnimation(IdelAnimation[0],4, 0.2f));
-        animations.put(Player.state.WALKING ,createAnimation(IdelAnimation[1],7, 0.2f));
-        animations.put(Player.state.RUNNING ,createAnimation(IdelAnimation[2],7, 0.2f));
-        animations.put(Player.state.JUMPING ,createAnimation(IdelAnimation[3],3, 0.2f));
-        animations.put(Player.state.FALLING ,createAnimation(IdelAnimation[4],3, 0.2f));
-        animations.put(Player.state.PUNCHING ,createAnimation(IdelAnimation[5],5, 0.2f));
-        animations.put(Player.state.DEAD ,createAnimation(IdelAnimation[6],9, 0.2f));
-
-        this.player = new Player(worldPhysics.getWorld(), animations, new Vector2(10, 10));
+        this.player = new Player(worldPhysics.getWorld(), playerAnimations, new Vector2(10, 10));
 
         this.controller = new PlayerController(player);
 
-        drawMapCollisionLayer("src/main/resources/tilemaps/testLevel.tmx", "Collision", 3);
-    }
-
-    /**
-     * Extracts a specific number of frames from a row to prevent "blinking" blank frames.
-     */
-    private Animation<TextureRegion> createAnimation(TextureRegion[] row, int frameCount, float frameDuration) {
-        TextureRegion[] frames = new TextureRegion[frameCount];
-        for (int i = 0; i < frameCount; i++) {
-            frames[i] = row[i];
-        }
-        return new Animation<>(frameDuration, frames);
+        drawMapCollisionLayer("src/main/resources/tilemaps/testLevel.tmx", "Collision");
     }
 
     @Override

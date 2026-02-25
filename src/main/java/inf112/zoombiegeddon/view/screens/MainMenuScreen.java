@@ -23,7 +23,15 @@ public class MainMenuScreen extends AbstractScreen {
      */
     public MainMenuScreen(final GameApp app) {
         super(app);
-        this.background = new Texture("background/background1.png");
+        // Use loaded asset instead of creating new Texture
+        if (app.manager.isLoaded(GameApp.SPLASH_LOGO)) {
+            this.background = app.manager.get(GameApp.SPLASH_LOGO, Texture.class);
+        } else {
+            // Fallback just in case, though manager should have it from LoadingScreen
+            app.manager.load(GameApp.SPLASH_LOGO, Texture.class);
+            app.manager.finishLoading();
+            this.background = app.manager.get(GameApp.SPLASH_LOGO, Texture.class);
+        }
     }
 
     /**
@@ -51,8 +59,5 @@ public class MainMenuScreen extends AbstractScreen {
     @Override
     public void dispose() {
         super.dispose();
-        if (background != null) {
-            background.dispose();
-        }
     }
 }
