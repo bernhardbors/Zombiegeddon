@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.zoombiegeddon.app.GameApp;
 
-public abstract class AbstractMenuScreen implements Screen {
+public abstract class AbstractScreen implements Screen {
 
     protected final Stage stage;
     protected final Skin skin;
@@ -24,7 +24,7 @@ public abstract class AbstractMenuScreen implements Screen {
     protected float buttonHeight;
 
 
-    AbstractMenuScreen(final GameApp app) {
+    AbstractScreen(final GameApp app) {
 
         this.app = app;
         this.stage = new Stage(new ScreenViewport());
@@ -55,9 +55,6 @@ public abstract class AbstractMenuScreen implements Screen {
 
         ScreenUtils.clear(Color.DARK_GRAY);
 
-
-        // table.background(new TextureRegionDrawable(new Texture(Gdx.files.internal("src/main/resources/assets/tilemap/tilemap.png"))));
-
         stage.act(Math.min(delta, 1 / 30f));
         stage.draw();
     }
@@ -74,18 +71,23 @@ public abstract class AbstractMenuScreen implements Screen {
 
     @Override
     public void pause() {
+        Gdx.app.log("AbstractScreen", "pause() called");
     }
 
     @Override
     public void resume() {
+        Gdx.app.log("AbstractScreen", "resume() called");
     }
 
+    @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
     }
 
     public void dispose() {
-        stage.dispose();
+        if (stage != null) {
+            stage.dispose();
+        }
     }
 
     private void calculateButtonSize(){
@@ -93,15 +95,17 @@ public abstract class AbstractMenuScreen implements Screen {
         this.buttonHeight = (float) Gdx.graphics.getHeight() / 15;
     }
 
-    protected void DrawHeading(String heading, Color color, Integer Scale) {
+    protected Label formatText(String text, Color color, float scale) {
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = app.font.titleFont;
         style.fontColor = color;
 
         float screenScale = Gdx.graphics.getHeight() / 1080f;
 
-        Label title = new Label(heading, style);
-        title.setFontScale(Scale * screenScale);
-        table.add(title).row();
+        Label textBody = new Label(text, style);
+        textBody.setFontScale(scale * screenScale);
+        table.add(textBody).row();
+
+        return textBody;
     }
 }

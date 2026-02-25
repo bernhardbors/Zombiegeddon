@@ -9,20 +9,25 @@ public class FontGenerator {
     public BitmapFont titleFont;
 
     //https://libgdxinfo.wordpress.com/basic-label/ 23.02.2026
-    public void create(String filePath ) {
+
+    public void create(String filePath) {
+        if (!Gdx.files.internal(filePath).exists()) {
+            Gdx.app.error("FontGenerator", "Font file not found: " + filePath);
+            return;
+        }
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(filePath));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 24;
         mainFont = generator.generateFont(parameter);
 
-        parameter.size = 30;
+        parameter.size = 74;
         parameter.borderWidth = 2;
         titleFont = generator.generateFont(parameter);
         generator.dispose();
     }
 
     public void dispose() {
-        mainFont.dispose();
-        titleFont.dispose();
+        if (mainFont != null) mainFont.dispose();
+        if (titleFont != null) titleFont.dispose();
     }
 }

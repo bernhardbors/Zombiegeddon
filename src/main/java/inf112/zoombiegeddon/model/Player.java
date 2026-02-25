@@ -1,20 +1,37 @@
 package inf112.zoombiegeddon.model;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import inf112.zoombiegeddon.controller.PlayerController;
+
+import java.util.Map;
 
 public class Player extends Sprite {
-    // Pixels Per Meter - adjust based on your game's scale
+
+    public enum State {IDLE, WALKING, RUNNING, JUMPING, FALLING, PUNCHING, DEAD}
+
     public static final float PPM = 32.0f;
 
+    public State currentState = State.IDLE;
+    public State previousState = State.IDLE;
+
+    private final Map<State, Animation<TextureRegion>> animations;
+
     public Body playerBody;
+    private float stateTime;
 
-    public Player(World world, TextureRegion texture, Vector2 spawnPos) {
-        super(texture);
+    private boolean runningRight;
+    public static boolean isRunning;
 
-        // Set visual size based on texture dimensions scaled to physics world
+    public Player(World world, Map<State, Animation<TextureRegion>> animations, Vector2 spawnPos) {
+        super(animations.get(State.IDLE).getKeyFrame(0));
+        this.animations = animations;
+
+        this.stateTime = 0f;
+
         float width = getRegionWidth() / PPM;
         float height = getRegionHeight() / PPM;
         setSize(width, height);
@@ -32,11 +49,12 @@ public class Player extends Sprite {
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
 
-        // Box2D setAsBox takes half-width and half-height
-        shape.setAsBox(getWidth() / 2, getHeight() / 2);
+        float hitboxWidthMeters = 15f / PPM;
+        float hitboxHeightMeters = 40f / PPM;
+        shape.setAsBox(hitboxWidthMeters / 2, hitboxHeightMeters / 2);
 
         fdef.shape = shape;
-        fdef.friction = 0.5f; // Optional: prevents sliding too much
+        fdef.friction = 0.5f;
 
         playerBody.createFixture(fdef).setUserData(this);
         playerBody.setFixedRotation(true);
@@ -45,10 +63,61 @@ public class Player extends Sprite {
     }
 
     public void update(float dt) {
-        // Sync sprite position with physics body
+        stateTime += dt;
+
+        TextureRegion region = getFrame(dt);
+        setRegion(region);
+
+
         setPosition(
                 playerBody.getPosition().x - getWidth() / 2,
                 playerBody.getPosition().y - getHeight() / 2
         );
     }
+
+    private TextureRegion getFrame(float dt) {
+        currentState = getState();
+
+        boolean loop = (currentState != State.PUNCHING);
+
+        TextureRegion region = animations.get(currentState).getKeyFrame(stateTime, loop);
+        float velocityX = playerBody.getLinearVelocity().x;
+
+        if (velocityX > 0.1f) {
+            runningRight = true;
+        } else if (velocityX < -0.1f) {
+            runningRight = false;
+        }
+
+        if (runningRight && !region.isFlipX()) {
+            region.flip(true, false);
+        } else if (!runningRight && region.isFlipX()) {
+            region.flip(true, false);
+        }
+
+        if (currentState != previousState) stateTime = 0;
+        previousState = currentState;
+        return region;
+    }
+
+    private State getState() {
+        if (previousState == State.PUNCHING && !animations.get(State.PUNCHING).isAnimationFinished(stateTime)) {
+            return State.PUNCHING;
+        }
+        if (PlayerController.hitPressed()) return State.PUNCHING;
+        if (playerBody.getLinearVelocity().y < -0.1f) return State.FALLING;
+        if (playerBody.getLinearVelocity().y > 0.1f) return State.JUMPING;
+        if (isRunning) return State.RUNNING;
+        if (Math.abs(playerBody.getLinearVelocity().x) > 0.1f) return State.WALKING;
+
+        return State.IDLE;
+    }
+
+    /**
+     * Helper method for the controller to check if the player is currently "busy".
+     */
+    public boolean isPerformingAction() {
+        return currentState == State.PUNCHING && !animations.get(State.PUNCHING).isAnimationFinished(stateTime);
+    }
+
 }

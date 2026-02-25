@@ -6,78 +6,60 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import inf112.zoombiegeddon.view.FontGenerator;
-import inf112.zoombiegeddon.view.screens.MainMenuScreen;
+import inf112.zoombiegeddon.view.screens.LoadingScreen;
 
 public class GameApp extends Game {
-    public SpriteBatch batch;
-    public Skin skin;
-    public Preferences prefs;
 
+    public Skin skin;
+    public SpriteBatch batch;
+    public Preferences prefs;
+    public FontGenerator font;
     public AssetManager manager;
     public Texture characterSpriteSheet;
 
-    public FontGenerator font;
+    public static final String UI_SKIN = "ui/skin/uiskin.json";
+    public static final String SPLASH_LOGO = "background/background1.png";
+    public static final String CHARACTER_SPRITE_SHEET = "assets/characterSprite32x32/MaleSkin1-Sheet.png";
+
+    public static final String FONT_PATH = "fonts/pixbobMiniLiteFont.ttf";
+    
+    // Preferences Constants
+    public static final String PREFS_NAME = "Preferences";
+    public static final String PREF_WIDTH = "width";
+    public static final String PREF_HEIGHT = "height";
+    public static final String PREF_RES_STRING = "resString";
 
     @Override
     public void create() {
-
         batch = new SpriteBatch();
         manager = new AssetManager();
 
-        manager.load("ui/skin/uiskin.json", Skin.class);
-        manager.load("src/main/resources/assets/character sprite/Characters_spritesheet.png", Texture.class);
-        manager.finishLoading();
-
-        this.skin = manager.get("ui/skin/uiskin.json", Skin.class);
-        this.characterSpriteSheet = manager.get("src/main/resources/assets/character sprite/Characters_spritesheet.png", Texture.class);
-
-        font = new FontGenerator();
-        font.create("fonts/pixbobMiniLiteFont.ttf");
-
-        skin.add("default-font", font.mainFont, BitmapFont.class);
-        skin.add("title-font", font.titleFont, BitmapFont.class);
-
-        TextButton.TextButtonStyle textButtonStyle = skin.get(TextButton.TextButtonStyle.class);
-        textButtonStyle.font = font.mainFont;
-
-        Label.LabelStyle labelStyle = skin.get(Label.LabelStyle.class);
-        labelStyle.font = font.titleFont;
+        this.setScreen(new LoadingScreen(this));
 
         loadPreferences();
         setResolutionOnStartup();
         Gdx.graphics.setForegroundFPS(60);
-
-        this.setScreen(new MainMenuScreen(this));
     }
 
     private void loadPreferences() {
-        this.prefs = Gdx.app.getPreferences("Preferences");
+        this.prefs = Gdx.app.getPreferences(PREFS_NAME);
     }
 
     private void setResolutionOnStartup() {
-        int width = prefs.getInteger("width", 1280);
-        int height = prefs.getInteger("height", 720);
+        int width = prefs.getInteger(PREF_WIDTH, 1280);
+        int height = prefs.getInteger(PREF_HEIGHT, 720);
 
         Gdx.graphics.setWindowedMode(width, height);
     }
 
     @Override
-    public void render() {
-        super.render();
-    }
-
-    @Override
     public void dispose() {
-        batch.dispose();
-        skin.dispose();
-        manager.dispose();
-        font.dispose();
+        if (batch != null) batch.dispose();
+        if (manager != null) manager.dispose();
+        if (font != null) font.dispose();
+        if (skin != null) skin.dispose();
     }
 }
