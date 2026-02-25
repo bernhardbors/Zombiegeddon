@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import java.util.HashMap;
 
+
 public class AudioManager {
     private HashMap<String, Sound> sounds;
     private Music backgroundMusic;
