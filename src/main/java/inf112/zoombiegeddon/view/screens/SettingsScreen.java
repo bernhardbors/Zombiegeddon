@@ -5,31 +5,45 @@ import com.badlogic.gdx.graphics.Color;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
 
+/**
+ * The SettingsScreen allows the player to adjust game configurations
+ * such as volume, resolution, and difficulty.
+ */
 public class SettingsScreen extends AbstractScreen {
 
+    /**
+     * Constructor for the SettingsScreen.
+     *
+     * @param app The main application instance used to switch screens and access assets.
+     */
     public SettingsScreen(final GameApp app) {
         super(app);
     }
 
+    /**
+     * Builds the settings UI layout.
+     * Includes a title, a resolution selection box, and a return button.
+     */
     @Override
     public void buildScreen() {
         super.buildScreen();
-        table.add();
+
+        // Title
         formatText("SETTINGS", Color.WHITE, 2f);
+        table.row().pad(20);
 
-        String[] resolutions = {
-                "1280 x 720", "1366 x 768", "1600 x 900",
-                "1920 x 1080", "2560 x 1440", "3840 x 2160"
-        };
-
+        // Resolution options
+        String[] resolutions = {"1280 x 720", "1366 x 768", "1600 x 900", "1920 x 1080", "2560 x 1440", "3840 x 2160"};
         String savedRes = prefs.getString("resString", resolutions[0]);
 
+        // Selection Box for resolutions
         UIUtils.addSelectBox("Resolutions:", resolutions, skin, table, buttonWidth, buttonHeight, this::changeResolution)
                 .setSelected(savedRes);
 
-        table.add();
-
-        UIUtils.addButton("Back", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new MainMenuScreen(app))).row();
+        // Spacing and Back Button
+        table.row().padTop(50);
+        UIUtils.addButton("Back", skin, table, buttonWidth, buttonHeight,
+                () -> app.setScreen(new MainMenuScreen(app)));
     }
 
     public void changeResolution(String resolution) {
@@ -45,5 +59,7 @@ public class SettingsScreen extends AbstractScreen {
         prefs.flush();
 
         stage.getViewport().update(width, height, true);
+        table.invalidateHierarchy();
+
     }
 }

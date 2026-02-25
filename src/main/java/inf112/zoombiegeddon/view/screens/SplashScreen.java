@@ -19,7 +19,6 @@ public class SplashScreen extends AbstractScreen {
     private static float fadeOutDuration = 1.5f;
     private static float delayDuration = 1f;
 
-
     /**
      * Constructor for the SplashScreen.
      *
@@ -53,8 +52,7 @@ public class SplashScreen extends AbstractScreen {
                 Actions.fadeIn(fadeInDuration),
                 Actions.delay(delayDuration),
                 Actions.fadeOut(fadeOutDuration),
-                Actions.run(toMainMenu)
-        ));
+                Actions.run(toMainMenu)));
 
         skipToMainMenu(toMainMenu);
     }
