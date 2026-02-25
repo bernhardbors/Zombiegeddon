@@ -39,7 +39,7 @@ public class LoadingScreen extends AbstractScreen {
 
         app.manager.load(GameApp.UI_SKIN, Skin.class);
         app.manager.load(GameApp.SPLASH_LOGO, Texture.class);
-        app.manager.load(GameApp.CHAR_SHEET, Texture.class);
+        app.manager.load(GameApp.CHARACTER_SPRITE_SHEET, Texture.class);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class LoadingScreen extends AbstractScreen {
 
     private void finalizeLoading() {
         app.skin = app.manager.get(GameApp.UI_SKIN, Skin.class);
-        app.characterSpriteSheet = app.manager.get(GameApp.CHAR_SHEET, Texture.class);
+        app.characterSpriteSheet = app.manager.get(GameApp.CHARACTER_SPRITE_SHEET, Texture.class);
 
         app.font = new FontGenerator();
         app.font.create(GameApp.FONT_PATH);

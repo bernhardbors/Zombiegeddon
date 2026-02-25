@@ -6,16 +6,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import inf112.zoombiegeddon.view.FontGenerator;
 import inf112.zoombiegeddon.view.screens.LoadingScreen;
-import inf112.zoombiegeddon.view.screens.MainMenuScreen;
-import inf112.zoombiegeddon.view.screens.SplashScreen;
 
 public class GameApp extends Game {
 
@@ -28,7 +22,8 @@ public class GameApp extends Game {
 
     public static final String UI_SKIN = "ui/skin/uiskin.json";
     public static final String SPLASH_LOGO = "background/background1.png";
-    public static final String CHAR_SHEET = "src/main/resources/assets/characterSprite32x32/MaleSkin1.png";
+    public static final String CHARACTER_SPRITE_SHEET = "assets/characterSprite32x32/MaleSkin1-Sheet.png";
+
     public static final String FONT_PATH = "fonts/pixbobMiniLiteFont.ttf";
 
     @Override

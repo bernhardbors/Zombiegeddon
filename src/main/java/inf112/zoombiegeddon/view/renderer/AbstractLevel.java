@@ -110,7 +110,7 @@ public abstract class AbstractLevel extends ScreenAdapter {
      * @param file      The internal path to the .tmx map file (e.g., "maps/level1.tmx").
      * @param layerName The name of the object layer in Tiled to be converted into physics collisions.
      */
-    protected void drawMapCollisionLayer(String file, String layerName) {
+    protected void drawMapCollisionLayer(String file, String layerName, int nrOfLayers) {
         if (map == null) {
             map = new TmxMapLoader().load(file);
             mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / PIXEL_PR_TILE);

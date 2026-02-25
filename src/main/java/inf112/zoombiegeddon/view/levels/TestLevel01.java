@@ -1,37 +1,55 @@
 package inf112.zoombiegeddon.view.levels;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.Player;
-import inf112.zoombiegeddon.model.WorldCollisionLayerCreator;
 import inf112.zoombiegeddon.utils.CameraUtils;
 import inf112.zoombiegeddon.view.renderer.AbstractLevel;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TestLevel01 extends AbstractLevel {
 
     private final Player player;
     private final PlayerController controller;
-    public TextureRegion playerIdle;
+    private final Map<Player.state, Animation<TextureRegion>> animations = new HashMap<>();
+
 
     public TestLevel01(GameApp app, Vector2 gravity) {
-        super(app, gravity, 10, 10,true);
+        super(app, gravity, 10, 10,false);
 
-        TextureRegion[][] allFrames = TextureRegion.split(app.characterSpriteSheet, 16, 16);
-        this.playerIdle = allFrames[0][0];
+        TextureRegion[][] IdelAnimation = TextureRegion.split(app.characterSpriteSheet, 80, 64);
 
-        this.player = new Player(worldPhysics.getWorld(), playerIdle, new Vector2(10, 10));
+        animations.put(Player.state.IDLE ,createAnimation(IdelAnimation[0],4, 0.2f));
+        animations.put(Player.state.WALKING ,createAnimation(IdelAnimation[1],7, 0.2f));
+        animations.put(Player.state.RUNNING ,createAnimation(IdelAnimation[2],7, 0.2f));
+        animations.put(Player.state.JUMPING ,createAnimation(IdelAnimation[3],3, 0.2f));
+        animations.put(Player.state.FALLING ,createAnimation(IdelAnimation[4],3, 0.2f));
+        animations.put(Player.state.PUNCHING ,createAnimation(IdelAnimation[5],5, 0.2f));
+        animations.put(Player.state.DEAD ,createAnimation(IdelAnimation[6],9, 0.2f));
+
+        this.player = new Player(worldPhysics.getWorld(), animations, new Vector2(10, 10));
 
         this.controller = new PlayerController(player);
 
-        drawMapCollisionLayer("src/main/resources/tilemaps/testLevel.tmx", "Collision");
+        drawMapCollisionLayer("src/main/resources/tilemaps/testLevel.tmx", "Collision", 3);
+    }
+
+    /**
+     * Extracts a specific number of frames from a row to prevent "blinking" blank frames.
+     */
+    private Animation<TextureRegion> createAnimation(TextureRegion[] row, int frameCount, float frameDuration) {
+        TextureRegion[] frames = new TextureRegion[frameCount];
+        for (int i = 0; i < frameCount; i++) {
+            frames[i] = row[i];
+        }
+        return new Animation<>(frameDuration, frames);
     }
 
     @Override
