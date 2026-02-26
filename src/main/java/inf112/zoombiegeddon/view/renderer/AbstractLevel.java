@@ -3,9 +3,7 @@ package inf112.zoombiegeddon.view.renderer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -14,12 +12,9 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.model.Player;
-import inf112.zoombiegeddon.model.WorldCollisionLayerCreator;
-import inf112.zoombiegeddon.model.WorldPhysics;
+import inf112.zoombiegeddon.model.world.WorldCollisionLayerCreator;
+import inf112.zoombiegeddon.model.world.WorldPhysics;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Base class for all game levels. Handles the boilerplate for physics updates,
@@ -44,7 +39,8 @@ public abstract class AbstractLevel extends ScreenAdapter {
     protected final float PIXEL_PR_TILE = 32.0f;
 
     private final Boolean debugMode;
-    protected final Map<Player.State, Animation<TextureRegion>> playerAnimations = new HashMap<>();
+
+
 
     /**
      * @param app         The main GameApp instance for shared resources (batch, assets).
@@ -60,30 +56,6 @@ public abstract class AbstractLevel extends ScreenAdapter {
         this.worldPhysics = new WorldPhysics(gravity);
         this.debugRenderer = new Box2DDebugRenderer();
         this.viewport = new ExtendViewport(worldWidth, worldHeight, camera);
-        createPlayerAnimationMap();
-    }
-
-    private void createPlayerAnimationMap(){
-        TextureRegion[][] characterFrames = TextureRegion.split(app.characterSpriteSheet, 80, 64);
-
-        playerAnimations.put(Player.State.IDLE ,createAnimation(characterFrames[0],4, 0.3f));
-        playerAnimations.put(Player.State.WALKING ,createAnimation(characterFrames[1],7, 0.06f));
-        playerAnimations.put(Player.State.RUNNING ,createAnimation(characterFrames[2],7, 0.06f));
-        playerAnimations.put(Player.State.JUMPING ,createAnimation(characterFrames[3],3, 0.1f));
-        playerAnimations.put(Player.State.FALLING ,createAnimation(characterFrames[4],3, 0.1f));
-        playerAnimations.put(Player.State.PUNCHING ,createAnimation(characterFrames[5],5, 0.1f));
-        playerAnimations.put(Player.State.DEAD ,createAnimation(characterFrames[6],9, 0.1f));
-    }
-
-    /**
-     * Extracts a specific number of frames from a row to prevent "blinking" blank frames.
-     */
-    private Animation<TextureRegion> createAnimation(TextureRegion[] row, int frameCount, float frameDuration) {
-        TextureRegion[] frames = new TextureRegion[frameCount];
-        for (int i = 0; i < frameCount; i++) {
-            frames[i] = row[i];
-        }
-        return new Animation<>(frameDuration, frames);
     }
 
     @Override
@@ -91,8 +63,14 @@ public abstract class AbstractLevel extends ScreenAdapter {
         ScreenUtils.clear(Color.LIGHT_GRAY);
         update(delta);
         camera.update();
-        renderMap();
+
         app.batch.setProjectionMatrix(camera.combined);
+        app.batch.begin();
+        app.background.render(app.batch);
+        app.batch.end();
+
+        renderMap();
+
         app.batch.begin();
         draw(app.batch);
         app.batch.end();
@@ -157,7 +135,8 @@ public abstract class AbstractLevel extends ScreenAdapter {
     @Override
     public void dispose() {
         if (mapRenderer != null) mapRenderer.dispose();
-        if (worldPhysics != null) worldPhysics.dispose();
+        if (map != null) map.dispose(); // IMPORTANT: TiledMaps are not handled by Java GC
         if (debugRenderer != null) debugRenderer.dispose();
+        worldPhysics.dispose();
     }
 }

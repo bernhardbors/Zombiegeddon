@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
-import inf112.zoombiegeddon.model.Player;
+import inf112.zoombiegeddon.model.entity.Player;
 
 import java.util.HashMap;
 
