@@ -23,6 +23,10 @@ public class MainMenuScreen extends AbstractScreen {
      */
     public MainMenuScreen(final GameApp app) {
         super(app);
+        
+        this.background = new Texture("background/background1.png");
+        table.setBackground(new TextureRegionDrawable(background));
+
         // Use loaded asset instead of creating new Texture
         if (app.manager.isLoaded(GameApp.SPLASH_LOGO)) {
             this.background = app.manager.get(GameApp.SPLASH_LOGO, Texture.class);
@@ -42,9 +46,8 @@ public class MainMenuScreen extends AbstractScreen {
     public void buildScreen() {
         super.buildScreen();
 
-        table.setBackground(new TextureRegionDrawable(background));
 
-        formatText("Zoombiegeddon", Color.WHITE, 2f);
+        formatText("Zoombiegeddon", Color.WHITE, 5f);
 
         UIUtils.addButton("Start", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new TestLevel01(app, new Vector2(0,-9.81f))));
         UIUtils.addButton("How To Play", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new HowToScreen(app)));

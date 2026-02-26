@@ -39,6 +39,10 @@ public class LoadingScreen extends AbstractScreen {
 
         app.manager.load(GameApp.UI_SKIN, Skin.class);
         app.manager.load(GameApp.SPLASH_LOGO, Texture.class);
+
+        //app.manager.load(GameApp.CHAR_SHEET, Texture.class);
+        app.manager.load(GameApp.FONT_PATH, BitmapFont.class);
+
         app.manager.load(GameApp.CHARACTER_SPRITE_SHEET, Texture.class);
 
         app.manager.load(GameApp.BACKGROUND_LAYER0_PATH, Texture.class);
@@ -53,7 +57,6 @@ public class LoadingScreen extends AbstractScreen {
         app.background.addLayer(app.manager.get(GameApp.BACKGROUND_LAYER1_PATH), 1f);
         app.background.addLayer(app.manager.get(GameApp.BACKGROUND_LAYER2_PATH), 2f);
         app.background.addLayer(app.manager.get(GameApp.BACKGROUND_LAYER3_PATH), 3f);
-
     }
 
     @Override
@@ -76,14 +79,12 @@ public class LoadingScreen extends AbstractScreen {
 
         addBackgroundLevelImages();
 
-        app.font = new FontGenerator();
-        app.font.create(GameApp.FONT_PATH);
+        app.font = app.manager.get(GameApp.FONT_PATH, BitmapFont.class);
 
-        app.skin.add("default-font", app.font.mainFont, BitmapFont.class);
-        app.skin.add("title-font", app.font.titleFont, BitmapFont.class);
+        app.skin.add("default-font", app.font, BitmapFont.class);
 
-        app.skin.get(TextButton.TextButtonStyle.class).font = app.font.mainFont;
-        app.skin.get(Label.LabelStyle.class).font = app.font.titleFont;
+        app.skin.get(TextButton.TextButtonStyle.class).font = app.font;
+        app.skin.get(Label.LabelStyle.class).font = app.font;
     }
 }
 

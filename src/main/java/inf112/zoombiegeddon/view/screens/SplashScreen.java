@@ -38,7 +38,7 @@ public class SplashScreen extends AbstractScreen {
 
         Runnable toMainMenu = () -> app.setScreen(new MainMenuScreen(app));
 
-        final Label text = formatText("ALaget Presenter", Color.WHITE, 2.0f);
+        final Label text = formatText("A- Laget Presenter", Color.WHITE, 2.0f);
 
         /* * Animation Sequence:
          * Fade in -> Delay -> Fade out -> Change Text -> Fade in -> Delay -> Fade out -> Switch Screen

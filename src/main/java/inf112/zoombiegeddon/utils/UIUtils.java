@@ -14,6 +14,8 @@ public class UIUtils {
     public static TextButton addButton(String name, Skin skin, Table table, Float width, Float height, Runnable action) {
         TextButton button = new TextButton(name, skin);
 
+        button.getLabelCell().padBottom(height / 2);
+
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
