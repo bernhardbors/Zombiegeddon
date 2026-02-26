@@ -40,7 +40,7 @@ public class LoadingScreen extends AbstractScreen {
         app.manager.load(GameApp.UI_SKIN, Skin.class);
         app.manager.load(GameApp.SPLASH_LOGO, Texture.class);
 
-        app.manager.load(GameApp.CHAR_SHEET, Texture.class);
+        //app.manager.load(GameApp.CHAR_SHEET, Texture.class);
         app.manager.load(GameApp.FONT_PATH, BitmapFont.class);
 
         app.manager.load(GameApp.CHARACTER_SPRITE_SHEET, Texture.class);

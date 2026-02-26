@@ -7,11 +7,11 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 import inf112.zoombiegeddon.model.world.background.ParallaxBackground;
-import inf112.zoombiegeddon.view.FontGenerator;
 import inf112.zoombiegeddon.view.screens.LoadingScreen;
 
 public class GameApp extends Game {
@@ -29,7 +29,7 @@ public class GameApp extends Game {
     public static final String SPLASH_LOGO = "background/background1.png";
     public static final String CHARACTER_SPRITE_SHEET = "assets/characterSprite32x32/MaleSkin1-Sheet.png";
 
-    public static final String FONT_PATH = "fonts/pixbobMiniLiteFont.ttf";
+    public static final String FONT_PATH = "fonts/WhitePeaberryOutline.fnt";
 
     public static final String BACKGROUND_LAYER0_PATH = "assets/backgrounds/CityBackgroundSky.png";
     public static final String BACKGROUND_LAYER1_PATH = "assets/backgrounds/CityBackground.png";
