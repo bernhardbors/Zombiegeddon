@@ -40,6 +40,7 @@ public class LoadingScreen extends AbstractScreen {
         app.manager.load(GameApp.UI_SKIN, Skin.class);
         app.manager.load(GameApp.SPLASH_LOGO, Texture.class);
         app.manager.load(GameApp.CHAR_SHEET, Texture.class);
+        app.manager.load(GameApp.FONT_PATH, BitmapFont.class);
     }
 
     @Override
@@ -61,14 +62,12 @@ public class LoadingScreen extends AbstractScreen {
         app.skin = app.manager.get(GameApp.UI_SKIN, Skin.class);
         app.characterSpriteSheet = app.manager.get(GameApp.CHAR_SHEET, Texture.class);
 
-        app.font = new FontGenerator();
-        app.font.create(GameApp.FONT_PATH);
+        app.font = app.manager.get(GameApp.FONT_PATH, BitmapFont.class);
 
-        app.skin.add("default-font", app.font.mainFont, BitmapFont.class);
-        app.skin.add("title-font", app.font.titleFont, BitmapFont.class);
+        app.skin.add("default-font", app.font, BitmapFont.class);
 
-        app.skin.get(TextButton.TextButtonStyle.class).font = app.font.mainFont;
-        app.skin.get(Label.LabelStyle.class).font = app.font.titleFont;
+        app.skin.get(TextButton.TextButtonStyle.class).font = app.font;
+        app.skin.get(Label.LabelStyle.class).font = app.font;
     }
 }
 

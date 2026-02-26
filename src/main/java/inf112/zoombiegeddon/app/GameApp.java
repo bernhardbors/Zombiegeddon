@@ -22,14 +22,14 @@ public class GameApp extends Game {
     public Skin skin;
     public SpriteBatch batch;
     public Preferences prefs;
-    public FontGenerator font;
+    public BitmapFont font;
     public AssetManager manager;
     public Texture characterSpriteSheet;
 
     public static final String UI_SKIN = "ui/skin/uiskin.json";
     public static final String SPLASH_LOGO = "background/background1.png";
-    public static final String CHAR_SHEET = "src/main/resources/assets/characterSprite32x32/MaleSkin1.png";
-    public static final String FONT_PATH = "fonts/pixbobMiniLiteFont.ttf";
+    public static final String CHAR_SHEET = "assets/characterSprite32x32/MaleSkin1.png";
+    public static final String FONT_PATH = "fonts/WhitePeaberryOutline.fnt";
 
     @Override
     public void create() {

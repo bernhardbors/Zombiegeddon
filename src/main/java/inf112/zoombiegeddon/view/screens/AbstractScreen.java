@@ -94,7 +94,7 @@ public abstract class AbstractScreen implements Screen {
 
     protected Label formatText(String text, Color color, float scale) {
         Label.LabelStyle style = new Label.LabelStyle();
-        style.font = app.font.titleFont;
+        style.font = app.font;
         style.fontColor = color;
 
         float screenScale = Gdx.graphics.getHeight() / 1080f;
