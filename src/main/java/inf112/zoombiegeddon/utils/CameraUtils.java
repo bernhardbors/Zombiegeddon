@@ -1,10 +1,24 @@
 package inf112.zoombiegeddon.utils;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import inf112.zoombiegeddon.model.Player;
+import inf112.zoombiegeddon.model.entity.Player;
 
+/**
+ * Utility class for camera manipulation and behavior.
+ * Provides specialized logic for following the player with specific
+ * constraints like deadzones and vertical offsets.
+ */
 public class CameraUtils {
 
+    /**
+     * Updates the camera position to follow the player using a deadzone approach.
+     * The camera only moves when the player exceeds the horizontal or vertical
+     * boundaries (deadzones) defined within the method. This creates a smoother
+     * following effect compared to a locked camera.
+     *
+     * @param player The player instance whose position the camera should track.
+     * @param camera The {@link OrthographicCamera} to be updated.
+     */
     public static void updateCamera(Player player, OrthographicCamera camera) {
 
         float DEADZONE_WIDTH = 4f;

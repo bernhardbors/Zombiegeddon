@@ -27,16 +27,14 @@ public abstract class AbstractScreen implements Screen {
     AbstractScreen(final GameApp app) {
 
         this.app = app;
-        this.stage = new Stage(new ScreenViewport());
         this.skin = app.skin;
-        this.table = new Table();
         this.prefs = app.prefs;
-
+        this.table = new Table();
+        this.stage = new Stage(new ScreenViewport());
 
 
         table.setFillParent(true);
         stage.addActor(table);
-
     }
 
     @Override
@@ -71,12 +69,15 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void pause() {
+        Gdx.app.log("AbstractScreen", "pause() called");
     }
 
     @Override
     public void resume() {
+        Gdx.app.log("AbstractScreen", "resume() called");
     }
 
+    @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
     }

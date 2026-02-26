@@ -15,11 +15,15 @@ public class HowToScreen extends AbstractScreen {
     public void buildScreen() {
         super.buildScreen();
 
-        formatText("HOW TO PLAY THE GAME", Color.WHITE, 2f);
+        formatText("HOW TO PLAY", Color.WHITE, 2f);
 
-        formatText("Welcome to Zoombies, To play the game \n" +
-                            "Press the buttons or somthing. I´m sure \n" +
-                            "you will figure it out, :-) ", Color.WHITE, 1f);
+        formatText(
+                "Move: W, A, S, D or Arrow Keys\n" +
+                "Jump: Space or Up\n" +
+                "Sprint: Shift\n" +
+                "Attack: K\n" +
+                "Quit: Escape",
+                Color.WHITE, 1f);
 
         UIUtils.addButton("Back", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new MainMenuScreen(app))).row();
     }

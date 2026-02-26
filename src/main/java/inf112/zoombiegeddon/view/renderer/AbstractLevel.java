@@ -12,8 +12,9 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.model.WorldCollisionLayerCreator;
-import inf112.zoombiegeddon.model.WorldPhysics;
+import inf112.zoombiegeddon.model.world.WorldCollisionLayerCreator;
+import inf112.zoombiegeddon.model.world.WorldPhysics;
+
 
 /**
  * Base class for all game levels. Handles the boilerplate for physics updates,
@@ -35,9 +36,11 @@ public abstract class AbstractLevel extends ScreenAdapter {
     protected final Box2DDebugRenderer debugRenderer;
 
     protected TiledMap map;
-    public final float PIXEL_PR_TILE = 32.0f;
+    protected final float PIXEL_PR_TILE = 32.0f;
 
     private final Boolean debugMode;
+
+
 
     /**
      * @param app         The main GameApp instance for shared resources (batch, assets).
@@ -60,8 +63,14 @@ public abstract class AbstractLevel extends ScreenAdapter {
         ScreenUtils.clear(Color.LIGHT_GRAY);
         update(delta);
         camera.update();
-        renderMap();
+
         app.batch.setProjectionMatrix(camera.combined);
+        app.batch.begin();
+        app.background.render(app.batch);
+        app.batch.end();
+
+        renderMap();
+
         app.batch.begin();
         draw(app.batch);
         app.batch.end();
@@ -126,7 +135,8 @@ public abstract class AbstractLevel extends ScreenAdapter {
     @Override
     public void dispose() {
         if (mapRenderer != null) mapRenderer.dispose();
-        if (worldPhysics != null) worldPhysics.dispose();
+        if (map != null) map.dispose(); // IMPORTANT: TiledMaps are not handled by Java GC
         if (debugRenderer != null) debugRenderer.dispose();
+        worldPhysics.dispose();
     }
 }

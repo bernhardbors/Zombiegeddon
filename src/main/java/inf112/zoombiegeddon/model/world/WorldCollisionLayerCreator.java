@@ -1,4 +1,4 @@
-package inf112.zoombiegeddon.model;
+package inf112.zoombiegeddon.model.world;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -46,6 +46,10 @@ public class WorldCollisionLayerCreator {
         fixtureDef.friction = 1;
 
         TiledMapTileLayer tileMapLayer = (TiledMapTileLayer) tilemap.getLayers().get(layer);
+        if (tileMapLayer == null) {
+            System.err.println("Error: Layer '" + layer + "' not found in map.");
+            return;
+        }
         createHitboxes(tileMapLayer, tileMapLayer.getTileWidth(), PIXEL_PR_TILE);
 
         dispose();

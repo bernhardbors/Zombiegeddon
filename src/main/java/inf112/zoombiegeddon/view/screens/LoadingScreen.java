@@ -39,8 +39,24 @@ public class LoadingScreen extends AbstractScreen {
 
         app.manager.load(GameApp.UI_SKIN, Skin.class);
         app.manager.load(GameApp.SPLASH_LOGO, Texture.class);
+
         app.manager.load(GameApp.CHAR_SHEET, Texture.class);
         app.manager.load(GameApp.FONT_PATH, BitmapFont.class);
+
+        app.manager.load(GameApp.CHARACTER_SPRITE_SHEET, Texture.class);
+
+        app.manager.load(GameApp.BACKGROUND_LAYER0_PATH, Texture.class);
+        app.manager.load(GameApp.BACKGROUND_LAYER1_PATH, Texture.class);
+        app.manager.load(GameApp.BACKGROUND_LAYER2_PATH, Texture.class);
+        app.manager.load(GameApp.BACKGROUND_LAYER3_PATH, Texture.class);
+    }
+
+    private void addBackgroundLevelImages(){
+
+        app.background.addLayer(app.manager.get(GameApp.BACKGROUND_LAYER0_PATH), 0f);
+        app.background.addLayer(app.manager.get(GameApp.BACKGROUND_LAYER1_PATH), 1f);
+        app.background.addLayer(app.manager.get(GameApp.BACKGROUND_LAYER2_PATH), 2f);
+        app.background.addLayer(app.manager.get(GameApp.BACKGROUND_LAYER3_PATH), 3f);
     }
 
     @Override
@@ -51,7 +67,6 @@ public class LoadingScreen extends AbstractScreen {
             finalizeLoading();
            app.setScreen(new SplashScreen(app));
         } else {
-
             float progress = app.manager.getProgress() * 100;
             loadingLabel.setText("Loading... " + (int) progress + "%");
         }
@@ -60,7 +75,9 @@ public class LoadingScreen extends AbstractScreen {
 
     private void finalizeLoading() {
         app.skin = app.manager.get(GameApp.UI_SKIN, Skin.class);
-        app.characterSpriteSheet = app.manager.get(GameApp.CHAR_SHEET, Texture.class);
+        app.characterSpriteSheet = app.manager.get(GameApp.CHARACTER_SPRITE_SHEET, Texture.class);
+
+        addBackgroundLevelImages();
 
         app.font = app.manager.get(GameApp.FONT_PATH, BitmapFont.class);
 
