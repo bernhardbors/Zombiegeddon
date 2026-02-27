@@ -24,6 +24,22 @@ public class AnimationHandler {
         return playerAnimations;
     }
 
+    /**
+     * Centralized method to get the correct frame based on state and direction.
+     */
+    public TextureRegion getFrame(Player.State state, float stateTime, boolean facingRight) {
+        boolean loop = !(state == Player.State.PUNCHING || state == Player.State.DEAD);
+
+        TextureRegion region = playerAnimations.get(state).getKeyFrame(stateTime, loop);
+
+        // Logic to ensure the sprite faces the correct way without "permanent" flipping issues
+        if ((!facingRight && region.isFlipX()) || (facingRight && !region.isFlipX())) {
+            region.flip(true, false);
+        }
+
+        return region;
+    }
+
     private void createPlayerAnimationMap(){
         TextureRegion[][] characterFrames = TextureRegion.split(characterSpriteSheet, 80, 64);
 

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.controller.PlayerController;
-import inf112.zoombiegeddon.model.animations.AnimationHandler;
+
 import inf112.zoombiegeddon.model.entity.Player;
 import inf112.zoombiegeddon.utils.CameraUtils;
 import inf112.zoombiegeddon.view.renderer.AbstractLevel;

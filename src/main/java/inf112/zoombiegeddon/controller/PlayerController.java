@@ -15,17 +15,24 @@ import java.util.HashMap;
  */
 public class PlayerController extends InputAdapter {
 
-    /** The player instance controlled by this controller. */
+    /**
+     * The player instance controlled by this controller.
+     */
     private final Player player;
 
-    /** Map storing action names linked to multiple possible key codes. */
+    /**
+     * Map storing action names linked to multiple possible key codes.
+     */
     private static final HashMap<String, int[]> keyBindings = new HashMap<>();
 
-    /** The current maximum horizontal velocity allowed, adjusted by sprinting. */
+    /**
+     * The current maximum horizontal velocity allowed, adjusted by sprinting.
+     */
     private float MAX_VELOCITY;
 
     /**
      * Constructs a new PlayerController and initializes default key bindings.
+     *
      * @param player The player model to be controlled.
      */
     public PlayerController(Player player) {
@@ -47,6 +54,7 @@ public class PlayerController extends InputAdapter {
 
     /**
      * Checks if any key bound to a specific action is currently being held down.
+     *
      * @param action The string identifier for the action.
      * @return true if any assigned key is pressed, false otherwise.
      */
@@ -75,10 +83,6 @@ public class PlayerController extends InputAdapter {
      * * @param dt The time in seconds since the last render.
      */
     public void update(float dt) {
-        if (player.isPerformingAction()) {
-            return;
-        }
-
         handlePlayerMovement();
         handleSystemInput();
     }
@@ -87,17 +91,31 @@ public class PlayerController extends InputAdapter {
      * Processes movement-related input polling and updates the player's physical state.
      */
     private void handlePlayerMovement() {
-
         boolean rightPressed = isActionPressed("RIGHT");
         boolean leftPressed = isActionPressed("LEFT");
+        player.setRunning(isActionPressed("SHIFT"));
+
+        float targetMax = player.getIsRunning() ? player.getRunningThreshold() : player.getWalkingThreshold();
 
         Vector2 vel = player.playerBody.getLinearVelocity();
-        Vector2 pos = player.playerBody.getWorldCenter();
 
-        if (!hitPressed()) {
-            moveLeftOrRight(leftPressed, vel, pos, rightPressed);
-            isRunning();
+        if (!player.getIsRunning() && Math.abs(vel.x) > targetMax) {
+            player.playerBody.setLinearVelocity(Math.signum(vel.x) * targetMax, vel.y);
+            vel = player.playerBody.getLinearVelocity();
         }
+
+
+        if (leftPressed && vel.x > -targetMax) {
+            player.applyHorizontalImpulse(true, false);
+        }
+        if (rightPressed && vel.x < targetMax) {
+            player.applyHorizontalImpulse(false, true);
+        }
+
+        if (!leftPressed && !rightPressed) {
+            player.playerBody.setLinearVelocity(vel.x * 0.4f, vel.y);
+        }
+
     }
 
     /**
@@ -107,45 +125,10 @@ public class PlayerController extends InputAdapter {
         if (isActionPressed("QUIT")) Gdx.app.exit();
     }
 
-
-    /**
-     * Applies horizontal impulses to the player's body based on input.
-     * If no movement keys are pressed, applies a friction-like slowdown.
-     * @param leftPressed  Whether the left action is active.
-     * @param vel          The current linear velocity of the player.
-     * @param pos          The world center position of the player's body.
-     * @param rightPressed Whether the right action is active.
-     */
-    private void moveLeftOrRight(boolean leftPressed, Vector2 vel, Vector2 pos, boolean rightPressed) {
-        if (leftPressed && vel.x > -MAX_VELOCITY) {
-            player.playerBody.applyLinearImpulse(new Vector2(-0.5f, 0), pos, true);
-        } else if (rightPressed && vel.x < MAX_VELOCITY) {
-            player.playerBody.applyLinearImpulse(new Vector2(0.5f, 0), pos, true);
-        } else {
-            player.playerBody.setLinearVelocity(vel.x * 0.5f, vel.y);
-            if (Math.abs(vel.x) < 0.1f) {
-                player.playerBody.setLinearVelocity(0, vel.y);
-            }
-        }
-    }
-
-    /**
-     * Updates the player's movement speed and state based on the "SHIFT" key.
-     * Toggles between walking and running velocities and updates the static
-     * {@link Player#isRunning} flag.
-     */
-    private void isRunning() {
-        if (!isActionPressed("SHIFT")) {
-            MAX_VELOCITY = 1.0f;
-            Player.isRunning = false;
-        } else {
-            MAX_VELOCITY = 4.0f;
-            Player.isRunning = true;
-        }
-    }
     /**
      * Static utility to check if the attack/hit action is currently triggered.
      * Used by the {@link Player} class to determine animation state transitions.
+     *
      * @return true if the "HIT" key is pressed, false otherwise.
      */
     public static Boolean hitPressed() {
