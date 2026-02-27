@@ -2,6 +2,7 @@ package inf112.zoombiegeddon.model.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 
 /**
@@ -14,10 +15,11 @@ public class Player extends Entity {
     /** Pixels Per Meter - used to scale between physics world and screen pixels. */
     public static final float PPM = 32.0f;
 
-    private static final float JUMP_IMPULSE = 5.0f;
+    private static final float JUMP_IMPULSE = 6.0f;
     private static final float MOVE_IMPULSE = 0.7f;
     private static final float VELOCITY_THRESHOLD = 0.1f;
 
+    private final PlayerController controller;
     private final AnimationHandler animationHandler;
     private boolean isRunning = false;
 
@@ -32,12 +34,13 @@ public class Player extends Entity {
      */
     public Player(World world, Vector2 spawnPos, AnimationHandler animationHandler) {
         super(new PhysicsComponent(world, spawnPos,
-                animationHandler.getPlayerAnimations().get(EntityState.IDLE).getKeyFrame(0).getRegionWidth() / PPM,
-                animationHandler.getPlayerAnimations().get(EntityState.IDLE).getKeyFrame(0).getRegionHeight() / PPM,
+                animationHandler.getAnimations().get(EntityState.IDLE).getKeyFrame(0).getRegionWidth() / PPM,
+                animationHandler.getAnimations().get(EntityState.IDLE).getKeyFrame(0).getRegionHeight() / PPM,
                 null));
 
         this.animationHandler = animationHandler;
         this.physics.getBody().setUserData(this);
+        this.controller = new PlayerController(this);
 
         float width = animationHandler.getFrame(EntityState.IDLE, 0, true).getRegionWidth() / PPM;
         float height = animationHandler.getFrame(EntityState.IDLE, 0, true).getRegionHeight() / PPM;
@@ -53,14 +56,48 @@ public class Player extends Entity {
      */
     @Override
     public void update(float dt) {
+        controller.update(dt);
+
         updateAnimationState(dt, VELOCITY_THRESHOLD);
 
         setRegion(animationHandler.getFrame(currentState, stateTime, facingRight));
-
         setPosition(
                 physics.getPosition().x - getWidth() / 2,
                 physics.getPosition().y - getHeight() / 2
         );
+    }
+
+    /**
+     * Updates the entity's animation state based on current velocity and grounded status.
+     * Handles switching between IDLE, JUMPING, FALLING, and moving states, as well as
+     * tracking state time and determining which direction the sprite should face.
+     *
+     * @param dt                The time in seconds since the last update.
+     * @param velocityThreshold The minimum velocity required to trigger a state change.
+     */
+    @Override
+    protected void updateAnimationState(float dt, float velocityThreshold) {
+        stateTime += dt;
+        Vector2 velocity = physics.getVelocity();
+
+        // Determine orientation
+        if (velocity.x > velocityThreshold) facingRight = true;
+        else if (velocity.x < -velocityThreshold) facingRight = false;
+
+        // Determine state
+        if (!isGrounded) {
+            currentState = (velocity.y > velocityThreshold) ? EntityState.JUMPING : EntityState.FALLING;
+        } else if (controller.isLeftPressed() || controller.isRightPressed()) {
+            currentState = determineMovingState();
+        } else {
+            currentState = EntityState.IDLE;
+        }
+
+        // Reset state timer if the state has changed
+        if (previousState != currentState) {
+            stateTime = 0;
+            previousState = currentState;
+        }
     }
 
     /**

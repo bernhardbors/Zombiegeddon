@@ -2,6 +2,8 @@ package inf112.zoombiegeddon.model.entity;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import inf112.zoombiegeddon.controller.PlayerController;
+
 
 /**
  * Base class for all game entities that have physical representation and animations.
@@ -12,6 +14,7 @@ public abstract class Entity extends Sprite {
     protected PhysicsComponent physics;
     protected EntityState currentState = EntityState.IDLE;
     protected EntityState previousState = EntityState.IDLE;
+
 
     protected float stateTime = 0f;
     protected boolean facingRight = true;
@@ -61,7 +64,7 @@ public abstract class Entity extends Sprite {
         // Determine state
         if (!isGrounded) {
             currentState = (velocity.y > velocityThreshold) ? EntityState.JUMPING : EntityState.FALLING;
-        } else if (Math.abs(velocity.x) > velocityThreshold) {
+        } else if (Math.abs(velocity.x) > 0.1f ) {
             currentState = determineMovingState();
         } else {
             currentState = EntityState.IDLE;

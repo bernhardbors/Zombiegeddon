@@ -16,7 +16,7 @@ import java.util.Map;
 public class AnimationHandler {
 
     private final Texture characterSpriteSheet;
-    private final Map<EntityState, Animation<TextureRegion>> playerAnimations = new EnumMap<>(EntityState.class);
+    private final Map<EntityState, Animation<TextureRegion>> animations = new EnumMap<>(EntityState.class);
 
     /**
      * Constructs a new AnimationHandler using a provided spritesheet.
@@ -26,7 +26,7 @@ public class AnimationHandler {
      */
     public AnimationHandler(Texture characterSpriteSheet) {
         this.characterSpriteSheet = characterSpriteSheet;
-        createPlayerAnimationMap();
+        createAnimationMap();
     }
 
     /**
@@ -41,10 +41,10 @@ public class AnimationHandler {
     public TextureRegion getFrame(EntityState state, float stateTime, boolean facingRight) {
         boolean loop = !(state == EntityState.PUNCHING || state == EntityState.DEAD);
 
-        Animation<TextureRegion> animation = playerAnimations.get(state);
+        Animation<TextureRegion> animation = animations.get(state);
 
         if (animation == null) {
-            animation = playerAnimations.get(EntityState.IDLE);
+            animation = animations.get(EntityState.IDLE);
         }
 
         TextureRegion region = animation.getKeyFrame(stateTime, loop);
@@ -61,16 +61,16 @@ public class AnimationHandler {
      * Splits the spritesheet and populates the animation map with sequences
      * for all entity states.
      */
-    private void createPlayerAnimationMap() {
+    private void createAnimationMap() {
         TextureRegion[][] characterFrames = TextureRegion.split(characterSpriteSheet, 80, 64);
 
-        playerAnimations.put(EntityState.IDLE,     createAnimation(characterFrames[0], 4, 0.3f));
-        playerAnimations.put(EntityState.WALKING,  createAnimation(characterFrames[1], 7, 0.06f));
-        playerAnimations.put(EntityState.RUNNING,  createAnimation(characterFrames[2], 7, 0.06f));
-        playerAnimations.put(EntityState.JUMPING,  createAnimation(characterFrames[3], 3, 0.1f));
-        playerAnimations.put(EntityState.FALLING,  createAnimation(characterFrames[4], 3, 0.1f));
-        playerAnimations.put(EntityState.PUNCHING, createAnimation(characterFrames[5], 5, 0.1f));
-        playerAnimations.put(EntityState.DEAD,     createAnimation(characterFrames[6], 9, 0.1f));
+        animations.put(EntityState.IDLE,     createAnimation(characterFrames[0], 4, 0.3f));
+        animations.put(EntityState.WALKING,  createAnimation(characterFrames[1], 7, 0.06f));
+        animations.put(EntityState.RUNNING,  createAnimation(characterFrames[2], 7, 0.06f));
+        animations.put(EntityState.JUMPING,  createAnimation(characterFrames[3], 3, 0.1f));
+        animations.put(EntityState.FALLING,  createAnimation(characterFrames[4], 3, 0.1f));
+        animations.put(EntityState.PUNCHING, createAnimation(characterFrames[5], 5, 0.1f));
+        animations.put(EntityState.DEAD,     createAnimation(characterFrames[6], 9, 0.1f));
     }
 
     /**
@@ -92,7 +92,7 @@ public class AnimationHandler {
      *
      * @return A map where keys are EntityStates and values are their corresponding animations.
      */
-    public Map<EntityState, Animation<TextureRegion>> getPlayerAnimations() {
-        return playerAnimations;
+    public Map<EntityState, Animation<TextureRegion>> getAnimations() {
+        return animations;
     }
 }

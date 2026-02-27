@@ -100,12 +100,12 @@ public class PlayerController extends InputAdapter {
     }
 
     /** @return True if A or Left Arrow is pressed. */
-    private boolean isLeftPressed() {
+    public boolean isLeftPressed() {
         return Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT);
     }
 
     /** @return True if D or Right Arrow is pressed. */
-    private boolean isRightPressed() {
+    public boolean isRightPressed() {
         return Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT);
     }
 

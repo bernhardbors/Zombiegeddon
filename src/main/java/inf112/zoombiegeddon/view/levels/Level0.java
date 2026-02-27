@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.controller.PlayerController;
+import inf112.zoombiegeddon.model.entity.Enemy;
 import inf112.zoombiegeddon.model.entity.Player;
 import inf112.zoombiegeddon.utils.CameraUtils;
 import inf112.zoombiegeddon.view.renderer.AbstractLevel;
@@ -17,6 +18,8 @@ import inf112.zoombiegeddon.view.renderer.AbstractLevel;
 public class Level0 extends AbstractLevel {
 
     private final Player player;
+
+    private final Enemy enemy;
 
     /**
      * Constructs a new TestLevel01.
@@ -31,6 +34,8 @@ public class Level0 extends AbstractLevel {
 
         this.player = new Player(worldPhysics.getWorld(), new Vector2(10, 10), app.playerAnimations);
         this.controller = new PlayerController(player);
+
+        this.enemy = new Enemy(worldPhysics.getWorld(), new Vector2(10, 10), app.enemyAnimations);
 
         app.background.setCamera(camera);
 
@@ -57,6 +62,7 @@ public class Level0 extends AbstractLevel {
 
         controller.update(delta);
         player.update(delta);
+        enemy.update(delta);
 
         CameraUtils.updateCamera(player, camera);
     }
@@ -69,5 +75,6 @@ public class Level0 extends AbstractLevel {
     @Override
     protected void draw(SpriteBatch batch) {
         player.draw(batch);
+        enemy.draw(batch);
     }
 }
