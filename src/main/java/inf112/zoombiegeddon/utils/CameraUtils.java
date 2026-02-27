@@ -25,8 +25,8 @@ public class CameraUtils {
         float DEADZONE_HEIGHT = 3f;
         float VERTICAL_OFFSET = 1.5f;
 
-        float playerX = player.playerBody.getPosition().x;
-        float playerY = player.playerBody.getPosition().y + VERTICAL_OFFSET;
+        float playerX = player.getPosition().x;
+        float playerY = player.getPosition().y + VERTICAL_OFFSET;
 
         if (playerX < camera.position.x - DEADZONE_WIDTH / 2) {
             camera.position.x = playerX + DEADZONE_WIDTH / 2;
