@@ -50,6 +50,7 @@ public class LoadingScreen extends AbstractScreen {
         app.manager.load(GameApp.BG_CITY, Texture.class);
         app.manager.load(GameApp.BG_L1, Texture.class);
         app.manager.load(GameApp.BG_L2, Texture.class);
+
         for (GameSound sound : GameSound.values()) {
             app.manager.load("assets/audio/sfx/" + sound.getFileName(), Sound.class);
         }
