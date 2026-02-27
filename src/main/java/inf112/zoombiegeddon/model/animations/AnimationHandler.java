@@ -8,6 +8,9 @@ import inf112.zoombiegeddon.model.entity.Player;
 import java.util.EnumMap;
 import java.util.Map;
 
+/**
+ * class for handeling animations, takes the state and creates animations from sprite sheets
+ */
 public class AnimationHandler {
 
     Texture characterSpriteSheet;

@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
-import inf112.zoombiegeddon.view.levels.TestLevel01;
+import inf112.zoombiegeddon.view.levels.Level0;
 
 /**
  * The MainMenuScreen provides the primary user interface for navigation.
@@ -49,7 +49,7 @@ public class MainMenuScreen extends AbstractScreen {
 
         formatText("Zoombiegeddon", Color.WHITE, 5f);
 
-        UIUtils.addButton("Start", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new TestLevel01(app, new Vector2(0,-9.81f))));
+        UIUtils.addButton("Start", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new Level0(app, new Vector2(0,-9.81f))));
         UIUtils.addButton("How To Play", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new HowToScreen(app)));
         UIUtils.addButton("Settings", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new SettingsScreen(app)));
         UIUtils.addButton("Exit", skin, table, buttonWidth, buttonHeight, () -> Gdx.app.exit());
