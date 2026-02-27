@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
 import inf112.zoombiegeddon.app.GameApp;
+import inf112.zoombiegeddon.model.animations.AnimationHandler;
 import inf112.zoombiegeddon.view.FontGenerator;
 
 public class LoadingScreen extends AbstractScreen {
@@ -23,28 +24,31 @@ public class LoadingScreen extends AbstractScreen {
 
     @Override
     public void buildScreen() {
+        super.buildScreen();
+        stage.clear();
 
-        loadingLabel = new Label("Loading... 0%", new Label.LabelStyle(new com.badlogic.gdx.graphics.g2d.BitmapFont(), Color.WHITE));
+        BitmapFont defaultFont = new BitmapFont();
+        Label.LabelStyle style = new Label.LabelStyle(defaultFont, Color.WHITE);
+
+        this.loadingLabel = new Label("Loading... 0%", style);
+        this.loadingLabel.setFontScale(FONTSIZE);
 
         Table loadingScreenTabel = new Table();
-        loadingScreenTabel.center();
         loadingScreenTabel.setFillParent(true);
+        loadingScreenTabel.center().add(this.loadingLabel);
 
         stage.addActor(loadingScreenTabel);
 
-        loadingLabel.setFontScale(FONTSIZE);
-        loadingLabel.setPosition(stage.getWidth() / 2 , stage.getHeight() / 2);
+        if (app.manager.getQueuedAssets() == 0) {
+            loadAssets();
+        }
+    }
 
-        loadingScreenTabel.add(loadingLabel);
-
+    private void loadAssets() {
         app.manager.load(GameApp.UI_SKIN, Skin.class);
         app.manager.load(GameApp.SPLASH_LOGO, Texture.class);
-
-        //app.manager.load(GameApp.CHAR_SHEET, Texture.class);
         app.manager.load(GameApp.FONT_PATH, BitmapFont.class);
-
         app.manager.load(GameApp.CHARACTER_SPRITE_SHEET, Texture.class);
-
         app.manager.load(GameApp.BACKGROUND_LAYER0_PATH, Texture.class);
         app.manager.load(GameApp.BACKGROUND_LAYER1_PATH, Texture.class);
         app.manager.load(GameApp.BACKGROUND_LAYER2_PATH, Texture.class);
@@ -61,28 +65,32 @@ public class LoadingScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(Color.BLACK);
-
-        if (app.manager.update()) {
-            finalizeLoading();
-           app.setScreen(new SplashScreen(app));
-        } else {
-            float progress = app.manager.getProgress() * 100;
-            loadingLabel.setText("Loading... " + (int) progress + "%");
-        }
         super.render(delta);
+        if (!app.manager.update()) {
+            float progress = app.manager.getProgress() * 100;
+            this.loadingLabel.setText("Loading... " + (int) progress + "%");
+        } else {
+            finalizeLoading();
+            app.setScreen(new SplashScreen(app));
+        }
+    }
+
+    @Override
+    public void hide() {
+        super.hide();
+        stage.clear();
     }
 
     private void finalizeLoading() {
+
         app.skin = app.manager.get(GameApp.UI_SKIN, Skin.class);
         app.characterSpriteSheet = app.manager.get(GameApp.CHARACTER_SPRITE_SHEET, Texture.class);
-
-        addBackgroundLevelImages();
-
         app.font = app.manager.get(GameApp.FONT_PATH, BitmapFont.class);
 
-        app.skin.add("default-font", app.font, BitmapFont.class);
+        app.playerAnimations = new AnimationHandler(app.characterSpriteSheet);
 
+        addBackgroundLevelImages();
+        app.skin.add("default-font", app.font, BitmapFont.class);
         app.skin.get(TextButton.TextButtonStyle.class).font = app.font;
         app.skin.get(Label.LabelStyle.class).font = app.font;
     }

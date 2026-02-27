@@ -50,7 +50,6 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void render(float delta) {
-
         ScreenUtils.clear(Color.DARK_GRAY);
 
         stage.act(Math.min(delta, 1 / 30f));
@@ -80,6 +79,7 @@ public abstract class AbstractScreen implements Screen {
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
+        stage.clear();
     }
 
     public void dispose() {

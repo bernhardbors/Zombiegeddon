@@ -47,10 +47,6 @@ public class GameApp extends Game {
         batch = new SpriteBatch();
         manager = new AssetManager();
 
-        characterSpriteSheet = new Texture(CHARACTER_SPRITE_SHEET);
-
-        playerAnimations = new AnimationHandler(characterSpriteSheet);
-
         this.setScreen(new LoadingScreen(this));
 
         background = new ParallaxBackground(new OrthographicCamera());
@@ -69,6 +65,11 @@ public class GameApp extends Game {
         int height = prefs.getInteger(PREF_HEIGHT, 720);
 
         Gdx.graphics.setWindowedMode(width, height);
+    }
+
+    @Override
+    public void render() {
+        super.render();
     }
 
     @Override
