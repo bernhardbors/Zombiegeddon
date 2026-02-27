@@ -1,17 +1,12 @@
 package inf112.zoombiegeddon.model.entity;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import inf112.zoombiegeddon.app.GameApp;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
-
-import java.util.EnumMap;
-import java.util.Map;
 
 public class Player extends Sprite {
 
@@ -23,10 +18,11 @@ public class Player extends Sprite {
     public State previousState = State.IDLE;
 
     public Body playerBody;
-    private float stateTime;
+    private float stateTime = 0f;
 
     private boolean runningRight;
     public static boolean isRunning;
+    private boolean isGrounded = false;
 
     private final AnimationHandler animationHandler;
 
@@ -34,34 +30,51 @@ public class Player extends Sprite {
         super(animationHandler.getPlayerAnimations().get(State.IDLE).getKeyFrame(0));
 
         this.animationHandler = animationHandler;
-        this.stateTime = 0f;
 
-        float width = getRegionWidth() / PPM;
-        float height = getRegionHeight() / PPM;
-        setSize(width, height);
+        // set size of the player sprite texture
+        float textureWidth = getRegionWidth() / PPM;
+        float textureHeight = getRegionHeight() / PPM;
+        setSize(textureWidth, textureHeight);
 
-        definePlayer(world, spawnPos);
+        definePlayer(world, spawnPos, textureWidth, textureHeight);
     }
 
-    private void definePlayer(World world, Vector2 pos) {
-        BodyDef bdef = new BodyDef();
-        bdef.position.set(pos);
-        bdef.type = BodyDef.BodyType.DynamicBody;
+    /**
+     * Define Player hitbox and spawn position.
+     *
+     * @param world
+     * @param pos
+     */
+    private void definePlayer(World world, Vector2 pos, float textureWidth, float textureHeight) {
+        BodyDef hitbox = new BodyDef();
+        hitbox.position.set(pos);
+        hitbox.type = BodyDef.BodyType.DynamicBody;
 
-        playerBody = world.createBody(bdef);
+        playerBody = world.createBody(hitbox);
+        playerBody.setUserData(this);
+        playerBody.setFixedRotation(true);
 
-        FixtureDef fdef = new FixtureDef();
+        FixtureDef hitboxShape = new FixtureDef();
         PolygonShape shape = new PolygonShape();
 
-        float hitboxWidthMeters = 15f / PPM;
-        float hitboxHeightMeters = 40f / PPM;
-        shape.setAsBox(hitboxWidthMeters / 2, hitboxHeightMeters / 2);
+        // --- MAIN BODY FIXTURE ---
+        float bodyWidth = textureWidth / 10f;
+        float bodyHeight = textureHeight / 3f;
 
-        fdef.shape = shape;
-        fdef.friction = 0.5f;
+        shape.setAsBox(bodyWidth,  bodyHeight);
+        hitboxShape.shape = shape;
+        hitboxShape.friction = 0f;
+        playerBody.createFixture(hitboxShape).setUserData(this);
 
-        playerBody.createFixture(fdef).setUserData(this);
-        playerBody.setFixedRotation(true);
+        // --- FEET SENSOR (For jump logic/ground detection) ---
+        float feetWidth = (bodyWidth / 2f) * 0.8f;
+        float feetHeight = bodyHeight / 10f;
+
+        shape.setAsBox(feetWidth, feetHeight, new Vector2(0, -bodyHeight), 0);
+
+        hitboxShape.shape = shape;
+        hitboxShape.isSensor = true;
+        playerBody.createFixture(hitboxShape).setUserData("feet");
 
         shape.dispose();
     }
@@ -105,16 +118,33 @@ public class Player extends Sprite {
     }
 
     private State getState() {
-        if (previousState == State.PUNCHING && !animationHandler.getPlayerAnimations().get(State.PUNCHING).isAnimationFinished(stateTime)) {
-            return State.PUNCHING;
-        }
+
+        if (isPerformingAction()) return State.PUNCHING;
         if (PlayerController.hitPressed()) return State.PUNCHING;
-        if (playerBody.getLinearVelocity().y < -0.1f) return State.FALLING;
-        if (playerBody.getLinearVelocity().y > 0.1f) return State.JUMPING;
-        if (isRunning && Math.abs(playerBody.getLinearVelocity().x) > 0.1f) return State.RUNNING;
-        if (Math.abs(playerBody.getLinearVelocity().x) > 0.1f) return State.WALKING;
+
+        if (!isGrounded) {
+            if (playerBody.getLinearVelocity().y > 0.1f) return State.JUMPING;
+            if (playerBody.getLinearVelocity().y < -0.1f) return State.FALLING;
+        }
+
+        float velocityX = Math.abs(playerBody.getLinearVelocity().x);
+        if (velocityX > 0.1f) {
+            return isRunning ? State.RUNNING : State.WALKING;
+        }
 
         return State.IDLE;
+    }
+
+    public void setGrounded(boolean grounded) {
+        this.isGrounded = grounded;
+    }
+
+    public void jump() {
+        System.out.println("Jump Attempted. Grounded: " + isGrounded);
+        if (isGrounded) {
+            playerBody.applyLinearImpulse(new Vector2(0, 5f), playerBody.getWorldCenter(), true);
+            isGrounded = false;
+        }
     }
 
     /**

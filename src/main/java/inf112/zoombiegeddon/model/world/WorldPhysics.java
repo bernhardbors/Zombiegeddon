@@ -23,6 +23,7 @@ public class WorldPhysics {
      */
     public WorldPhysics(Vector2 gravity) {
         this.world = new World(gravity, true);
+        this.world.setContactListener(new WorldContactListener());
     }
 
     /**

@@ -58,6 +58,18 @@ public class PlayerController extends InputAdapter {
         return false;
     }
 
+    @Override
+    public boolean keyDown(int keycode) {
+        // Check if the pressed key is mapped to "JUMP"
+        for (int boundKey : keyBindings.get("JUMP")) {
+            if (keycode == boundKey) {
+                player.jump();
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Updates player movement and system inputs. Should be called once per frame.
      * * @param dt The time in seconds since the last render.
@@ -83,7 +95,6 @@ public class PlayerController extends InputAdapter {
         Vector2 pos = player.playerBody.getWorldCenter();
 
         if (!hitPressed()) {
-            if (isActionPressed("JUMP")) applyJump();
             moveLeftOrRight(leftPressed, vel, pos, rightPressed);
             isRunning();
         }
@@ -115,17 +126,6 @@ public class PlayerController extends InputAdapter {
             if (Math.abs(vel.x) < 0.1f) {
                 player.playerBody.setLinearVelocity(0, vel.y);
             }
-        }
-    }
-
-    /**
-     * Executes a jump by applying a vertical linear impulse to the player's body.
-     * To prevent "infinite jumping" in mid-air, the impulse is only applied if
-     * the vertical velocity is near zero (simulating a ground check).
-     */
-    private void applyJump() {
-        if (Math.abs(player.playerBody.getLinearVelocity().y) < 0.01f) {
-            player.playerBody.applyLinearImpulse(new Vector2(0, (float) 6.0), player.playerBody.getWorldCenter(), true);
         }
     }
 
