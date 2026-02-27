@@ -33,7 +33,7 @@ public class Level0 extends AbstractLevel {
         super(app, gravity, 20f, 20f, true);
 
         this.player = new Player(worldPhysics.getWorld(), new Vector2(10, 10), app.playerAnimations);
-        this.controller = new PlayerController(player);
+        this.controller = new PlayerController(player, audio);
 
         this.enemy = new Enemy(worldPhysics.getWorld(), new Vector2(10, 10), app.enemyAnimations);
 

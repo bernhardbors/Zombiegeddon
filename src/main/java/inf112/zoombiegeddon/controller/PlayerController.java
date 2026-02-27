@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.audio.AudioManager;
+import inf112.zoombiegeddon.audio.GameSound;
 
 /**
  * Handles user input and translates it into player actions and movement.
@@ -15,6 +17,8 @@ public class PlayerController extends InputAdapter {
 
     private final Player player;
 
+    private final AudioManager audio;
+
     private static final float WALKING_SPEED = 4f;
     private static final float RUNNING_SPEED = 8f;
     private static final float FRICTION_COEFFICIENT = 0.9f;
@@ -24,8 +28,9 @@ public class PlayerController extends InputAdapter {
      *
      * @param player The player instance to be controlled.
      */
-    public PlayerController(Player player) {
+    public PlayerController(Player player, AudioManager audio) {
         this.player = player;
+        this.audio = audio;
     }
 
     /**
