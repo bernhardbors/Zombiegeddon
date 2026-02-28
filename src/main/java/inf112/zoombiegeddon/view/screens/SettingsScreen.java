@@ -6,60 +6,67 @@ import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
 
 /**
- * The SettingsScreen allows the player to adjust game configurations
- * such as volume, resolution, and difficulty.
+ * SettingsScreen lar spilleren justere konfigurasjoner.
+ * Bruker app.prefs og app.skin for konsistens.
  */
 public class SettingsScreen extends AbstractScreen {
 
-    /**
-     * Constructor for the SettingsScreen.
-     *
-     * @param app The main application instance used to switch screens and access assets.
-     */
     public SettingsScreen(final GameApp app) {
         super(app);
     }
 
-    /**
-     * Builds the settings UI layout.
-     * Includes a title, a resolution selection box, and a return button.
-     */
     @Override
     public void buildScreen() {
-        super.buildScreen();
+        // Rydd tabellen før vi bygger for å unngå duplikater hvis buildScreen kalles igjen
+        table.clear();
 
-        // Title
+        // Tittel
         formatText("SETTINGS", Color.WHITE, 2f);
         table.row().pad(20);
 
-        // Resolution options
+        // Oppløsningsvalg
         String[] resolutions = {"1280 x 720", "1366 x 768", "1600 x 900", "1920 x 1080", "2560 x 1440", "3840 x 2160"};
-        String savedRes = prefs.getString(GameApp.PREF_RES_STRING, resolutions[0]);
 
-        // Selection Box for resolutions
-        UIUtils.addSelectBox("Resolutions:", resolutions, skin, table, buttonWidth, buttonHeight, this::changeResolution)
+        // Hent lagret oppløsning fra appens preferanser
+        String savedRes = app.prefs.getString(GameApp.PREF_RES_STRING, resolutions[0]);
+
+        // SelectBox - Bruker app.skin
+        UIUtils.addSelectBox("Resolutions:", resolutions, app.skin, table, buttonWidth, buttonHeight, this::changeResolution)
                 .setSelected(savedRes);
 
-        // Spacing and Back Button
         table.row().padTop(50);
-        UIUtils.addButton("Back", skin, table, buttonWidth, buttonHeight,
+
+        // Tilbake-knapp
+        UIUtils.addButton("Back", app.skin, table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new MainMenuScreen(app)));
     }
 
+    /**
+     * Håndterer endring av oppløsning og lagrer til Preferences.
+     */
     public void changeResolution(String resolution) {
-        String[] parts = resolution.split("x");
-        int width = Integer.parseInt(parts[0].trim());
-        int height = Integer.parseInt(parts[1].trim());
+        try {
+            String[] parts = resolution.split("x");
+            int width = Integer.parseInt(parts[0].trim());
+            int height = Integer.parseInt(parts[1].trim());
 
-        Gdx.graphics.setWindowedMode(width, height);
+            // Oppdater vinduet
+            Gdx.graphics.setWindowedMode(width, height);
 
-        prefs.putInteger(GameApp.PREF_WIDTH, width);
-        prefs.putInteger(GameApp.PREF_HEIGHT, height);
-        prefs.putString(GameApp.PREF_RES_STRING, resolution);
-        prefs.flush();
+            // Lagre til fil
+            app.prefs.putInteger(GameApp.PREF_WIDTH, width);
+            app.prefs.putInteger(GameApp.PREF_HEIGHT, height);
+            app.prefs.putString(GameApp.PREF_RES_STRING, resolution);
+            app.prefs.flush();
 
-        stage.getViewport().update(width, height, true);
-        table.invalidateHierarchy();
+            // Viktig: Oppdater Stage sitt viewport så UI-en ikke blir strukket
+            stage.getViewport().update(width, height, true);
 
+            // Tving tabellen til å rekalkulere posisjoner
+            table.invalidateHierarchy();
+
+        } catch (Exception e) {
+            Gdx.app.error("Settings", "Kunne ikke endre oppløsning: " + resolution);
+        }
     }
 }

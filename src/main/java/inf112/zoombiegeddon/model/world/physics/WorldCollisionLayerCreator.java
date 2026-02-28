@@ -1,4 +1,4 @@
-package inf112.zoombiegeddon.model.world;
+package inf112.zoombiegeddon.model.world.physics;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;

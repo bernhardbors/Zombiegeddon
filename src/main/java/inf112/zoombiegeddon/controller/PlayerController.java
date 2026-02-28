@@ -6,149 +6,118 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import inf112.zoombiegeddon.model.entity.Player;
 
-import java.util.HashMap;
-
 /**
- * Handles input management and physics updates for the Player character.
- * Extends {@link InputAdapter} to handle discrete input events while
- * using polling for continuous movement logic.
+ * Handles user input and translates it into player actions and movement.
+ * Extends {@link InputAdapter} to handle discrete events like jumping,
+ * while providing an update loop for continuous movement and friction.
  */
 public class PlayerController extends InputAdapter {
 
-    /** The player instance controlled by this controller. */
     private final Player player;
 
-    /** Map storing action names linked to multiple possible key codes. */
-    private static final HashMap<String, int[]> keyBindings = new HashMap<>();
-
-    /** The current maximum horizontal velocity allowed, adjusted by sprinting. */
-    private float MAX_VELOCITY;
+    private static final float WALKING_SPEED = 4f;
+    private static final float RUNNING_SPEED = 8f;
+    private static final float FRICTION_COEFFICIENT = 0.9f;
 
     /**
-     * Constructs a new PlayerController and initializes default key bindings.
-     * @param player The player model to be controlled.
+     * Constructs a new PlayerController for the specified player.
+     *
+     * @param player The player instance to be controlled.
      */
     public PlayerController(Player player) {
         this.player = player;
-        setupDefaultBindings();
     }
 
     /**
-     * Initializes the default keyboard mappings for movement, jumping, and system actions.
+     * Updates the controller logic. Should be called once per frame.
+     *
+     * @param dt The time in seconds since the last update.
      */
-    private void setupDefaultBindings() {
-        keyBindings.put("LEFT", new int[]{Input.Keys.A, Input.Keys.LEFT});
-        keyBindings.put("RIGHT", new int[]{Input.Keys.D, Input.Keys.RIGHT});
-        keyBindings.put("JUMP", new int[]{Input.Keys.SPACE, Input.Keys.W, Input.Keys.UP});
-        keyBindings.put("SHIFT", new int[]{Input.Keys.SHIFT_LEFT, Input.Keys.SHIFT_RIGHT});
-        keyBindings.put("HIT", new int[]{Input.Keys.K});
-        keyBindings.put("QUIT", new int[]{Input.Keys.ESCAPE});
+    public void update(float dt) {
+        handlePlayerMovement();
     }
 
     /**
-     * Checks if any key bound to a specific action is currently being held down.
-     * @param action The string identifier for the action.
-     * @return true if any assigned key is pressed, false otherwise.
+     * Handles discrete key press events.
+     * Used for actions that should trigger only once per press, such as jumping
+     * or exiting the application.
+     *
+     * @param keycode The code of the key that was pressed.
+     * @return True if the input was processed.
      */
-    private static boolean isActionPressed(String action) {
-        if (!keyBindings.containsKey(action)) return false;
-        for (int key : keyBindings.get(action)) {
-            if (Gdx.input.isKeyPressed(key)) return true;
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.SPACE || keycode == Input.Keys.W || keycode == Input.Keys.UP) {
+            player.jump();
+            return true;
+        }
+        if (keycode == Input.Keys.ESCAPE) {
+            Gdx.app.exit();
+            return true;
         }
         return false;
     }
 
     /**
-     * Updates player movement and system inputs. Should be called once per frame.
-     * * @param dt The time in seconds since the last render.
-     */
-    public void update(float dt) {
-        if (player.isPerformingAction()) {
-            return;
-        }
-
-        handlePlayerMovement();
-        handleSystemInput();
-    }
-
-    /**
-     * Processes movement-related input polling and updates the player's physical state.
+     * Processes continuous movement input and applies physics logic.
+     * Manages horizontal impulses based on current speed (walking vs running)
+     * and applies a custom friction coefficient for responsive stopping.
      */
     private void handlePlayerMovement() {
+        boolean left = isLeftPressed();
+        boolean right = isRightPressed();
 
-        boolean rightPressed = isActionPressed("RIGHT");
-        boolean leftPressed = isActionPressed("LEFT");
+        player.setRunning(isShiftPressed());
+        float targetMax = player.isRunning() ? RUNNING_SPEED : WALKING_SPEED;
 
-        Vector2 vel = player.playerBody.getLinearVelocity();
-        Vector2 pos = player.playerBody.getWorldCenter();
+        Vector2 vel = player.getPhysics().getVelocity();
 
-        if (!hitPressed()) {
-            if (isActionPressed("JUMP")) applyJump();
-            moveLeftOrRight(leftPressed, vel, pos, rightPressed);
-            isRunning();
+        // 1. Horizontal movement
+        if (left && vel.x > -targetMax) {
+            player.applyHorizontalImpulse(true, false);
+        }
+        if (right && vel.x < targetMax) {
+            player.applyHorizontalImpulse(false, true);
+        }
+
+        // 2. Responsive friction
+        // Applied if no movement keys are pressed or if the velocity exceeds targetMax
+        if (!left && !right) {
+            player.getPhysics().getBody().setLinearVelocity(vel.x * FRICTION_COEFFICIENT, vel.y);
+        } else if (Math.abs(vel.x) > targetMax) {
+            // Gradual slowdown to targetMax if Shift is released while moving fast
+            player.getPhysics().getBody().setLinearVelocity(vel.x * FRICTION_COEFFICIENT, vel.y);
         }
     }
 
     /**
-     * Processes system-level inputs, such as quitting the application.
+     * Checks if a hit/attack action is requested.
+     *
+     * @return True if the hit key (K) is currently pressed.
      */
-    private void handleSystemInput() {
-        if (isActionPressed("QUIT")) Gdx.app.exit();
+    public static boolean hitPressed() {
+        return Gdx.input.isKeyPressed(Input.Keys.K);
     }
 
-
-    /**
-     * Applies horizontal impulses to the player's body based on input.
-     * If no movement keys are pressed, applies a friction-like slowdown.
-     * @param leftPressed  Whether the left action is active.
-     * @param vel          The current linear velocity of the player.
-     * @param pos          The world center position of the player's body.
-     * @param rightPressed Whether the right action is active.
-     */
-    private void moveLeftOrRight(boolean leftPressed, Vector2 vel, Vector2 pos, boolean rightPressed) {
-        if (leftPressed && vel.x > -MAX_VELOCITY) {
-            player.playerBody.applyLinearImpulse(new Vector2(-0.5f, 0), pos, true);
-        } else if (rightPressed && vel.x < MAX_VELOCITY) {
-            player.playerBody.applyLinearImpulse(new Vector2(0.5f, 0), pos, true);
-        } else {
-            player.playerBody.setLinearVelocity(vel.x * 0.5f, vel.y);
-            if (Math.abs(vel.x) < 0.1f) {
-                player.playerBody.setLinearVelocity(0, vel.y);
-            }
-        }
+    /** @return True if A or Left Arrow is pressed. */
+    public boolean isLeftPressed() {
+        return Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT);
     }
 
-    /**
-     * Executes a jump by applying a vertical linear impulse to the player's body.
-     * To prevent "infinite jumping" in mid-air, the impulse is only applied if
-     * the vertical velocity is near zero (simulating a ground check).
-     */
-    private void applyJump() {
-        if (Math.abs(player.playerBody.getLinearVelocity().y) < 0.01f) {
-            player.playerBody.applyLinearImpulse(new Vector2(0, (float) 6.0), player.playerBody.getWorldCenter(), true);
-        }
+    /** @return True if D or Right Arrow is pressed. */
+    public boolean isRightPressed() {
+        return Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT);
     }
 
-    /**
-     * Updates the player's movement speed and state based on the "SHIFT" key.
-     * Toggles between walking and running velocities and updates the static
-     * {@link Player#isRunning} flag.
-     */
-    private void isRunning() {
-        if (!isActionPressed("SHIFT")) {
-            MAX_VELOCITY = 1.0f;
-            Player.isRunning = false;
-        } else {
-            MAX_VELOCITY = 4.0f;
-            Player.isRunning = true;
-        }
+    /** @return True if Space, W, or Up Arrow was just pressed. */
+    private boolean isJumpPressed() {
+        return Gdx.input.isKeyJustPressed(Input.Keys.SPACE) ||
+                Gdx.input.isKeyJustPressed(Input.Keys.W) ||
+                Gdx.input.isKeyJustPressed(Input.Keys.UP);
     }
-    /**
-     * Static utility to check if the attack/hit action is currently triggered.
-     * Used by the {@link Player} class to determine animation state transitions.
-     * @return true if the "HIT" key is pressed, false otherwise.
-     */
-    public static Boolean hitPressed() {
-        return isActionPressed("HIT");
+
+    /** @return True if either Shift key is pressed. */
+    private boolean isShiftPressed() {
+        return Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) || Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT);
     }
 }

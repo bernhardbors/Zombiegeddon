@@ -1,4 +1,4 @@
-package inf112.zoombiegeddon.model.world;
+package inf112.zoombiegeddon.model.world.physics;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -23,6 +23,7 @@ public class WorldPhysics {
      */
     public WorldPhysics(Vector2 gravity) {
         this.world = new World(gravity, true);
+        this.world.setContactListener(new WorldContactListener());
     }
 
     /**

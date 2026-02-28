@@ -1,127 +1,152 @@
 package inf112.zoombiegeddon.model.entity;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
-import inf112.zoombiegeddon.app.GameApp;
+import com.badlogic.gdx.physics.box2d.World;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 
-import java.util.EnumMap;
-import java.util.Map;
+/**
+ * Represents the player character in the game.
+ * This class handles player-specific logic including physics interaction,
+ * animations based on movement states, and user-triggered actions like jumping.
+ */
+public class Player extends Entity {
 
-public class Player extends Sprite {
-
-    public enum State {IDLE, WALKING, RUNNING, JUMPING, FALLING, PUNCHING, DEAD}
-
+    /** Pixels Per Meter - used to scale between physics world and screen pixels. */
     public static final float PPM = 32.0f;
 
-    public State currentState = State.IDLE;
-    public State previousState = State.IDLE;
+    private static final float JUMP_IMPULSE = 6.0f;
+    private static final float MOVE_IMPULSE = 0.7f;
+    private static final float VELOCITY_THRESHOLD = 0.1f;
 
-    public Body playerBody;
-    private float stateTime;
-
-    private boolean runningRight;
-    public static boolean isRunning;
-
+    private final PlayerController controller;
     private final AnimationHandler animationHandler;
+    private boolean isRunning = false;
 
+    /**
+     * Constructs a new Player instance.
+     * Initializes the physics body, sets the user data for collision detection,
+     * and calculates dimensions based on the idle animation frames.
+     *
+     * @param world            The Box2D world where the player's body resides.
+     * @param spawnPos         The initial spawn coordinates.
+     * @param animationHandler The handler containing all player-related animations.
+     */
     public Player(World world, Vector2 spawnPos, AnimationHandler animationHandler) {
-        super(animationHandler.getPlayerAnimations().get(State.IDLE).getKeyFrame(0));
+        super(new PhysicsComponent(world, spawnPos,
+                animationHandler.getAnimations().get(EntityState.IDLE).getKeyFrame(0).getRegionWidth() / PPM,
+                animationHandler.getAnimations().get(EntityState.IDLE).getKeyFrame(0).getRegionHeight() / PPM,
+                null));
 
         this.animationHandler = animationHandler;
-        this.stateTime = 0f;
+        this.physics.getBody().setUserData(this);
+        this.controller = new PlayerController(this);
 
-        float width = getRegionWidth() / PPM;
-        float height = getRegionHeight() / PPM;
+        float width = animationHandler.getFrame(EntityState.IDLE, 0, true).getRegionWidth() / PPM;
+        float height = animationHandler.getFrame(EntityState.IDLE, 0, true).getRegionHeight() / PPM;
         setSize(width, height);
-
-        definePlayer(world, spawnPos);
-    }
-
-    private void definePlayer(World world, Vector2 pos) {
-        BodyDef bdef = new BodyDef();
-        bdef.position.set(pos);
-        bdef.type = BodyDef.BodyType.DynamicBody;
-
-        playerBody = world.createBody(bdef);
-
-        FixtureDef fdef = new FixtureDef();
-        PolygonShape shape = new PolygonShape();
-
-        float hitboxWidthMeters = 15f / PPM;
-        float hitboxHeightMeters = 40f / PPM;
-        shape.setAsBox(hitboxWidthMeters / 2, hitboxHeightMeters / 2);
-
-        fdef.shape = shape;
-        fdef.friction = 0.5f;
-
-        playerBody.createFixture(fdef).setUserData(this);
-        playerBody.setFixedRotation(true);
-
-        shape.dispose();
-    }
-
-    public void update(float dt) {
-        stateTime += dt;
-
-        TextureRegion region = getFrame(dt);
-        setRegion(region);
-
-
-        setPosition(
-                playerBody.getPosition().x - getWidth() / 2,
-                playerBody.getPosition().y - getHeight() / 2
-        );
-    }
-
-    private TextureRegion getFrame(float dt) {
-        currentState = getState();
-
-        boolean loop = (currentState != State.PUNCHING);
-
-        TextureRegion region = animationHandler.getPlayerAnimations().get(currentState).getKeyFrame(stateTime, loop);
-        float velocityX = playerBody.getLinearVelocity().x;
-
-        if (velocityX > 0.1f) {
-            runningRight = true;
-        } else if (velocityX < -0.1f) {
-            runningRight = false;
-        }
-
-        if (runningRight && !region.isFlipX()) {
-            region.flip(true, false);
-        } else if (!runningRight && region.isFlipX()) {
-            region.flip(true, false);
-        }
-
-        if (currentState != previousState) stateTime = 0;
-        previousState = currentState;
-        return region;
-    }
-
-    private State getState() {
-        if (previousState == State.PUNCHING && !animationHandler.getPlayerAnimations().get(State.PUNCHING).isAnimationFinished(stateTime)) {
-            return State.PUNCHING;
-        }
-        if (PlayerController.hitPressed()) return State.PUNCHING;
-        if (playerBody.getLinearVelocity().y < -0.1f) return State.FALLING;
-        if (playerBody.getLinearVelocity().y > 0.1f) return State.JUMPING;
-        if (isRunning && Math.abs(playerBody.getLinearVelocity().x) > 0.1f) return State.RUNNING;
-        if (Math.abs(playerBody.getLinearVelocity().x) > 0.1f) return State.WALKING;
-
-        return State.IDLE;
     }
 
     /**
-     * Helper method for the controller to check if the player is currently "busy".
+     * Updates the player's logic.
+     * synchronizes the sprite's position with the physics body and updates the
+     * animation frame based on the current state and elapsed time.
+     *
+     * @param dt Time in seconds since the last update.
      */
-    public boolean isPerformingAction() {
-        return currentState == State.PUNCHING && !animationHandler.getPlayerAnimations().get(State.PUNCHING).isAnimationFinished(stateTime);
+    @Override
+    public void update(float dt) {
+        controller.update(dt);
+
+        updateAnimationState(dt, VELOCITY_THRESHOLD);
+
+        setRegion(animationHandler.getFrame(currentState, stateTime, facingRight));
+        setPosition(
+                physics.getPosition().x - getWidth() / 2,
+                physics.getPosition().y - getHeight() / 2
+        );
     }
 
+    /**
+     * Updates the entity's animation state based on current velocity and grounded status.
+     * Handles switching between IDLE, JUMPING, FALLING, and moving states, as well as
+     * tracking state time and determining which direction the sprite should face.
+     *
+     * @param dt                The time in seconds since the last update.
+     * @param velocityThreshold The minimum velocity required to trigger a state change.
+     */
+    @Override
+    protected void updateAnimationState(float dt, float velocityThreshold) {
+        stateTime += dt;
+        Vector2 velocity = physics.getVelocity();
+
+        // Determine orientation
+        if (velocity.x > velocityThreshold) facingRight = true;
+        else if (velocity.x < -velocityThreshold) facingRight = false;
+
+        // Determine state
+        if (!isGrounded) {
+            currentState = (velocity.y > velocityThreshold) ? EntityState.JUMPING : EntityState.FALLING;
+        } else if (controller.isLeftPressed() || controller.isRightPressed()) {
+            currentState = determineMovingState();
+        } else {
+            currentState = EntityState.IDLE;
+        }
+
+        // Reset state timer if the state has changed
+        if (previousState != currentState) {
+            stateTime = 0;
+            previousState = currentState;
+        }
+    }
+
+    /**
+     * Determines whether the player is in a WALKING or RUNNING state
+     * when horizontal movement is detected.
+     *
+     * @return The appropriate EntityState based on the isRunning flag.
+     */
+    @Override
+    protected EntityState determineMovingState() {
+        return isRunning ? EntityState.RUNNING : EntityState.WALKING;
+    }
+
+    /**
+     * Applies an upward impulse to the player's physics body if they are on the ground.
+     */
+    public void jump() {
+        if (isGrounded) {
+            physics.applyImpulse(new Vector2(0, JUMP_IMPULSE));
+            isGrounded = false;
+        }
+    }
+
+    /**
+     * Applies horizontal force to the player's physics body.
+     *
+     * @param left  True if the player should move left.
+     * @param right True if the player should move right.
+     */
+    public void applyHorizontalImpulse(boolean left, boolean right) {
+        if (left) physics.applyImpulse(new Vector2(-MOVE_IMPULSE, 0));
+        if (right) physics.applyImpulse(new Vector2(MOVE_IMPULSE, 0));
+    }
+
+    /**
+     * Sets the running state of the player.
+     *
+     * @param running True to enable running speed/animations, false for walking.
+     */
+    public void setRunning(boolean running) {
+        this.isRunning = running;
+    }
+
+    /**
+     * Checks if the player is currently in the running state.
+     *
+     * @return True if running, false otherwise.
+     */
+    public boolean isRunning() {
+        return isRunning;
+    }
 }

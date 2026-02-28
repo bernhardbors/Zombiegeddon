@@ -1,142 +1,141 @@
 package inf112.zoombiegeddon.view.renderer;
 
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.model.world.WorldCollisionLayerCreator;
-import inf112.zoombiegeddon.model.world.WorldPhysics;
-
+import inf112.zoombiegeddon.controller.PlayerController;
+import inf112.zoombiegeddon.model.world.physics.WorldCollisionLayerCreator;
+import inf112.zoombiegeddon.model.world.physics.WorldPhysics;
 
 /**
- * Base class for all game levels. Handles the boilerplate for physics updates,
- * camera management, Tiled map rendering, and debug visualization.
- * <p>
- * Subclasses should implement {@link #draw(SpriteBatch)} for entity rendering
- * and {@link #drawMapCollisionLayer(String, String)} for map initialization.
- * </p>
+ * Abstract base class for all game levels.
+ * Provides common functionality for physics simulation, world rendering,
+ * camera management, and map loading within the LibGDX framework.
  */
 public abstract class AbstractLevel extends ScreenAdapter {
 
     protected final GameApp app;
-    protected final OrthographicCamera camera;
     protected final ExtendViewport viewport;
-
     protected final WorldPhysics worldPhysics;
-
-    protected OrthogonalTiledMapRenderer mapRenderer;
-    protected final Box2DDebugRenderer debugRenderer;
-
+    protected final WorldRenderer worldRenderer;
+    protected PlayerController controller;
+    protected OrthographicCamera camera;
     protected TiledMap map;
     protected final float PIXEL_PR_TILE = 32.0f;
 
-    private final Boolean debugMode;
-
-
-
     /**
-     * @param app         The main GameApp instance for shared resources (batch, assets).
-     * @param gravity     Gravity vector for this level's physics world.
-     * @param worldWidth  The base width of the world in meters/units.
-     * @param worldHeight The base height of the world in meters/units.
-     * @param debugMode   If true, Box2D hitboxes will be rendered.
+     * Constructs a new AbstractLevel with the specified game configuration.
+     *
+     * @param app         The main game application instance.
+     * @param gravity     The gravity vector for the physics world.
+     * @param worldWidth  The width of the world in units.
+     * @param worldHeight The height of the world in units.
+     * @param debugMode   Whether to enable physics debug rendering.
      */
     public AbstractLevel(GameApp app, Vector2 gravity, float worldWidth, float worldHeight, boolean debugMode) {
         this.app = app;
-        this.debugMode = debugMode;
-        this.camera = new OrthographicCamera();
         this.worldPhysics = new WorldPhysics(gravity);
-        this.debugRenderer = new Box2DDebugRenderer();
+        this.camera = new OrthographicCamera(worldWidth, worldHeight);
+        this.worldRenderer = new WorldRenderer(camera, debugMode);
         this.viewport = new ExtendViewport(worldWidth, worldHeight, camera);
     }
 
+    /**
+     * Main render loop. Handles updating the physics world and drawing
+     * the background, world layers, and entities.
+     *
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(Color.LIGHT_GRAY);
-        update(delta);
-        camera.update();
-
         app.batch.setProjectionMatrix(camera.combined);
-        app.batch.begin();
-        app.background.render(app.batch);
-        app.batch.end();
 
-        renderMap();
-
-        app.batch.begin();
-        draw(app.batch);
-        app.batch.end();
+        update(delta);
+        drawBackground();
+        drawWorld(delta);
+        drawEntities();
     }
 
     /**
-     * Renders the Tiled map and, if enabled, the Box2D debug shapes.
-     */
-    private void renderMap() {
-        if (mapRenderer != null) {
-            mapRenderer.setView(camera);
-            mapRenderer.render();
-        }
-
-        if (debugMode) {
-            debugRenderer.render(worldPhysics.getWorld(), camera.combined);
-        }
-    }
-
-    /**
-     * Updates physics and level logic.
+     * Updates the physics simulation.
      *
-     * @param delta Time elapsed since the last frame.
+     * @param delta The time step in seconds.
      */
     protected void update(float delta) {
         worldPhysics.update(delta);
     }
 
     /**
-     * Implement this to draw level-specific entities (Players, Zombies, etc.).
-     * This is called inside a SpriteBatch begin/end block.
+     * Updates the viewport dimensions when the window size changes.
      *
-     * @param batch The shared SpriteBatch from GameApp.
+     * @param width  New window width.
+     * @param height New window height.
      */
-    protected abstract void draw(SpriteBatch batch);
-
-    /**
-     * Loads a Tiled map (.tmx) and initializes physics collision boundaries for a specific layer.
-     * <p>
-     * If the map has not been loaded yet, this method initializes the {@code TmxMapLoader}
-     * and {@code OrthogonalTiledMapRenderer} using the defined {@code PIXEL_PR_TILE} scale.
-     * It then uses {@link WorldCollisionLayerCreator} to transform Tiled map objects into
-     * static Box2D bodies.
-     * </p>
-     *
-     * @param file      The internal path to the .tmx map file (e.g., "maps/level1.tmx").
-     * @param layerName The name of the object layer in Tiled to be converted into physics collisions.
-     */
-    protected void drawMapCollisionLayer(String file, String layerName) {
-        if (map == null) {
-            map = new TmxMapLoader().load(file);
-            mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / PIXEL_PR_TILE);
-        }
-        new WorldCollisionLayerCreator(worldPhysics.getWorld(), map, layerName, PIXEL_PR_TILE);
-    }
-
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
     }
 
+    /**
+     * Renders the background using the application's background renderer.
+     */
+    private void drawBackground() {
+        app.batch.begin();
+        app.background.render(app.batch);
+        app.batch.end();
+    }
+
+    /**
+     * Renders the tiled map and physics debug lines.
+     *
+     * @param delta The time in seconds since the last render.
+     */
+    private void drawWorld(Float delta) {
+        worldRenderer.render(delta, worldPhysics);
+    }
+
+    /**
+     * Renders all game entities within a SpriteBatch block.
+     */
+    private void drawEntities() {
+        app.batch.begin();
+        draw(app.batch);
+        app.batch.end();
+    }
+
+    /**
+     * Abstract method for subclasses to implement specific entity drawing logic.
+     *
+     * @param batch The SpriteBatch used for drawing.
+     */
+    protected abstract void draw(SpriteBatch batch);
+
+    /**
+     * Loads a TiledMap (.tmx) and initializes the collision layer.
+     *
+     * @param file               Path to the map file.
+     * @param collisionLayerName Name of the layer used for physics collisions.
+     */
+    protected void loadMap(String file, String collisionLayerName) {
+        if (map == null) {
+            map = new TmxMapLoader().load(file);
+            worldRenderer.setMap(map, 1 / PIXEL_PR_TILE);
+        }
+        new WorldCollisionLayerCreator(worldPhysics.getWorld(), map, collisionLayerName, PIXEL_PR_TILE);
+    }
+
+    /**
+     * Disposes of all resources to prevent memory leaks.
+     */
     @Override
     public void dispose() {
-        if (mapRenderer != null) mapRenderer.dispose();
-        if (map != null) map.dispose(); // IMPORTANT: TiledMaps are not handled by Java GC
-        if (debugRenderer != null) debugRenderer.dispose();
+        if (map != null) map.dispose();
         worldPhysics.dispose();
+        worldRenderer.dispose();
     }
 }
