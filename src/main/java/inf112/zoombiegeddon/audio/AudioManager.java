@@ -23,9 +23,9 @@ public class AudioManager implements AudioService{
     private boolean muted;
 
     /**
-     * Constructs a new AudioManager.
+     * Constructs a new AudioManager with preference persistence.
      * @param assets The central manager responsible for asset lifecycle.
-     * @param prefs //TODO
+     * @param prefs  The preferences instance used to save/load audio settings.
      */
     public AudioManager(AssetManager assets, Preferences prefs) {
         this.assets = assets;
@@ -35,6 +35,10 @@ public class AudioManager implements AudioService{
         this.muted = prefs.getBoolean(PREF_MUTED, false);
     }
 
+    /**
+     * Constructs a new AudioManager without persistence.
+     * @param assets The central manager responsible for asset lifecycle.
+     */
     public AudioManager(AssetManager assets) {
         this.assets = assets;
         this.prefs = null;
@@ -60,11 +64,6 @@ public class AudioManager implements AudioService{
         playSfx(options[random.nextInt(options.length)]);
     }
 
-    /**
-     * Updates the global volume levels for both sound effects and background music.
-     *
-     * @param volume01 The new volume level (normalized between 0.0 and 1.0).
-     */
     @Override
     public void setSfxVolume(float volume01) {
         this.sfxVolume = clamp01(volume01);
