@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.zoombiegeddon.app.GameApp;
 
-import inf112.zoombiegeddon.audio.AudioManager;
+import inf112.zoombiegeddon.audio.AudioService;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.world.physics.WorldCollisionLayerCreator;
 import inf112.zoombiegeddon.model.world.physics.WorldPhysics;
@@ -25,7 +25,7 @@ public abstract class AbstractLevel extends ScreenAdapter {
     protected final ExtendViewport viewport;
     protected final WorldPhysics worldPhysics;
     protected final WorldRenderer worldRenderer;
-    protected final AudioManager audio;
+    protected final AudioService audio;
     protected PlayerController controller;
     protected OrthographicCamera camera;
     protected TiledMap map;
@@ -44,7 +44,7 @@ public abstract class AbstractLevel extends ScreenAdapter {
         this.app = app;
         this.worldPhysics = new WorldPhysics(gravity);
         this.camera = new OrthographicCamera(worldWidth, worldHeight);
-        this.audio = app.audioManager;
+        this.audio = app.audio;
         this.worldRenderer = new WorldRenderer(camera, debugMode);
         this.viewport = new ExtendViewport(worldWidth, worldHeight, camera);
     }

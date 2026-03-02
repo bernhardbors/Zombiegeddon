@@ -1,0 +1,29 @@
+package inf112.zoombiegeddon.audio;
+
+/**
+ * Registry for all in-game sound effects.
+ * This enum works as a central source of truth for all audio resources.
+ * By using this enum, we avoid magic strings and assures both {@link AudioManager}
+ * and game logic consistently refers to the same files.
+ */
+public enum Sfx {
+    JUMP1("assets/audio/sfx/jumppp11.wav"),
+    JUMP2("assets/audio/sfx/jumppp22.wav");
+
+    private final String path;
+
+    /**
+     * @param  path The name of the file (including extension) located in "assets/audio/sfx/".
+     */
+    Sfx(String path) {
+        this.path = path;
+    }
+
+
+    /**
+     * @return The unique key for this sound.
+     */
+    public String path() {
+        return path;
+    }
+}

@@ -1,9 +1,9 @@
 package inf112.zoombiegeddon.audio;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+
 import java.util.Random;
 
 /**
@@ -11,70 +11,96 @@ import java.util.Random;
  * This class relies on an {@link AssetManager} to provide access to loaded sound effects
  * and manages individual playback logic, volume control, and music streaming.
  */
-public class AudioManager {
-    private final AssetManager assetManager;
+public class AudioManager implements AudioService{
+    private static final String PREF_SFX_VOL = "audio_sfx_volume";
+    private static final String PREF_MUTED = "audio_muted";
+
+    private final AssetManager assets;
+    private final Preferences prefs;
     private final Random random = new Random();
 
-    private Music backgroundMusic;
-    private float soundVolume = 1.0f;
-    private float musicVolume = 0.5f;
+    private float sfxVolume;
+    private boolean muted;
 
     /**
      * Constructs a new AudioManager.
-     * @param assetManager The central manager responsible for asset lifecycle.
+     * @param assets The central manager responsible for asset lifecycle.
+     * @param prefs //TODO
      */
-    public AudioManager(AssetManager assetManager) {
-        this.assetManager = assetManager;
+    public AudioManager(AssetManager assets, Preferences prefs) {
+        this.assets = assets;
+        this.prefs = prefs;
+
+        this.sfxVolume = clamp01(prefs.getFloat(PREF_SFX_VOL, 1.0f));
+        this.muted = prefs.getBoolean(PREF_MUTED, false);
     }
 
-    /**
-     * Plays a sound effect using the {@link GameSound} registry key.
-     * The sound is fetched directly from the asset manager.
-     *
-     * @param sound The GameSound constant to play.
-     */
-    public void playSound(GameSound sound) {
-        assetManager.get("assets/audio/sfx/" + sound.getFileName(), Sound.class).play(soundVolume);
+    public AudioManager(AssetManager assets) {
+        this.assets = assets;
+        this.prefs = null;
+        this.sfxVolume = 1.0f;
+        this.muted = false;
     }
 
-    /**
-     * Plays a random sound from a provided list of {@link GameSound} constants.
-     * * @param sounds An array of GameSound constants to choose from.
-     */
-    public void playRandomSound(GameSound[] sounds) {
-        GameSound randomSound = sounds[random.nextInt(sounds.length)];
-        playSound(randomSound);
+    @Override
+    public void playSfx(Sfx sfx) {
+        if (muted) return;
+        if (sfx == null) return;
+        if (!assets.isLoaded(sfx.path(), Sound.class)) return;
+
+        Sound sound = assets.get(sfx.path(), Sound.class);
+        sound.play(sfxVolume);
     }
 
-    /**
-     * Loads and immediately starts playing background music with looping enabled.
-     * If music is already playing, it will be disposed of before the new track starts.
-     *
-     * @param fileName The name of the file located in "assets/audio/music/".
-     */
-    public void playMusic(String fileName) {
-        if (backgroundMusic != null) backgroundMusic.dispose();
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/audio/music/" + fileName));
-        backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(musicVolume);
-        backgroundMusic.play();
+    @Override
+    public void playRandom(Sfx... options) {
+        if (muted) return;
+        if (options == null || options.length == 0) return;
+
+        playSfx(options[random.nextInt(options.length)]);
     }
 
     /**
      * Updates the global volume levels for both sound effects and background music.
      *
-     * @param newVolume The new volume level (normalized between 0.0 and 1.0).
+     * @param volume01 The new volume level (normalized between 0.0 and 1.0).
      */
-    public void setVolume(float newVolume) {
-        this.soundVolume = newVolume;
-        if (backgroundMusic != null) backgroundMusic.setVolume(soundVolume * musicVolume);
+    @Override
+    public void setSfxVolume(float volume01) {
+        this.sfxVolume = clamp01(volume01);
+        save();
+    }
+
+    @Override
+    public void setMuted(boolean muted) {
+        this.muted = muted;
+        save();
+    }
+
+    @Override
+    public float getSfxVolume() {
+        return sfxVolume;
+    }
+
+    @Override
+    public boolean isMuted() {
+        return muted;
     }
 
     /**
      * Disposes of the background music. Note: AssetManager handles Sound disposal.
      */
     public void dispose() {
-        if (backgroundMusic != null) backgroundMusic.dispose();
     }
 
+    private void save() {
+        if (prefs == null) return;
+        prefs.putFloat(PREF_SFX_VOL, sfxVolume);
+        prefs.putBoolean(PREF_MUTED, muted);
+        prefs.flush();
+    }
+
+    private static float clamp01(float v) {
+        return Math.max(0f, Math.min(1f, v));
+    }
 }

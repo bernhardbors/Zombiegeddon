@@ -1,6 +1,5 @@
 package inf112.zoombiegeddon.view.screens;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -9,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.audio.GameSound;
+import inf112.zoombiegeddon.audio.AudioAssets;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 
 public class LoadingScreen extends AbstractScreen {
@@ -51,9 +50,8 @@ public class LoadingScreen extends AbstractScreen {
         app.manager.load(GameApp.BG_L1, Texture.class);
         app.manager.load(GameApp.BG_L2, Texture.class);
 
-        for (GameSound sound : GameSound.values()) {
-            app.manager.load("assets/audio/sfx/" + sound.getFileName(), Sound.class);
-        }
+        AudioAssets.queue(app.manager);
+
     }
 
     @Override

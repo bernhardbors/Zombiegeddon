@@ -10,7 +10,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import inf112.zoombiegeddon.audio.AudioManager;
-import inf112.zoombiegeddon.audio.GameSound;
+import inf112.zoombiegeddon.audio.AudioService;
+import inf112.zoombiegeddon.audio.Sfx;
 import inf112.zoombiegeddon.view.FontGenerator;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 import inf112.zoombiegeddon.model.world.background.ParallaxBackground;
@@ -27,7 +28,7 @@ public class GameApp extends Game {
     // Public shared resources
     public SpriteBatch batch;
     public AssetManager manager;
-    public AudioManager audioManager;
+    public AudioService audio;
     public Preferences prefs;
     public Skin skin;
     public BitmapFont font;
@@ -60,8 +61,8 @@ public class GameApp extends Game {
     public void create() {
         batch = new SpriteBatch();
         manager = new AssetManager();
-        audioManager = new AudioManager(manager);
         prefs = Gdx.app.getPreferences(PREFS_NAME);
+        audio = new AudioManager(manager, prefs);
 
         setResolutionOnStartup();
 
@@ -79,6 +80,7 @@ public class GameApp extends Game {
     @Override
     public void dispose() {
         if (getScreen() != null) getScreen().hide();
+        if (audio != null) audio.dispose();
         if (manager != null) manager.dispose();
         if (batch != null) batch.dispose();
     }
