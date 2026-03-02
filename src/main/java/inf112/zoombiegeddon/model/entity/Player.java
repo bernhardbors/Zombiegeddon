@@ -2,7 +2,6 @@ package inf112.zoombiegeddon.model.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 
 /**
@@ -19,7 +18,6 @@ public class Player extends Entity {
     private static final float MOVE_IMPULSE = 0.7f;
     private static final float VELOCITY_THRESHOLD = 0.1f;
 
-    private final PlayerController controller;
     private final AnimationHandler animationHandler;
     private boolean isRunning = false;
 
@@ -40,7 +38,6 @@ public class Player extends Entity {
 
         this.animationHandler = animationHandler;
         this.physics.getBody().setUserData(this);
-        this.controller = new PlayerController(this);
 
         float width = animationHandler.getFrame(EntityState.IDLE, 0, true).getRegionWidth() / PPM;
         float height = animationHandler.getFrame(EntityState.IDLE, 0, true).getRegionHeight() / PPM;
@@ -56,8 +53,6 @@ public class Player extends Entity {
      */
     @Override
     public void update(float dt) {
-        controller.update(dt);
-
         updateAnimationState(dt, VELOCITY_THRESHOLD);
 
         setRegion(animationHandler.getFrame(currentState, stateTime, facingRight));
@@ -87,7 +82,7 @@ public class Player extends Entity {
         // Determine state
         if (!isGrounded) {
             currentState = (velocity.y > velocityThreshold) ? EntityState.JUMPING : EntityState.FALLING;
-        } else if (controller.isLeftPressed() || controller.isRightPressed()) {
+        } else if (Math.abs(velocity.x) > velocityThreshold) { // Use velocity instead of controller-buttons
             currentState = determineMovingState();
         } else {
             currentState = EntityState.IDLE;

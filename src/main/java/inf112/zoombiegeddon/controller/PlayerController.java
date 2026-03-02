@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
+import inf112.zoombiegeddon.audio.AudioService;
 import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.audio.Sfx;
 
 /**
  * Handles user input and translates it into player actions and movement.
@@ -15,6 +17,8 @@ public class PlayerController extends InputAdapter {
 
     private final Player player;
 
+    private final AudioService audio;
+
     private static final float WALKING_SPEED = 4f;
     private static final float RUNNING_SPEED = 8f;
     private static final float FRICTION_COEFFICIENT = 0.9f;
@@ -24,8 +28,9 @@ public class PlayerController extends InputAdapter {
      *
      * @param player The player instance to be controlled.
      */
-    public PlayerController(Player player) {
+    public PlayerController(Player player, AudioService audio) {
         this.player = player;
+        this.audio = audio;
     }
 
     /**
@@ -35,6 +40,7 @@ public class PlayerController extends InputAdapter {
      */
     public void update(float dt) {
         handlePlayerMovement();
+
     }
 
     /**
@@ -49,6 +55,7 @@ public class PlayerController extends InputAdapter {
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.SPACE || keycode == Input.Keys.W || keycode == Input.Keys.UP) {
             player.jump();
+            audio.playRandom(Sfx.JUMP1, Sfx.JUMP2);
             return true;
         }
         if (keycode == Input.Keys.ESCAPE) {

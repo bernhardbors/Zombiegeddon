@@ -4,10 +4,15 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import inf112.zoombiegeddon.audio.AudioManager;
+import inf112.zoombiegeddon.audio.AudioService;
+import inf112.zoombiegeddon.audio.Sfx;
+import inf112.zoombiegeddon.view.FontGenerator;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 import inf112.zoombiegeddon.model.world.background.ParallaxBackground;
 import inf112.zoombiegeddon.view.screens.LoadingScreen;
@@ -23,6 +28,7 @@ public class GameApp extends Game {
     // Public shared resources
     public SpriteBatch batch;
     public AssetManager manager;
+    public AudioService audio;
     public Preferences prefs;
     public Skin skin;
     public BitmapFont font;
@@ -56,6 +62,7 @@ public class GameApp extends Game {
         batch = new SpriteBatch();
         manager = new AssetManager();
         prefs = Gdx.app.getPreferences(PREFS_NAME);
+        audio = new AudioManager(manager, prefs);
 
         setResolutionOnStartup();
 
@@ -73,6 +80,7 @@ public class GameApp extends Game {
     @Override
     public void dispose() {
         if (getScreen() != null) getScreen().hide();
+        if (audio != null) audio.dispose();
         if (manager != null) manager.dispose();
         if (batch != null) batch.dispose();
     }

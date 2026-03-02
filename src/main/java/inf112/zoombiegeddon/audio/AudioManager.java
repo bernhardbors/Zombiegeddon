@@ -1,81 +1,105 @@
 package inf112.zoombiegeddon.audio;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
-import java.util.HashMap;
+
+import java.util.Random;
 
 /**
- * Manages the loading, playback, and resource handling of game audio.
- * It provides separate handling for short sound effects (SFX) and looping background music.
+ * Manages audio playback and resource handling.
+ * This class relies on an {@link AssetManager} to provide access to loaded sound effects
+ * and manages individual playback logic, volume control, and music streaming.
  */
-public class AudioManager {
-    private HashMap<String, Sound> sounds;
-    private Music backgroundMusic;
-    private float soundVolume = 1.0f;
-    private float musicVolume = 0.5f;
+public class AudioManager implements AudioService{
+    private static final String PREF_SFX_VOL = "audio_sfx_volume";
+    private static final String PREF_MUTED = "audio_muted";
+
+    private final AssetManager assets;
+    private final Preferences prefs;
+    private final Random random = new Random();
+
+    private float sfxVolume;
+    private boolean muted;
 
     /**
-     * Constructs a new AudioManager and initializes the storage for sound effects.
+     * Constructs a new AudioManager with preference persistence.
+     * @param assets The central manager responsible for asset lifecycle.
+     * @param prefs  The preferences instance used to save/load audio settings.
      */
-    public AudioManager() {
-        sounds = new HashMap<>();
+    public AudioManager(AssetManager assets, Preferences prefs) {
+        this.assets = assets;
+        this.prefs = prefs;
+
+        this.sfxVolume = clamp01(prefs.getFloat(PREF_SFX_VOL, 1.0f));
+        this.muted = prefs.getBoolean(PREF_MUTED, false);
     }
 
     /**
-     * Loads a sound effect from the internal assets folder and maps it to a reference name.
-     *
-     * @param name     The unique reference name used to play the sound later.
-     * @param fileName The name of the file located in "assets/audio/sfx/".
+     * Constructs a new AudioManager without persistence.
+     * @param assets The central manager responsible for asset lifecycle.
      */
-    public void loadSound(String name, String fileName) {
-        Sound sound = Gdx.audio.newSound(Gdx.files.internal("assets/audio/sfx/" + fileName));
-        sounds.put(name, sound);
+    public AudioManager(AssetManager assets) {
+        this.assets = assets;
+        this.prefs = null;
+        this.sfxVolume = 1.0f;
+        this.muted = false;
+    }
+
+    @Override
+    public void playSfx(Sfx sfx) {
+        if (muted) return;
+        if (sfx == null) return;
+        if (!assets.isLoaded(sfx.path(), Sound.class)) return;
+
+        Sound sound = assets.get(sfx.path(), Sound.class);
+        sound.play(sfxVolume);
+    }
+
+    @Override
+    public void playRandom(Sfx... options) {
+        if (muted) return;
+        if (options == null || options.length == 0) return;
+
+        playSfx(options[random.nextInt(options.length)]);
+    }
+
+    @Override
+    public void setSfxVolume(float volume01) {
+        this.sfxVolume = clamp01(volume01);
+        save();
+    }
+
+    @Override
+    public void setMuted(boolean muted) {
+        this.muted = muted;
+        save();
+    }
+
+    @Override
+    public float getSfxVolume() {
+        return sfxVolume;
+    }
+
+    @Override
+    public boolean isMuted() {
+        return muted;
     }
 
     /**
-     * Plays a previously loaded sound effect at the current global sound volume.
-     *
-     * @param name The reference name of the sound to be played.
-     */
-    public void playSound(String name) {
-        if (sounds.containsKey(name)) {
-            sounds.get(name).play(soundVolume);
-        }
-    }
-
-    /**
-     * Loads and immediately starts playing background music with looping enabled.
-     * If music is already playing, it will be disposed of before the new track starts.
-     *
-     * @param fileName The name of the file located in "assets/audio/music/".
-     */
-    public void playMusic(String fileName) {
-        if (backgroundMusic != null) backgroundMusic.dispose();
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/audio/music/" + fileName));
-        backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(musicVolume);
-        backgroundMusic.play();
-    }
-
-    /**
-     * Updates the global volume levels for both sound effects and background music.
-     *
-     * @param newVolume The new volume level (normalized between 0.0 and 1.0).
-     */
-    public void setVolume(float newVolume) {
-        this.soundVolume = newVolume;
-        if (backgroundMusic != null) backgroundMusic.setVolume(soundVolume * musicVolume);
-    }
-
-    /**
-     * Disposes of all loaded sound effects and background music to free up memory.
-     * Should be called when the game or the audio manager is no longer needed.
+     * Disposes of the background music. Note: AssetManager handles Sound disposal.
      */
     public void dispose() {
-        for (Sound s : sounds.values()) s.dispose();
-        if (backgroundMusic != null) backgroundMusic.dispose();
     }
 
+    private void save() {
+        if (prefs == null) return;
+        prefs.putFloat(PREF_SFX_VOL, sfxVolume);
+        prefs.putBoolean(PREF_MUTED, muted);
+        prefs.flush();
+    }
 
+    private static float clamp01(float v) {
+        return Math.max(0f, Math.min(1f, v));
+    }
 }
