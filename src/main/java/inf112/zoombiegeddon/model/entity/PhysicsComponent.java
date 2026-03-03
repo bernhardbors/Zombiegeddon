@@ -33,7 +33,7 @@ public class PhysicsComponent {
      * @param world    The world to create the body in.
      * @param pos      The starting position.
      * @param hitboxW    The reference width for scaling the hitbox.
-     * @param hitboxh   The reference height for scaling the hitbox.
+     * @param hitboxH   The reference height for scaling the hitbox.
      * @param userData Data to be stored in the body and main fixture.
      * @return The fully constructed Box2D Body.
      */

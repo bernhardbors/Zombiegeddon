@@ -133,6 +133,7 @@ public class PlayerController extends InputAdapter {
         return Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) || Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT);
     }
 
+
     public boolean isShooting() {
         return isShooting;
     }
