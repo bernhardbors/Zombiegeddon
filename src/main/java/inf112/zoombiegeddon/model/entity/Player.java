@@ -54,7 +54,7 @@ public class Player extends Entity implements IDamageable {
 
         setSize(spriteDim, spriteDim);
 
-        this.controller = new PlayerController(this);
+        this.controller = new PlayerController(this,null);
     }
 
     /**
