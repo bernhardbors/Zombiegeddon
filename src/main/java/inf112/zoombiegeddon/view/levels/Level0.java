@@ -13,6 +13,7 @@ import inf112.zoombiegeddon.model.world.Spawner;
 import inf112.zoombiegeddon.utils.CameraUtils;
 import inf112.zoombiegeddon.view.renderer.UIRenderer;
 import inf112.zoombiegeddon.view.screens.MainMenuScreen;
+import inf112.zoombiegeddon.model.world.triggers.TriggerZone;
 
 /**
  * A concrete implementation of a game level used for testing purposes.
@@ -26,6 +27,7 @@ public class Level0 extends AbstractLevel {
 
     private final UIRenderer UIRendererPlayer;
     private final UIRenderer UIRendererEnemy;
+    private final TriggerZone triggerZone;
 
     private final Spawner spawner;
 
@@ -40,8 +42,9 @@ public class Level0 extends AbstractLevel {
     public Level0(GameApp app, Vector2 gravity) {
         super(app, gravity, 10f, 10f, false);
 
-        loadMap("tilemaps/map01.tmx", "Collision");
+        loadMap("tilemaps/level1.tmx", "Collision");
         this.spawner = new Spawner(map);
+        this.triggerZone = new TriggerZone(map, "Signs");
 
         System.out.println("Spawning player at: " + spawner.getSpawnPoint("player_spawn"));
         this.player = new Player(worldPhysics.getWorld(), spawner.getSpawnPoint("player_spawn"), app.playerMaleAnimations, 10);
@@ -96,6 +99,11 @@ public class Level0 extends AbstractLevel {
         zombie.update(delta);
 
         CameraUtils.updateCamera(player, camera);
+
+        String message = triggerZone.update(player.getBounds());
+        if (message != null) {
+            System.out.println(message); //endre her :)
+        }
     }
 
     /**
