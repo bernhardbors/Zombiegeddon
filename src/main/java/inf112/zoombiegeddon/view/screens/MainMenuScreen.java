@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
 import inf112.zoombiegeddon.view.levels.Level0;
@@ -24,8 +25,8 @@ public class MainMenuScreen extends AbstractScreen {
         table.clear();
 
         // 2. Hent bakgrunn fra manager (IKKE lag "new Texture")
-        if (app.manager.isLoaded(GameApp.BG_SKY)) {
-            Texture background = app.manager.get(GameApp.BG_SKY, Texture.class);
+        if (app.manager.isLoaded(AssetConstants.BG_SKY)) {
+            Texture background = app.manager.get(AssetConstants.BG_SKY, Texture.class);
             table.setBackground(new TextureRegionDrawable(background));
         }
 

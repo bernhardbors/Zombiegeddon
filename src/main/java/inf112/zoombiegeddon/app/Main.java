@@ -19,6 +19,7 @@ public class Main {
 		// explanation
 		if (SharedLibraryLoader.os == Os.MacOsX) {
 			Configuration.GLFW_LIBRARY_NAME.set("glfw_async");
+			setMacIcon();
 		}
 
 		Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
@@ -30,5 +31,24 @@ public class Main {
 		// Start the application framework. The constructor call won't return until
 		// Gdx.app.exit() is called.
 		new Lwjgl3Application(appListener, cfg);
+	}
+
+	private static void setMacIcon() {
+		if (java.awt.Taskbar.isTaskbarSupported()) {
+			try {
+				java.awt.Taskbar taskbar = java.awt.Taskbar.getTaskbar();
+
+				java.net.URL iconURL = Main.class.getClassLoader().getResource("assets/sprites/appicons/icon_lg.png");
+				System.out.println(iconURL);
+				if (iconURL != null) {
+					java.awt.Image image = java.awt.Toolkit.getDefaultToolkit().getImage(iconURL);
+					taskbar.setIconImage(image);
+				} else {
+					System.out.println("Kunne ikke finne ikon-filen i resources!");
+				}
+			} catch (Exception e) {
+				// Ignorerer feil på systemer som ikke støtter Taskbar
+			}
+		}
 	}
 }

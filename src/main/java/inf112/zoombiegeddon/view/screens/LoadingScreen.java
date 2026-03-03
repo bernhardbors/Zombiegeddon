@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
+import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.audio.AudioAssets;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
@@ -36,30 +38,27 @@ public class LoadingScreen extends AbstractScreen {
         table.center().add(loadingLabel);
         stage.addActor(table);
 
-        // 2. Start asynkron lasting
         queueAssets();
     }
 
     private void queueAssets() {
-        app.manager.load(GameApp.UI_SKIN, Skin.class);
-        app.manager.load(GameApp.FONT_PATH, BitmapFont.class);
-        app.manager.load(GameApp.CHARACTER_SHEET, Texture.class);
-        app.manager.load(GameApp.ENEMY_SHEET, Texture.class);
-        app.manager.load(GameApp.BG_SKY, Texture.class);
-        app.manager.load(GameApp.BG_CITY, Texture.class);
-        app.manager.load(GameApp.BG_L1, Texture.class);
-        app.manager.load(GameApp.BG_L2, Texture.class);
+        app.manager.load(AssetConstants.UI_SKIN, Skin.class);
+        app.manager.load(AssetConstants.FONT_PATH, BitmapFont.class);
+        app.manager.load(AssetConstants.CHARACTER_MALE_SHEET, Texture.class);
+        app.manager.load(AssetConstants.CHARACTER_FEMALE_SHEET, Texture.class);
+        app.manager.load(AssetConstants.ZOMBIE_SHEET, Texture.class);
+        app.manager.load(AssetConstants.BG_SKY, Texture.class);
+        app.manager.load(AssetConstants.BG_CITY, Texture.class);
+        app.manager.load(AssetConstants.BG_L1, Texture.class);
+        app.manager.load(AssetConstants.BG_L2, Texture.class);
 
         AudioAssets.queue(app.manager);
-
     }
 
     @Override
     public void render(float delta) {
-        // Svart bakgrunn mens vi laster
         ScreenUtils.clear(0, 0, 0, 1);
 
-        // Oppdater AssetManager. Returnerer true når ferdig.
         if (app.manager.update()) {
             if (!isFinished) {
                 isFinished = true;
@@ -67,7 +66,6 @@ public class LoadingScreen extends AbstractScreen {
                 app.setScreen(new SplashScreen(app));
             }
         } else {
-            // Oppdater tekst uten å lage nye String-objekter
             int progress = (int) (app.manager.getProgress() * 100);
             progressText.setLength(0);
             progressText.append("Loading... ").append(progress).append("%");
@@ -79,29 +77,34 @@ public class LoadingScreen extends AbstractScreen {
     }
 
     private void finalizeLoading() {
-        // Hent ferdiglastede ressurser til app-containeren
-        app.skin = app.manager.get(GameApp.UI_SKIN, Skin.class);
-        app.font = app.manager.get(GameApp.FONT_PATH, BitmapFont.class);
+        app.skin = app.manager.get(AssetConstants.UI_SKIN, Skin.class);
+        app.font = app.manager.get(AssetConstants.FONT_PATH, BitmapFont.class);
 
-        Texture playerSpriteSheet = app.manager.get(GameApp.CHARACTER_SHEET, Texture.class);
-        app.playerAnimations = new AnimationHandler(playerSpriteSheet);
+        // creating the player animations
+        Texture playerMaleSpriteSheet = app.manager.get(AssetConstants.CHARACTER_MALE_SHEET, Texture.class);
+        Texture playerFemaleSpriteSheet = app.manager.get(AssetConstants.CHARACTER_FEMALE_SHEET, Texture.class);
+        app.playerMaleAnimations = new AnimationHandler(playerMaleSpriteSheet);
+        app.playerFemaleAnimations = new AnimationHandler(playerFemaleSpriteSheet);
 
-        Texture enemySpriteSheet = app.manager.get(GameApp.ENEMY_SHEET, Texture.class);
-        app.enemyAnimations = new AnimationHandler(enemySpriteSheet);
+        Texture enemyZombieSpriteSheet = app.manager.get(AssetConstants.ZOMBIE_SHEET, Texture.class);
+        app.zombieAnimations = new AnimationHandler(enemyZombieSpriteSheet);
 
         // Konfigurer bakgrunn med parallax-styrke
-        app.background.addLayer(app.manager.get(GameApp.BG_SKY, Texture.class), 0.1f);
-        app.background.addLayer(app.manager.get(GameApp.BG_CITY, Texture.class), 0.4f);
-        app.background.addLayer(app.manager.get(GameApp.BG_L1, Texture.class), 0.7f);
-        app.background.addLayer(app.manager.get(GameApp.BG_L2, Texture.class), 1.0f);
+        app.background.addLayer(app.manager.get(AssetConstants.BG_SKY, Texture.class), 0.1f);
+        app.background.addLayer(app.manager.get(AssetConstants.BG_CITY, Texture.class), 0.4f);
+        app.background.addLayer(app.manager.get(AssetConstants.BG_L1, Texture.class), 0.7f);
+        app.background.addLayer(app.manager.get(AssetConstants.BG_L2, Texture.class), 1.0f);
 
         // Oppdater Skin slik at alle widgets bruker riktig font
         app.skin.add("default-font", app.font, BitmapFont.class);
+
+        // Font til UI elements
+        app.skin.get(TextButton.TextButtonStyle.class).font = app.font;
+        app.skin.get(Label.LabelStyle.class).font = app.font;
     }
 
     @Override
     public void hide() {
-        // Rydd opp i den midlertidige fonten for å unngå lekkasje
         if (loadingFont != null) loadingFont.dispose();
         stage.clear();
     }

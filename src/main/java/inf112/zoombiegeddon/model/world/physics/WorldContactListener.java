@@ -1,7 +1,10 @@
 package inf112.zoombiegeddon.model.world.physics;
 
 import com.badlogic.gdx.physics.box2d.*;
+import inf112.zoombiegeddon.model.entity.Enemy;
 import inf112.zoombiegeddon.model.entity.Entity;
+import inf112.zoombiegeddon.model.entity.IProjectile;
+import inf112.zoombiegeddon.model.entity.Player;
 
 
 /**
@@ -21,6 +24,8 @@ public class WorldContactListener implements ContactListener {
     @Override
     public void beginContact(Contact contact) {
         handleFeetContact(contact, true);
+        checkPlayerEntityCollision(contact);
+        checkProjectileCollision(contact);
     }
 
     /**
@@ -33,6 +38,7 @@ public class WorldContactListener implements ContactListener {
     @Override
     public void endContact(Contact contact) {
         handleFeetContact(contact, false);
+        checkPlayerEntityCollision(contact);
     }
 
     /**
@@ -49,17 +55,64 @@ public class WorldContactListener implements ContactListener {
         Fixture fa = contact.getFixtureA();
         Fixture fb = contact.getFixtureB();
 
+        // PRINT FOR DEBUGGING
         if ("feet".equals(fa.getUserData()) || "feet".equals(fb.getUserData())) {
-            Object bodyAData = fa.getBody().getUserData();
-            Object bodyBData = fb.getBody().getUserData();
+            System.out.println("KONTAKT: Fotsensor traff noe! Grounded: " + grounded);
+            System.out.println("A: " + fa.getUserData() + " | B: " + fb.getUserData());
+        }
 
-            if (bodyAData instanceof Entity) {
-                ((Entity) bodyAData).setGrounded(grounded);
-            } else if (bodyBData instanceof Entity) {
-                ((Entity) bodyBData).setGrounded(grounded);
-            }
+        if ("feet".equals(fa.getUserData())) {
+            Object data = fa.getBody().getUserData();
+            if (data instanceof Entity) ((Entity) data).setGrounded(grounded);
+        } else if ("feet".equals(fb.getUserData())) {
+            Object data = fb.getBody().getUserData();
+            if (data instanceof Entity) ((Entity) data).setGrounded(grounded);
         }
     }
+
+    private void checkPlayerEntityCollision(Contact contact) {
+        Fixture fa = contact.getFixtureA();
+        Fixture fb = contact.getFixtureB();
+
+        Object bodyAData = fa.getBody().getUserData();
+        Object bodyBData = fb.getBody().getUserData();
+
+        if (bodyAData instanceof Player && bodyBData instanceof Enemy) {
+            ((Player) bodyAData).takeDamage(1);
+            System.out.println("Player hit! Health: " + ((Player) bodyAData).getHealth());
+        } else if (bodyAData instanceof Enemy && bodyBData instanceof Player) {
+            ((Player) bodyBData).takeDamage(1);
+            System.out.println("Player hit! Health: " + ((Player) bodyBData).getHealth());
+        }
+    }
+
+    private void checkProjectileCollision(Contact contact) {
+        Fixture fa = contact.getFixtureA();
+        Fixture fb = contact.getFixtureB();
+
+        // Get the UserData from the BODIES, not the fixtures
+        Object dataA = fa.getBody().getUserData();
+        Object dataB = fb.getBody().getUserData();
+
+        // --- Case 1: Bullet hits an Enemy ---
+        if (dataA instanceof IProjectile && dataB instanceof Enemy) {
+            ((Enemy) dataB).takeDamage(2);
+            ((IProjectile) dataA).markForRemoval();
+        } else if (dataB instanceof IProjectile && dataA instanceof Enemy) {
+            ((Enemy) dataA).takeDamage(2);
+            ((IProjectile) dataB).markForRemoval();
+        }
+
+        // --- Case 2: Bullet hits a Wall (StaticBody) ---
+        // Check if one is a projectile and the OTHER body is static
+        if (dataA instanceof IProjectile && fb.getBody().getType() == BodyDef.BodyType.StaticBody) {
+            ((IProjectile) dataA).markForRemoval();
+        } else if (dataB instanceof IProjectile && fa.getBody().getType() == BodyDef.BodyType.StaticBody) {
+            ((IProjectile) dataB).markForRemoval();
+        }
+    }
+
+
 
     /**
      * Called after collision detection but before collision resolution.
@@ -70,7 +123,7 @@ public class WorldContactListener implements ContactListener {
      */
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
-        // No implementation needed for current logic
+        checkPlayerEntityCollision(contact);
     }
 
     /**
@@ -82,6 +135,6 @@ public class WorldContactListener implements ContactListener {
      */
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
-        // No implementation needed for current logic
+        checkPlayerEntityCollision(contact);
     }
 }

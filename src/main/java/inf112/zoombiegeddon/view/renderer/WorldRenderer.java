@@ -1,11 +1,16 @@
 package inf112.zoombiegeddon.view.renderer;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Disposable;
 import inf112.zoombiegeddon.model.world.physics.WorldPhysics;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Responsible for rendering the game world, including the tiled map
@@ -17,6 +22,9 @@ public class WorldRenderer implements Disposable {
     private OrthogonalTiledMapRenderer mapRenderer;
     private final Box2DDebugRenderer debugRenderer;
     private final boolean debugMode;
+
+    private int[] backgroundLayers;
+    private int[] foregroundLayers;
 
     /**
      * Constructs a new WorldRenderer.
@@ -39,22 +47,45 @@ public class WorldRenderer implements Disposable {
     public void setMap(TiledMap map, float unitScale) {
         if (mapRenderer != null) mapRenderer.dispose();
         this.mapRenderer = new OrthogonalTiledMapRenderer(map, unitScale);
+
+        splitLayers(map);
     }
 
-    /**
-     * Renders the tiled map and, if enabled, the physics debug information.
-     *
-     * @param delta        The time in seconds since the last frame.
-     * @param worldPhysics The physics world containing the bodies to debug.
-     */
-    public void render(float delta, WorldPhysics worldPhysics) {
-        camera.update();
+    private void splitLayers(TiledMap map) {
+        List<Integer> bg = new ArrayList<>();
+        List<Integer> fg = new ArrayList<>();
 
-        if (mapRenderer != null) {
-            mapRenderer.setView(camera);
-            mapRenderer.render();
+        for (int i = 0; i < map.getLayers().getCount(); i++) {
+            MapLayer layer = map.getLayers().get(i);
+            System.out.println(layer.getName());
+            if (layer.getName().contains("Foreground")) {
+                fg.add(i);
+            } else {
+                bg.add(i);
+            }
         }
 
+        backgroundLayers = bg.stream().mapToInt(i -> i).toArray();
+        foregroundLayers = fg.stream().mapToInt(i -> i).toArray();
+    }
+
+    public void renderForeground() {
+        if (mapRenderer != null && foregroundLayers != null) {
+            System.out.println("rendering-Foreground " + foregroundLayers.length );
+            mapRenderer.render(foregroundLayers);
+        }
+    }
+
+    public void renderBackground() {
+        if (mapRenderer != null && backgroundLayers != null) {
+            System.out.println("rendering-Background");
+            camera.update();
+            mapRenderer.setView(camera);
+            mapRenderer.render(backgroundLayers);
+        }
+    }
+
+    public void renderDebug(WorldPhysics worldPhysics) {
         if (debugMode && worldPhysics != null) {
             debugRenderer.render(worldPhysics.getWorld(), camera.combined);
         }

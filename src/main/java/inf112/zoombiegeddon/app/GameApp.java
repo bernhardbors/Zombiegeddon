@@ -32,25 +32,10 @@ public class GameApp extends Game {
     public Preferences prefs;
     public Skin skin;
     public BitmapFont font;
-    public AnimationHandler playerAnimations;
-    public AnimationHandler enemyAnimations;
+    public AnimationHandler playerMaleAnimations;
+    public AnimationHandler playerFemaleAnimations;
+    public AnimationHandler zombieAnimations;
     public ParallaxBackground background;
-
-    // Asset paths and constants
-    public static final String UI_SKIN = "ui/skin/uiskin.json";
-    public static final String FONT_PATH = "fonts/WhitePeaberryOutline.fnt";
-    public static final String CHARACTER_SHEET = "assets/characterSprite32x32/MaleSkin1-Sheet.png";
-    public static final String ENEMY_SHEET = "assets/characterSprite32x32/Enemy-Sheet.png";
-    public static final String BG_SKY = "assets/backgrounds/CityBackgroundSky.png";
-    public static final String BG_CITY = "assets/backgrounds/CityBackground.png";
-    public static final String BG_L1 = "assets/backgrounds/CityBackgroundLayer1.png";
-    public static final String BG_L2 = "assets/backgrounds/CityBackgroundLayer2.png";
-
-    // Preference keys
-    public static final String PREFS_NAME = "Prefs";
-    public static final String PREF_WIDTH = "width";
-    public static final String PREF_HEIGHT = "height";
-    public static final String PREF_RES_STRING = "resString";
 
     /**
      * Initializes the core components of the application.
@@ -61,7 +46,7 @@ public class GameApp extends Game {
     public void create() {
         batch = new SpriteBatch();
         manager = new AssetManager();
-        prefs = Gdx.app.getPreferences(PREFS_NAME);
+        prefs = Gdx.app.getPreferences(AssetConstants.PREFS_NAME);
         audio = new AudioManager(manager, prefs);
 
         setResolutionOnStartup();
