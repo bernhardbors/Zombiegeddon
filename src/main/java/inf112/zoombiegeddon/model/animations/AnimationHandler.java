@@ -39,7 +39,7 @@ public class AnimationHandler {
      * @return The specific TextureRegion for the current animation frame.
      */
     public TextureRegion getFrame(EntityState state, float stateTime, boolean facingRight) {
-        boolean loop = !(state == EntityState.PUNCHING || state == EntityState.DEAD);
+        boolean loop = !(state == EntityState.JUMPING || state == EntityState.FALLING);
 
         Animation<TextureRegion> animation = animations.get(state);
 
@@ -50,7 +50,7 @@ public class AnimationHandler {
         TextureRegion region = animation.getKeyFrame(stateTime, loop);
 
         // Logic for flipping the texture based on facing direction
-        if ((facingRight && !region.isFlipX()) || (!facingRight && region.isFlipX())) {
+        if ((!facingRight && !region.isFlipX()) || (facingRight && region.isFlipX())) {
             region.flip(true, false);
         }
 
@@ -62,15 +62,19 @@ public class AnimationHandler {
      * for all entity states.
      */
     private void createAnimationMap() {
-        TextureRegion[][] characterFrames = TextureRegion.split(characterSpriteSheet, 80, 64);
+        TextureRegion[][] characterFrames = TextureRegion.split(characterSpriteSheet, 32, 32);
 
-        animations.put(EntityState.IDLE,     createAnimation(characterFrames[0], 4, 0.3f));
-        animations.put(EntityState.WALKING,  createAnimation(characterFrames[1], 7, 0.06f));
-        animations.put(EntityState.RUNNING,  createAnimation(characterFrames[2], 7, 0.06f));
-        animations.put(EntityState.JUMPING,  createAnimation(characterFrames[3], 3, 0.1f));
-        animations.put(EntityState.FALLING,  createAnimation(characterFrames[4], 3, 0.1f));
-        animations.put(EntityState.PUNCHING, createAnimation(characterFrames[5], 5, 0.1f));
-        animations.put(EntityState.DEAD,     createAnimation(characterFrames[6], 9, 0.1f));
+        int rows = characterFrames.length;
+        int columns = characterFrames[0].length;
+
+        System.out.println("Creating animation map (" + characterSpriteSheet +"): Rows " + rows + " Columns " + columns);
+
+        animations.put(EntityState.IDLE,     createAnimation(characterFrames[0], 3, 0.5f));
+        if (rows > 1) animations.put(EntityState.WALKING,  createAnimation(characterFrames[1], 3, 0.06f));
+        if (rows > 1) animations.put(EntityState.RUNNING,  createAnimation(characterFrames[1], 3, 0.06f));
+        if (rows > 2) animations.put(EntityState.JUMPING,  createAnimation(characterFrames[2], 3, 0.05f));
+        if (rows > 3) animations.put(EntityState.FALLING,  createAnimation(characterFrames[3], 3, 0.05f));
+        if (rows > 4) animations.put(EntityState.PUNCHING, createAnimation(characterFrames[4], 3, 0.1f));
     }
 
     /**

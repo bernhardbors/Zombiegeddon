@@ -2,6 +2,7 @@ package inf112.zoombiegeddon.model.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import inf112.zoombiegeddon.view.levels.AbstractLevel;
 
 /**
  * Manages the Box2D physics body for an entity.
@@ -9,19 +10,19 @@ import com.badlogic.gdx.physics.box2d.*;
  * and a foot sensor for ground detection, and provides methods for movement.
  */
 public class PhysicsComponent {
-    private final Body body;
+    private Body body;
 
     /**
      * Constructs a new PhysicsComponent and initializes its physical body.
      *
      * @param world    The Box2D world to create the body in.
      * @param pos      The initial position of the body.
-     * @param width    The width of the entity.
-     * @param height   The height of the entity.
+     * @param hitboxW    The width of the entity.
+     * @param hitboxh   The height of the entity.
      * @param userData The user data to associate with the main body fixture.
      */
-    public PhysicsComponent(World world, Vector2 pos, float width, float height, Object userData) {
-        this.body = defineBody(world, pos, width, height, userData);
+    public PhysicsComponent(World world, Vector2 pos, float hitboxW, float hitboxh, Object userData) {
+        this.body = defineBody(world, pos, hitboxW, hitboxh, userData);
     }
 
     /**
@@ -31,35 +32,35 @@ public class PhysicsComponent {
      *
      * @param world    The world to create the body in.
      * @param pos      The starting position.
-     * @param width    The reference width for scaling the hitbox.
-     * @param height   The reference height for scaling the hitbox.
+     * @param hitboxW    The reference width for scaling the hitbox.
+     * @param hitboxH   The reference height for scaling the hitbox.
      * @param userData Data to be stored in the body and main fixture.
      * @return The fully constructed Box2D Body.
      */
-    private Body defineBody(World world, Vector2 pos, float width, float height, Object userData) {
+    private Body defineBody(World world, Vector2 pos, float hitboxW, float hitboxH, Object userData) {
         BodyDef bdef = new BodyDef();
         bdef.position.set(pos);
         bdef.type = BodyDef.BodyType.DynamicBody;
-
+        bdef.fixedRotation = true;
         Body body = world.createBody(bdef);
-        body.setUserData(userData);
-        body.setFixedRotation(true);
 
-        FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
+        FixtureDef fdef = new FixtureDef();
 
-        // Main Body (Hitbox)
-        float bodyWidth = width / 10f;
-        float bodyHeight = height / 3f;
-        shape.setAsBox(bodyWidth, bodyHeight);
+        // HOVED-HITBOX (Sentrert på karakterens kropp)
+        // Vi bruker de faktiske målene (11px og 20px konvertert til enheter)
+        shape.setAsBox(hitboxW / 2f, hitboxH / 2f);
         fdef.shape = shape;
         fdef.friction = 0f;
         body.createFixture(fdef).setUserData(userData);
 
-        // Feet (Sensor for ground contact)
-        float feetWidth = bodyWidth * 0.8f;
-        float feetHeight = bodyHeight / 10f;
-        shape.setAsBox(feetWidth, feetHeight, new Vector2(0, -bodyHeight), 0);
+        // FOTSENSOR
+        // Plasseres nøyaktig i bunnen av den 20px høye hitboxen
+        float sensorWidth = (hitboxW / 2f) * 0.9f;
+        float sensorHeight = 0.3f;
+        Vector2 sensorCenter = new Vector2(0, -hitboxH / 2f); // Bunnen av hitboxen
+
+        shape.setAsBox(sensorWidth, sensorHeight, sensorCenter, 0);
         fdef.shape = shape;
         fdef.isSensor = true;
         body.createFixture(fdef).setUserData("feet");
@@ -103,5 +104,9 @@ public class PhysicsComponent {
      */
     public Body getBody() {
         return body;
+    }
+
+    public void setBody(Object o) {
+        this.body = (Body) o;
     }
 }

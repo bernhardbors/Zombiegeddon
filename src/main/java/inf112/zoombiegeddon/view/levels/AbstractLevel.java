@@ -1,8 +1,10 @@
-package inf112.zoombiegeddon.view.renderer;
+package inf112.zoombiegeddon.view.levels;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
@@ -13,6 +15,7 @@ import inf112.zoombiegeddon.audio.AudioService;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.world.physics.WorldCollisionLayerCreator;
 import inf112.zoombiegeddon.model.world.physics.WorldPhysics;
+import inf112.zoombiegeddon.view.renderer.WorldRenderer;
 
 /**
  * Abstract base class for all game levels.
@@ -29,7 +32,13 @@ public abstract class AbstractLevel extends ScreenAdapter {
     protected PlayerController controller;
     protected OrthographicCamera camera;
     protected TiledMap map;
-    protected final float PIXEL_PR_TILE = 32.0f;
+
+    public static final float PIXELS_PER_TILE = 8f;
+    public static final float UNIT_SCALE = 1 / PIXELS_PER_TILE;
+    protected final float VIRTUAL_WIDTH = 50f;
+    protected final float VIRTUAL_HEIGHT = 25f;
+
+    protected ShaderProgram shader;
 
     /**
      * Constructs a new AbstractLevel with the specified game configuration.
@@ -42,11 +51,17 @@ public abstract class AbstractLevel extends ScreenAdapter {
      */
     public AbstractLevel(GameApp app, Vector2 gravity, float worldWidth, float worldHeight, boolean debugMode) {
         this.app = app;
+        this.camera = new OrthographicCamera();
+        this.viewport = new ExtendViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
         this.worldPhysics = new WorldPhysics(gravity);
-        this.camera = new OrthographicCamera(worldWidth, worldHeight);
-        this.audio = app.audio;
         this.worldRenderer = new WorldRenderer(camera, debugMode);
-        this.viewport = new ExtendViewport(worldWidth, worldHeight, camera);
+        this.audio = app.audio;
+
+        // shaders test
+        String vertexShader = Gdx.files.internal("assets/shaders/vertex.glsl").readString();
+        String fragmentShader = Gdx.files.internal("assets/shaders/fragment.glsl").readString();
+
+        shader = new ShaderProgram(vertexShader, fragmentShader);
     }
 
     /**
@@ -57,12 +72,18 @@ public abstract class AbstractLevel extends ScreenAdapter {
      */
     @Override
     public void render(float delta) {
-        app.batch.setProjectionMatrix(camera.combined);
-
         update(delta);
-        drawBackground();
-        drawWorld(delta);
+
+        app.batch.setProjectionMatrix(camera.combined);
+        drawParrallaxBackground();
+        worldRenderer.renderBackground();
         drawEntities();
+        worldRenderer.renderForeground();
+
+        //shader
+        //app.batch.setShader(shader);
+        //app.batch.setShader(null);
+
     }
 
     /**
@@ -88,19 +109,10 @@ public abstract class AbstractLevel extends ScreenAdapter {
     /**
      * Renders the background using the application's background renderer.
      */
-    private void drawBackground() {
+    private void drawParrallaxBackground() {
         app.batch.begin();
         app.background.render(app.batch);
         app.batch.end();
-    }
-
-    /**
-     * Renders the tiled map and physics debug lines.
-     *
-     * @param delta The time in seconds since the last render.
-     */
-    private void drawWorld(Float delta) {
-        worldRenderer.render(delta, worldPhysics);
     }
 
     /**
@@ -128,9 +140,9 @@ public abstract class AbstractLevel extends ScreenAdapter {
     protected void loadMap(String file, String collisionLayerName) {
         if (map == null) {
             map = new TmxMapLoader().load(file);
-            worldRenderer.setMap(map, 1 / PIXEL_PR_TILE);
+            worldRenderer.setMap(map, UNIT_SCALE);
         }
-        new WorldCollisionLayerCreator(worldPhysics.getWorld(), map, collisionLayerName, PIXEL_PR_TILE);
+        new WorldCollisionLayerCreator(worldPhysics.getWorld(), map, collisionLayerName,PIXELS_PER_TILE);
     }
 
     /**

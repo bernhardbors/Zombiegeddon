@@ -22,6 +22,7 @@ public class PlayerController extends InputAdapter {
     private static final float WALKING_SPEED = 4f;
     private static final float RUNNING_SPEED = 8f;
     private static final float FRICTION_COEFFICIENT = 0.9f;
+    public static boolean isShooting = false;
 
     /**
      * Constructs a new PlayerController for the specified player.
@@ -60,6 +61,10 @@ public class PlayerController extends InputAdapter {
         }
         if (keycode == Input.Keys.ESCAPE) {
             Gdx.app.exit();
+            return true;
+        }
+        if (keycode == Input.Keys.L) {
+            isShooting = true;
             return true;
         }
         return false;
@@ -126,5 +131,14 @@ public class PlayerController extends InputAdapter {
     /** @return True if either Shift key is pressed. */
     private boolean isShiftPressed() {
         return Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) || Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT);
+    }
+
+
+    public boolean isShooting() {
+        return isShooting;
+    }
+
+    public void setIsShooting(boolean b) {
+        isShooting = b;
     }
 }

@@ -1,8 +1,9 @@
 package inf112.zoombiegeddon.model.entity;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import inf112.zoombiegeddon.controller.PlayerController;
+import inf112.zoombiegeddon.view.levels.AbstractLevel;
 
 
 /**
@@ -15,10 +16,11 @@ public abstract class Entity extends Sprite {
     protected EntityState currentState = EntityState.IDLE;
     protected EntityState previousState = EntityState.IDLE;
 
-
     protected float stateTime = 0f;
     protected boolean facingRight = true;
     protected boolean isGrounded = false;
+
+    private int contactPoints = 0;
 
     /**
      * Constructs an Entity with a specific physics component.
@@ -29,13 +31,27 @@ public abstract class Entity extends Sprite {
         this.physics = physics;
     }
 
+    public void setRegion(TextureRegion region) {
+        super.setRegion(region);
+
+        // Hvis spriten er 16 piksler, blir width = 16 * (1/8) = 2.0f enheter
+        float width = region.getRegionWidth() * AbstractLevel.UNIT_SCALE;
+        float height = region.getRegionHeight() * AbstractLevel.UNIT_SCALE;
+        setSize(width, height);
+    }
+
     /**
      * Updates the entity's logic. Must be implemented by subclasses to handle
      * specific behavior, positioning, and state changes.
      *
      * @param dt The time in seconds since the last update.
      */
-    public abstract void update(float dt);
+    public void update(float dt) {
+        setPosition(
+                physics.getPosition().x - getWidth() / 2f,
+                physics.getPosition().y - getHeight() / 2f
+        );
+    }
 
     /**
      * Determines which state the entity should be in when it is moving on the ground.
@@ -84,7 +100,15 @@ public abstract class Entity extends Sprite {
      * @param grounded True if the entity is on the ground, false otherwise.
      */
     public void setGrounded(boolean grounded) {
-        this.isGrounded = grounded;
+        if (grounded) {
+            contactPoints++;
+        } else {
+            contactPoints--;
+        }
+        if (contactPoints < 0) contactPoints = 0;
+
+        // DEBUG PRINT
+        System.out.println("Entity " + this.getClass().getSimpleName() + " contact points: " + contactPoints);
     }
 
     /**
@@ -103,5 +127,9 @@ public abstract class Entity extends Sprite {
      */
     public PhysicsComponent getPhysics() {
         return physics;
+    }
+
+    public boolean isGrounded() {
+        return contactPoints > 0;
     }
 }

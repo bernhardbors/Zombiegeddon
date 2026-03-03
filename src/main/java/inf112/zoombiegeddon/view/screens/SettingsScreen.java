@@ -2,6 +2,7 @@ package inf112.zoombiegeddon.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
 
@@ -28,7 +29,7 @@ public class SettingsScreen extends AbstractScreen {
         String[] resolutions = {"1280 x 720", "1366 x 768", "1600 x 900", "1920 x 1080", "2560 x 1440", "3840 x 2160"};
 
         // Hent lagret oppløsning fra appens preferanser
-        String savedRes = app.prefs.getString(GameApp.PREF_RES_STRING, resolutions[0]);
+        String savedRes = app.prefs.getString(AssetConstants.PREF_RES_STRING, resolutions[0]);
 
         // SelectBox - Bruker app.skin
         UIUtils.addSelectBox("Resolutions:", resolutions, app.skin, table, buttonWidth, buttonHeight, this::changeResolution)
@@ -54,9 +55,9 @@ public class SettingsScreen extends AbstractScreen {
             Gdx.graphics.setWindowedMode(width, height);
 
             // Lagre til fil
-            app.prefs.putInteger(GameApp.PREF_WIDTH, width);
-            app.prefs.putInteger(GameApp.PREF_HEIGHT, height);
-            app.prefs.putString(GameApp.PREF_RES_STRING, resolution);
+            app.prefs.putInteger(AssetConstants.PREF_WIDTH, width);
+            app.prefs.putInteger(AssetConstants.PREF_HEIGHT, height);
+            app.prefs.putString(AssetConstants.PREF_RES_STRING, resolution);
             app.prefs.flush();
 
             // Viktig: Oppdater Stage sitt viewport så UI-en ikke blir strukket
