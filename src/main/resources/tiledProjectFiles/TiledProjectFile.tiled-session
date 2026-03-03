@@ -3,15 +3,32 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "/Users/isakgraarud/Documents/01_University/Year_02/Vår_Sem/INF 112/a-laget/src/main/resources/tilemaps/map01.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "/Users/isakgraarud/Documents/01_University/Year_02/Vår_Sem/INF 112/a-laget/src/main/resources/tilemaps/map01.tmx": {
+            "scale": 1.3502,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 106.28055102947711,
+                "y": 47.03006961931567
+            }
+        },
         "CityTiles.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 1.6402,
             "scaleInEditor": 1
+        },
+        "Decoration.tsx": {
+            "scaleInDock": 2.8697
+        },
+        "DirtTiles.tsx": {
+            "scaleInDock": 1.8241
+        },
+        "MetalTiles.tsx": {
+            "scaleInDock": 3.8119
         }
     },
     "last.imagePath": "/Users/isakgraarud/Documents/01_University/Year_02/Vår_Sem/INF 112/a-laget/src/main/resources/assets/sprites/tilesets",
@@ -20,9 +37,11 @@
     "map.tileHeight": 8,
     "map.tileWidth": 8,
     "openFiles": [
+        "/Users/isakgraarud/Documents/01_University/Year_02/Vår_Sem/INF 112/a-laget/src/main/resources/tilemaps/map01.tmx"
     ],
     "project": "TiledProjectFile.tiled-project",
     "recentFiles": [
+        "/Users/isakgraarud/Documents/01_University/Year_02/Vår_Sem/INF 112/a-laget/src/main/resources/tilemaps/map01.tmx",
         "CityTiles.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
