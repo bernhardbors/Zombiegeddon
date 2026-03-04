@@ -45,7 +45,7 @@ public class Level0 extends AbstractLevel {
 
         System.out.println("Spawning player at: " + spawner.getSpawnPoint("player_spawn"));
         this.player = new Player(worldPhysics.getWorld(), spawner.getSpawnPoint("player_spawn"), app.playerMaleAnimations, 10);
-        this.controller = new PlayerController(player,this.audio);
+        this.controller = new PlayerController(player);
 
         System.out.println("Spawning enemy at: " + spawner.getSpawnPoint("enemy_spawn"));
         this.zombie = new Enemy(worldPhysics.getWorld(), spawner.getSpawnPoint("enemy_spawn"), app.zombieAnimations,10);

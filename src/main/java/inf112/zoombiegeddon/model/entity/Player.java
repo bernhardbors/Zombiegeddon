@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import inf112.zoombiegeddon.controller.PlayerController;
+import inf112.zoombiegeddon.events.GameEvent;
+import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 import inf112.zoombiegeddon.view.levels.AbstractLevel;
 
@@ -54,7 +56,7 @@ public class Player extends Entity implements IDamageable {
 
         setSize(spriteDim, spriteDim);
 
-        this.controller = new PlayerController(this,null);
+        this.controller = new PlayerController(this);
     }
 
     /**
@@ -127,6 +129,7 @@ public class Player extends Entity implements IDamageable {
     public void jump() {
         if (isGrounded()) {
             physics.applyImpulse(new Vector2(0, JUMP_IMPULSE));
+            GameEventBus.post(GameEvent.PLAYER_JUMP);
         }
     }
 

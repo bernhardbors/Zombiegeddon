@@ -1,5 +1,8 @@
 package inf112.zoombiegeddon.audio;
 
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
+
 /**
  * Registry for all in-game sound effects.
  * This enum works as a central source of truth for all audio resources.
@@ -25,5 +28,11 @@ public enum Sfx {
      */
     public String path() {
         return path;
+    }
+
+    public static void queueAssets(AssetManager manager) {
+        for (Sfx s : Sfx.values()) {
+            manager.load(s.path(), Sound.class);
+        }
     }
 }
