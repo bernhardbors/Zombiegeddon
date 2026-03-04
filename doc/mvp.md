@@ -1,11 +1,13 @@
 ## MVP
-1. Main Menu
+1. SplashScreen som vises mens spillet laster inn
+2. Main Menu
     * Start
     * How to play
     * Settings
-        * Endre oppløsning
+        * Endre oppløsning og lydinnstillinger
     * Exit
-2. Vise et enkelt level med karakter og fiender
-    * Kunne flytte rundt på karakteren og hoppe
-3. Fiender som gir skade ved berøring
-4. Dø når man går tom for liv
+3. Vise et spillebrett
+4. Vise spiller på spillebrett
+    * Kunne flytte rundt på karakteren og hoppe ved bruk av taster
+4. Fiender som gir skade ved berøring
+5. Dø når man går tom for liv, eller faller ut av mappet

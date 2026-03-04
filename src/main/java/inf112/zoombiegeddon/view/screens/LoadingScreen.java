@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.audio.AudioAssets;
+import inf112.zoombiegeddon.audio.Sfx;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 
 public class LoadingScreen extends AbstractScreen {
@@ -52,7 +53,8 @@ public class LoadingScreen extends AbstractScreen {
         app.manager.load(AssetConstants.BG_L1, Texture.class);
         app.manager.load(AssetConstants.BG_L2, Texture.class);
 
-        AudioAssets.queue(app.manager);
+        Sfx.queueAssets(app.manager);
+
     }
 
     @Override

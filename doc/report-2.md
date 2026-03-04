@@ -30,10 +30,17 @@ Hybrid mellom Scrum og Kanban:
 
 ## Status:
 **Retroperspektiv:**
-* Blitt enig om å møtes tirsdager og i gruppetimer på fredager
-* Kommunikasjon og samarbeid fungerer godt så langt
-* Satt oss inn i trello og andre kommunikasjonsverktøy
-* Brukt AI til å skrive javadoc
+Rollene i teamet har fungert bra og vi har ikke behov for nye roller. 
+Vår team lead passer på at alle har oppgaver og fordeler nye oppgaver til de som ikke har. 
+Design-ansvarlig bruker tid på både å tegne grafikken som skal brukes og legger de til. 
+Strukturansvarlig hjelper med bugs og gjør mye code review. 
+DJ har implementert audio manageren vi bruker og lagt til noen lydeffekter. 
+Test dronningen venter med tester, men noterer seg alle bugs og hva som burde testes.
+Rapportansvarlig hjelper med struktur i spillet, arbeidsflyt, og skriver dokumentasjon. Teamet er fornøyd med prosjektmetodadikk og valg vi har tatt. 
+Gruppedynamikken er velfungerende og alle kommer med sine meninger, bidrar godt til prosjektet og er lett å få kontakt med. 
+Vi er ganske fornøyde med det vi har fått til så langt. Spillet har kommet seg til MVP og dette er vi fornøyd med. 
+Når det kommer til forbedringspotensiale kunne vi gjort noen avgjørelser angående design og storyline,
+og å huske å oppdatere trello og lage tester. Det er fort å glemme.
 
 **Plan videre:**
 * Sette oss inn i Libgdx og andre biblioteker
