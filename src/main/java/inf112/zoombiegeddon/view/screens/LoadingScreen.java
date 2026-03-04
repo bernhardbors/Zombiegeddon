@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.audio.AudioAssets;
 import inf112.zoombiegeddon.audio.Sfx;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 
