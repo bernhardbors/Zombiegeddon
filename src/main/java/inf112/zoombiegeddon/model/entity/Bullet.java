@@ -41,9 +41,6 @@ public class Bullet extends Entity implements IProjectile {
         float velocityX = directionRight ? BULLET_SPEED : -BULLET_SPEED;
         this.physics.getBody().setLinearVelocity(new Vector2(velocityX, 0));
 
-
-        setSize(0.2f, 0.1f);
-
         this.pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(1, 0, 1, 1);
         pixmap.fill();
@@ -156,6 +153,14 @@ public class Bullet extends Entity implements IProjectile {
      */
     @Override
     public float getHeight() {
+        return 0;
+    }
+
+    /**
+     * @return scaled Sprite Dimensions (sprite dim * worldScale)
+     */
+    @Override
+    public float getScaledSpriteDimensions() {
         return 0;
     }
 

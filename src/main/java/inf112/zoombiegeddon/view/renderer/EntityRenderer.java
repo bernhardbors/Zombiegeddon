@@ -8,9 +8,9 @@ public class EntityRenderer  {
 
     public void render(SpriteBatch batch, IEntity entity, TextureRegion currentFrame) {
 
-        float x = entity.getPosition().x - entity.getWidth() / 2f;
-        float y = entity.getPosition().y - entity.getHeight() / 2f;
+        float x = entity.getPosition().x - entity.getScaledSpriteDimensions() / 2f;
+        float y = entity.getPosition().y - entity.getScaledSpriteDimensions() / 2f;
 
-        batch.draw(currentFrame, x, y, entity.getWidth(), entity.getHeight());
+        batch.draw(currentFrame, x, y, entity.getScaledSpriteDimensions(), entity.getScaledSpriteDimensions());
     }
 }

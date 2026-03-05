@@ -35,6 +35,8 @@ public class Player extends Entity implements IDamageable {
     private final float bodyH;
     private final Rectangle bounds = new Rectangle();
 
+    private float spriteDim;
+
     /**
      * Constructs a new Player instance.
      * Initializes the physics body, sets the user data for collision detection,
@@ -46,7 +48,7 @@ public class Player extends Entity implements IDamageable {
      */
     public Player(World world, Vector2 spawnPos, AnimationHandler animationHandler, int Hp) {
 
-        float spriteDim = 32 * AbstractLevel.UNIT_SCALE;
+        this.spriteDim = 32 * AbstractLevel.UNIT_SCALE;
         float actualW = 11 * AbstractLevel.UNIT_SCALE;
         float actualH = 20 * AbstractLevel.UNIT_SCALE;
 
@@ -61,8 +63,6 @@ public class Player extends Entity implements IDamageable {
         this.animationHandler = animationHandler;
         this.HP = Hp;
         this.maxHP = Hp;
-
-        setSize(spriteDim, spriteDim);
 
         this.controller = new PlayerController(this);
     }
@@ -129,9 +129,7 @@ public class Player extends Entity implements IDamageable {
      * Applies an upward impulse to the player's physics body if they are on the ground.
      */
     public void jump() {
-        System.out.println("jump called " + isGrounded());
         if (isGrounded()) {
-            System.out.println("impulse jumping");
             physics.applyImpulse(new Vector2(0, JUMP_IMPULSE));
             GameEventBus.post(GameEvent.PLAYER_JUMP);
         }
@@ -283,6 +281,14 @@ public class Player extends Entity implements IDamageable {
     @Override
     public float getHeight() {
         return bodyH;
+    }
+
+    /**
+     * @return scaled Sprite Dimensions (sprite dim * worldScale)
+     */
+    @Override
+    public float getScaledSpriteDimensions() {
+        return spriteDim;
     }
 
     @Override

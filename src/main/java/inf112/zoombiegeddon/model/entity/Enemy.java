@@ -37,8 +37,6 @@ public class Enemy extends Entity implements IDamageable {
         this.HP = Hp;
         this.maxHP = Hp;
 
-        setSize(spriteDim, spriteDim);
-
     }
 
     public void update(float dt) {
@@ -168,6 +166,30 @@ public class Enemy extends Entity implements IDamageable {
     @Override
     public void setHeight() {
 
+    }
+
+    /**
+     * @return entity Width
+     */
+    @Override
+    public float getWidth() {
+        return 0;
+    }
+
+    /**
+     * @return entity Height
+     */
+    @Override
+    public float getHeight() {
+        return 0;
+    }
+
+    /**
+     * @return scaled Sprite Dimensions (sprite dim * worldScale)
+     */
+    @Override
+    public float getScaledSpriteDimensions() {
+        return 0;
     }
 
     @Override

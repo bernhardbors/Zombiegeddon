@@ -61,5 +61,10 @@ public interface IEntity {
      */
     public float getHeight();
 
+    /**
+     * @return scaled Sprite Dimensions (sprite dim * worldScale)
+     */
+    public float getScaledSpriteDimensions();
+
     public AnimationHandler getAnimationHandler();
 }
