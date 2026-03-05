@@ -3,19 +3,52 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "/Users/isakgraarud/Documents/01_University/Year_02/Vår_Sem/INF 112/a-laget/src/main/resources/tilemaps/map01.tmx",
+    "activeFile": "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
-        "/Users/isakgraarud/Documents/01_University/Year_02/Vår_Sem/INF 112/a-laget/src/main/resources/tilemaps/map01.tmx": {
+        "C:/Users/isakgraarud/Documents/01_University/Year_02/Vår_Sem/INF 112/a-laget/src/main/resources/tilemaps/map01.tmx": {
             "scale": 1.3502,
             "selectedLayer": 3,
             "viewCenter": {
                 "x": 106.28055102947711,
                 "y": 47.03006961931567
             }
+        },
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx": {
+            "expandedObjectLayers": [
+                7
+            ],
+            "scale": 1,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 549,
+                "y": 334.5
+            }
+        },
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level2.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 312.3333333333333,
+                "y": 58.333333333333314
+            }
+        },
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/map01.tmx": {
+            "expandedObjectLayers": [
+                6
+            ],
+            "scale": 2,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 1200,
+                "y": 119.75
+            }
+        },
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/tilemap_packed.tsx": {
+            "scaleInDock": 1
         },
         "CityTiles.tsx": {
             "scaleInDock": 1.6402,
@@ -29,21 +62,41 @@
         },
         "MetalTiles.tsx": {
             "scaleInDock": 3.8119
+        },
+        "level1.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 129.5,
+                "y": 237.5
+            }
+        },
+        "tilemap_packed.tsx": {
+            "scaleInDock": 4
         }
     },
+    "last.externalTilesetPath": "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tiledProjectFiles",
     "last.imagePath": "/Users/isakgraarud/Documents/01_University/Year_02/Vår_Sem/INF 112/a-laget/src/main/resources/assets/sprites/tilesets",
-    "map.height": 30,
+    "map.height": 40,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 8,
     "map.tileWidth": 8,
+    "map.width": 250,
     "openFiles": [
-        "/Users/isakgraarud/Documents/01_University/Year_02/Vår_Sem/INF 112/a-laget/src/main/resources/tilemaps/map01.tmx"
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/map01.tmx",
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx"
     ],
     "project": "TiledProjectFile.tiled-project",
+    "property.type": "string",
     "recentFiles": [
-        "/Users/isakgraarud/Documents/01_University/Year_02/Vår_Sem/INF 112/a-laget/src/main/resources/tilemaps/map01.tmx",
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/map01.tmx",
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx",
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level2.tmx",
+        "level1.tmx",
+        "C:/Users/isakgraarud/Documents/01_University/Year_02/Vår_Sem/INF 112/a-laget/src/main/resources/tilemaps/map01.tmx",
         "CityTiles.tsx"
     ],
+    "tileset.lastUsedFilter": "Tiled-fissettfiler (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
         "height": 8,

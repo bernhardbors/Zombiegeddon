@@ -2,12 +2,14 @@ package inf112.zoombiegeddon.view.levels;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.zoombiegeddon.app.GameApp;
 
@@ -122,6 +124,26 @@ public abstract class AbstractLevel extends ScreenAdapter {
         app.batch.begin();
         draw(app.batch);
         app.batch.end();
+    }
+
+    /**
+     * Draws text to the screen while playing
+     *
+     * @param text The text wanted to show up on the screen
+     * @param color The color of the text
+     * @param scale The wanted scale of the text
+     */
+    public Label drawText(String text, Color color, float scale){
+        Label.LabelStyle style = new Label.LabelStyle();
+        style.font = app.font;
+        style.fontColor = color;
+
+        style.font.setUseIntegerPositions(false);
+        Label textBody = new Label(text, style);
+        textBody.setFontScale(scale);
+
+        return textBody;
+
     }
 
     /**

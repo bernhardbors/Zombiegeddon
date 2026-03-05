@@ -1,8 +1,11 @@
 package inf112.zoombiegeddon.view.levels;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.controller.PlayerController;
@@ -13,6 +16,7 @@ import inf112.zoombiegeddon.model.world.Spawner;
 import inf112.zoombiegeddon.utils.CameraUtils;
 import inf112.zoombiegeddon.view.renderer.UIRenderer;
 import inf112.zoombiegeddon.view.screens.MainMenuScreen;
+import inf112.zoombiegeddon.model.world.triggers.TriggerZone;
 
 /**
  * A concrete implementation of a game level used for testing purposes.
@@ -26,8 +30,10 @@ public class Level0 extends AbstractLevel {
 
     private final UIRenderer UIRendererPlayer;
     private final UIRenderer UIRendererEnemy;
+    private final TriggerZone triggerZone;
 
     private final Spawner spawner;
+    private Label infoText;
 
     /**
      * Constructs a new TestLevel01.
@@ -40,8 +46,9 @@ public class Level0 extends AbstractLevel {
     public Level0(GameApp app, Vector2 gravity) {
         super(app, gravity, 10f, 10f, false);
 
-        loadMap("tilemaps/map01.tmx", "Collision");
+        loadMap("tilemaps/level1.tmx", "Collision");
         this.spawner = new Spawner(map);
+        this.triggerZone = new TriggerZone(map, "Signs", "sign");
 
         System.out.println("Spawning player at: " + spawner.getSpawnPoint("player_spawn"));
         this.player = new Player(worldPhysics.getWorld(), spawner.getSpawnPoint("player_spawn"), app.playerMaleAnimations, 10);
@@ -96,6 +103,26 @@ public class Level0 extends AbstractLevel {
         zombie.update(delta);
 
         CameraUtils.updateCamera(player, camera);
+
+        String message = triggerZone.update(player.getBounds());
+
+        if(message!=null) {
+
+            if (infoText == null || !infoText.getText().equals(message)) {
+                infoText = drawText(message, Color.WHITE, 0.07f);
+                infoText.pack();
+            }
+
+            Rectangle zone = triggerZone.getZone();
+            float centerX = zone.x - (infoText.getWidth() / 2f);
+            float centerY = zone.y + zone.height + 2f;
+
+            infoText.setPosition(centerX, centerY);
+
+        }
+        else{
+            infoText=null;
+        }
     }
 
     /**
@@ -110,6 +137,10 @@ public class Level0 extends AbstractLevel {
 
 
             zombie.draw(batch);
+            if(infoText != null) {
+                infoText.draw(batch,1f);
+            }
+
             batch.end();
             UIRendererPlayer.drawUI();
             UIRendererEnemy.drawUI();
