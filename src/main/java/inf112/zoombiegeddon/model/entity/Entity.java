@@ -105,8 +105,10 @@ public abstract class Entity implements IEntity {
         }
         if (contactPoints < 0) contactPoints = 0;
 
+        isGrounded = (contactPoints > 0);
+
         // DEBUG PRINT
-        System.out.println("Entity " + this.getClass().getSimpleName() + " contact points: " + contactPoints);
+        System.out.println("Entity " + this.getClass().getSimpleName() + " contact points: " + contactPoints + " isGrounded: " + isGrounded);
     }
 
 }

@@ -68,14 +68,14 @@ public class WorldRenderer implements Disposable {
 
     public void renderForeground() {
         if (mapRenderer != null && foregroundLayers != null) {
-            System.out.println("rendering-Foreground " + foregroundLayers.length );
+
             mapRenderer.render(foregroundLayers);
         }
     }
 
     public void renderBackground() {
         if (mapRenderer != null && backgroundLayers != null) {
-            System.out.println("rendering-Background");
+            
             camera.update();
             mapRenderer.setView(camera);
             mapRenderer.render(backgroundLayers);

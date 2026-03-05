@@ -129,7 +129,9 @@ public class Player extends Entity implements IDamageable {
      * Applies an upward impulse to the player's physics body if they are on the ground.
      */
     public void jump() {
+        System.out.println("jump called " + isGrounded());
         if (isGrounded()) {
+            System.out.println("impulse jumping");
             physics.applyImpulse(new Vector2(0, JUMP_IMPULSE));
             GameEventBus.post(GameEvent.PLAYER_JUMP);
         }
