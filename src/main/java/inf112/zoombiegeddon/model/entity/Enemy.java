@@ -41,22 +41,14 @@ public class Enemy extends Entity implements IDamageable {
 
     }
 
-    @Override
     public void update(float dt) {
 
         applyPatrolMovement();
-
         if (Math.abs(physics.getVelocity().x) < 0.01f) {
             reverseDirection();
         }
-
-
         if (hitTimer > 0) hitTimer -= dt;
-
         updateAnimationState(dt, VELOCITY_THRESHOLD);
-
-        setRegion(animationHandler.getFrame(currentState, stateTime, facingRight));
-        super.update(dt);
     }
 
     /**
@@ -86,7 +78,7 @@ public class Enemy extends Entity implements IDamageable {
     }
 
     @Override
-    protected EntityState determineMovingState() {
+    public EntityState determineMovingState() {
         return EntityState.WALKING;
     }
 
@@ -121,4 +113,67 @@ public class Enemy extends Entity implements IDamageable {
     public void heal(int amount) {
         this.HP = Math.min(HP + amount, maxHP);
     }
+
+    /**
+     * Sets the entity position
+     *
+     * @param x pos on the x-axis
+     * @param y pos on the y-axis
+     */
+    @Override
+    public void setPosition(float x, float y) {
+
+    }
+
+    /**
+     * Gets the current position of the entity from the physics component.
+     *
+     * @return A Vector2 representing the world coordinates.
+     */
+    @Override
+    public Vector2 getPosition() {
+        return physics.getPosition();
+    }
+
+    /**
+     * Provides access to the entity's physics component.
+     *
+     * @return The PhysicsComponent instance.
+     */
+    @Override
+    public PhysicsComponent getPhysics() {
+        return physics;
+    }
+
+    /**
+     *
+     * @return boolean true if on ground false if not.
+     */
+    @Override
+    public boolean isGrounded() {
+        return isGrounded;
+    }
+
+    /**
+     * Sets the entity Width
+     */
+    @Override
+    public void setWidth() {
+
+    }
+
+    /**
+     * Sets the entity Height
+     */
+    @Override
+    public void setHeight() {
+
+    }
+
+    @Override
+    public AnimationHandler getAnimationHandler() {
+        return animationHandler;
+    }
+
+
 }

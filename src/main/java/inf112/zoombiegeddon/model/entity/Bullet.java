@@ -2,10 +2,10 @@ package inf112.zoombiegeddon.model.entity;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import inf112.zoombiegeddon.model.animations.AnimationHandler;
+import inf112.zoombiegeddon.view.renderer.EntityRenderer;
 
 /**
  * Represents a projectile fired by an entity.
@@ -56,12 +56,7 @@ public class Bullet extends Entity implements IProjectile {
      * Updates the bullet's position based on physics and manages its lifespan.
      * * @param dt Time in seconds since last frame.
      */
-    @Override
     public void update(float dt) {
-
-        super.update(dt);
-
-        setRegion(blueTexture);
         lifeTimer += dt;
         if (lifeTimer >= MAX_LIFESPAN) {
             markForRemoval();
@@ -73,7 +68,7 @@ public class Bullet extends Entity implements IProjectile {
      * @return Always returns IDLE.
      */
     @Override
-    protected EntityState determineMovingState() {
+    public EntityState determineMovingState() {
         return EntityState.IDLE;
     }
 
@@ -90,5 +85,82 @@ public class Bullet extends Entity implements IProjectile {
     @Override
     public int getDamage() {
         return damage;
+    }
+
+    /**
+     * Sets the entity position
+     *
+     * @param x pos on the x-axis
+     * @param y pos on the y-axis
+     */
+    @Override
+    public void setPosition(float x, float y) {
+
+    }
+
+    /**
+     * Gets the current position of the entity from the physics component.
+     *
+     * @return A Vector2 representing the world coordinates.
+     */
+    @Override
+    public Vector2 getPosition() {
+        return physics.getPosition();
+    }
+
+    /**
+     * Provides access to the entity's physics component.
+     *
+     * @return The PhysicsComponent instance.
+     */
+    @Override
+    public PhysicsComponent getPhysics() {
+        return physics;
+    }
+
+    /**
+     *
+     * @return boolean true if on ground false if not.
+     */
+    @Override
+    public boolean isGrounded() {
+        return isGrounded;
+    }
+
+    /**
+     * Sets the entity Width
+     */
+    @Override
+    public void setWidth() {
+
+    }
+
+    /**
+     * Sets the entity Height
+     */
+    @Override
+    public void setHeight() {
+
+    }
+
+    /**
+     * @return entity Width
+     */
+    @Override
+    public float getWidth() {
+        return 0;
+    }
+
+    /**
+     * @return entity Height
+     */
+    @Override
+    public float getHeight() {
+        return 0;
+    }
+
+    @Override
+    public AnimationHandler getAnimationHandler() {
+        return null;
     }
 }

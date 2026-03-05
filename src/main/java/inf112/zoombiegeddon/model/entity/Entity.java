@@ -1,9 +1,8 @@
 package inf112.zoombiegeddon.model.entity;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import inf112.zoombiegeddon.view.levels.AbstractLevel;
+
 
 
 /**
@@ -11,7 +10,7 @@ import inf112.zoombiegeddon.view.levels.AbstractLevel;
  * Extends the LibGDX {@link Sprite} class to handle visual rendering while
  * maintaining a reference to a {@link PhysicsComponent} for movement and collision.
  */
-public abstract class Entity extends Sprite {
+public abstract class Entity implements IEntity {
     protected PhysicsComponent physics;
     protected EntityState currentState = EntityState.IDLE;
     protected EntityState previousState = EntityState.IDLE;
@@ -22,6 +21,9 @@ public abstract class Entity extends Sprite {
 
     private int contactPoints = 0;
 
+    protected float width;
+    protected float height;
+
     /**
      * Constructs an Entity with a specific physics component.
      *
@@ -31,27 +33,23 @@ public abstract class Entity extends Sprite {
         this.physics = physics;
     }
 
-    public void setRegion(TextureRegion region) {
-        super.setRegion(region);
-
-        // Hvis spriten er 16 piksler, blir width = 16 * (1/8) = 2.0f enheter
-        float width = region.getRegionWidth() * AbstractLevel.UNIT_SCALE;
-        float height = region.getRegionHeight() * AbstractLevel.UNIT_SCALE;
-        setSize(width, height);
+    public void setSize(float width, float height) {
+        this.width = width;
+        this.height = height;
     }
 
-    /**
-     * Updates the entity's logic. Must be implemented by subclasses to handle
-     * specific behavior, positioning, and state changes.
-     *
-     * @param dt The time in seconds since the last update.
-     */
-    public void update(float dt) {
-        setPosition(
-                physics.getPosition().x - getWidth() / 2f,
-                physics.getPosition().y - getHeight() / 2f
-        );
+    public float getWidth() {
+        return width;
     }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public EntityState getCurrentState() { return currentState; }
+    public float getStateTime() { return stateTime; }
+    public boolean isFacingRight() { return facingRight; }
+
 
     /**
      * Determines which state the entity should be in when it is moving on the ground.
@@ -59,7 +57,7 @@ public abstract class Entity extends Sprite {
      *
      * @return The determined EntityState for horizontal movement.
      */
-    protected abstract EntityState determineMovingState();
+    public abstract EntityState determineMovingState();
 
     /**
      * Updates the entity's animation state based on current velocity and grounded status.
@@ -111,25 +109,4 @@ public abstract class Entity extends Sprite {
         System.out.println("Entity " + this.getClass().getSimpleName() + " contact points: " + contactPoints);
     }
 
-    /**
-     * Gets the current position of the entity from the physics component.
-     *
-     * @return A Vector2 representing the world coordinates.
-     */
-    public Vector2 getPosition() {
-        return physics.getPosition();
-    }
-
-    /**
-     * Provides access to the entity's physics component.
-     *
-     * @return The PhysicsComponent instance.
-     */
-    public PhysicsComponent getPhysics() {
-        return physics;
-    }
-
-    public boolean isGrounded() {
-        return contactPoints > 0;
-    }
 }

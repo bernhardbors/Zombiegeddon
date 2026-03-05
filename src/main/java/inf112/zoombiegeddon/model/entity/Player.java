@@ -9,6 +9,7 @@ import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 import inf112.zoombiegeddon.view.levels.AbstractLevel;
+import inf112.zoombiegeddon.view.renderer.EntityRenderer;
 
 /**
  * Represents the player character in the game.
@@ -73,19 +74,13 @@ public class Player extends Entity implements IDamageable {
      *
      * @param dt Time in seconds since the last update.
      */
-    @Override
+
     public void update(float dt) {
-        //System.out.println("Player: isGrounded: " + isGrounded() + " isRunning: " + isRunning + " isFacingRight: " + facingRight);
         controller.update(dt);
-
         updateAnimationState(dt, VELOCITY_THRESHOLD);
-
         if (hitTimer > 0) hitTimer -= dt;
-
-        setRegion(animationHandler.getFrame(currentState, stateTime, facingRight));
-        super.update(dt);
-    }
-
+ 
+       }
     /**
      * Updates the entity's animation state based on current velocity and grounded status.
      * Handles switching between IDLE, JUMPING, FALLING, and moving states, as well as
@@ -126,7 +121,7 @@ public class Player extends Entity implements IDamageable {
      * @return The appropriate EntityState based on the isRunning flag.
      */
     @Override
-    protected EntityState determineMovingState() {
+    public EntityState determineMovingState() {
         return isRunning ? EntityState.RUNNING : EntityState.WALKING;
     }
 
@@ -214,5 +209,82 @@ public class Player extends Entity implements IDamageable {
         Vector2 p = physics.getPosition();
         bounds.set(p.x - bodyW / 2f, p.y - bodyH / 2f, bodyW, bodyH);
         return bounds;
+    }
+
+    /**
+     * Sets the entity position
+     *
+     * @param x pos on the x-axis
+     * @param y pos on the y-axis
+     */
+    @Override
+    public void setPosition(float x, float y) {
+
+    }
+
+    /**
+     * Gets the current position of the entity from the physics component.
+     *
+     * @return A Vector2 representing the world coordinates.
+     */
+    @Override
+    public Vector2 getPosition() {
+        return physics.getPosition();
+    }
+
+    /**
+     * Provides access to the entity's physics component.
+     *
+     * @return The PhysicsComponent instance.
+     */
+    @Override
+    public PhysicsComponent getPhysics() {
+        return physics;
+    }
+
+    /**
+     *
+     * @return boolean true if on ground false if not.
+     */
+    @Override
+    public boolean isGrounded() {
+        return isGrounded;
+    }
+
+    /**
+     * Sets the entity Width
+     */
+    @Override
+    public void setWidth() {
+
+    }
+
+    /**
+     * Sets the entity Height
+     */
+    @Override
+    public void setHeight() {
+
+    }
+
+    /**
+     * @return entity Width
+     */
+    @Override
+    public float getWidth() {
+        return bodyW;
+    }
+
+    /**
+     * @return entity Height
+     */
+    @Override
+    public float getHeight() {
+        return bodyH;
+    }
+
+    @Override
+    public AnimationHandler getAnimationHandler() {
+        return animationHandler;
     }
 }

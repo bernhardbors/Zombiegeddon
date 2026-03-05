@@ -3,6 +3,7 @@ package inf112.zoombiegeddon.view.levels;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -11,9 +12,11 @@ import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.entity.Bullet;
 import inf112.zoombiegeddon.model.entity.Enemy;
+import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.Player;
 import inf112.zoombiegeddon.model.world.Spawner;
 import inf112.zoombiegeddon.utils.CameraUtils;
+import inf112.zoombiegeddon.view.renderer.EntityRenderer;
 import inf112.zoombiegeddon.view.renderer.UIRenderer;
 import inf112.zoombiegeddon.view.screens.MainMenuScreen;
 import inf112.zoombiegeddon.model.world.triggers.TriggerZone;
@@ -32,6 +35,8 @@ public class Level0 extends AbstractLevel {
     private final UIRenderer UIRendererEnemy;
     private final TriggerZone triggerZone;
 
+    private final EntityRenderer entityRenderer;
+
     private final Spawner spawner;
     private Label infoText;
 
@@ -44,7 +49,7 @@ public class Level0 extends AbstractLevel {
      * @param gravity The gravity vector for this level's physics.
      */
     public Level0(GameApp app, Vector2 gravity) {
-        super(app, gravity, 10f, 10f, false);
+        super(app, gravity, 10f, 10f, true);
 
         loadMap("tilemaps/level1.tmx", "Collision");
         this.spawner = new Spawner(map);
@@ -63,6 +68,7 @@ public class Level0 extends AbstractLevel {
 
         this.UIRendererPlayer = new UIRenderer(camera, player);
 
+        this.entityRenderer = new EntityRenderer();
 
         if (!shader.isCompiled()) {
             Gdx.app.error("Shader", "Compile fail: " + shader.getLog());
@@ -133,10 +139,20 @@ public class Level0 extends AbstractLevel {
     @Override
     protected void draw(SpriteBatch batch) {
 
-        player.draw(batch);
+        TextureRegion playerFrame = player.getAnimationHandler().getFrame(
+                player.getCurrentState(),
+                player.getStateTime(),
+                player.isFacingRight()
+        );
 
+        entityRenderer.render(batch, player, playerFrame);
 
-            zombie.draw(batch);
+        TextureRegion enemyFrame = zombie.getAnimationHandler().getFrame(
+            zombie.getCurrentState(),
+            zombie.getStateTime(),
+            zombie.isFacingRight()
+        );
+
             if(infoText != null) {
                 infoText.draw(batch,1f);
             }
@@ -146,8 +162,12 @@ public class Level0 extends AbstractLevel {
             UIRendererEnemy.drawUI();
             batch.begin();
 
-        for (Bullet b : bullets) {
-            b.draw(batch);
+        for (Bullet bullet : bullets) {
+            TextureRegion bulletFrame = bullet.getAnimationHandler().getFrame(
+                    bullet.getCurrentState(),
+                    bullet.getStateTime(),
+                    bullet.isFacingRight()
+            );
         }
     }
 
