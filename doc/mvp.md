@@ -5,7 +5,7 @@
     * How to play
       * Instruksjoner som forklarer kontroller i spillet.
     * Settings
-        * Endre oppløsning
+        * Endre oppløsning og lydinnstillinger
     * Exit
 3. Vise et enkelt level med karakter og fiender
     * Kunne flytte rundt på karakteren og hoppe - hopp gir lydeffekt.

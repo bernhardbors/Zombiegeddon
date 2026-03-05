@@ -8,7 +8,7 @@ import inf112.zoombiegeddon.model.entity.Player;
 
 
 /**
- * Handles collision events within the Box2D physics world.
+ * Handles collision inf112.zoombiegeddon.events within the Box2D physics world.
  * Specifically manages player state transitions, such as detecting
  * if the player is grounded by checking contact with sensors.
  */
@@ -42,7 +42,7 @@ public class WorldContactListener implements ContactListener {
     }
 
     /**
-     * Handles contact events between fixtures to determine if an entity is grounded.
+     * Handles contact inf112.zoombiegeddon.events between fixtures to determine if an entity is grounded.
      * This method identifies if one of the colliding fixtures is a "feet" sensor and
      * updates the grounded state of the associated {@link Entity} (e.g., Player or Enemy).
      * * <p>The method relies on "feet" being set as the UserData on the sensor fixture,

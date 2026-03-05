@@ -1,5 +1,8 @@
 package inf112.zoombiegeddon.audio;
 
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
+
 /**
  * Registry for all in-game sound effects.
  * This enum works as a central source of truth for all audio resources.
@@ -8,7 +11,8 @@ package inf112.zoombiegeddon.audio;
  */
 public enum Sfx {
     JUMP1("assets/audio/sfx/jumppp11.wav"),
-    JUMP2("assets/audio/sfx/jumppp22.wav");
+    JUMP2("assets/audio/sfx/jumppp22.wav"),
+    BUTTON_CLICK("assets/audio/sfx/button_click.wav");
 
     private final String path;
 
@@ -25,5 +29,11 @@ public enum Sfx {
      */
     public String path() {
         return path;
+    }
+
+    public static void queueAssets(AssetManager manager) {
+        for (Sfx s : Sfx.values()) {
+            manager.load(s.path(), Sound.class);
+        }
     }
 }

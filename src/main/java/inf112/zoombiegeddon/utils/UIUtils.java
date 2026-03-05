@@ -21,7 +21,9 @@ public class UIUtils {
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                GameEventBus.post(GameEvent.UI_BUTTON_CLICK);
                 action.run();
+
             }
         });
 

@@ -3,6 +3,8 @@ package inf112.zoombiegeddon.audio;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
+import inf112.zoombiegeddon.events.GameEvent;
+import inf112.zoombiegeddon.events.GameEventBus;
 
 import java.util.Random;
 
@@ -11,7 +13,7 @@ import java.util.Random;
  * This class relies on an {@link AssetManager} to provide access to loaded sound effects
  * and manages individual playback logic, volume control, and music streaming.
  */
-public class AudioManager implements AudioService{
+public class AudioManager implements AudioService, AudioListener{
     private static final String PREF_SFX_VOL = "audio_sfx_volume";
     private static final String PREF_MUTED = "audio_muted";
 
@@ -33,6 +35,8 @@ public class AudioManager implements AudioService{
 
         this.sfxVolume = clamp01(prefs.getFloat(PREF_SFX_VOL, 1.0f));
         this.muted = prefs.getBoolean(PREF_MUTED, false);
+
+        GameEventBus.register(this);
     }
 
     /**
@@ -44,23 +48,20 @@ public class AudioManager implements AudioService{
         this.prefs = null;
         this.sfxVolume = 1.0f;
         this.muted = false;
+
+        GameEventBus.register(this);
     }
 
     @Override
     public void playSfx(Sfx sfx) {
-        if (muted) return;
-        if (sfx == null) return;
-        if (!assets.isLoaded(sfx.path(), Sound.class)) return;
-
+        if (muted || sfx == null || !assets.isLoaded(sfx.path(), Sound.class)) return;
         Sound sound = assets.get(sfx.path(), Sound.class);
         sound.play(sfxVolume);
     }
 
     @Override
     public void playRandom(Sfx... options) {
-        if (muted) return;
-        if (options == null || options.length == 0) return;
-
+        if (muted || options == null || options.length == 0) return;
         playSfx(options[random.nextInt(options.length)]);
     }
 
@@ -86,10 +87,24 @@ public class AudioManager implements AudioService{
         return muted;
     }
 
+    @Override
+    public void onEvent(GameEvent event) {
+        switch (event) {
+            case PLAYER_JUMP:
+                playRandom(Sfx.JUMP1, Sfx.JUMP2);
+                break;
+            case UI_BUTTON_CLICK:
+                playSfx(Sfx.BUTTON_CLICK);
+                break;
+            default:
+                break;
+        }
+    }
     /**
      * Disposes of the background music. Note: AssetManager handles Sound disposal.
      */
     public void dispose() {
+        GameEventBus.unregister(this);
     }
 
     private void save() {

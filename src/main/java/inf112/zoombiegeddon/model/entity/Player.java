@@ -1,9 +1,12 @@
 package inf112.zoombiegeddon.model.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import inf112.zoombiegeddon.controller.PlayerController;
+import inf112.zoombiegeddon.events.GameEvent;
+import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 import inf112.zoombiegeddon.view.levels.AbstractLevel;
 
@@ -27,6 +30,9 @@ public class Player extends Entity implements IDamageable {
     private float hitTimer;
     private final float InvulnerabilityCooldown = 1.0f;
     private boolean isDead = false;
+    private final float bodyW;
+    private final float bodyH;
+    private final Rectangle bounds = new Rectangle();
 
     /**
      * Constructs a new Player instance.
@@ -43,6 +49,9 @@ public class Player extends Entity implements IDamageable {
         float actualW = 11 * AbstractLevel.UNIT_SCALE;
         float actualH = 20 * AbstractLevel.UNIT_SCALE;
 
+        this.bodyW = actualW;
+        this.bodyH = actualH;
+
 
         //player body is 11px X 20 px
         super(new PhysicsComponent(world, spawnPos, actualW, actualH, "player"));
@@ -54,7 +63,7 @@ public class Player extends Entity implements IDamageable {
 
         setSize(spriteDim, spriteDim);
 
-        this.controller = new PlayerController(this,null);
+        this.controller = new PlayerController(this);
     }
 
     /**
@@ -127,6 +136,7 @@ public class Player extends Entity implements IDamageable {
     public void jump() {
         if (isGrounded()) {
             physics.applyImpulse(new Vector2(0, JUMP_IMPULSE));
+            GameEventBus.post(GameEvent.PLAYER_JUMP);
         }
     }
 
@@ -198,5 +208,11 @@ public class Player extends Entity implements IDamageable {
         float offset = facingRight ? 0.5f : -0.5f;
         Vector2 spawnPos = new Vector2(physics.getPosition().x + offset, physics.getPosition().y);
         return new Bullet(world, spawnPos, facingRight);
+    }
+
+    public Rectangle getBounds() {
+        Vector2 p = physics.getPosition();
+        bounds.set(p.x - bodyW / 2f, p.y - bodyH / 2f, bodyW, bodyH);
+        return bounds;
     }
 }
