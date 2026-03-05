@@ -11,7 +11,8 @@ import com.badlogic.gdx.audio.Sound;
  */
 public enum Sfx {
     JUMP1("assets/audio/sfx/jumppp11.wav"),
-    JUMP2("assets/audio/sfx/jumppp22.wav");
+    JUMP2("assets/audio/sfx/jumppp22.wav"),
+    BUTTON_CLICK("assets/audio/sfx/button_click.wav");
 
     private final String path;
 

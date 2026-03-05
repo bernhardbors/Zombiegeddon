@@ -5,7 +5,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
-import inf112.zoombiegeddon.model.entity.EntityState;
 
 import java.util.Random;
 
@@ -95,7 +94,7 @@ public class AudioManager implements AudioService, AudioListener{
                 playRandom(Sfx.JUMP1, Sfx.JUMP2);
                 break;
             case UI_BUTTON_CLICK:
-                // playSfx(Sfx.CLICK); add later!
+                playSfx(Sfx.BUTTON_CLICK);
                 break;
             default:
                 break;
