@@ -35,12 +35,14 @@ public abstract class AbstractLevel extends ScreenAdapter {
     protected OrthographicCamera camera;
     protected TiledMap map;
 
+
     public static final float PIXELS_PER_TILE = 8f;
     public static final float UNIT_SCALE = 1 / PIXELS_PER_TILE;
     protected final float VIRTUAL_WIDTH = 50f;
     protected final float VIRTUAL_HEIGHT = 25f;
 
     protected ShaderProgram shader;
+    private final boolean debugMode;
 
     /**
      * Constructs a new AbstractLevel with the specified game configuration.
@@ -56,8 +58,9 @@ public abstract class AbstractLevel extends ScreenAdapter {
         this.camera = new OrthographicCamera();
         this.viewport = new ExtendViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
         this.worldPhysics = new WorldPhysics(gravity);
-        this.worldRenderer = new WorldRenderer(camera, debugMode);
+        this.worldRenderer = new WorldRenderer(camera);
         this.audio = app.audio;
+        this.debugMode = debugMode;
 
         // shaders test
         String vertexShader = Gdx.files.internal("assets/shaders/vertex.glsl").readString();
@@ -81,6 +84,7 @@ public abstract class AbstractLevel extends ScreenAdapter {
         worldRenderer.renderBackground();
         drawEntities();
         worldRenderer.renderForeground();
+        worldRenderer.renderDebug(worldPhysics, debugMode);
 
         //shader
         //app.batch.setShader(shader);

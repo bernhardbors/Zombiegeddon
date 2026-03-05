@@ -12,7 +12,6 @@ import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.entity.Bullet;
 import inf112.zoombiegeddon.model.entity.Enemy;
-import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.Player;
 import inf112.zoombiegeddon.model.world.Spawner;
 import inf112.zoombiegeddon.utils.CameraUtils;

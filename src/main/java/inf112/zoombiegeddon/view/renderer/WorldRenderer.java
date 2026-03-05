@@ -21,7 +21,6 @@ public class WorldRenderer implements Disposable {
     private final OrthographicCamera camera;
     private OrthogonalTiledMapRenderer mapRenderer;
     private final Box2DDebugRenderer debugRenderer;
-    private final boolean debugMode;
 
     private int[] backgroundLayers;
     private int[] foregroundLayers;
@@ -30,12 +29,10 @@ public class WorldRenderer implements Disposable {
      * Constructs a new WorldRenderer.
      *
      * @param camera    The camera used to view the world.
-     * @param debugMode Whether to render Box2D physics debug outlines.
      */
-    public WorldRenderer(OrthographicCamera camera, boolean debugMode) {
+    public WorldRenderer(OrthographicCamera camera) {
         this.camera = camera;
         this.debugRenderer = new Box2DDebugRenderer();
-        this.debugMode = debugMode;
     }
 
     /**
@@ -85,7 +82,7 @@ public class WorldRenderer implements Disposable {
         }
     }
 
-    public void renderDebug(WorldPhysics worldPhysics) {
+    public void renderDebug(WorldPhysics worldPhysics, boolean debugMode) {
         if (debugMode && worldPhysics != null) {
             debugRenderer.render(worldPhysics.getWorld(), camera.combined);
         }
