@@ -2,12 +2,15 @@ package inf112.zoombiegeddon.view.levels;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.entity.Bullet;
@@ -27,177 +30,23 @@ import inf112.zoombiegeddon.model.world.triggers.TriggerZone;
  */
 public class Level0 extends AbstractLevel {
 
-    private final Player player;
-    private final Enemy zombie;
 
-    private final UIRenderer UIRendererPlayer;
-    private final UIRenderer UIRendererEnemy;
-    private final TriggerZone triggerZone;
-
-    private final EntityRenderer entityRenderer;
-
-    private final Spawner spawner;
-    private Label infoText;
-
-    /**
-     * Constructs a new TestLevel01.
-     * Initializes the physics world, creates the player at a starting position,
-     * sets up the controller, and loads the specific tiled map for the level.
-     *
-     * @param app     The main game application instance.
-     * @param gravity The gravity vector for this level's physics.
-     */
-    public Level0(GameApp app, Vector2 gravity) {
-        super(app, gravity, 10f, 10f, true);
-
-        loadMap("tilemaps/level1.tmx", "Collision");
-        this.spawner = new Spawner(map);
-        this.triggerZone = new TriggerZone(map, "Signs", "sign");
-
-        System.out.println("Spawning player at: " + spawner.getSpawnPoint("player_spawn"));
-        this.player = new Player(worldPhysics.getWorld(), spawner.getSpawnPoint("player_spawn"), app.playerMaleAnimations, 10);
-        this.controller = new PlayerController(player);
-
-        System.out.println("Spawning enemy at: " + spawner.getSpawnPoint("enemy_spawn"));
-        this.zombie = new Enemy(worldPhysics.getWorld(), spawner.getSpawnPoint("enemy_spawn"), app.zombieAnimations,10);
-
-        app.background.setCamera(camera);
-
-        this.UIRendererEnemy = new UIRenderer(camera, zombie);
-
-        this.UIRendererPlayer = new UIRenderer(camera, player);
-
-        this.entityRenderer = new EntityRenderer();
-
-        if (!shader.isCompiled()) {
-            Gdx.app.error("Shader", "Compile fail: " + shader.getLog());
-        }
-
+    public Level0(Viewport viewport, OrthographicCamera camera, GameApp app, Vector2 gravity) {
+        super(viewport, camera, app, gravity);
     }
 
-    /**
-     * Called when this screen becomes the current screen for the game.
-     * Sets the input processor to the player controller to enable user interaction.
-     */
     @Override
-    public void show() {
-        Gdx.input.setInputProcessor(controller);
+    public void loadMap(String fileName, String collisionLayerName) {
+
     }
 
-    /**
-     * Updates the level logic, including physics, player state, and camera positioning.
-     *
-     * @param delta The time in seconds since the last frame.
-     */
     @Override
-    protected void update(float delta) {
-        super.update(delta);
-        controller.update(delta);
+    public void draw(Batch batch) {
 
-        super.update(delta);
-
-        player.update(delta);
-        zombie.update(delta);
-
-        checkShooting(delta);
-
-        if (player.isDead()) {
-            app.setScreen(new MainMenuScreen(app));
-        }
-
-        zombie.update(delta);
-
-        CameraUtils.updateCamera(player, camera);
-
-        String message = triggerZone.update(player.getBounds());
-
-        if(message!=null) {
-
-            if (infoText == null || !infoText.getText().equals(message)) {
-                infoText = drawText(message, Color.WHITE, 0.07f);
-                infoText.pack();
-            }
-
-            Rectangle zone = triggerZone.getZone();
-            float centerX = zone.x - (infoText.getWidth() / 2f);
-            float centerY = zone.y + zone.height + 2f;
-
-            infoText.setPosition(centerX, centerY);
-
-        }
-        else{
-            infoText=null;
-        }
-    }
-
-    /**
-     * Draws the level entities.
-     *
-     * @param batch The SpriteBatch used for rendering the player.
-     */
-    @Override
-    protected void draw(SpriteBatch batch) {
-
-        TextureRegion playerFrame = player.getAnimationHandler().getFrame(
-                player.getCurrentState(),
-                player.getStateTime(),
-                player.isFacingRight()
-        );
-
-        entityRenderer.render(batch, player, playerFrame);
-
-        TextureRegion enemyFrame = zombie.getAnimationHandler().getFrame(
-            zombie.getCurrentState(),
-            zombie.getStateTime(),
-            zombie.isFacingRight()
-        );
-
-        entityRenderer.render(batch, zombie, enemyFrame);
-
-        if(infoText != null) {
-            infoText.draw(batch,1f);
-        }
-
-        batch.end();
-        UIRendererPlayer.drawUI();
-        UIRendererEnemy.drawUI();
-        batch.begin();
-
-        for (Bullet bullet : bullets) {
-            TextureRegion bulletFrame = bullet.getAnimationHandler().getFrame(
-                    bullet.getCurrentState(),
-                    bullet.getStateTime(),
-                    bullet.isFacingRight()
-            );
-        }
-    }
-
-    private final Array<Bullet> bullets = new Array<>();
-
-    private void checkShooting(float delta) {
-
-        if (controller.isShooting()) {
-            Bullet newBullet = player.createBullet(worldPhysics.getWorld());
-
-            bullets.add(newBullet);
-            controller.setIsShooting(false);
-        }
-
-        for (int i = 0; i < bullets.size; i++) {
-            Bullet b = bullets.get(i);
-            b.update(delta);
-
-            if (b.isToRemove()) {
-                worldPhysics.getWorld().destroyBody(b.getPhysics().getBody());
-                bullets.removeIndex(i);
-                i--;
-            }
-        }
     }
 
     @Override
     public void dispose() {
-        super.dispose();
-        UIRendererPlayer.dispose();
+
     }
 }
