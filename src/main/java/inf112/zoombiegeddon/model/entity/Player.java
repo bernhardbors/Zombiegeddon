@@ -1,6 +1,5 @@
 package inf112.zoombiegeddon.model.entity;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -9,7 +8,6 @@ import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 import inf112.zoombiegeddon.view.levels.AbstractLevel;
-import inf112.zoombiegeddon.view.renderer.EntityRenderer;
 
 /**
  * Represents the player character in the game.
@@ -219,7 +217,7 @@ public class Player extends Entity implements IDamageable {
      */
     @Override
     public void setPosition(float x, float y) {
-
+        physics.getBody().getPosition().set(x, y);
     }
 
     /**
@@ -256,7 +254,7 @@ public class Player extends Entity implements IDamageable {
      */
     @Override
     public void setWidth() {
-
+        //TODO: IMPLEMENT METHODE
     }
 
     /**
@@ -264,7 +262,7 @@ public class Player extends Entity implements IDamageable {
      */
     @Override
     public void setHeight() {
-
+        //TODO: IMPLEMENT METHODE
     }
 
     /**

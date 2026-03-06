@@ -11,24 +11,22 @@ import inf112.zoombiegeddon.view.levels.AbstractLevel;
  */
 public class Enemy extends Entity implements IDamageable {
 
-    private static final float MOVE_SPEED = 2.0f;
+
     private static final float VELOCITY_THRESHOLD = 0.1f;
 
-    private final AnimationHandler animationHandler;
-    private boolean movingRight = true;
+    private AnimationHandler animationHandler;
 
+    private float spriteDim;
+
+    private boolean isDead = false;
     private int HP;
     private final int maxHP;
-    private float hitTimer;
-    private final float InvulnerabilityCooldown = 0.0f;
-    private boolean isDead = false;
 
     public Enemy(World world, Vector2 spawnPos, AnimationHandler animationHandler, int Hp) {
 
-        float spriteDim = 32 * AbstractLevel.UNIT_SCALE;
+        this.spriteDim = 32 * AbstractLevel.UNIT_SCALE;
         float actualW = 11 * AbstractLevel.UNIT_SCALE;
         float actualH = 20 * AbstractLevel.UNIT_SCALE;
-
 
         super(new PhysicsComponent(world, spawnPos, actualW, actualH, "enemy"));
 
@@ -39,77 +37,74 @@ public class Enemy extends Entity implements IDamageable {
 
     }
 
+    /**
+     *
+     * @param dt Delta Time
+     */
+    @Override
     public void update(float dt) {
-
-        applyPatrolMovement();
-        if (Math.abs(physics.getVelocity().x) < 0.01f) {
-            reverseDirection();
-        }
-        if (hitTimer > 0) hitTimer -= dt;
         updateAnimationState(dt, VELOCITY_THRESHOLD);
     }
 
     /**
-     * Setter den lineære hastigheten direkte basert på retning.
+     * Determines which state the entity should be in when it is moving on the ground.
+     * This allows subclasses to choose between states like WALKING or RUNNING.
+     *
+     * @return The determined EntityState for horizontal movement.
      */
-    private void applyPatrolMovement() {
-        float horizontalVelocity = movingRight ? MOVE_SPEED : -MOVE_SPEED;
-        physics.getBody().setLinearVelocity(horizontalVelocity, physics.getVelocity().y);
-    }
-
-    @Override
-    protected void updateAnimationState(float dt, float velocityThreshold) {
-        stateTime += dt;
-
-        facingRight = movingRight;
-
-        if (Math.abs(physics.getVelocity().x) > velocityThreshold) {
-            currentState = EntityState.WALKING;
-        } else {
-            currentState = EntityState.IDLE;
-        }
-
-        if (previousState != currentState) {
-            stateTime = 0;
-            previousState = currentState;
-        }
-    }
-
     @Override
     public EntityState determineMovingState() {
-        return EntityState.WALKING;
+        return  EntityState.IDLE;
     }
 
-    public void reverseDirection() {
-        movingRight = !movingRight;
-    }
-
+    /**
+     * Subtracts the specified amount from the entity's health.
+     *
+     * @param amount The amount of damage to deal.
+     */
     @Override
     public void takeDamage(int amount) {
-        if (hitTimer <= 0) {
-            this.HP -= amount;
-            hitTimer = InvulnerabilityCooldown;
-            System.out.println("Enemy hit! HP: " + HP);
-        }
-        if (this.HP <= 0 && !isDead) {
-            isDead = true;
-            this.HP = maxHP;
-            // TODO: logic for removing when dead
+        this.HP -= amount;
+        if (this.HP <= 0) {
+            isDead = false;
         }
     }
 
+    /**
+     * @return The current health value of the entity.
+     */
     @Override
-    public int getHealth() { return HP; }
+    public int getHealth() {
+        return this.HP;
+    }
 
+    /**
+     * @return The maximum health capacity of the entity.
+     */
     @Override
-    public int getMaxHealth() { return maxHP; }
+    public int getMaxHealth() {
+        return this.maxHP;
+    }
 
+    /**
+     * @return True if the entity's health is zero or below.
+     */
     @Override
-    public boolean isDead() { return isDead; }
+    public boolean isDead() {
+        return isDead;
+    }
 
+    /**
+     * Resets or increases health.
+     *
+     * @param amount The amount of health to restore.
+     */
     @Override
     public void heal(int amount) {
-        this.HP = Math.min(HP + amount, maxHP);
+        this.HP += amount;
+        if (this.HP >= maxHP) {
+            this.HP = maxHP;
+        }
     }
 
     /**
@@ -120,7 +115,7 @@ public class Enemy extends Entity implements IDamageable {
      */
     @Override
     public void setPosition(float x, float y) {
-
+        physics.getBody().getPosition().set(x, y);
     }
 
     /**
@@ -130,7 +125,7 @@ public class Enemy extends Entity implements IDamageable {
      */
     @Override
     public Vector2 getPosition() {
-        return physics.getPosition();
+        return physics.getBody().getPosition();
     }
 
     /**
@@ -157,7 +152,7 @@ public class Enemy extends Entity implements IDamageable {
      */
     @Override
     public void setWidth() {
-
+        //TODO: IMPLEMENT METHODE
     }
 
     /**
@@ -165,7 +160,7 @@ public class Enemy extends Entity implements IDamageable {
      */
     @Override
     public void setHeight() {
-
+        //TODO: IMPLEMENT METHODE
     }
 
     /**
@@ -173,7 +168,7 @@ public class Enemy extends Entity implements IDamageable {
      */
     @Override
     public float getWidth() {
-        return 0;
+        return width;
     }
 
     /**
@@ -181,7 +176,7 @@ public class Enemy extends Entity implements IDamageable {
      */
     @Override
     public float getHeight() {
-        return 0;
+        return height;
     }
 
     /**
@@ -189,13 +184,11 @@ public class Enemy extends Entity implements IDamageable {
      */
     @Override
     public float getScaledSpriteDimensions() {
-        return 0;
+        return spriteDim;
     }
 
     @Override
     public AnimationHandler getAnimationHandler() {
         return animationHandler;
     }
-
-
 }

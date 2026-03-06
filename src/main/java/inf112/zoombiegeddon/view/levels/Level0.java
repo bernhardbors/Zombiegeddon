@@ -152,14 +152,16 @@ public class Level0 extends AbstractLevel {
             zombie.isFacingRight()
         );
 
-            if(infoText != null) {
-                infoText.draw(batch,1f);
-            }
+        entityRenderer.render(batch, zombie, enemyFrame);
 
-            batch.end();
-            UIRendererPlayer.drawUI();
-            UIRendererEnemy.drawUI();
-            batch.begin();
+        if(infoText != null) {
+            infoText.draw(batch,1f);
+        }
+
+        batch.end();
+        UIRendererPlayer.drawUI();
+        UIRendererEnemy.drawUI();
+        batch.begin();
 
         for (Bullet bullet : bullets) {
             TextureRegion bulletFrame = bullet.getAnimationHandler().getFrame(

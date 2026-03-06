@@ -37,6 +37,11 @@ public abstract class Entity implements IEntity {
     public float getStateTime() { return stateTime; }
     public boolean isFacingRight() { return facingRight; }
 
+    /**
+     *
+     * @param dt Delta Time
+     */
+    public abstract void update(float dt);
 
     /**
      * Determines which state the entity should be in when it is moving on the ground.
