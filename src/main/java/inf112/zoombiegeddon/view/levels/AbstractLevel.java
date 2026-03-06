@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.zoombiegeddon.app.GameApp;
@@ -61,6 +62,30 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
         this.app = app;
     }
 
+    @Override
+    public void show() {
+        app.background.setCamera(camera);
+        if (playerController != null) {
+            Gdx.input.setInputProcessor(playerController);
+        }
+    }
+
+    @Override
+    public void render(float delta) {
+        ScreenUtils.clear(0, 0, 0, 1);
+        viewport.apply();
+        if (playerController != null) {
+            playerController.update(delta);
+        }
+        update(delta);
+        draw(app.batch);
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        viewport.update(width, height);
+    }
+
 
     @Override
     public void update(float delta) {
@@ -69,6 +94,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
 
     public void drawEntities(Entity entity) {
         TextureRegion playerFrame = entity.getAnimationHandler().getFrame(entity.getCurrentState(), entity.getStateTime(), entity.isFacingRight());
+        app.batch.setProjectionMatrix(camera.combined);
         app.batch.begin();
         entityRenderer.render(app.batch, entity, playerFrame);
         app.batch.end();
@@ -76,6 +102,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
 
     @Override
     public void drawParallaxBackground() {
+        app.batch.setProjectionMatrix(camera.combined);
         app.batch.begin();
         app.background.render(app.batch);
         app.batch.end();

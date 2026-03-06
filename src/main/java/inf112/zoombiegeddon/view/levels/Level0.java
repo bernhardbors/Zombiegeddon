@@ -45,13 +45,12 @@ public class Level0 extends AbstractLevel {
 
     public Level0(GameApp app) {
 
-        super(app, new OrthographicCamera(), new Vector2(0,9.0f));
+        super(app, new OrthographicCamera(), new Vector2(0,-9.0f));
         loadMap("tilemaps/level1.tmx", "Collision");
         this.spawner = new Spawner(map);
         this.player = new Player(physics.getWorld(), spawner.getSpawnPoint("player_spawn"), app.playerMaleAnimations, 10);
         this.playerController = new PlayerController(player);
 
-        this.worldRenderer = new WorldRenderer(this.camera);
         this.entityRenderer = new EntityRenderer();
         this.UIrenderer = new UIRenderer(camera, player);
 
@@ -71,6 +70,7 @@ public class Level0 extends AbstractLevel {
     public void update(float delta) {
         super.update(delta);
         player.update(delta);
+        CameraUtils.updateCamera(player, camera);
     }
 
     @Override
