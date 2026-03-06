@@ -3,6 +3,7 @@ package inf112.zoombiegeddon.view.levels;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import inf112.zoombiegeddon.model.entity.Entity;
 
 /**
  * Interface for all game levels.
@@ -31,7 +32,7 @@ public interface ILevel {
     /**
      * Renders all game entities within a SpriteBatch block.
      */
-    public void drawEntities();
+    public void drawEntities(Entity entity);
 
     /**
      * Renders the background using the application's background renderer.

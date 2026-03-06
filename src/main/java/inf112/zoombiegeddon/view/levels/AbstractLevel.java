@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -17,9 +18,13 @@ import inf112.zoombiegeddon.app.GameApp;
 
 import inf112.zoombiegeddon.audio.AudioService;
 import inf112.zoombiegeddon.controller.PlayerController;
+import inf112.zoombiegeddon.model.entity.Entity;
+import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.Player;
 import inf112.zoombiegeddon.model.world.physics.WorldCollisionLayerCreator;
 import inf112.zoombiegeddon.model.world.physics.WorldPhysics;
+import inf112.zoombiegeddon.view.renderer.EntityRenderer;
+import inf112.zoombiegeddon.view.renderer.UIRenderer;
 import inf112.zoombiegeddon.view.renderer.WorldRenderer;
 
 import static com.badlogic.gdx.Gdx.app;
@@ -39,12 +44,19 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
     protected PlayerController playerController;
     protected WorldRenderer worldRenderer;
     protected WorldPhysics physics;
+    protected EntityRenderer entityRenderer;
+    protected UIRenderer UIrenderer;
 
-    public AbstractLevel( Viewport viewport, OrthographicCamera camera, GameApp app, Vector2 gravity) {
+    public static final float PIXELS_PER_TILE = 8.0f;
+    public static final float UNIT_SCALE = 1 / PIXELS_PER_TILE;
+    public static final float viewportWidth = 50.0f;
+    public static final float viewportHeight = 30.0f;
+
+    public AbstractLevel(GameApp app, OrthographicCamera camera, Vector2 gravity) {
         this.physics = new WorldPhysics(gravity);
         this.worldRenderer = new WorldRenderer(camera);
         this.audioService = app.audio;
-        this.viewport = viewport;
+        this.viewport = new ExtendViewport(viewportWidth, viewportHeight, camera);
         this.camera = camera;
         this.app = app;
     }
@@ -55,10 +67,10 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
         physics.update(delta);
     }
 
-    @Override
-    public void drawEntities() {
+    public void drawEntities(Entity entity) {
+        TextureRegion playerFrame = entity.getAnimationHandler().getFrame(entity.getCurrentState(), entity.getStateTime(), entity.isFacingRight());
         app.batch.begin();
-        draw(app.batch);
+        entityRenderer.render(app.batch, entity, playerFrame);
         app.batch.end();
     }
 
@@ -84,6 +96,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
 
     @Override
     public void dispose() {
+        super.dispose();
         worldRenderer.dispose();
         audioService.dispose();
     }

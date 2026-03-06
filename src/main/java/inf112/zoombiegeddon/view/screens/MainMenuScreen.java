@@ -37,7 +37,7 @@ public class MainMenuScreen extends AbstractScreen {
         // 4. Knapper via UIUtils
         // Vi bruker app.skin som ble initialisert i LoadingScreen
         UIUtils.addButton("Start", app.skin, table, buttonWidth, buttonHeight,
-                () -> app.setScreen(new Level0(app, new Vector2(0, -9.81f))));
+                () -> app.setScreen( new Level0(app)));
 
         UIUtils.addButton("How To Play", app.skin, table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new HowToScreen(app)));
