@@ -2,6 +2,8 @@ package inf112.zoombiegeddon.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
@@ -21,6 +23,11 @@ public class SettingsScreen extends AbstractScreen {
         // Rydd tabellen før vi bygger for å unngå duplikater hvis buildScreen kalles igjen
         table.clear();
 
+        //Setter bakgrunn
+        if (app.manager.isLoaded(AssetConstants.BG_SKY)) {
+            Texture background = app.manager.get(AssetConstants.BG_SKY, Texture.class);
+            table.setBackground(new TextureRegionDrawable(background));
+        }
         // Tittel
         formatText("SETTINGS", Color.WHITE, 2f);
         table.row().pad(20);
