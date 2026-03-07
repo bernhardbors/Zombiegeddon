@@ -48,7 +48,7 @@ public class SplashScreen extends AbstractScreen {
                 Actions.fadeIn(fadeInDuration),
                 Actions.delay(delayDuration),
                 Actions.fadeOut(fadeOutDuration),
-                Actions.run(() -> text.setText("Et INF112 Semester Projekt")),
+                Actions.run(() -> text.setText("Et INF112 Semester Prosjekt")),
                 Actions.fadeIn(fadeInDuration),
                 Actions.delay(delayDuration),
                 Actions.fadeOut(fadeOutDuration),
