@@ -19,6 +19,7 @@ public class PlayerController extends InputAdapter {
     private static final float RUNNING_SPEED = 8f;
     private static final float FRICTION_COEFFICIENT = 0.9f;
     public static boolean isShooting = false;
+    public static boolean isJumpKeyPressed = false;
 
     /**
      * Constructs a new PlayerController for the specified player.
@@ -49,7 +50,8 @@ public class PlayerController extends InputAdapter {
      */
     @Override
     public boolean keyDown(int keycode) {
-        if (keycode == Input.Keys.SPACE || keycode == Input.Keys.W || keycode == Input.Keys.UP) {
+        if ((keycode == Input.Keys.SPACE || keycode == Input.Keys.W || keycode == Input.Keys.UP) && !isJumpKeyPressed) {
+            isJumpKeyPressed = true;
             player.jump();
             return true;
         }
@@ -59,6 +61,20 @@ public class PlayerController extends InputAdapter {
         }
         if (keycode == Input.Keys.L) {
             isShooting = true;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Handles released keys for jumping. When a jump key is released, the jump flag is reset.
+     * @param keycode The code of the key that was released.
+     * @return True if the input event was processed.
+     */
+    @Override
+    public boolean keyUp(int keycode) {
+        if (keycode == Input.Keys.SPACE || keycode == Input.Keys.W || keycode == Input.Keys.UP) {
+            isJumpKeyPressed = false;
             return true;
         }
         return false;
