@@ -34,7 +34,7 @@ public class SplashScreen extends AbstractScreen {
      */
     @Override
     public void buildScreen() {
-        super.buildScreen();
+        clearTable();
 
         Runnable toMainMenu = () -> app.setScreen(new MainMenuScreen(app));
 

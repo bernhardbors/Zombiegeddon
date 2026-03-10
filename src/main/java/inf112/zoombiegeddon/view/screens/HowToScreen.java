@@ -13,7 +13,7 @@ public class HowToScreen extends AbstractScreen {
 
     @Override
     public void buildScreen() {
-        super.buildScreen();
+       clearTable();
 
         formatText("HOW TO PLAY", Color.WHITE, 2f);
 

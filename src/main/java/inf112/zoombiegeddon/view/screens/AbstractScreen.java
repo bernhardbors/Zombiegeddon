@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.zoombiegeddon.app.GameApp;
 
-public abstract class AbstractScreen implements Screen {
+public abstract class AbstractScreen implements IScreen {
 
     protected final Stage stage;
     protected final Skin skin;
@@ -44,7 +44,9 @@ public abstract class AbstractScreen implements Screen {
         buildScreen();
     }
 
-    public void buildScreen() {
+    public abstract void buildScreen();
+
+    protected void clearTable() {
         table.clear();
     }
 

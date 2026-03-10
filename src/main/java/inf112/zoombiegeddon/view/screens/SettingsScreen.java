@@ -19,7 +19,7 @@ public class SettingsScreen extends AbstractScreen {
     @Override
     public void buildScreen() {
         // Rydd tabellen før vi bygger for å unngå duplikater hvis buildScreen kalles igjen
-        table.clear();
+        clearTable();
 
         // Tittel
         formatText("SETTINGS", Color.WHITE, 2f);
