@@ -16,7 +16,7 @@ import java.util.Random;
 public class AudioManager implements AudioService, AudioListener{
     private static final String PREF_SFX_VOL = "audio_sfx_volume";
     private static final String PREF_MUTED = "audio_muted";
-    private boolean footstepsLooping = false;
+
     private final AssetManager assets;
     private final Preferences prefs;
     private final Random random = new Random();
@@ -66,37 +66,6 @@ public class AudioManager implements AudioService, AudioListener{
     }
 
     @Override
-    public long loopSfx(Sfx sfx) {
-        if (muted) return -1L;
-        if (sfx == null) return -1L;
-
-        // Make sure the Sound is loaded
-        if (!assets.isLoaded(sfx.path(), Sound.class)) return -1L;
-
-        Sound sound = assets.get(sfx.path(), Sound.class);
-        return sound.loop(sfxVolume);
-    }
-
-    @Override
-    public void stopLoop(Sfx sfx) {
-        if (sfx == null) return;
-        if (!assets.isLoaded(sfx.path(), Sound.class)) return;
-        assets.get(sfx.path(), Sound.class).stop();
-    }
-
-    private void startFootstepsLoop() {
-        if (footstepsLooping) return;
-        long id = loopSfx(Sfx.FOOTSTEPS);
-        if (id != -1L) footstepsLooping = true;
-    }
-
-    private void stopFootstepsLoop() {
-        if (!footstepsLooping) return;
-        stopLoop(Sfx.FOOTSTEPS);
-        footstepsLooping = false;
-    }
-
-    @Override
     public void setSfxVolume(float volume01) {
         this.sfxVolume = clamp01(volume01);
         save();
@@ -126,12 +95,6 @@ public class AudioManager implements AudioService, AudioListener{
                 break;
             case UI_BUTTON_CLICK:
                 playSfx(Sfx.BUTTON_CLICK);
-                break;
-            case PLAYER_MOVE_START:
-                startFootstepsLoop();
-                break;
-            case PLAYER_MOVE_STOP:
-                stopFootstepsLoop();
                 break;
             default:
                 break;
