@@ -23,6 +23,9 @@ public interface AudioService {
      */
     void setSfxVolume(float volume01);
 
+    long loopSfx(Sfx sfx);
+    void stopSfx(Sfx sfx);
+
     /**
      * Sets the mute state of the audio system.
      * @param muted True to mute all sounds, false otherwise.
