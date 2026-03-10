@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
+import inf112.zoombiegeddon.events.IEventListener;
 
 import java.util.Random;
 
@@ -13,7 +14,7 @@ import java.util.Random;
  * This class relies on an {@link AssetManager} to provide access to loaded sound effects
  * and manages individual playback logic, volume control, and music streaming.
  */
-public class AudioManager implements AudioService, AudioListener{
+public class AudioManager implements IAudioService, IEventListener {
     private static final String PREF_SFX_VOL = "audio_sfx_volume";
     private static final String PREF_MUTED = "audio_muted";
 

@@ -25,7 +25,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.zoombiegeddon.app.GameApp;
 
-import inf112.zoombiegeddon.audio.AudioService;
+import inf112.zoombiegeddon.audio.IAudioService;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.entity.Entity;
 import inf112.zoombiegeddon.model.entity.IEntity;
@@ -49,7 +49,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
     protected GameApp app;
     protected OrthographicCamera camera;
     protected Viewport viewport;
-    protected AudioService audioService;
+    protected IAudioService audioService;
     protected PlayerController playerController;
     protected WorldRenderer worldRenderer;
     protected WorldPhysics physics;

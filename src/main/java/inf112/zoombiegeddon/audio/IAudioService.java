@@ -4,7 +4,7 @@ package inf112.zoombiegeddon.audio;
  * Interface defining the contract for audio playback and management.
  * Provides methods for playing sound effects, managing volume, and state control.
  */
-public interface AudioService {
+public interface IAudioService {
     /**
      * Plays a specific sound effect.
      * @param sfx The sound effect to play.
