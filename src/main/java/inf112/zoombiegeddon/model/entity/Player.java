@@ -1,6 +1,5 @@
 package inf112.zoombiegeddon.model.entity;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -35,6 +34,8 @@ public class Player extends Entity implements IDamageable {
     private final float bodyH;
     private final Rectangle bounds = new Rectangle();
 
+    private float spriteDim;
+
     /**
      * Constructs a new Player instance.
      * Initializes the physics body, sets the user data for collision detection,
@@ -46,7 +47,7 @@ public class Player extends Entity implements IDamageable {
      */
     public Player(World world, Vector2 spawnPos, AnimationHandler animationHandler, int Hp) {
 
-        float spriteDim = 32 * AbstractLevel.UNIT_SCALE;
+        this.spriteDim = 32 * AbstractLevel.UNIT_SCALE;
         float actualW = 11 * AbstractLevel.UNIT_SCALE;
         float actualH = 20 * AbstractLevel.UNIT_SCALE;
 
@@ -62,8 +63,6 @@ public class Player extends Entity implements IDamageable {
         this.HP = Hp;
         this.maxHP = Hp;
 
-        setSize(spriteDim, spriteDim);
-
         this.controller = new PlayerController(this);
     }
 
@@ -74,14 +73,10 @@ public class Player extends Entity implements IDamageable {
      *
      * @param dt Time in seconds since the last update.
      */
-    @Override
+
     public void update(float dt) {
-        //System.out.println("Player: isGrounded: " + isGrounded() + " isRunning: " + isRunning + " isFacingRight: " + facingRight);
         controller.update(dt);
-        postHorizontalMoveStateEvents();
-
         updateAnimationState(dt, VELOCITY_THRESHOLD);
-
         if (hitTimer > 0) hitTimer -= dt;
 
         setRegion(animationHandler.getFrame(currentState, stateTime, facingRight));
@@ -143,7 +138,7 @@ public class Player extends Entity implements IDamageable {
      * @return The appropriate EntityState based on the isRunning flag.
      */
     @Override
-    protected EntityState determineMovingState() {
+    public EntityState determineMovingState() {
         return isRunning ? EntityState.RUNNING : EntityState.WALKING;
     }
 
@@ -231,5 +226,90 @@ public class Player extends Entity implements IDamageable {
         Vector2 p = physics.getPosition();
         bounds.set(p.x - bodyW / 2f, p.y - bodyH / 2f, bodyW, bodyH);
         return bounds;
+    }
+
+    /**
+     * Sets the entity position
+     *
+     * @param x pos on the x-axis
+     * @param y pos on the y-axis
+     */
+    @Override
+    public void setPosition(float x, float y) {
+        physics.getBody().getPosition().set(x, y);
+    }
+
+    /**
+     * Gets the current position of the entity from the physics component.
+     *
+     * @return A Vector2 representing the world coordinates.
+     */
+    @Override
+    public Vector2 getPosition() {
+        return physics.getPosition();
+    }
+
+    /**
+     * Provides access to the entity's physics component.
+     *
+     * @return The PhysicsComponent instance.
+     */
+    @Override
+    public PhysicsComponent getPhysics() {
+        return physics;
+    }
+
+    /**
+     *
+     * @return boolean true if on ground false if not.
+     */
+    @Override
+    public boolean isGrounded() {
+        return isGrounded;
+    }
+
+    /**
+     * Sets the entity Width
+     */
+    @Override
+    public void setWidth() {
+        //TODO: IMPLEMENT METHODE
+    }
+
+    /**
+     * Sets the entity Height
+     */
+    @Override
+    public void setHeight() {
+        //TODO: IMPLEMENT METHODE
+    }
+
+    /**
+     * @return entity Width
+     */
+    @Override
+    public float getWidth() {
+        return bodyW;
+    }
+
+    /**
+     * @return entity Height
+     */
+    @Override
+    public float getHeight() {
+        return bodyH;
+    }
+
+    /**
+     * @return scaled Sprite Dimensions (sprite dim * worldScale)
+     */
+    @Override
+    public float getScaledSpriteDimensions() {
+        return spriteDim;
+    }
+
+    @Override
+    public AnimationHandler getAnimationHandler() {
+        return animationHandler;
     }
 }

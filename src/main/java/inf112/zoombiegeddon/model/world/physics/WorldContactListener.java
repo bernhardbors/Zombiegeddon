@@ -1,10 +1,7 @@
 package inf112.zoombiegeddon.model.world.physics;
 
 import com.badlogic.gdx.physics.box2d.*;
-import inf112.zoombiegeddon.model.entity.Enemy;
-import inf112.zoombiegeddon.model.entity.Entity;
-import inf112.zoombiegeddon.model.entity.IProjectile;
-import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.*;
 
 
 /**
@@ -63,10 +60,10 @@ public class WorldContactListener implements ContactListener {
 
         if ("feet".equals(fa.getUserData())) {
             Object data = fa.getBody().getUserData();
-            if (data instanceof Entity) ((Entity) data).setGrounded(grounded);
+            if (data instanceof IEntity) ((IEntity) data).setGrounded(grounded);
         } else if ("feet".equals(fb.getUserData())) {
             Object data = fb.getBody().getUserData();
-            if (data instanceof Entity) ((Entity) data).setGrounded(grounded);
+            if (data instanceof IEntity) ((IEntity) data).setGrounded(grounded);
         }
     }
 
