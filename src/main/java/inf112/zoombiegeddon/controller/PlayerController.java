@@ -25,6 +25,7 @@ public class PlayerController extends InputAdapter {
     public static boolean isJumpKeyPressed = false;
 >>>>>>> b05a2c6 (Fix: trippel/double jumping bug)
 
+
     /**
      * Constructs a new PlayerController for the specified player.
      *
