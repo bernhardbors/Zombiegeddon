@@ -23,6 +23,7 @@ public class Player extends Entity implements IDamageable {
     private final PlayerController controller;
     private final AnimationHandler animationHandler;
     private boolean isRunning = false;
+    private boolean wasMovingHorizontally = false;
 
     private int HP;
     private final int maxHP;
@@ -75,6 +76,8 @@ public class Player extends Entity implements IDamageable {
 
     public void update(float dt) {
         controller.update(dt);
+        postHorizontalMoveStateEvents();
+
         updateAnimationState(dt, VELOCITY_THRESHOLD);
         if (hitTimer > 0) hitTimer -= dt;
  
@@ -131,6 +134,21 @@ public class Player extends Entity implements IDamageable {
             physics.applyImpulse(new Vector2(0, JUMP_IMPULSE));
             GameEventBus.post(GameEvent.PLAYER_JUMP);
         }
+    }
+
+    private void postHorizontalMoveStateEvents() {
+        Vector2 vel = physics.getVelocity();
+
+        // Footsteps only when grounded. Remove isGrounded() if you want air movement to count too.
+        boolean movingHorizontally = isGrounded() && Math.abs(vel.x) > VELOCITY_THRESHOLD;
+
+        if (!wasMovingHorizontally && movingHorizontally) {
+            GameEventBus.post(GameEvent.PLAYER_MOVE_START);
+        } else if (wasMovingHorizontally && !movingHorizontally) {
+            GameEventBus.post(GameEvent.PLAYER_MOVE_STOP);
+        }
+
+        wasMovingHorizontally = movingHorizontally;
     }
 
     /**

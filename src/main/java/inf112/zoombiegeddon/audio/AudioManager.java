@@ -20,6 +20,7 @@ public class AudioManager implements AudioService, AudioListener{
     private final AssetManager assets;
     private final Preferences prefs;
     private final Random random = new Random();
+    private boolean footstepsLooping = false;
 
     private float sfxVolume;
     private boolean muted;
@@ -88,6 +89,37 @@ public class AudioManager implements AudioService, AudioListener{
     }
 
     @Override
+    public long loopSfx(Sfx sfx) {
+        if (muted) return -1L;
+        if (sfx == null) return -1L;
+
+        // Make sure the Sound is loaded
+        if (!assets.isLoaded(sfx.path(), Sound.class)) return -1L;
+
+        Sound sound = assets.get(sfx.path(), Sound.class);
+        return sound.loop(sfxVolume);
+    }
+
+    @Override
+    public void stopSfx(Sfx sfx) {
+        if (sfx == null) return;
+        if (!assets.isLoaded(sfx.path(), Sound.class)) return;
+        assets.get(sfx.path(), Sound.class).stop();
+    }
+
+
+    private void startFootstepsLoop() {
+        if (footstepsLooping) return;
+        loopSfx(Sfx.FOOTSTEPS);          // starts looping (no id)
+        footstepsLooping = true;
+    }
+
+    private void stopFootstepsLoop() {
+        if (!footstepsLooping) return;
+        stopSfx(Sfx.FOOTSTEPS);          // stops all instances
+        footstepsLooping = false;
+    }
+    @Override
     public void onEvent(GameEvent event) {
         switch (event) {
             case PLAYER_JUMP:
@@ -96,6 +128,12 @@ public class AudioManager implements AudioService, AudioListener{
             case UI_BUTTON_CLICK:
                 playSfx(Sfx.BUTTON_CLICK);
                 break;
+            case PLAYER_MOVE_START:
+                startFootstepsLoop();
+                break;
+            case PLAYER_MOVE_STOP:
+               stopFootstepsLoop();
+               break;
             default:
                 break;
         }
