@@ -19,6 +19,7 @@ public class PlayerController extends InputAdapter {
     private static final float RUNNING_SPEED = 8f;
     private static final float FRICTION_COEFFICIENT = 0.9f;
     public static boolean isShooting = false;
+    private boolean wasMovingHorizontally = false;
 
     /**
      * Constructs a new PlayerController for the specified player.
@@ -72,11 +73,13 @@ public class PlayerController extends InputAdapter {
     private void handlePlayerMovement() {
         boolean left = isLeftPressed();
         boolean right = isRightPressed();
+        Vector2 vel = player.getPhysics().getVelocity();
+        boolean movingHorizontally = Math.abs(vel.x) > 0.1f;
 
         player.setRunning(isShiftPressed());
         float targetMax = player.isRunning() ? RUNNING_SPEED : WALKING_SPEED;
 
-        Vector2 vel = player.getPhysics().getVelocity();
+
 
         // 1. Horizontal movement
         if (left && vel.x > -targetMax) {

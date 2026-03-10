@@ -24,6 +24,7 @@ public class Player extends Entity implements IDamageable {
     private final PlayerController controller;
     private final AnimationHandler animationHandler;
     private boolean isRunning = false;
+    private boolean wasMovingHorizontally = false;
 
     private int HP;
     private final int maxHP;
@@ -77,6 +78,7 @@ public class Player extends Entity implements IDamageable {
     public void update(float dt) {
         //System.out.println("Player: isGrounded: " + isGrounded() + " isRunning: " + isRunning + " isFacingRight: " + facingRight);
         controller.update(dt);
+        postHorizontalMoveStateEvents();
 
         updateAnimationState(dt, VELOCITY_THRESHOLD);
 
@@ -84,6 +86,21 @@ public class Player extends Entity implements IDamageable {
 
         setRegion(animationHandler.getFrame(currentState, stateTime, facingRight));
         super.update(dt);
+    }
+
+    private void postHorizontalMoveStateEvents() {
+        Vector2 vel = physics.getVelocity();
+
+
+        boolean movingHorizontally = isGrounded() && Math.abs(vel.x) > VELOCITY_THRESHOLD;
+
+        if (!wasMovingHorizontally && movingHorizontally) {
+            GameEventBus.post(GameEvent.PLAYER_MOVE_START);
+        } else if (wasMovingHorizontally && !movingHorizontally) {
+            GameEventBus.post(GameEvent.PLAYER_MOVE_STOP);
+        }
+
+        wasMovingHorizontally = movingHorizontally;
     }
 
     /**

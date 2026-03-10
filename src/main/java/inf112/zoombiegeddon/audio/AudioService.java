@@ -17,6 +17,9 @@ public interface AudioService {
      */
     void playRandom(Sfx... options);
 
+    long loopSfx(Sfx sfx);
+
+    void stopLoop(Sfx sfx);
     /**
      * Updates the sound effects volume.
      * @param volume01 The volume level normalized between 0.0 and 1.0.
