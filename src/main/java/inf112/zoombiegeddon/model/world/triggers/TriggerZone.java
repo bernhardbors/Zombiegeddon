@@ -39,10 +39,10 @@ public class TriggerZone {
                 ITriggerAction action;
 
                 if ("killzone".equals(type)) {
-                    action = new KillZone();
+                    action = new KillAction();
                 } else if ("sign".equals(type)) {
                     String text = object.getProperties().get("info", String.class);
-                    action = new SignZone(text);
+                    action = new SignAction(text);
                 } else {
                     continue; // Ukjent type
                 }
