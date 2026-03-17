@@ -9,6 +9,10 @@
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "": {
+            "scaleInDock": 3,
+            "scaleInEditor": 0.0625
+        },
         "C:/Users/isakgraarud/Documents/01_University/Year_02/Vår_Sem/INF 112/a-laget/src/main/resources/tilemaps/map01.tmx": {
             "scale": 1.3502,
             "selectedLayer": 3,
@@ -17,15 +21,35 @@
                 "y": 47.03006961931567
             }
         },
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/Documents/kenney_pixel-platformer/Tiled/tileset-tiles.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/first try yilr copy.tmx": {
+            "expandedObjectLayers": [
+                13
+            ],
+            "scale": 1.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 246,
+                "y": 436.99999999999994
+            }
+        },
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/first try yilr copy.tmx#tileset-tiles": {
+            "scaleInDock": 2,
+            "scaleInEditor": 0.015625
+        },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx": {
             "expandedObjectLayers": [
+                6,
+                5,
                 7
             ],
-            "scale": 1,
-            "selectedLayer": 2,
+            "scale": 1.5,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 549,
-                "y": 334.5
+                "x": 354,
+                "y": 268.33333333333337
             }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level2.tmx": {
@@ -40,11 +64,11 @@
             "expandedObjectLayers": [
                 6
             ],
-            "scale": 2,
+            "scale": 4,
             "selectedLayer": 5,
             "viewCenter": {
                 "x": 1200,
-                "y": 119.75
+                "y": 119.875
             }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/tilemap_packed.tsx": {
@@ -72,11 +96,11 @@
             }
         },
         "tilemap_packed.tsx": {
-            "scaleInDock": 4
+            "scaleInDock": 8
         }
     },
     "last.externalTilesetPath": "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tiledProjectFiles",
-    "last.imagePath": "/Users/isakgraarud/Documents/01_University/Year_02/Vår_Sem/INF 112/a-laget/src/main/resources/assets/sprites/tilesets",
+    "last.imagePath": "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/assets/sprites/tilesets",
     "map.height": 40,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 8,
@@ -91,6 +115,7 @@
     "recentFiles": [
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/map01.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx",
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/first try yilr copy.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level2.tmx",
         "level1.tmx",
         "C:/Users/isakgraarud/Documents/01_University/Year_02/Vår_Sem/INF 112/a-laget/src/main/resources/tilemaps/map01.tmx",

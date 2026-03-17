@@ -39,10 +39,7 @@ import inf112.zoombiegeddon.model.world.triggers.TriggerZone;
 public class Level0 extends AbstractLevel {
 
     private TiledMap map;
-    private Player player;
     private Spawner spawner;
-    private TriggerZone signZone;
-    private String currentSignText = null;
 
 
 
@@ -56,7 +53,7 @@ public class Level0 extends AbstractLevel {
 
         this.entityRenderer = new EntityRenderer();
         this.UIrenderer = new UIRenderer(camera, player);
-        this.signZone = new TriggerZone(map, "Signs", "sign");
+        this.triggerZone = new TriggerZone(map, "Triggers");
 
 
     }
@@ -73,17 +70,6 @@ public class Level0 extends AbstractLevel {
     @Override
     public void update(float delta) {
         super.update(delta);
-        player.update(delta);
-        CameraUtils.updateCamera(player, camera);
-
-        // BOX FOR THE PLAYER TO TRIGGER ZONES
-        Rectangle playerBounds = new Rectangle(
-                player.getPosition().x - player.getWidth() / 2f,
-                player.getPosition().y - player.getHeight() / 2f,
-                player.getWidth(),
-                player.getHeight()
-        );
-        currentSignText = signZone.update(playerBounds);
     }
 
     @Override
@@ -93,14 +79,11 @@ public class Level0 extends AbstractLevel {
 
         worldRenderer.renderBackground();
 
-        drawEntities(player);
+        if (player != null) drawEntities(player);
 
         worldRenderer.renderForeground();
 
-        if (currentSignText != null) {
-              drawSignText(currentSignText, signZone.getZone());
-
+        renderTriggerText();
         UIrenderer.drawUI();
-        }
     }
 }
