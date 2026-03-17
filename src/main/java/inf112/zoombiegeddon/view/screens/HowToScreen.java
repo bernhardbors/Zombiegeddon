@@ -30,7 +30,6 @@ public class HowToScreen extends AbstractScreen {
                 "Move: W, A, S, D or Arrow Keys\n" +
                 "Jump: Space or Up\n" +
                 "Sprint: Shift\n" +
-                "Attack: K\n" +
                 "Quit: Escape",
                 Color.WHITE, 1.5f);
 
