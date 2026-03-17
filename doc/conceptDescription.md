@@ -11,7 +11,6 @@ Viktige aspekter i spillet:
 * Kan velge mellom seks karakterer med ulike styrker og svakheter
 * Spilleren kan styres med piltaster - gå til høyre/venstre, hoppe
 * Underveis kan man samle coins og "power-ups" som endrer spillerens egenskaper
-
 2. Spillverden:
 * 2D-Plattform – horisontal flate spilleren kan stå eller gå på (inkludert «bakken»)
 * Vegg – vertikal flate som spilleren ikke kan gå gjennom

@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
@@ -40,19 +41,22 @@ public class Level0 extends AbstractLevel {
     private TiledMap map;
     private Player player;
     private Spawner spawner;
+    private TriggerZone signZone;
+    private String currentSignText = null;
 
 
 
     public Level0(GameApp app) {
 
-        super(app, new OrthographicCamera(), new Vector2(0,-9.0f));
-        loadMap("tilemaps/MyLevel.tmx", "Collision");
+        super(app, new OrthographicCamera(), new Vector2(0,-15.0f));
+        loadMap("tilemaps/level1.tmx", "Collision");
         this.spawner = new Spawner(map);
         this.player = new Player(physics.getWorld(), spawner.getSpawnPoint("player_spawn"), app.playerMaleAnimations, 10);
         this.playerController = new PlayerController(player);
 
         this.entityRenderer = new EntityRenderer();
         this.UIrenderer = new UIRenderer(camera, player);
+        this.signZone = new TriggerZone(map, "Signs", "sign");
 
 
     }
@@ -71,6 +75,15 @@ public class Level0 extends AbstractLevel {
         super.update(delta);
         player.update(delta);
         CameraUtils.updateCamera(player, camera);
+
+        // BOX FOR THE PLAYER TO TRIGGER ZONES
+        Rectangle playerBounds = new Rectangle(
+                player.getPosition().x - player.getWidth() / 2f,
+                player.getPosition().y - player.getHeight() / 2f,
+                player.getWidth(),
+                player.getHeight()
+        );
+        currentSignText = signZone.update(playerBounds);
     }
 
     @Override
@@ -84,11 +97,10 @@ public class Level0 extends AbstractLevel {
 
         worldRenderer.renderForeground();
 
+        if (currentSignText != null) {
+              drawSignText(currentSignText, signZone.getZone());
+
         UIrenderer.drawUI();
-    }
-
-    @Override
-    public void dispose() {
-
+        }
     }
 }
