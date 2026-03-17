@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
+import inf112.zoombiegeddon.model.entity.Player;
 import inf112.zoombiegeddon.view.levels.AbstractLevel;
 
 import java.util.ArrayList;
@@ -16,87 +17,53 @@ import java.util.List;
  * coordinates to world units, and detects when a player is overlapping them.
  */
 public class TriggerZone {
+        private final List<Rectangle> zones = new ArrayList<>();
+        private final List<ITriggerAction> actions = new ArrayList<>();
+        private int lastIndex = -1;
 
-    private final List<Rectangle> zones = new ArrayList<>();
-    private final List<String> texts = new ArrayList<>();
-    private final List<Boolean> isInside = new ArrayList<>();
-    private int lastIndex = -1;
+        public TriggerZone(TiledMap map, String layerName) {
+            MapLayer layer = map.getLayers().get(layerName);
+            if (layer == null) return;
 
-    /**
-     * Constructs a TriggerZone by parsing a specific layer in the TiledMap.
-     * Only objects with the property "type" set to the objectType will be loaded.
-     *
-     * @param map       The TiledMap containing the trigger objects.
-     * @param layerName The name of the object layer to parse (e.g., "Signs").
-     * @param objectType The name of the object to be loaded
-     */
-    public TriggerZone(TiledMap map, String layerName, String objectType) {
+            for (MapObject object : layer.getObjects()) {
+                if (!(object instanceof RectangleMapObject)) continue;
 
-        MapLayer layer = map.getLayers().get(layerName);
-        if (layer == null) {
-            return;
+                Rectangle r = ((RectangleMapObject) object).getRectangle();
+                Rectangle worldRect = new Rectangle(
+                        r.x * AbstractLevel.UNIT_SCALE, r.y * AbstractLevel.UNIT_SCALE,
+                        r.width * AbstractLevel.UNIT_SCALE, r.height * AbstractLevel.UNIT_SCALE
+                );
+
+                // Her velger vi hvilken "Action" som skal legges til basert på type i Tiled
+                String type = object.getProperties().get("type", String.class);
+                ITriggerAction action;
+
+                if ("killzone".equals(type)) {
+                    action = new KillZone();
+                } else if ("sign".equals(type)) {
+                    String text = object.getProperties().get("info", String.class);
+                    action = new SignZone(text);
+                } else {
+                    continue; // Ukjent type
+                }
+
+                zones.add(worldRect);
+                actions.add(action);
+            }
         }
 
-        for (MapObject object : layer.getObjects()) {
-            String type = object.getProperties().get("type", String.class);
-            if (!type.equals(objectType)) {
-                continue;
+        public String update(Rectangle playerBounds, Player player) {
+            for (int i = 0; i < zones.size(); i++) {
+                if (zones.get(i).overlaps(playerBounds)) {
+                    lastIndex = i;
+                    return actions.get(i).onTrigger(player); // Her skjer magien!
+                }
             }
-            Rectangle r = ((RectangleMapObject) object).getRectangle();
-            Rectangle worldRect = new Rectangle(
-                    r.x * AbstractLevel.UNIT_SCALE,
-                    r.y * AbstractLevel.UNIT_SCALE,
-                    r.width * AbstractLevel.UNIT_SCALE,
-                    r.height * AbstractLevel.UNIT_SCALE
-            );
-
-            String text = object.getProperties().get("text", String.class);
-            zones.add(worldRect);
-            texts.add(text);
-            isInside.add(false);
-        }
-
-    }
-
-    /**
-     * Checks if the player's bounds overlap with any defined trigger zones.
-     * Updates the internal state to track which zone was last triggered.
-     *
-     * @param playerBounds The current bounding box of the player.
-     * @return The message associated with the triggered zone, or null if no zone is triggered.
-     */
-    public String update(Rectangle playerBounds) {
-
-        for (int i = 0; i < zones.size(); i++) {
-
-            boolean inside = zones.get(i).overlaps(playerBounds);
-
-            if (inside) {
-                isInside.set(i, true);
-                lastIndex = i;
-                return texts.get(i);
-            }
-
-            else {
-                isInside.set(i, false);
-            }
-
-
-        }
-        lastIndex = -1;
-        return null;
-    }
-
-    /**
-     * Gets the rectangle area of the currently active trigger zone.
-     *
-     * @return The Rectangle of the last triggered zone,
-     * or null if the player is not currently in any zone.
-     */
-    public Rectangle getZone() {
-        if (lastIndex == -1) {
+            lastIndex = -1;
             return null;
         }
-        return zones.get(lastIndex);
+
+        public Rectangle getZone() {
+            return (lastIndex != -1) ? zones.get(lastIndex) : null;
+        }
     }
-}
