@@ -21,7 +21,7 @@ public class SettingsScreen extends AbstractScreen {
     @Override
     public void buildScreen() {
         // Rydd tabellen før vi bygger for å unngå duplikater hvis buildScreen kalles igjen
-        table.clear();
+        clearTable();
 
         //Setter bakgrunn
         if (app.manager.isLoaded(AssetConstants.BG_SKY)) {

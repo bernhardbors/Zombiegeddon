@@ -16,7 +16,7 @@ public class HowToScreen extends AbstractScreen {
 
     @Override
     public void buildScreen() {
-        super.buildScreen();
+       clearTable();
 
         //Setter bakgrunn
         if (app.manager.isLoaded(AssetConstants.BG_SKY)) {
