@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class WorldPhysics {
 
     private final World world;
+    private final WorldContactListener contactListener;
     private float accumulatedTime = 0;
 
     /**
@@ -23,7 +24,8 @@ public class WorldPhysics {
      */
     public WorldPhysics(Vector2 gravity) {
         this.world = new World(gravity, true);
-        this.world.setContactListener(new WorldContactListener());
+        this.contactListener = new WorldContactListener();
+        this.world.setContactListener(contactListener);
     }
 
     /**
@@ -49,6 +51,7 @@ public class WorldPhysics {
         accumulatedTime += delta;
         while (accumulatedTime >= timeStep) {
             world.step(timeStep, 6, 2);
+            contactListener.processQueuedRemovals(world);
             accumulatedTime -= timeStep;
         }
     }

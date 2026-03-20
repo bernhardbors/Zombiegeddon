@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx",
+    "activeFile": "",
     "expandedProjectPaths": [
         "."
     ],
@@ -107,8 +107,6 @@
     "map.tileWidth": 8,
     "map.width": 250,
     "openFiles": [
-        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/map01.tmx",
-        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx"
     ],
     "project": "TiledProjectFile.tiled-project",
     "property.type": "string",
