@@ -24,6 +24,14 @@
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/Documents/kenney_pixel-platformer/Tiled/tileset-tiles.tsx": {
             "scaleInDock": 1
         },
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/MyLevel.tmx": {
+            "scale": 3,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 176.5,
+                "y": 199.83333333333331
+            }
+        },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/first try yilr copy.tmx": {
             "expandedObjectLayers": [
                 13
@@ -41,15 +49,15 @@
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx": {
             "expandedObjectLayers": [
-                7,
+                5,
                 6,
-                5
+                7
             ],
             "scale": 1.5,
-            "selectedLayer": 3,
+            "selectedLayer": 5,
             "viewCenter": {
-                "x": 434.33333333333337,
-                "y": 341.66666666666663
+                "x": 438.3333333333333,
+                "y": 309.66666666666663
             }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level2.tmx": {
@@ -64,15 +72,22 @@
             "expandedObjectLayers": [
                 6
             ],
-            "scale": 4,
+            "scale": 1.5,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 1200,
-                "y": 119.875
+                "x": 41,
+                "y": 288.33333333333337
             }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/tilemap_packed.tsx": {
             "scaleInDock": 1
+        },
+        "C:/Users/synne/tilemap_packed.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/synne/tilemap_packed_FEIL.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 4
         },
         "CityTiles.tsx": {
             "scaleInDock": 1.6402,
@@ -100,12 +115,12 @@
         }
     },
     "last.externalTilesetPath": "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tiledProjectFiles",
-    "last.imagePath": "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/assets/sprites/tilesets",
+    "last.imagePath": "C:/Users/synne/Downloads/kenney_pixel-platformer",
     "map.height": 40,
     "map.lastUsedFormat": "tmx",
-    "map.tileHeight": 8,
-    "map.tileWidth": 8,
-    "map.width": 250,
+    "map.tileHeight": 18,
+    "map.tileWidth": 18,
+    "map.width": 150,
     "openFiles": [
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/map01.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx"
@@ -113,6 +128,8 @@
     "project": "TiledProjectFile.tiled-project",
     "property.type": "string",
     "recentFiles": [
+        "C:/Users/synne/tilemap_packed_FEIL.tsx",
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/MyLevel.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/map01.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/first try yilr copy.tmx",
@@ -124,7 +141,7 @@
     "tileset.lastUsedFilter": "Tiled-fissettfiler (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
-        "height": 8,
-        "width": 8
+        "height": 18,
+        "width": 18
     }
 }
