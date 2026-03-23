@@ -111,7 +111,7 @@
             }
         },
         "tilemap_packed.tsx": {
-            "scaleInDock": 8
+            "scaleInDock": 3
         }
     },
     "last.externalTilesetPath": "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tiledProjectFiles",

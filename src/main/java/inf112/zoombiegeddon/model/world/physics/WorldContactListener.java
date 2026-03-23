@@ -2,6 +2,7 @@ package inf112.zoombiegeddon.model.world.physics;
 
 import com.badlogic.gdx.physics.box2d.*;
 import inf112.zoombiegeddon.model.entity.*;
+import inf112.zoombiegeddon.model.entity.enemies.Enemy;
 
 
 /**

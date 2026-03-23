@@ -98,6 +98,7 @@ public class LoadingScreen extends AbstractScreen {
         app.zombieAnimations = new AnimationHandler(enemyZombieSpriteSheet);
 
         // Konfigurer bakgrunn med parallax-styrke
+        app.background.addLayer(app.manager.get(AssetConstants.HEALTHBAR, Texture.class), 0.1f);
         app.background.addLayer(app.manager.get(AssetConstants.BG_GAME, Texture.class), 0.1f);
         app.background.addLayer(app.manager.get(AssetConstants.BG_SKY, Texture.class), 0.1f);
         app.background.addLayer(app.manager.get(AssetConstants.BG_CITY, Texture.class), 0.4f);
