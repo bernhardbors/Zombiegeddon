@@ -8,6 +8,9 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.enemies.Enemy;
+import inf112.zoombiegeddon.model.entity.enemies.EnemyFactory;
+import inf112.zoombiegeddon.model.entity.enemies.IEnemyFactory;
 import inf112.zoombiegeddon.model.world.Spawner;
 import inf112.zoombiegeddon.model.world.physics.WorldCollisionLayerCreator;
 import inf112.zoombiegeddon.view.renderer.EntityRenderer;
@@ -38,7 +41,12 @@ public class Level0 extends AbstractLevel {
         this.UIrenderer = new UIRenderer(camera, player);
         this.triggerZone = new TriggerZone(map, "Triggers");
 
-
+        IEnemyFactory enemyFactory = new EnemyFactory(physics.getWorld());
+        this.enemies = enemyFactory.createEnemiesFromLayer(
+                map.getLayers().get("SpawnPoints"),
+                app.zombieAnimations,
+                app.chonkerAnimations
+        );
     }
 
     @Override
@@ -64,8 +72,14 @@ public class Level0 extends AbstractLevel {
 
         if (player != null) drawEntities(player);
 
+        for(Enemy enemy : enemies) {
+            drawEntities(enemy);
+        }
+
         worldRenderer.renderForeground();
 
         renderTriggerText();
+
+        drawDebug();
     }
 }

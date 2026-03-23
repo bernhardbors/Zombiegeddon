@@ -135,6 +135,10 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
     }
 
     public void drawEntities(Entity entity) {
+        if (entity.getAnimationHandler() == null) {
+            System.out.println("AnimationHandler is NULL for: " + entity);
+            return;
+        }
         TextureRegion playerFrame = entity.getAnimationHandler().getFrame(entity.getCurrentState(), entity.getStateTime(), entity.isFacingRight());
         app.batch.setProjectionMatrix(camera.combined);
         app.batch.begin();

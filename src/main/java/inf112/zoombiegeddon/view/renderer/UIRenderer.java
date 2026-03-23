@@ -28,6 +28,8 @@ public class UIRenderer {
         this.shapeRenderer = new ShapeRenderer();
         this.targetEntity = entity;
         this.damageable = entity;
+
+
     }
 
     public void drawHearts(SpriteBatch batch, Texture texture) {
