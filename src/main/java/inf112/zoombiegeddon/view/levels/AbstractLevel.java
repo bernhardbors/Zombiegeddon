@@ -28,6 +28,7 @@ import inf112.zoombiegeddon.model.world.triggers.TriggerZone;
 import inf112.zoombiegeddon.view.renderer.EntityRenderer;
 import inf112.zoombiegeddon.view.renderer.UIRenderer;
 import inf112.zoombiegeddon.view.renderer.WorldRenderer;
+import inf112.zoombiegeddon.view.screens.GameOverScreen;
 
 /**
  * Abstract base class for all game levels.
@@ -98,6 +99,10 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
 
         if (player != null) {
             player.update(delta);
+            if (player.isDead()) {
+                app.setScreen(new GameOverScreen(app));
+                return;
+            }
             inf112.zoombiegeddon.utils.CameraUtils.updateCamera(player, camera);
 
             if (triggerZone != null) {
