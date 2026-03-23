@@ -22,7 +22,7 @@ public class MainMenuScreen extends AbstractScreen {
     @Override
     public void buildScreen() {
         // 1. Rydd tabellen før vi bygger (sikkerhet hvis skjermen vises flere ganger)
-        table.clear();
+        clearTable();
 
         // 2. Hent bakgrunn fra manager (IKKE lag "new Texture")
         if (app.manager.isLoaded(AssetConstants.BG_SKY)) {

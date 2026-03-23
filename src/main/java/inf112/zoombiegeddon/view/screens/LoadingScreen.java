@@ -41,6 +41,11 @@ public class LoadingScreen extends AbstractScreen {
         queueAssets();
     }
 
+    @Override
+    public void buildScreen() {
+        clearTable();
+    }
+
     private void queueAssets() {
         app.manager.load(AssetConstants.UI_SKIN, Skin.class);
         app.manager.load(AssetConstants.FONT_PATH, BitmapFont.class);

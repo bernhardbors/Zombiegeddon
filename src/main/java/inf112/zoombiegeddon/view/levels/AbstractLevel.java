@@ -2,18 +2,12 @@ package inf112.zoombiegeddon.view.levels;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -28,16 +22,12 @@ import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.audio.IAudioService;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.entity.Entity;
-import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.Player;
-import inf112.zoombiegeddon.model.world.physics.WorldCollisionLayerCreator;
 import inf112.zoombiegeddon.model.world.physics.WorldPhysics;
+import inf112.zoombiegeddon.model.world.triggers.TriggerZone;
 import inf112.zoombiegeddon.view.renderer.EntityRenderer;
 import inf112.zoombiegeddon.view.renderer.UIRenderer;
 import inf112.zoombiegeddon.view.renderer.WorldRenderer;
-
-import static com.badlogic.gdx.Gdx.app;
-import static com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable.draw;
 
 /**
  * Abstract base class for all game levels.
@@ -57,6 +47,9 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
     protected UIRenderer UIrenderer;
     private ShapeRenderer hudRenderer;
     protected Box2DDebugRenderer debugRenderer;
+    protected Player player;
+    protected TriggerZone triggerZone;
+    protected String currentText = null;
 
     public static final float PIXELS_PER_TILE = 8.0f;
     public static final float UNIT_SCALE = 1 / PIXELS_PER_TILE;
@@ -102,6 +95,21 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
     @Override
     public void update(float delta) {
         physics.update(delta);
+
+        if (player != null) {
+            player.update(delta);
+            inf112.zoombiegeddon.utils.CameraUtils.updateCamera(player, camera);
+
+            if (triggerZone != null) {
+                Rectangle playerBounds = new Rectangle(
+                        player.getPosition().x - player.getWidth() / 2f,
+                        player.getPosition().y - player.getHeight() / 2f,
+                        player.getWidth(),
+                        player.getHeight()
+                );
+                currentText = triggerZone.update(playerBounds, player);
+            }
+        }
     }
 
     public void drawEntities(Entity entity) {
@@ -174,6 +182,11 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
 
     public void drawDebug() {
         debugRenderer.render(physics.getWorld(), camera.combined);
+    }
+    public void renderTriggerText() {
+        if (currentText != null && triggerZone != null && triggerZone.getZone() != null) {
+            drawSignText(currentText, triggerZone.getZone());
+        }
     }
 
     @Override
