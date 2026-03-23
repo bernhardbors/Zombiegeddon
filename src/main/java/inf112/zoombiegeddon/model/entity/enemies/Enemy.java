@@ -19,7 +19,7 @@ public class Enemy extends Entity implements IDamageable {
 
     private static final float VELOCITY_THRESHOLD = 0.1f;
 
-    private AnimationHandler animationHandler;
+    AnimationHandler animationHandler;
 
     private float spriteDim;
 

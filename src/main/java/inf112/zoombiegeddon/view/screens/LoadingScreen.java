@@ -52,6 +52,7 @@ public class LoadingScreen extends AbstractScreen {
         app.manager.load(AssetConstants.CHARACTER_MALE_SHEET, Texture.class);
         app.manager.load(AssetConstants.CHARACTER_FEMALE_SHEET, Texture.class);
         app.manager.load(AssetConstants.ZOMBIE_SHEET, Texture.class);
+        app.manager.load(AssetConstants.CHONKER_SHEET, Texture.class);
         app.manager.load(AssetConstants.HEALTHBAR, Texture.class);
         app.manager.load(AssetConstants.BG_GAME, Texture.class);
         app.manager.load(AssetConstants.BG_SKY, Texture.class);
@@ -96,6 +97,9 @@ public class LoadingScreen extends AbstractScreen {
 
         Texture enemyZombieSpriteSheet = app.manager.get(AssetConstants.ZOMBIE_SHEET, Texture.class);
         app.zombieAnimations = new AnimationHandler(enemyZombieSpriteSheet);
+
+        Texture enemyChonkerSpriteSheet = app.manager.get(AssetConstants.CHONKER_SHEET, Texture.class);
+        app.chonkerAnimations = new AnimationHandler(enemyChonkerSpriteSheet);
 
         // Konfigurer bakgrunn med parallax-styrke
         app.background.addLayer(app.manager.get(AssetConstants.HEALTHBAR, Texture.class), 0.1f);

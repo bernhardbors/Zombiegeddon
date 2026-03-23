@@ -54,10 +54,10 @@
                 7
             ],
             "scale": 1.5,
-            "selectedLayer": 5,
+            "selectedLayer": 6,
             "viewCenter": {
-                "x": 438.3333333333333,
-                "y": 309.66666666666663
+                "x": 461.99999999999994,
+                "y": 431.66666666666663
             }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level2.tmx": {
@@ -128,10 +128,10 @@
     "project": "TiledProjectFile.tiled-project",
     "property.type": "string",
     "recentFiles": [
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx",
         "C:/Users/synne/tilemap_packed_FEIL.tsx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/MyLevel.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/map01.tmx",
-        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/first try yilr copy.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level2.tmx",
         "level1.tmx",
