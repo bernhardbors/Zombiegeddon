@@ -20,20 +20,33 @@ public class EnemyFactory implements IEnemyFactory{
     }
 
     @Override
-    public Enemy createEnemy(EnemyType type, Vector2 position, AnimationHandler animationHandler) {
+    public Enemy createEnemy(EnemyType type, Vector2 position, AnimationHandler normalAnims, AnimationHandler chonkerAnims) {
         int hp;
+        float speed;
+        AnimationHandler animToUse;
         switch (type) {
-            case TANK -> hp = 200;
-            case FAST_ZOMBIE -> hp = 50;
-            default -> hp = 100; // Standard Zombie
+            case TANK -> {
+                hp = 3;
+                speed = 0.5f;
+                animToUse = chonkerAnims;
+            }
+            case FAST_ZOMBIE -> {
+                hp = 1;
+                speed = 2.5f;
+                animToUse = normalAnims;
+            }
+            default -> {
+                hp = 1;              // 1 liv
+                speed = 1.5f;        // Rask
+                animToUse = normalAnims;
+            } // Standard Zombie
         }
 
-        // Enemy-klassen din tar World, posisjon, animasjoner og HP i konstruktøren
-        return new Enemy(world, position, animationHandler, hp);
+        return new Enemy(world, position, animToUse, hp, speed);
     }
 
     @Override
-    public List<Enemy> createEnemiesFromLayer(MapLayer layer, AnimationHandler anims) {
+    public List<Enemy> createEnemiesFromLayer(MapLayer layer, AnimationHandler normalAnims, AnimationHandler chonkerAnims) {
         List<Enemy> enemies = new ArrayList<>();
         if (layer == null) return enemies;
 
@@ -48,7 +61,7 @@ public class EnemyFactory implements IEnemyFactory{
                 String typeStr = object.getProperties().get("type", String.class);
                 EnemyType type = EnemyType.fromString(typeStr);
 
-                enemies.add(createEnemy(type, pos, anims));
+                enemies.add(createEnemy(type, pos, normalAnims, chonkerAnims));
             }
         }
         return enemies;

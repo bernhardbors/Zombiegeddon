@@ -23,14 +23,14 @@ public class Enemy extends Entity implements IDamageable {
 
     private float spriteDim;
 
-    private float patrolSpeed = 1.0f;
+    private float patrolSpeed;
     private int direction = 1;
 
     private boolean isDead = false;
     private int HP;
     private final int maxHP;
 
-    public Enemy(World world, Vector2 spawnPos, AnimationHandler animationHandler, int Hp) {
+    public Enemy(World world, Vector2 spawnPos, AnimationHandler animationHandler, int hp, float speed) {
 
         this.spriteDim = 32 * AbstractLevel.UNIT_SCALE;
         float actualW = 11 * AbstractLevel.UNIT_SCALE;
@@ -40,8 +40,10 @@ public class Enemy extends Entity implements IDamageable {
 
         this.physics.getBody().setUserData(this);
         this.animationHandler = animationHandler;
-        this.HP = Hp;
-        this.maxHP = Hp;
+        this.HP = hp;
+        this.maxHP = hp;
+
+        this.patrolSpeed = speed;
 
         this.width = actualW;
         this.height = actualH;

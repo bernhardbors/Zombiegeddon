@@ -43,8 +43,11 @@ public class Level0 extends AbstractLevel {
 
         IEnemyFactory enemyFactory = new EnemyFactory(physics.getWorld());
         // Sørg for at laget i Tiled heter "enemy_spawn" eller det som matcher map.getLayers().get(...)
-        this.enemies = enemyFactory.createEnemiesFromLayer(map.getLayers().get("SpawnPoints"), app.zombieAnimations);
-        System.out.println("Antall fiender lastet inn: " + enemies.size());
+        this.enemies = enemyFactory.createEnemiesFromLayer(
+                map.getLayers().get("SpawnPoints"),
+                app.zombieAnimations,
+                app.chonkerAnimations
+        );
     }
 
     @Override

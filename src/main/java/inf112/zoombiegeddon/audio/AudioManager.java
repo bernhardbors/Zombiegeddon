@@ -25,6 +25,7 @@ public class AudioManager implements IAudioService, IEventListener {
 
     private float sfxVolume;
     private boolean muted;
+    private boolean runningFootsteps = false;
 
     /**
      * Constructs a new AudioManager with preference persistence.
@@ -110,15 +111,31 @@ public class AudioManager implements IAudioService, IEventListener {
 
 
     private void startFootstepsLoop() {
-        if (footstepsLooping) return;
-        loopSfx(Sfx.FOOTSTEPS);          // starts looping (no id)
+        if (footstepsLooping && !runningFootsteps) return;
+
+        stopFootstepsLoop();
+        loopSfx(Sfx.FOOTSTEPS);
         footstepsLooping = true;
+        runningFootsteps = false;
+    }
+
+
+    private void startRunningFootstepsLoop() {
+        if (footstepsLooping && runningFootsteps) return;
+
+        stopFootstepsLoop();
+        loopSfx(Sfx.FOOTSTEPS_RUN);
+        footstepsLooping = true;
+        runningFootsteps = true;
     }
 
     private void stopFootstepsLoop() {
         if (!footstepsLooping) return;
-        stopSfx(Sfx.FOOTSTEPS);          // stops all instances
+
+        stopSfx(Sfx.FOOTSTEPS);
+        stopSfx(Sfx.FOOTSTEPS_RUN);
         footstepsLooping = false;
+        runningFootsteps = false;
     }
     @Override
     public void onEvent(GameEvent event) {
@@ -132,9 +149,16 @@ public class AudioManager implements IAudioService, IEventListener {
             case PLAYER_MOVE_START:
                 startFootstepsLoop();
                 break;
+            case PLAYER_RUN_START:
+                startRunningFootstepsLoop();
+                break;
+            case PLAYER_RUN_STOP:
+                startFootstepsLoop();
+                break;
             case PLAYER_MOVE_STOP:
                stopFootstepsLoop();
                break;
+
             default:
                 break;
         }

@@ -10,7 +10,7 @@ public interface IEnemyFactory {
     /**
      * Creates an enemy based on type, position and animations
      */
-    Enemy createEnemy(EnemyType type, Vector2 position, AnimationHandler anims);
+    Enemy createEnemy(EnemyType type, Vector2 position, AnimationHandler normalAnims, AnimationHandler chonkerAnims);
 
-    List<Enemy> createEnemiesFromLayer(MapLayer layer, AnimationHandler anims);
+    List<Enemy> createEnemiesFromLayer(MapLayer layer, AnimationHandler normalAnims, AnimationHandler chonkerAnims);
 }
