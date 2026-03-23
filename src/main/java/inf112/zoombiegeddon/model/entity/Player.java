@@ -197,12 +197,17 @@ public class Player extends Entity implements IDamageable {
 
     @Override
     public void takeDamage(int amount) {
+        if (isDead) return;
+
         if (hitTimer <= 0) {
             this.HP -= amount;
             hitTimer = InvulnerabilityCooldown;
         }
+
         if (this.HP <= 0) {
+            this.HP = 0;
             isDead = true;
+            GameEventBus.post(GameEvent.PLAYER_DEATH);
             System.out.println("player dead");
         }
     }

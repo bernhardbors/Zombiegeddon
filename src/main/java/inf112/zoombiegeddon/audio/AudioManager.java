@@ -158,7 +158,10 @@ public class AudioManager implements IAudioService, IEventListener {
             case PLAYER_MOVE_STOP:
                stopFootstepsLoop();
                break;
-
+            case PLAYER_DEATH:
+                stopFootstepsLoop();
+                playSfx(Sfx.PLAYER_DEATH);
+                break;
             default:
                 break;
         }
