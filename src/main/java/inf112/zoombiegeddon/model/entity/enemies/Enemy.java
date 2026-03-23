@@ -1,8 +1,12 @@
-package inf112.zoombiegeddon.model.entity;
+package inf112.zoombiegeddon.model.entity.enemies;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
+import inf112.zoombiegeddon.model.entity.Entity;
+import inf112.zoombiegeddon.model.entity.EntityState;
+import inf112.zoombiegeddon.model.entity.IDamageable;
+import inf112.zoombiegeddon.model.entity.PhysicsComponent;
 import inf112.zoombiegeddon.view.levels.AbstractLevel;
 
 /**
@@ -35,6 +39,8 @@ public class Enemy extends Entity implements IDamageable {
         this.HP = Hp;
         this.maxHP = Hp;
 
+        this.width = actualW;
+        this.height = actualH;
     }
 
     /**
@@ -54,7 +60,7 @@ public class Enemy extends Entity implements IDamageable {
      */
     @Override
     public EntityState determineMovingState() {
-        return  EntityState.IDLE;
+        return  EntityState.WALKING;
     }
 
     /**
@@ -66,7 +72,7 @@ public class Enemy extends Entity implements IDamageable {
     public void takeDamage(int amount) {
         this.HP -= amount;
         if (this.HP <= 0) {
-            isDead = false;
+            isDead = true;
         }
     }
 

@@ -23,11 +23,16 @@ import inf112.zoombiegeddon.audio.IAudioService;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.entity.Entity;
 import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.enemies.Enemy;
 import inf112.zoombiegeddon.model.world.physics.WorldPhysics;
 import inf112.zoombiegeddon.model.world.triggers.TriggerZone;
 import inf112.zoombiegeddon.view.renderer.EntityRenderer;
 import inf112.zoombiegeddon.view.renderer.UIRenderer;
 import inf112.zoombiegeddon.view.renderer.WorldRenderer;
+import inf112.zoombiegeddon.utils.CameraUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Abstract base class for all game levels.
@@ -50,6 +55,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
     protected Player player;
     protected TriggerZone triggerZone;
     protected String currentText = null;
+    protected List<Enemy> enemies = new ArrayList<>();
 
     public static final float PIXELS_PER_TILE = 8.0f;
     public static final float UNIT_SCALE = 1 / PIXELS_PER_TILE;
@@ -98,7 +104,10 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
 
         if (player != null) {
             player.update(delta);
-            inf112.zoombiegeddon.utils.CameraUtils.updateCamera(player, camera);
+            for (Enemy enemy : enemies) {
+                enemy.update(delta);
+            }
+            CameraUtils.updateCamera(player, camera);
 
             if (triggerZone != null) {
                 Rectangle playerBounds = new Rectangle(
