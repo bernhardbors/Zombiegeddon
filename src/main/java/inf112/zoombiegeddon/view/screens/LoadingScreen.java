@@ -52,6 +52,7 @@ public class LoadingScreen extends AbstractScreen {
         app.manager.load(AssetConstants.CHARACTER_MALE_SHEET, Texture.class);
         app.manager.load(AssetConstants.CHARACTER_FEMALE_SHEET, Texture.class);
         app.manager.load(AssetConstants.ZOMBIE_SHEET, Texture.class);
+        app.manager.load(AssetConstants.HEALTHBAR, Texture.class);
         app.manager.load(AssetConstants.BG_GAME, Texture.class);
         app.manager.load(AssetConstants.BG_SKY, Texture.class);
         app.manager.load(AssetConstants.BG_CITY, Texture.class);

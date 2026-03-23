@@ -12,6 +12,7 @@ public class AssetConstants {
     public static final String CHARACTER_MALE_SHEET = "assets/sprites/entity/player/playerMale_sheet.png";
     public static final String CHARACTER_FEMALE_SHEET = "assets/sprites/entity/player/playerFemale_sheet.png";
     public static final String ZOMBIE_SHEET = "assets/sprites/entity/enemies/zombie/Zombie-sheet.png";
+    public static final String HEALTHBAR = "assets/sprites/Sprites/Heart_Health_Bar.png";
 
     // Bakgrunner
     public static final String BG_SKY = "assets/backgrounds/CityBackgroundSky.png";

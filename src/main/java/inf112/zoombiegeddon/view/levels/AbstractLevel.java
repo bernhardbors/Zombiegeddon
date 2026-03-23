@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 
 import inf112.zoombiegeddon.audio.IAudioService;
@@ -56,6 +58,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
     public static final float UNIT_SCALE = 1 / PIXELS_PER_TILE;
     public static final float viewportWidth = 50.0f;
     public static final float viewportHeight = 30.0f;
+    public Texture healthbar;
 
     public AbstractLevel(GameApp app, OrthographicCamera camera, Vector2 gravity) {
         this.physics = new WorldPhysics(gravity);
@@ -64,6 +67,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
         this.viewport = new ExtendViewport(viewportWidth, viewportHeight, camera);
         this.camera = camera;
         this.app = app;
+        this.healthbar = app.manager.get(AssetConstants.HEALTHBAR, Texture.class);
         this.hudRenderer = new ShapeRenderer();
         this.debugRenderer = new Box2DDebugRenderer();
     }
@@ -85,6 +89,10 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
         }
         update(delta);
         draw(app.batch);
+
+        if (UIrenderer != null) {
+            UIrenderer.drawHearts(app.batch, healthbar);
+        }
     }
 
     @Override
