@@ -52,6 +52,7 @@ public class LoadingScreen extends AbstractScreen {
         app.manager.load(AssetConstants.CHARACTER_MALE_SHEET, Texture.class);
         app.manager.load(AssetConstants.CHARACTER_FEMALE_SHEET, Texture.class);
         app.manager.load(AssetConstants.ZOMBIE_SHEET, Texture.class);
+        app.manager.load(AssetConstants.BG_GAME, Texture.class);
         app.manager.load(AssetConstants.BG_SKY, Texture.class);
         app.manager.load(AssetConstants.BG_CITY, Texture.class);
         app.manager.load(AssetConstants.BG_L1, Texture.class);
@@ -96,6 +97,7 @@ public class LoadingScreen extends AbstractScreen {
         app.zombieAnimations = new AnimationHandler(enemyZombieSpriteSheet);
 
         // Konfigurer bakgrunn med parallax-styrke
+        app.background.addLayer(app.manager.get(AssetConstants.BG_GAME, Texture.class), 0.1f);
         app.background.addLayer(app.manager.get(AssetConstants.BG_SKY, Texture.class), 0.1f);
         app.background.addLayer(app.manager.get(AssetConstants.BG_CITY, Texture.class), 0.4f);
         app.background.addLayer(app.manager.get(AssetConstants.BG_L1, Texture.class), 0.7f);

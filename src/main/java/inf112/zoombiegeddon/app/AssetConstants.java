@@ -18,6 +18,7 @@ public class AssetConstants {
     public static final String BG_CITY = "assets/backgrounds/CityBackground.png";
     public static final String BG_L1 = "assets/backgrounds/CityBackgroundLayer1.png";
     public static final String BG_L2 = "assets/backgrounds/CityBackgroundLayer2.png";
+    public static final String BG_GAME = "assets/backgrounds/bg1.png";
 
     // Preferanser
     public static final String PREFS_NAME = "Prefs";
