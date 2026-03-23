@@ -33,6 +33,7 @@ public class GameApp extends Game {
     public AnimationHandler playerFemaleAnimations;
     public AnimationHandler zombieAnimations;
     public ParallaxBackground background;
+    public AnimationHandler chonkerAnimations;
 
     /**
      * Initializes the core components of the application.
