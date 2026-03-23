@@ -30,7 +30,7 @@ import inf112.zoombiegeddon.view.renderer.EntityRenderer;
 import inf112.zoombiegeddon.view.renderer.UIRenderer;
 import inf112.zoombiegeddon.view.renderer.WorldRenderer;
 import inf112.zoombiegeddon.utils.CameraUtils;
-
+import inf112.zoombiegeddon.view.screens.GameOverScreen;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,8 +104,9 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
 
         if (player != null) {
             player.update(delta);
-            for (Enemy enemy : enemies) {
-                enemy.update(delta);
+            if (player.isDead()) {
+                app.setScreen(new GameOverScreen(app));
+                return;
             }
             CameraUtils.updateCamera(player, camera);
 
@@ -119,6 +120,10 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
                 currentText = triggerZone.update(playerBounds, player);
             }
         }
+        for (Enemy enemy : enemies) {
+            enemy.update(delta);
+        }
+
     }
 
     public void drawEntities(Entity entity) {

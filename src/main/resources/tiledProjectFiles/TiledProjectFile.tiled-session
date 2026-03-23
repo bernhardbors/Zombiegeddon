@@ -41,15 +41,15 @@
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx": {
             "expandedObjectLayers": [
+                7,
                 6,
-                5,
-                7
+                5
             ],
             "scale": 1.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 354,
-                "y": 268.33333333333337
+                "x": 434.33333333333337,
+                "y": 341.66666666666663
             }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level2.tmx": {
