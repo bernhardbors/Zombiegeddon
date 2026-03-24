@@ -3,6 +3,10 @@ package inf112.zoombiegeddon.model.world.physics;
 import com.badlogic.gdx.physics.box2d.*;
 import inf112.zoombiegeddon.model.entity.*;
 import inf112.zoombiegeddon.model.entity.enemies.Enemy;
+import inf112.zoombiegeddon.model.world.luckyblock.ILuckyBlock;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -11,6 +15,8 @@ import inf112.zoombiegeddon.model.entity.enemies.Enemy;
  * if the player is grounded by checking contact with sensors.
  */
 public class WorldContactListener implements ContactListener {
+
+    private final List<Body> bodiesQueuedForRemoval = new ArrayList<>();
 
     /**
      * Called when two fixtures begin to touch.
@@ -24,6 +30,7 @@ public class WorldContactListener implements ContactListener {
         handleFeetContact(contact, true);
         checkPlayerEntityCollision(contact);
         checkProjectileCollision(contact);
+        checkLuckyBlockCollision(contact);
     }
 
     /**
@@ -55,8 +62,8 @@ public class WorldContactListener implements ContactListener {
 
         // PRINT FOR DEBUGGING
         if ("feet".equals(fa.getUserData()) || "feet".equals(fb.getUserData())) {
-            System.out.println("KONTAKT: Fotsensor traff noe! Grounded: " + grounded);
-            System.out.println("A: " + fa.getUserData() + " | B: " + fb.getUserData());
+            //System.out.println("KONTAKT: Fotsensor traff noe! Grounded: " + grounded);
+            //System.out.println("A: " + fa.getUserData() + " | B: " + fb.getUserData());
         }
 
         if ("feet".equals(fa.getUserData())) {
@@ -77,10 +84,10 @@ public class WorldContactListener implements ContactListener {
 
         if (bodyAData instanceof Player && bodyBData instanceof Enemy) {
             ((Player) bodyAData).takeDamage(1);
-            System.out.println("Player hit! Health: " + ((Player) bodyAData).getHealth());
+            //System.out.println("Player hit! Health: " + ((Player) bodyAData).getHealth());
         } else if (bodyAData instanceof Enemy && bodyBData instanceof Player) {
             ((Player) bodyBData).takeDamage(1);
-            System.out.println("Player hit! Health: " + ((Player) bodyBData).getHealth());
+            //System.out.println("Player hit! Health: " + ((Player) bodyBData).getHealth());
         }
     }
 
@@ -134,5 +141,46 @@ public class WorldContactListener implements ContactListener {
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
         checkPlayerEntityCollision(contact);
+    }
+
+    public void processQueuedRemovals(World world) {
+        if (bodiesQueuedForRemoval.isEmpty()) {
+            return;
+        }
+
+        for (Body body : bodiesQueuedForRemoval) {
+            if (body != null && !world.isLocked()) {
+                world.destroyBody(body);
+            }
+        }
+        bodiesQueuedForRemoval.clear();
+    }
+
+    private void checkLuckyBlockCollision(Contact contact) {
+        Fixture fa = contact.getFixtureA();
+        Fixture fb = contact.getFixtureB();
+
+        Object bodyAData = fa.getBody().getUserData();
+        Object bodyBData = fb.getBody().getUserData();
+
+        if (bodyAData instanceof Player && bodyBData instanceof ILuckyBlock luckyBlock) {
+            breakLuckyBlock(luckyBlock);
+            System.out.println("Lucky block collision.");
+        } else if (bodyBData instanceof Player && bodyAData instanceof ILuckyBlock luckyBlock) {
+            breakLuckyBlock(luckyBlock);
+            System.out.println("Lucky block collision.");
+        }
+    }
+
+    private void breakLuckyBlock(ILuckyBlock luckyBlock) {
+        if (luckyBlock.isBroken()) {
+            return;
+        }
+
+        luckyBlock.breakBlock();
+        Body body = luckyBlock.getBody();
+        if (!bodiesQueuedForRemoval.contains(body)) {
+            bodiesQueuedForRemoval.add(body);
+        }
     }
 }
