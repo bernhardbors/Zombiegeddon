@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
+import inf112.zoombiegeddon.view.levels.Level1;
 import inf112.zoombiegeddon.view.levels.Level2;
 
 /**
@@ -36,7 +37,7 @@ public class MainMenuScreen extends AbstractScreen {
         // 4. Knapper via UIUtils
         // Vi bruker app.skin som ble initialisert i LoadingScreen
         UIUtils.addButton("Start", app.skin, table, buttonWidth, buttonHeight,
-                () -> app.setScreen( new Level2(app)));
+                () -> app.setScreen( new Level1(app)));
 
         UIUtils.addButton("How To Play", app.skin, table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new HowToScreen(app)));
