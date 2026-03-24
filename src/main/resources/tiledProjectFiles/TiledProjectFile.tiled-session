@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -53,11 +53,11 @@
                 6,
                 7
             ],
-            "scale": 1,
-            "selectedLayer": 3,
+            "scale": 2,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 547,
-                "y": 376.5
+                "x": 2086,
+                "y": 180.75
             }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level2.tmx": {
@@ -125,6 +125,8 @@
     "map.tileWidth": 18,
     "map.width": 150,
     "openFiles": [
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/map01.tmx",
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx"
     ],
     "project": "TiledProjectFile.tiled-project",
     "property.type": "string",

@@ -241,8 +241,8 @@ public class Player extends Entity implements IDamageable {
         return inGoal;
     }
 
-    public void setInGoal(){
-        this.inGoal = true;
+    public void setInGoal(boolean bool){
+        this.inGoal = bool;
     }
 
     //PLACEHOLDER CODE FOR TESTING
