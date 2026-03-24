@@ -32,5 +32,7 @@ public class NextLevelScreen extends AbstractScreen{
         formatText("PICK NEXT LEVEL", Color.WHITE, 6f);
         UIUtils.addButton("Level 1", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new Level1(app)));
         UIUtils.addButton("Level 2", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new Level2(app)));
+        UIUtils.addButton("Main menu", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new MainMenuScreen(app)));
+
     }
 }
