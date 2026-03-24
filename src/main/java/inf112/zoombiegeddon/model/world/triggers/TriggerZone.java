@@ -43,6 +43,8 @@ public class TriggerZone {
                 } else if ("sign".equals(type)) {
                     String text = object.getProperties().get("info", String.class);
                     action = new SignAction(text);
+                }  else if ("goalzone".equals(type)) {
+                    action = new GoalAction();
                 } else {
                     continue; // Ukjent type
                 }
@@ -56,7 +58,7 @@ public class TriggerZone {
             for (int i = 0; i < zones.size(); i++) {
                 if (zones.get(i).overlaps(playerBounds)) {
                     lastIndex = i;
-                    return actions.get(i).onTrigger(player); // Her skjer magien!
+                    return actions.get(i).onTrigger(player);
                 }
             }
             lastIndex = -1;

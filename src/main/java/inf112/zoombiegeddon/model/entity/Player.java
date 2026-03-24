@@ -32,6 +32,7 @@ public class Player extends Entity implements IDamageable {
     private float hitTimer;
     private final float InvulnerabilityCooldown = 1.0f;
     private boolean isDead = false;
+    private boolean inGoal =  false;
     private final float bodyW;
     private final float bodyH;
     private final Rectangle bounds = new Rectangle();
@@ -235,6 +236,13 @@ public class Player extends Entity implements IDamageable {
     @Override
     public void heal(int amount) {
         this.HP += (int) amount;
+    }
+    public boolean inGoal(){
+        return inGoal;
+    }
+
+    public void setInGoal(){
+        this.inGoal = true;
     }
 
     //PLACEHOLDER CODE FOR TESTING
