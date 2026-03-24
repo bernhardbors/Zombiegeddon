@@ -3,7 +3,7 @@ package inf112.zoombiegeddon.model.world.luckyblock;
 import com.badlogic.gdx.physics.box2d.Body;
 
 /**
- * Defines the base behavior for Lucky Blocks.
+ * Defines the base behavior for Lucky Blocks
  */
 public interface ILuckyBlock {
 
