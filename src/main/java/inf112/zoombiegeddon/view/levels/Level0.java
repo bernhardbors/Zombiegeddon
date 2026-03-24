@@ -46,7 +46,7 @@ public class Level0 extends AbstractLevel {
     public Level0(GameApp app) {
 
         super(app, new OrthographicCamera(), new Vector2(0,-9.0f));
-        loadMap("tilemaps/level1.tmx", "Collision");
+        loadMap("tilemaps/MyLevel.tmx", "Collision");
         this.spawner = new Spawner(map);
         this.player = new Player(physics.getWorld(), spawner.getSpawnPoint("player_spawn"), app.playerMaleAnimations, 10);
         this.playerController = new PlayerController(player);
