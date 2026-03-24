@@ -137,12 +137,6 @@
     <property name="type" value="sign"/>
    </properties>
   </object>
-  <object id="31" name="sign" x="2110.5" y="215.75" width="80.5" height="63.25">
-   <properties>
-    <property name="info" value="GOAAAAAAAL"/>
-    <property name="type" value="sign"/>
-   </properties>
-  </object>
   <object id="35" name="death" x="1564" y="426.5" width="437.667" height="38.5">
    <properties>
     <property name="info" value="100"/>

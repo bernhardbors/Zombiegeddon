@@ -43,7 +43,7 @@ public class TriggerZone {
                 } else if ("sign".equals(type)) {
                     String text = object.getProperties().get("info", String.class);
                     action = new SignAction(text);
-                }  else if ("goalzone".equals(type)) {
+                } else if ("goalzone".equals(type)) {
                     action = new GoalAction();
                 } else {
                     continue; // Ukjent type
