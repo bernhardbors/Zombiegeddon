@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
-import inf112.zoombiegeddon.view.levels.Level0;
+import inf112.zoombiegeddon.view.levels.Level2;
 
 /**
  * Creates the gameoverscreen in the game when the player dies.
@@ -29,7 +29,7 @@ public class GameOverScreen extends AbstractScreen {
 
         formatText("GAME OVER", Color.WHITE, 6f);
 
-        UIUtils.addButton("Respawn", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new Level0(app)));
+        UIUtils.addButton("Respawn", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new Level2(app)));
         UIUtils.addButton("MainScreen", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new MainMenuScreen(app)));
     }
 }
