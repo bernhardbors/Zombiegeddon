@@ -100,7 +100,7 @@
  <objectgroup id="7" name="SpawnPoints">
   <object id="10" name="player_spawn" x="293.659" y="341.72"/>
   <object id="19" name="enemy_spawn" x="650.913" y="347.42"/>
-  <object id="36" name="enemy_spawn" x="944.605" y="341.402">
+  <object id="36" name="enemy_spawn" x="953.953" y="340.435">
    <properties>
     <property name="type" value="TANK"/>
    </properties>
