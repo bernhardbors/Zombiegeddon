@@ -33,6 +33,8 @@ import inf112.zoombiegeddon.view.renderer.UIRenderer;
 import inf112.zoombiegeddon.view.renderer.WorldRenderer;
 import inf112.zoombiegeddon.utils.CameraUtils;
 import inf112.zoombiegeddon.view.screens.GameOverScreen;
+import inf112.zoombiegeddon.view.screens.NextLevelScreen;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -117,6 +119,12 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
                 app.setScreen(new GameOverScreen(app));
                 return;
             }
+
+            if (player.inGoal()) {
+                app.setScreen(new NextLevelScreen(app));
+                return;
+            }
+
             CameraUtils.updateCamera(player, camera);
 
             if (triggerZone != null) {

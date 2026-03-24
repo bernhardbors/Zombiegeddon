@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
+import inf112.zoombiegeddon.view.levels.Level1;
 import inf112.zoombiegeddon.view.levels.Level2;
 
 /**
@@ -29,7 +30,8 @@ public class GameOverScreen extends AbstractScreen {
 
         formatText("GAME OVER", Color.WHITE, 6f);
 
-        UIUtils.addButton("Respawn", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new Level2(app)));
+        UIUtils.addButton("Respawn Level 1", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new Level1(app)));
+        UIUtils.addButton("Respawn Level 2", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new Level2(app)));
         UIUtils.addButton("MainScreen", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new MainMenuScreen(app)));
     }
 }
