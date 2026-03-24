@@ -76,6 +76,10 @@ public class Player extends Entity implements IDamageable {
      */
 
     public void update(float dt) {
+        if (isDead) {
+            if (hitTimer > 0) hitTimer -= dt;
+            return;
+        }
         controller.update(dt);
         postHorizontalMoveStateEvents();
 
