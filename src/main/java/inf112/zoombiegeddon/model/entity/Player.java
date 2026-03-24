@@ -7,6 +7,7 @@ import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
+import inf112.zoombiegeddon.model.entity.enemies.Enemy;
 import inf112.zoombiegeddon.view.levels.AbstractLevel;
 
 /**
@@ -248,6 +249,19 @@ public class Player extends Entity implements IDamageable {
         Vector2 p = physics.getPosition();
         bounds.set(p.x - bodyW / 2f, p.y - bodyH / 2f, bodyW, bodyH);
         return bounds;
+    }
+
+    public void hitEnemy(Enemy enemy, boolean hitWithFeet) {
+        if (hitWithFeet) {
+            enemy.takeDamage(1);
+
+            // Sprette opp!
+            Vector2 vel = this.physics.getVelocity();
+            this.physics.getBody().setLinearVelocity(vel.x, 0);
+            this.physics.applyImpulse(new Vector2(0, 4.0f));
+        } else {
+            this.takeDamage(1);
+        }
     }
 
     /**

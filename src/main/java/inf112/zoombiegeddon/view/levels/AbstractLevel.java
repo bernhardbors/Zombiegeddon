@@ -34,6 +34,7 @@ import inf112.zoombiegeddon.view.renderer.WorldRenderer;
 import inf112.zoombiegeddon.utils.CameraUtils;
 import inf112.zoombiegeddon.view.screens.GameOverScreen;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -128,10 +129,17 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
                 currentText = triggerZone.update(playerBounds, player);
             }
         }
-        for (Enemy enemy : enemies) {
+        Iterator<Enemy> iterator = enemies.iterator();
+        while (iterator.hasNext()) {
+            Enemy enemy = iterator.next();
             enemy.update(delta);
-        }
 
+            if (enemy.isDead()) {
+                physics.getWorld().destroyBody(enemy.getPhysics().getBody());
+
+                iterator.remove();
+            }
+        }
     }
 
     public void drawEntities(Entity entity) {
