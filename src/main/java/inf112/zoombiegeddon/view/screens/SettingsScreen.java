@@ -3,9 +3,13 @@ package inf112.zoombiegeddon.view.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
+import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.utils.UIUtils;
 
 /**
@@ -22,6 +26,8 @@ public class SettingsScreen extends AbstractScreen {
     public void buildScreen() {
         // Rydd tabellen før vi bygger for å unngå duplikater hvis buildScreen kalles igjen
         clearTable();
+
+        app.audio.playMusic(MusicTrack.MENU, true);
 
         //Setter bakgrunn
         if (app.manager.isLoaded(AssetConstants.BG_SKY)) {
@@ -43,6 +49,38 @@ public class SettingsScreen extends AbstractScreen {
                 .setSelected(savedRes);
 
         table.row().padTop(50);
+
+        formatText("Music Volume", Color.WHITE, 1.2f);
+
+        Slider musicSlider = new Slider(0f, 1f, 0.01f, false, app.skin);
+        musicSlider.setValue(app.audio.getMusicVolume());
+
+        musicSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                app.audio.setMusicVolume(musicSlider.getValue());
+            }
+        });
+
+        table.add(musicSlider).width(buttonWidth).row();
+        table.row().padTop(30);
+
+        table.row().padTop(30);
+
+        formatText("SFX Volume", Color.WHITE, 1.2f);
+
+        Slider sfxSlider = new Slider(0f, 1f, 0.01f, false, app.skin);
+        sfxSlider.setValue(app.audio.getSfxVolume());
+
+        sfxSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                app.audio.setSfxVolume(sfxSlider.getValue());
+            }
+        });
+
+        table.add(sfxSlider).width(buttonWidth).row();
+        table.row().padTop(30);
 
         // Tilbake-knapp
         UIUtils.addButton("Back", app.skin, table, buttonWidth, buttonHeight,
@@ -77,4 +115,6 @@ public class SettingsScreen extends AbstractScreen {
             Gdx.app.error("Settings", "Kunne ikke endre oppløsning: " + resolution);
         }
     }
+
+
 }

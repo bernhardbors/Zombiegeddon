@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import inf112.zoombiegeddon.app.GameApp;
+import inf112.zoombiegeddon.audio.MusicTrack;
 
 /**
  * The SplashScreen is the first screen shown when the game starts.
@@ -35,6 +36,8 @@ public class SplashScreen extends AbstractScreen {
     @Override
     public void buildScreen() {
         clearTable();
+
+        app.audio.playMusic(MusicTrack.MENU, true);
 
         Runnable toMainMenu = () -> app.setScreen(new MainMenuScreen(app));
 

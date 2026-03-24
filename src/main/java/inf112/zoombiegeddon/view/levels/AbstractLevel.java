@@ -22,6 +22,7 @@ import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 
 import inf112.zoombiegeddon.audio.IAudioService;
+import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.entity.Entity;
 import inf112.zoombiegeddon.model.entity.Player;
@@ -83,6 +84,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
     @Override
     public void show() {
         app.background.setCamera(camera);
+        audioService.playMusic(MusicTrack.GAMEPLAY, true);
         if (playerController != null) {
             Gdx.input.setInputProcessor(playerController);
         }
@@ -235,7 +237,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
     public void dispose() {
         super.dispose();
         worldRenderer.dispose();
-        audioService.dispose();
+        //audioService.dispose();
         hudRenderer.dispose();
         debugRenderer.dispose();
     }
