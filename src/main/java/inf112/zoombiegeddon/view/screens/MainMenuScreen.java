@@ -3,12 +3,11 @@ package inf112.zoombiegeddon.view.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
-import inf112.zoombiegeddon.view.levels.Level0;
+import inf112.zoombiegeddon.view.levels.Level2;
 
 /**
  * MainMenuScreen bruker ressurser som allerede er lastet inn via AssetManager.
@@ -37,7 +36,7 @@ public class MainMenuScreen extends AbstractScreen {
         // 4. Knapper via UIUtils
         // Vi bruker app.skin som ble initialisert i LoadingScreen
         UIUtils.addButton("Start", app.skin, table, buttonWidth, buttonHeight,
-                () -> app.setScreen( new Level0(app)));
+                () -> app.setScreen( new Level2(app)));
 
         UIUtils.addButton("How To Play", app.skin, table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new HowToScreen(app)));
