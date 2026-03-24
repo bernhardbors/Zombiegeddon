@@ -23,6 +23,8 @@ public class Player extends Entity implements IDamageable {
     private final PlayerController controller;
     private final AnimationHandler animationHandler;
     private boolean isRunning = false;
+    private boolean wasMovingHorizontally = false;
+    private boolean wasRunningWhileMoving = false;
 
     private int HP;
     private final int maxHP;
@@ -74,7 +76,13 @@ public class Player extends Entity implements IDamageable {
      */
 
     public void update(float dt) {
+        if (isDead) {
+            if (hitTimer > 0) hitTimer -= dt;
+            return;
+        }
         controller.update(dt);
+        postHorizontalMoveStateEvents();
+
         updateAnimationState(dt, VELOCITY_THRESHOLD);
         if (hitTimer > 0) hitTimer -= dt;
  
@@ -133,6 +141,34 @@ public class Player extends Entity implements IDamageable {
         }
     }
 
+    private void postHorizontalMoveStateEvents() {
+        Vector2 vel = physics.getVelocity();
+        boolean movingHorizontally = isGrounded() && Math.abs(vel.x) > VELOCITY_THRESHOLD;
+        boolean runningNow = movingHorizontally && isRunning;
+
+        if (!wasMovingHorizontally && movingHorizontally) {
+            GameEventBus.post(GameEvent.PLAYER_MOVE_START);
+
+            if (runningNow) {
+                GameEventBus.post(GameEvent.PLAYER_RUN_START);
+            }
+        } else if (wasMovingHorizontally && !movingHorizontally) {
+            if (wasRunningWhileMoving) {
+                GameEventBus.post(GameEvent.PLAYER_RUN_STOP);
+            }
+            GameEventBus.post(GameEvent.PLAYER_MOVE_STOP);
+        } else if (movingHorizontally) {
+            if (!wasRunningWhileMoving && runningNow) {
+                GameEventBus.post(GameEvent.PLAYER_RUN_START);
+            } else if (wasRunningWhileMoving && !runningNow) {
+                GameEventBus.post(GameEvent.PLAYER_RUN_STOP);
+            }
+        }
+
+        wasMovingHorizontally = movingHorizontally;
+        wasRunningWhileMoving = runningNow;
+    }
+
     /**
      * Applies horizontal force to the player's physics body.
      *
@@ -165,12 +201,17 @@ public class Player extends Entity implements IDamageable {
 
     @Override
     public void takeDamage(int amount) {
+        if (isDead) return;
+
         if (hitTimer <= 0) {
             this.HP -= amount;
             hitTimer = InvulnerabilityCooldown;
         }
+
         if (this.HP <= 0) {
+            this.HP = 0;
             isDead = true;
+            GameEventBus.post(GameEvent.PLAYER_DEATH);
             System.out.println("player dead");
         }
     }

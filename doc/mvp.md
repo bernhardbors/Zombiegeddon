@@ -1,13 +1,13 @@
 ## MVP
-1. SplashScreen som vises mens spillet laster inn
+1. Splash Screen som presenter gruppa og prosjektet mens spillet laster.
 2. Main Menu
     * Start
     * How to play
+      * Instruksjoner som forklarer kontroller i spillet.
     * Settings
         * Endre oppløsning og lydinnstillinger
     * Exit
-3. Vise et spillebrett
-4. Vise spiller på spillebrett
-    * Kunne flytte rundt på karakteren og hoppe ved bruk av taster
+3. Vise et enkelt level med karakter og fiender
+    * Kunne flytte rundt på karakteren og hoppe - hopp gir lydeffekt.
 4. Fiender som gir skade ved berøring
-5. Dø når man går tom for liv, eller faller ut av mappet
+    * En brukbar power-up: Skyte fiender som tar liv fra dem.

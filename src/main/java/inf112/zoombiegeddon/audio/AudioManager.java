@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
+import inf112.zoombiegeddon.events.IEventListener;
 
 import java.util.Random;
 
@@ -13,16 +14,18 @@ import java.util.Random;
  * This class relies on an {@link AssetManager} to provide access to loaded sound effects
  * and manages individual playback logic, volume control, and music streaming.
  */
-public class AudioManager implements AudioService, AudioListener{
+public class AudioManager implements IAudioService, IEventListener {
     private static final String PREF_SFX_VOL = "audio_sfx_volume";
     private static final String PREF_MUTED = "audio_muted";
 
     private final AssetManager assets;
     private final Preferences prefs;
     private final Random random = new Random();
+    private boolean footstepsLooping = false;
 
     private float sfxVolume;
     private boolean muted;
+    private boolean runningFootsteps = false;
 
     /**
      * Constructs a new AudioManager with preference persistence.
@@ -88,6 +91,53 @@ public class AudioManager implements AudioService, AudioListener{
     }
 
     @Override
+    public long loopSfx(Sfx sfx) {
+        if (muted) return -1L;
+        if (sfx == null) return -1L;
+
+        // Make sure the Sound is loaded
+        if (!assets.isLoaded(sfx.path(), Sound.class)) return -1L;
+
+        Sound sound = assets.get(sfx.path(), Sound.class);
+        return sound.loop(sfxVolume);
+    }
+
+    @Override
+    public void stopSfx(Sfx sfx) {
+        if (sfx == null) return;
+        if (!assets.isLoaded(sfx.path(), Sound.class)) return;
+        assets.get(sfx.path(), Sound.class).stop();
+    }
+
+
+    private void startFootstepsLoop() {
+        if (footstepsLooping && !runningFootsteps) return;
+
+        stopFootstepsLoop();
+        loopSfx(Sfx.FOOTSTEPS);
+        footstepsLooping = true;
+        runningFootsteps = false;
+    }
+
+
+    private void startRunningFootstepsLoop() {
+        if (footstepsLooping && runningFootsteps) return;
+
+        stopFootstepsLoop();
+        loopSfx(Sfx.FOOTSTEPS_RUN);
+        footstepsLooping = true;
+        runningFootsteps = true;
+    }
+
+    private void stopFootstepsLoop() {
+        if (!footstepsLooping) return;
+
+        stopSfx(Sfx.FOOTSTEPS);
+        stopSfx(Sfx.FOOTSTEPS_RUN);
+        footstepsLooping = false;
+        runningFootsteps = false;
+    }
+    @Override
     public void onEvent(GameEvent event) {
         switch (event) {
             case PLAYER_JUMP:
@@ -95,6 +145,23 @@ public class AudioManager implements AudioService, AudioListener{
                 break;
             case UI_BUTTON_CLICK:
                 playSfx(Sfx.BUTTON_CLICK);
+                break;
+            case PLAYER_MOVE_START:
+                startFootstepsLoop();
+                break;
+            case PLAYER_RUN_START:
+                startRunningFootstepsLoop();
+                break;
+            case PLAYER_RUN_STOP:
+                startFootstepsLoop();
+                break;
+            case PLAYER_MOVE_STOP:
+               stopFootstepsLoop();
+               break;
+            case PLAYER_DEATH:
+                stopFootstepsLoop();
+
+                playSfx(Sfx.PLAYER_DEATH);
                 break;
             default:
                 break;

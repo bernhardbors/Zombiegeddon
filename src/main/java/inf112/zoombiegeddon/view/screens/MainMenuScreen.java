@@ -24,8 +24,8 @@ public class MainMenuScreen extends AbstractScreen {
         clearTable();
 
         // 2. Hent bakgrunn fra manager (IKKE lag "new Texture")
-        if (app.manager.isLoaded(AssetConstants.BG_SKY)) {
-            Texture background = app.manager.get(AssetConstants.BG_SKY, Texture.class);
+        if (app.manager.isLoaded(AssetConstants.BG_GAME)) {
+            Texture background = app.manager.get(AssetConstants.BG_GAME, Texture.class);
             table.setBackground(new TextureRegionDrawable(background));
         }
 
