@@ -8,6 +8,7 @@ import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
 import inf112.zoombiegeddon.view.levels.Level2;
+import inf112.zoombiegeddon.audio.MusicTrack;
 
 /**
  * MainMenuScreen bruker ressurser som allerede er lastet inn via AssetManager.
@@ -22,6 +23,8 @@ public class MainMenuScreen extends AbstractScreen {
     public void buildScreen() {
         // 1. Rydd tabellen før vi bygger (sikkerhet hvis skjermen vises flere ganger)
         clearTable();
+
+        app.audio.playMusic(MusicTrack.MENU, true);
 
         // 2. Hent bakgrunn fra manager (IKKE lag "new Texture")
         if (app.manager.isLoaded(AssetConstants.BG_GAME)) {

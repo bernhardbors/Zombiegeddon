@@ -1,5 +1,7 @@
 package inf112.zoombiegeddon.audio;
 
+import com.badlogic.gdx.audio.Music;
+
 /**
  * Interface defining the contract for audio playback and management.
  * Provides methods for playing sound effects, managing volume, and state control.
@@ -10,6 +12,14 @@ public interface IAudioService {
      * @param sfx The sound effect to play.
      */
     void playSfx(Sfx sfx);
+
+    void playMusic(MusicTrack music, boolean loop);
+    void stopMusic();
+
+    void setMusicVolume(float volume01);
+    float getMusicVolume();
+
+
 
     /**
      * Randomly selects and plays one of the provided sound effects.

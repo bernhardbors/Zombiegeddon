@@ -2,6 +2,7 @@ package inf112.zoombiegeddon.audio;
 
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
@@ -17,6 +18,13 @@ import java.util.Random;
 public class AudioManager implements IAudioService, IEventListener {
     private static final String PREF_SFX_VOL = "audio_sfx_volume";
     private static final String PREF_MUTED = "audio_muted";
+
+
+    private static final String PREF_MUSIC_VOL = "audio_music_volume";
+
+    private Music currentMusic;
+    private MusicTrack currentTrack;
+    private float musicVolume;
 
     private final AssetManager assets;
     private final Preferences prefs;
@@ -35,6 +43,7 @@ public class AudioManager implements IAudioService, IEventListener {
     public AudioManager(AssetManager assets, Preferences prefs) {
         this.assets = assets;
         this.prefs = prefs;
+        this.musicVolume = clamp01(prefs.getFloat(PREF_MUSIC_VOL, 1.0f));
 
         this.sfxVolume = clamp01(prefs.getFloat(PREF_SFX_VOL, 1.0f));
         this.muted = prefs.getBoolean(PREF_MUTED, false);
@@ -50,6 +59,7 @@ public class AudioManager implements IAudioService, IEventListener {
         this.assets = assets;
         this.prefs = null;
         this.sfxVolume = 1.0f;
+        this.musicVolume = 1.0f;
         this.muted = false;
 
         GameEventBus.register(this);
@@ -77,6 +87,11 @@ public class AudioManager implements IAudioService, IEventListener {
     @Override
     public void setMuted(boolean muted) {
         this.muted = muted;
+
+        if (currentMusic != null) {
+            currentMusic.setVolume(muted ? 0f : musicVolume);
+        }
+
         save();
     }
 
@@ -160,12 +175,50 @@ public class AudioManager implements IAudioService, IEventListener {
                break;
             case PLAYER_DEATH:
                 stopFootstepsLoop();
-
                 playSfx(Sfx.PLAYER_DEATH);
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public void playMusic(MusicTrack track, boolean loop) {
+        if (track == null) return;
+        if (!assets.isLoaded(track.path(), Music.class)) return;
+
+        if (currentTrack == track && currentMusic != null) return;
+
+        stopMusic();
+
+        currentMusic = assets.get(track.path(), Music.class);
+        currentMusic.setLooping(loop);
+        currentMusic.setVolume(muted ? 0f : musicVolume);
+        currentMusic.play();
+        currentTrack = track;
+    }
+
+    @Override
+    public void stopMusic() {
+        if (currentMusic != null) {
+            currentMusic.stop();
+            currentMusic = null;
+            currentTrack = null;
+        }
+    }
+
+    @Override
+    public void setMusicVolume(float volume01) {
+        this.musicVolume = clamp01(volume01);
+        if (currentMusic != null) {
+            currentMusic.setVolume(muted ? 0f : musicVolume);
+        }
+        save();
+    }
+
+    @Override
+    public float getMusicVolume() {
+        return musicVolume;
     }
     /**
      * Disposes of the background music. Note: AssetManager handles Sound disposal.
@@ -177,8 +230,10 @@ public class AudioManager implements IAudioService, IEventListener {
     private void save() {
         if (prefs == null) return;
         prefs.putFloat(PREF_SFX_VOL, sfxVolume);
+        prefs.putFloat(PREF_MUSIC_VOL, musicVolume);
         prefs.putBoolean(PREF_MUTED, muted);
         prefs.flush();
+
     }
 
     private static float clamp01(float v) {
