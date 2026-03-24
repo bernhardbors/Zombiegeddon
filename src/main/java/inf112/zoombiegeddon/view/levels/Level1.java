@@ -23,7 +23,7 @@ import inf112.zoombiegeddon.model.world.triggers.TriggerZone;
  * This level initializes a player, sets up input handling, and manages
  * camera movement relative to the player's position.
  */
-public class Level0 extends AbstractLevel {
+public class Level1 extends AbstractLevel {
 
     private TiledMap map;
     private Spawner spawner;
@@ -31,7 +31,7 @@ public class Level0 extends AbstractLevel {
 
 
 
-    public Level0(GameApp app) {
+    public Level1(GameApp app) {
 
         super(app, new OrthographicCamera(), new Vector2(0,-15.0f));
         loadMap("tilemaps/level1.tmx", "Collision");

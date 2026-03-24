@@ -108,16 +108,11 @@ public class Enemy extends Entity implements IDamageable {
         final boolean[] hasGround = {false};
 
         RayCastCallback wallCallback = (fixture, point, normal, fraction) -> {
-            if (fixture.isSensor()) {
-                return 1;
+            if (!fixture.isSensor() && !"enemy".equals(fixture.getUserData())) {
+                hitWall[0] = true;
+                return 0;
             }
-
-            if (fixture.getBody() == physics.getBody()) {
-                return 1;
-            }
-
-            hitWall[0] = true;
-            return 0;
+            return 1;
         };
 
         RayCastCallback ledgeCallback = (fixture, point, normal, fraction) -> {
