@@ -27,19 +27,19 @@ public class EnemyFactory implements IEnemyFactory{
         switch (type) {
             case TANK -> {
                 hp = 3;
-                speed = 0.5f;
+                speed = 1.0f;
                 animToUse = chonkerAnims;
             }
             case FAST_ZOMBIE -> {
                 hp = 1;
-                speed = 2.5f;
+                speed = 5.0f;
                 animToUse = normalAnims;
             }
             default -> {
-                hp = 1;              // 1 liv
-                speed = 1.5f;        // Rask
+                hp = 1;
+                speed = 3.0f;
                 animToUse = normalAnims;
-            } // Standard Zombie
+            }
         }
 
         return new Enemy(world, position, animToUse, hp, speed);
