@@ -30,8 +30,11 @@ public class GameOverScreen extends AbstractScreen {
 
         formatText("GAME OVER", Color.WHITE, 6f);
 
-        UIUtils.addButton("Respawn Level 1", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new Level1(app)));
-        UIUtils.addButton("Respawn Level 2", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new Level2(app)));
+
+
+        UIUtils.addButton("Respawn level 1", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new Level1(app)));
+        UIUtils.addButton("Respawn level 2", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new Level2(app)));
+
         UIUtils.addButton("MainScreen", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new MainMenuScreen(app)));
     }
 }
