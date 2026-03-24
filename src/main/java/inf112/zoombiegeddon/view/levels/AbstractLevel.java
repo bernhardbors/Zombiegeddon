@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -17,17 +18,23 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 
 import inf112.zoombiegeddon.audio.IAudioService;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.entity.Entity;
 import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.enemies.Enemy;
 import inf112.zoombiegeddon.model.world.physics.WorldPhysics;
 import inf112.zoombiegeddon.model.world.triggers.TriggerZone;
 import inf112.zoombiegeddon.view.renderer.EntityRenderer;
 import inf112.zoombiegeddon.view.renderer.UIRenderer;
 import inf112.zoombiegeddon.view.renderer.WorldRenderer;
+import inf112.zoombiegeddon.utils.CameraUtils;
+import inf112.zoombiegeddon.view.screens.GameOverScreen;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Abstract base class for all game levels.
@@ -50,11 +57,13 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
     protected Player player;
     protected TriggerZone triggerZone;
     protected String currentText = null;
+    protected List<Enemy> enemies = new ArrayList<>();
 
     public static final float PIXELS_PER_TILE = 8.0f;
     public static final float UNIT_SCALE = 1 / PIXELS_PER_TILE;
     public static final float viewportWidth = 50.0f;
     public static final float viewportHeight = 30.0f;
+    public Texture healthbar;
 
     public AbstractLevel(GameApp app, OrthographicCamera camera, Vector2 gravity) {
         this.physics = new WorldPhysics(gravity);
@@ -63,6 +72,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
         this.viewport = new ExtendViewport(viewportWidth, viewportHeight, camera);
         this.camera = camera;
         this.app = app;
+        this.healthbar = app.manager.get(AssetConstants.HEALTHBAR, Texture.class);
         this.hudRenderer = new ShapeRenderer();
         this.debugRenderer = new Box2DDebugRenderer();
     }
@@ -84,6 +94,10 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
         }
         update(delta);
         draw(app.batch);
+
+        if (UIrenderer != null) {
+            UIrenderer.drawHearts(app.batch, healthbar);
+        }
     }
 
     @Override
@@ -98,7 +112,11 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
 
         if (player != null) {
             player.update(delta);
-            inf112.zoombiegeddon.utils.CameraUtils.updateCamera(player, camera);
+            if (player.isDead()) {
+                app.setScreen(new GameOverScreen(app));
+                return;
+            }
+            CameraUtils.updateCamera(player, camera);
 
             if (triggerZone != null) {
                 Rectangle playerBounds = new Rectangle(
@@ -110,9 +128,17 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
                 currentText = triggerZone.update(playerBounds, player);
             }
         }
+        for (Enemy enemy : enemies) {
+            enemy.update(delta);
+        }
+
     }
 
     public void drawEntities(Entity entity) {
+        if (entity.getAnimationHandler() == null) {
+            System.out.println("AnimationHandler is NULL for: " + entity);
+            return;
+        }
         TextureRegion playerFrame = entity.getAnimationHandler().getFrame(entity.getCurrentState(), entity.getStateTime(), entity.isFacingRight());
         app.batch.setProjectionMatrix(camera.combined);
         app.batch.begin();

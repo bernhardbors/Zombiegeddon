@@ -1,8 +1,13 @@
 package inf112.zoombiegeddon.view.renderer;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import inf112.zoombiegeddon.model.entity.Entity;
 import inf112.zoombiegeddon.model.entity.IDamageable;
 import inf112.zoombiegeddon.model.entity.IEntity;
@@ -13,6 +18,7 @@ public class UIRenderer {
     private final OrthographicCamera camera;
     private final IEntity targetEntity;
     private final IDamageable damageable;
+    private int row;
 
     /**
      * We pass the Player/Enemy as an Entity that also implements IDamageable.
@@ -22,30 +28,29 @@ public class UIRenderer {
         this.shapeRenderer = new ShapeRenderer();
         this.targetEntity = entity;
         this.damageable = entity;
+
+
     }
 
-    public void drawUI() {
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+    public void drawHearts(SpriteBatch batch, Texture texture) {
+        Matrix4 uiMatrix = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.setProjectionMatrix(uiMatrix);
 
-        shapeRenderer.setColor(Color.RED);
-        float x = targetEntity.getPosition().x;
-        float y = targetEntity.getPosition().y + targetEntity.getHeight() + 0.2f;
-        float width = targetEntity.getWidth();
-        float height = 0.1f;
+        batch.begin();
 
-        shapeRenderer.rect(x, y, width, height);
+        int currentHealth = (int) damageable.getHealth();
 
-        float currentHp = (float) damageable.getHealth();
-        float maxHp = (float) damageable.getMaxHealth();
-        float healthPercentage = (maxHp > 0) ? (currentHp / maxHp) : 0;
+        this.row= (3 - currentHealth) *2;
 
-        shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.rect(x, y, width * healthPercentage, height);
+        int frameHeight = texture.getHeight() / 7;
+        int srcY = row * frameHeight;
 
-        shapeRenderer.end();
+        TextureRegion currentFrame = new TextureRegion(texture, 0, srcY, texture.getWidth(), frameHeight);
+
+        batch.draw(currentFrame, 20, Gdx.graphics.getHeight() - 60, texture.getWidth() * 4, frameHeight * 4);
+
+        batch.end();
     }
-
     public void dispose() {
         shapeRenderer.dispose();
     }

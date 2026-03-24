@@ -8,6 +8,9 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.enemies.Enemy;
+import inf112.zoombiegeddon.model.entity.enemies.EnemyFactory;
+import inf112.zoombiegeddon.model.entity.enemies.IEnemyFactory;
 import inf112.zoombiegeddon.model.world.Spawner;
 import inf112.zoombiegeddon.model.world.luckyblock.LuckyBlockLayerFactory;
 import inf112.zoombiegeddon.model.world.physics.WorldCollisionLayerCreator;
@@ -33,14 +36,19 @@ public class Level0 extends AbstractLevel {
         super(app, new OrthographicCamera(), new Vector2(0,-15.0f));
         loadMap("tilemaps/level1.tmx", "Collision");
         this.spawner = new Spawner(map);
-        this.player = new Player(physics.getWorld(), spawner.getSpawnPoint("player_spawn"), app.playerMaleAnimations, 10);
+        this.player = new Player(physics.getWorld(), spawner.getSpawnPoint("player_spawn"), app.playerMaleAnimations, 3);
         this.playerController = new PlayerController(player);
 
         this.entityRenderer = new EntityRenderer();
         this.UIrenderer = new UIRenderer(camera, player);
         this.triggerZone = new TriggerZone(map, "Triggers");
 
-
+        IEnemyFactory enemyFactory = new EnemyFactory(physics.getWorld());
+        this.enemies = enemyFactory.createEnemiesFromLayer(
+                map.getLayers().get("SpawnPoints"),
+                app.zombieAnimations,
+                app.chonkerAnimations
+        );
     }
 
     @Override
@@ -74,9 +82,14 @@ public class Level0 extends AbstractLevel {
 
         if (player != null) drawEntities(player);
 
+        for(Enemy enemy : enemies) {
+            drawEntities(enemy);
+        }
+
         worldRenderer.renderForeground();
 
         renderTriggerText();
-        UIrenderer.drawUI();
+
+        drawDebug();
     }
 }
