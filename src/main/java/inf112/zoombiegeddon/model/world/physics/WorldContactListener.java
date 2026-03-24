@@ -79,15 +79,19 @@ public class WorldContactListener implements ContactListener {
         Fixture fa = contact.getFixtureA();
         Fixture fb = contact.getFixtureB();
 
-        Object bodyAData = fa.getBody().getUserData();
-        Object bodyBData = fb.getBody().getUserData();
+        Object dataA = fa.getUserData();
+        Object dataB = fb.getUserData();
 
-        if (bodyAData instanceof Player && bodyBData instanceof Enemy) {
-            ((Player) bodyAData).takeDamage(1);
-            //System.out.println("Player hit! Health: " + ((Player) bodyAData).getHealth());
-        } else if (bodyAData instanceof Enemy && bodyBData instanceof Player) {
-            ((Player) bodyBData).takeDamage(1);
-            //System.out.println("Player hit! Health: " + ((Player) bodyBData).getHealth());
+        Object bodyA = fa.getBody().getUserData();
+        Object bodyB = fb.getBody().getUserData();
+
+        if (bodyA instanceof Player player && bodyB instanceof Enemy enemy) {
+            boolean hitWithFeet = "feet".equals(dataA);
+            player.hitEnemy(enemy, hitWithFeet);
+        }
+        else if (bodyA instanceof Enemy enemy && bodyB instanceof Player player) {
+            boolean hitWithFeet = "feet".equals(dataB);
+            player.hitEnemy(enemy, hitWithFeet);
         }
     }
 
