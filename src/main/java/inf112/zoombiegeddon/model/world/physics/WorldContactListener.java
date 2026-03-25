@@ -29,7 +29,6 @@ public class WorldContactListener implements ContactListener {
     public void beginContact(Contact contact) {
         handleFeetContact(contact, true);
         checkPlayerEntityCollision(contact);
-        checkProjectileCollision(contact);
         checkLuckyBlockCollision(contact);
     }
 
@@ -94,34 +93,6 @@ public class WorldContactListener implements ContactListener {
             player.hitEnemy(enemy, hitWithFeet);
         }
     }
-
-    private void checkProjectileCollision(Contact contact) {
-        Fixture fa = contact.getFixtureA();
-        Fixture fb = contact.getFixtureB();
-
-        // Get the UserData from the BODIES, not the fixtures
-        Object dataA = fa.getBody().getUserData();
-        Object dataB = fb.getBody().getUserData();
-
-        // --- Case 1: Bullet hits an Enemy ---
-        if (dataA instanceof IProjectile && dataB instanceof Enemy) {
-            ((Enemy) dataB).takeDamage(2);
-            ((IProjectile) dataA).markForRemoval();
-        } else if (dataB instanceof IProjectile && dataA instanceof Enemy) {
-            ((Enemy) dataA).takeDamage(2);
-            ((IProjectile) dataB).markForRemoval();
-        }
-
-        // --- Case 2: Bullet hits a Wall (StaticBody) ---
-        // Check if one is a projectile and the OTHER body is static
-        if (dataA instanceof IProjectile && fb.getBody().getType() == BodyDef.BodyType.StaticBody) {
-            ((IProjectile) dataA).markForRemoval();
-        } else if (dataB instanceof IProjectile && fa.getBody().getType() == BodyDef.BodyType.StaticBody) {
-            ((IProjectile) dataB).markForRemoval();
-        }
-    }
-
-
 
     /**
      * Called after collision detection but before collision resolution.
