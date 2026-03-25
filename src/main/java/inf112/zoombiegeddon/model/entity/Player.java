@@ -245,14 +245,6 @@ public class Player extends Entity implements IDamageable {
         this.inGoal = bool;
     }
 
-    //PLACEHOLDER CODE FOR TESTING
-    public Bullet createBullet(World world) {
-        // Spawn bullet slightly in front of the player based on facingRight
-        float offset = facingRight ? 0.5f : -0.5f;
-        Vector2 spawnPos = new Vector2(physics.getPosition().x + offset, physics.getPosition().y);
-        return new Bullet(world, spawnPos, facingRight);
-    }
-
     public Rectangle getBounds() {
         Vector2 p = physics.getPosition();
         bounds.set(p.x - bodyW / 2f, p.y - bodyH / 2f, bodyW, bodyH);
