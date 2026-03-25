@@ -47,18 +47,14 @@ public class PhysicsComponent {
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
 
-        // HOVED-HITBOX (Sentrert på karakterens kropp)
-        // Vi bruker de faktiske målene (11px og 20px konvertert til enheter)
         shape.setAsBox(hitboxW / 2f, hitboxH / 2f);
         fdef.shape = shape;
         fdef.friction = 0f;
         body.createFixture(fdef).setUserData(userData);
 
-        // FOTSENSOR
-        // Plasseres nøyaktig i bunnen av den 20px høye hitboxen
         float sensorWidth = (hitboxW / 2f) * 0.9f;
         float sensorHeight = 0.3f;
-        Vector2 sensorCenter = new Vector2(0, -hitboxH / 2f); // Bunnen av hitboxen
+        Vector2 sensorCenter = new Vector2(0, -hitboxH / 2f);
 
         shape.setAsBox(sensorWidth, sensorHeight, sensorCenter, 0);
         fdef.shape = shape;
@@ -106,6 +102,11 @@ public class PhysicsComponent {
         return body;
     }
 
+    /**
+     * Sets the physics body of this component.
+     *
+     * @param o The object to assign as the body. Must be a {@link Body}.
+     */
     public void setBody(Object o) {
         this.body = (Body) o;
     }

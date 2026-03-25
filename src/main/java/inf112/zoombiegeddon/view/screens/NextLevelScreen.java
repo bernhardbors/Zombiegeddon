@@ -11,11 +11,17 @@ import inf112.zoombiegeddon.view.levels.Level2;
 
 
 /**
- * Screen that shows when the player reaches goal.
- * You can pick any level that you want.
+ * Displays the screen shown when the player reaches the goal.
+ * Allows the player to choose the next level or return to the main menu.
  */
 public class NextLevelScreen extends AbstractScreen{
 
+
+    /**
+     * Constructs the next level screen.
+     *
+     * @param app The game application instance.
+     */
     public NextLevelScreen(GameApp app) {super(app); }
 
     @Override

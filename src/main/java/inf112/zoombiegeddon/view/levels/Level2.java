@@ -30,11 +30,15 @@ public class Level2 extends AbstractLevel {
     private LuckyBlockLayerFactory luckyBlockLayerFactory;
 
 
-
+    /**
+     * Constructs level 2  and initializes its world, player, UI, enemies, and triggers.
+     *
+     * @param app The game application instance.
+     */
     public Level2(GameApp app) {
 
         super(app, new OrthographicCamera(), new Vector2(0,-15.0f));
-        loadMap("tilemaps/level2.tmx", "Collision");
+        loadMap("tilemaps/first try yilr copy.tmx", "Collision");
         this.spawner = new Spawner(map);
         this.player = new Player(physics.getWorld(), spawner.getSpawnPoint("player_spawn"), app.playerMaleAnimations, 3);
         this.playerController = new PlayerController(player);

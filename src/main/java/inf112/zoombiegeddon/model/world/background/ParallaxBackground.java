@@ -58,7 +58,7 @@ public class ParallaxBackground {
     public void render(SpriteBatch batch) {
         for (Layer layer : layers) {
 
-            // Calculate how much the texture should scroll based on camera position and factor
+
             float xOffset = (camera.position.x * layer.factor) / 100;
 
             batch.draw(layer.texture,

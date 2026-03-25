@@ -59,10 +59,8 @@ public class WorldContactListener implements ContactListener {
         Fixture fa = contact.getFixtureA();
         Fixture fb = contact.getFixtureB();
 
-        // PRINT FOR DEBUGGING
+
         if ("feet".equals(fa.getUserData()) || "feet".equals(fb.getUserData())) {
-            //System.out.println("KONTAKT: Fotsensor traff noe! Grounded: " + grounded);
-            //System.out.println("A: " + fa.getUserData() + " | B: " + fb.getUserData());
         }
 
         if ("feet".equals(fa.getUserData())) {

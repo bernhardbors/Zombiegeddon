@@ -3,6 +3,10 @@ package inf112.zoombiegeddon.model.entity;
 import com.badlogic.gdx.math.Vector2;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 
+/**
+ * Defines the common behavior for game entities.
+ * Provides access to position, physics, size, grounded state, and animations.
+ */
 public interface IEntity {
 
     /**
@@ -62,9 +66,16 @@ public interface IEntity {
     public float getHeight();
 
     /**
-     * @return scaled Sprite Dimensions (sprite dim * worldScale)
+     * Returns the scaled sprite dimension of the entity.
+     *
+     * @return The scaled sprite dimension.
      */
     public float getScaledSpriteDimensions();
 
+    /**
+     * Returns the animation handler used by the entity.
+     *
+     * @return The animation handler.
+     */
     public AnimationHandler getAnimationHandler();
 }

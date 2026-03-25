@@ -4,12 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
+/**
+ * Generates and stores bitmap fonts used by the game UI.
+ */
 public class FontGenerator {
     public BitmapFont mainFont;
     public BitmapFont titleFont;
 
-    //https://libgdxinfo.wordpress.com/basic-label/ 23.02.2026
 
+    /**
+     * Creates the fonts used by the game from the given font file.
+     *
+     * @param filePath The path to the font file.
+     */
     public void create(String filePath) {
         if (!Gdx.files.internal(filePath).exists()) {
             Gdx.app.error("FontGenerator", "Font file not found: " + filePath);
@@ -26,6 +33,9 @@ public class FontGenerator {
         generator.dispose();
     }
 
+    /**
+     * Releases the font resources used by this generator.
+     */
     public void dispose() {
         if (mainFont != null) mainFont.dispose();
         if (titleFont != null) titleFont.dispose();

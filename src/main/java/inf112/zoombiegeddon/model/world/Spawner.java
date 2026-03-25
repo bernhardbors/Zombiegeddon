@@ -9,13 +9,30 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import inf112.zoombiegeddon.view.levels.AbstractLevel;
 
+/**
+ * Retrieves spawn positions from a tiled map.
+ * Looks up named spawn points in the {@code SpawnPoints} layer.
+ */
 public class Spawner {
+
     private TiledMap map;
 
+    /**
+     * Constructs a new spawner for the given tiled map.
+     *
+     * @param map The tiled map containing spawn point objects.
+     */
     public Spawner (TiledMap map) {
         this.map = map;
     }
 
+    /**
+     * Returns the spawn point with the given id from the map.
+     * If no matching spawn point is found, a default fallback position is returned.
+     *
+     * @param SpawnID The name of the spawn point to look up.
+     * @return The spawn position in world units.
+     */
     public Vector2 getSpawnPoint(String SpawnID) {
         MapObjects objects = map.getLayers().get("SpawnPoints").getObjects();
         for (MapObject object : objects) {
@@ -26,6 +43,6 @@ public class Spawner {
                         rect.y * AbstractLevel.UNIT_SCALE);
             }
         }
-        return new Vector2(5, 5); // Default backup
+        return new Vector2(5, 5);
     }
 }

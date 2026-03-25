@@ -69,6 +69,13 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
     public static final float viewportHeight = 30.0f;
     public Texture healthbar;
 
+    /**
+     * Constructs a new abstract level with shared rendering and physics setup.
+     *
+     * @param app The game application instance.
+     * @param camera The camera used to render the level.
+     * @param gravity The gravity vector used in the physics world.
+     */
     public AbstractLevel(GameApp app, OrthographicCamera camera, Vector2 gravity) {
         this.physics = new WorldPhysics(gravity);
         this.worldRenderer = new WorldRenderer(camera);
@@ -152,6 +159,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
         }
     }
 
+    @Override
     public void drawEntities(Entity entity) {
         if (entity.getAnimationHandler() == null) {
             System.out.println("AnimationHandler is NULL for: " + entity);
@@ -185,6 +193,12 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
         return textBody;
     }
 
+    /**
+     * Draws sign text above the given sign area in screen space.
+     *
+     * @param text The text to display.
+     * @param signRect The rectangle representing the sign area in world coordinates.
+     */
     public void drawSignText(String text, Rectangle signRect) {
         int screenW = Gdx.graphics.getWidth();
         int screenH = Gdx.graphics.getHeight();
@@ -200,7 +214,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
 
         float boxH = layout.height + padding * 2;
 
-        // Project the top-centre of the sign zone from world space to screen space
+
         Vector3 signTop = new Vector3(
                 signRect.x + signRect.width / 2f,
                 signRect.y + signRect.height,
@@ -210,23 +224,30 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
         float boxX = signTop.x - boxW / 2f;
         float boxY = signTop.y + 8f;
 
-        // Clamp so the panel stays within the screen
+
         boxX = Math.max(0, Math.min(boxX, screenW - boxW));
         boxY = Math.min(boxY, screenH - boxH);
 
-        // Draw wrapped text centred in the panel
+
         app.batch.setProjectionMatrix(screenMatrix);
         app.batch.begin();
         app.font.draw(app.batch, layout, boxX + padding, boxY + boxH - padding);
         app.batch.end();
 
-        // Restore font scale for other uses
+
         app.font.getData().setScale(1f);
     }
 
+    /**
+     * Renders the Box2D debug view for the level.
+     */
     public void drawDebug() {
         debugRenderer.render(physics.getWorld(), camera.combined);
     }
+
+    /**
+     * Renders the current trigger text if an active trigger zone is present.
+     */
     public void renderTriggerText() {
         if (currentText != null && triggerZone != null && triggerZone.getZone() != null) {
             drawSignText(currentText, triggerZone.getZone());

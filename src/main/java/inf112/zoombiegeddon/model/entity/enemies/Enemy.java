@@ -11,8 +11,8 @@ import inf112.zoombiegeddon.model.entity.PhysicsComponent;
 import inf112.zoombiegeddon.view.levels.AbstractLevel;
 
 /**
- * Representerer en fiende-entitet.
- * Håndterer enkel patruljerings-AI og fysiske interaksjoner.
+ * Represents an enemy entity in the game.
+ * Handles simple patrol behavior, health, and physics-based interactions.
  */
 public class Enemy extends Entity implements IDamageable {
 
@@ -30,6 +30,16 @@ public class Enemy extends Entity implements IDamageable {
     private int HP;
     private final int maxHP;
 
+    /**
+     * Constructs a new enemy with the given spawn position, animation handler,
+     * health, and patrol speed.
+     *
+     * @param world The Box2D world the enemy belongs to.
+     * @param spawnPos The spawn position of the enemy.
+     * @param animationHandler The animation handler used for this enemy.
+     * @param hp The starting and maximum health of the enemy.
+     * @param speed The patrol speed of the enemy.
+     */
     public Enemy(World world, Vector2 spawnPos, AnimationHandler animationHandler, int hp, float speed) {
 
         this.spriteDim = 32 * AbstractLevel.UNIT_SCALE;
@@ -50,8 +60,9 @@ public class Enemy extends Entity implements IDamageable {
     }
 
     /**
+     * Updates the enemy's movement and animation state.
      *
-     * @param dt Delta Time
+     * @param dt The time in seconds since the last update.
      */
     @Override
     public void update(float dt) {
@@ -69,10 +80,9 @@ public class Enemy extends Entity implements IDamageable {
     }
 
     /**
-     * Determines which state the entity should be in when it is moving on the ground.
-     * This allows subclasses to choose between states like WALKING or RUNNING.
+     * Determines the animation state used while the enemy is moving on the ground.
      *
-     * @return The determined EntityState for horizontal movement.
+     * @return The movement state for this enemy.
      */
     @Override
     public EntityState determineMovingState() {
@@ -80,7 +90,8 @@ public class Enemy extends Entity implements IDamageable {
     }
 
     /**
-     * Subtracts the specified amount from the entity's health.
+     * Reduces the enemy's health by the given amount.
+     * Marks the enemy as dead when health reaches zero or below.
      *
      * @param amount The amount of damage to deal.
      */
@@ -92,6 +103,13 @@ public class Enemy extends Entity implements IDamageable {
         }
     }
 
+    /**
+     * Checks whether the enemy should turn around due to a wall ahead
+     * or missing ground in front of it.
+     *
+     * @param dir The current horizontal direction, where 1 is right and -1 is left.
+     * @return True if the enemy should turn around, false otherwise.
+     */
     private boolean shouldTurnAround(int dir) {
         World world = physics.getBody().getWorld();
         Vector2 pos = physics.getPosition();
@@ -250,6 +268,11 @@ public class Enemy extends Entity implements IDamageable {
         return spriteDim;
     }
 
+    /**
+     * Returns the animation handler used by the enemy.
+     *
+     * @return The animation handler.
+     */
     @Override
     public AnimationHandler getAnimationHandler() {
         return animationHandler;

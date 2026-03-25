@@ -8,8 +8,16 @@ import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.utils.UIUtils;
 
+/**
+ * Displays instructions for how to play the game.
+ */
 public class HowToScreen extends AbstractScreen {
 
+    /**
+     * Constructs the how-to-play screen.
+     *
+     * @param app The game application instance.
+     */
     public HowToScreen(GameApp app) {
         super(app);
 
@@ -21,7 +29,6 @@ public class HowToScreen extends AbstractScreen {
 
         app.audio.playMusic(MusicTrack.MENU, true);
 
-        //Setter bakgrunn
         if (app.manager.isLoaded(AssetConstants.BG_SKY)) {
             Texture background = app.manager.get(AssetConstants.BG_SKY, Texture.class);
             table.setBackground(new TextureRegionDrawable(background));

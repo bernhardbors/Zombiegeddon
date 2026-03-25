@@ -43,9 +43,6 @@ public class SplashScreen extends AbstractScreen {
 
         final Label text = formatText("A- Laget Presenter", Color.WHITE, 2.0f);
 
-        /* * Animation Sequence:
-         * Fade in -> Delay -> Fade out -> Change Text -> Fade in -> Delay -> Fade out -> Switch Screen
-         */
         text.getColor().a = 0;
         text.addAction(Actions.sequence(
                 Actions.fadeIn(fadeInDuration),

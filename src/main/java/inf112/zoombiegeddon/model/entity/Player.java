@@ -40,13 +40,12 @@ public class Player extends Entity implements IDamageable {
     private float spriteDim;
 
     /**
-     * Constructs a new Player instance.
-     * Initializes the physics body, sets the user data for collision detection,
-     * and calculates dimensions based on the idle animation frames.
+     * Constructs a new player.
      *
-     * @param world            The Box2D world where the player's body resides.
-     * @param spawnPos         The initial spawn coordinates.
-     * @param animationHandler The handler containing all player-related animations.
+     * @param world The Box2D world where the player exists.
+     * @param spawnPos The initial spawn position of the player.
+     * @param animationHandler The animation handler used for player animations.
+     * @param Hp The starting and maximum health of the player.
      */
     public Player(World world, Vector2 spawnPos, AnimationHandler animationHandler, int Hp) {
 
@@ -58,7 +57,6 @@ public class Player extends Entity implements IDamageable {
         this.bodyH = actualH;
 
 
-        //player body is 11px X 20 px
         super(new PhysicsComponent(world, spawnPos, actualW, actualH, "player"));
 
         this.physics.getBody().setUserData(this);
@@ -76,7 +74,6 @@ public class Player extends Entity implements IDamageable {
      *
      * @param dt Time in seconds since the last update.
      */
-
     public void update(float dt) {
         if (isDead) {
             if (hitTimer > 0) hitTimer -= dt;
@@ -89,6 +86,7 @@ public class Player extends Entity implements IDamageable {
         if (hitTimer > 0) hitTimer -= dt;
  
        }
+
     /**
      * Updates the entity's animation state based on current velocity and grounded status.
      * Handles switching between IDLE, JUMPING, FALLING, and moving states, as well as
@@ -102,11 +100,11 @@ public class Player extends Entity implements IDamageable {
         stateTime += dt;
         Vector2 velocity = physics.getVelocity();
 
-        // Determine orientation
+
         if (velocity.x > velocityThreshold) facingRight = true;
         else if (velocity.x < -velocityThreshold) facingRight = false;
 
-        // Determine state
+
         if (!isGrounded()) {
             currentState = (velocity.y > velocityThreshold) ? EntityState.JUMPING : EntityState.FALLING;
         } else if (Math.abs(velocity.x) > velocityThreshold) { // Use velocity instead of controller-buttons
@@ -115,18 +113,18 @@ public class Player extends Entity implements IDamageable {
             currentState = EntityState.IDLE;
         }
 
-        // Reset state timer if the state has changed
+
         if (previousState != currentState) {
             stateTime = 0;
             previousState = currentState;
         }
     }
 
+
     /**
-     * Determines whether the player is in a WALKING or RUNNING state
-     * when horizontal movement is detected.
+     * Determines whether the player should use the walking or running animation state.
      *
-     * @return The appropriate EntityState based on the isRunning flag.
+     * @return {@link EntityState#RUNNING} if the player is running, otherwise {@link EntityState#WALKING}.
      */
     @Override
     public EntityState determineMovingState() {
@@ -134,7 +132,7 @@ public class Player extends Entity implements IDamageable {
     }
 
     /**
-     * Applies an upward impulse to the player's physics body if they are on the ground.
+     * Makes the player jump if grounded and posts a jump event.
      */
     public void jump() {
         if (isGrounded()) {
@@ -143,6 +141,9 @@ public class Player extends Entity implements IDamageable {
         }
     }
 
+    /**
+     * Posts movement-related events when the player's horizontal movement state changes.
+     */
     private void postHorizontalMoveStateEvents() {
         Vector2 vel = physics.getVelocity();
         boolean movingHorizontally = isGrounded() && Math.abs(vel.x) > VELOCITY_THRESHOLD;
@@ -237,25 +238,46 @@ public class Player extends Entity implements IDamageable {
     public void heal(int amount) {
         this.HP += (int) amount;
     }
+
+    /**
+     * Returns whether the player has reached the goal.
+     *
+     * @return True if the player is in the goal area, false otherwise.
+     */
     public boolean inGoal(){
         return inGoal;
     }
 
+    /**
+     * Sets whether the player is in the goal area.
+     *
+     * @param bool True if the player is in the goal, false otherwise.
+     */
     public void setInGoal(boolean bool){
         this.inGoal = bool;
     }
 
+    /**
+     * Returns the player's bounding rectangle based on its current physics position.
+     *
+     * @return The player's bounds.
+     */
     public Rectangle getBounds() {
         Vector2 p = physics.getPosition();
         bounds.set(p.x - bodyW / 2f, p.y - bodyH / 2f, bodyW, bodyH);
         return bounds;
     }
 
+    /**
+     * Handles interaction between the player and an enemy.
+     *
+     * @param enemy The enemy involved in the collision.
+     * @param hitWithFeet True if the player hit the enemy from above.
+     */
     public void hitEnemy(Enemy enemy, boolean hitWithFeet) {
         if (hitWithFeet) {
             enemy.takeDamage(1);
 
-            // Sprette opp!
             Vector2 vel = this.physics.getVelocity();
             this.physics.getBody().setLinearVelocity(vel.x, 0);
             this.physics.applyImpulse(new Vector2(0, 4.0f));
@@ -264,81 +286,53 @@ public class Player extends Entity implements IDamageable {
         }
     }
 
-    /**
-     * Sets the entity position
-     *
-     * @param x pos on the x-axis
-     * @param y pos on the y-axis
-     */
+
     @Override
     public void setPosition(float x, float y) {
         physics.getBody().getPosition().set(x, y);
     }
 
-    /**
-     * Gets the current position of the entity from the physics component.
-     *
-     * @return A Vector2 representing the world coordinates.
-     */
+
     @Override
     public Vector2 getPosition() {
         return physics.getPosition();
     }
 
-    /**
-     * Provides access to the entity's physics component.
-     *
-     * @return The PhysicsComponent instance.
-     */
+
     @Override
     public PhysicsComponent getPhysics() {
         return physics;
     }
 
-    /**
-     *
-     * @return boolean true if on ground false if not.
-     */
+
     @Override
     public boolean isGrounded() {
         return isGrounded;
     }
 
-    /**
-     * Sets the entity Width
-     */
+
     @Override
     public void setWidth() {
-        //TODO: IMPLEMENT METHODE
+
     }
 
-    /**
-     * Sets the entity Height
-     */
     @Override
     public void setHeight() {
-        //TODO: IMPLEMENT METHODE
+
     }
 
-    /**
-     * @return entity Width
-     */
     @Override
     public float getWidth() {
         return bodyW;
     }
 
-    /**
-     * @return entity Height
-     */
+
     @Override
     public float getHeight() {
         return bodyH;
     }
 
-    /**
-     * @return scaled Sprite Dimensions (sprite dim * worldScale)
-     */
+
     @Override
     public float getScaledSpriteDimensions() {
         return spriteDim;

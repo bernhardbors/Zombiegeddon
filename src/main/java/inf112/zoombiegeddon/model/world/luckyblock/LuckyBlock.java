@@ -16,6 +16,15 @@ public class LuckyBlock implements ILuckyBlock {
     private final String rewardType;
     private boolean broken;
 
+    /**
+     * Constructs a new lucky block in the physics world.
+     *
+     * @param world The Box2D world where the block is created.
+     * @param centerPosition The center position of the block.
+     * @param width The width of the block.
+     * @param height The height of the block.
+     * @param rewardType The reward type associated with the block.
+     */
     public LuckyBlock(World world, Vector2 centerPosition, float width, float height, String rewardType) {
         this.rewardType = rewardType;
         this.body = createBody(world, centerPosition, width, height);
@@ -23,6 +32,15 @@ public class LuckyBlock implements ILuckyBlock {
         this.broken = false;
     }
 
+    /**
+     * Creates the Box2D body used by the lucky block.
+     *
+     * @param world The Box2D world where the body is created.
+     * @param centerPosition The center position of the body.
+     * @param width The width of the body.
+     * @param height The height of the body.
+     * @return The created static body.
+     */
     private Body createBody(World world, Vector2 centerPosition, float width, float height) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -55,8 +73,7 @@ public class LuckyBlock implements ILuckyBlock {
 
     @Override
     public void SpawnReward() {
-        // Placeholder for future reward spawning logic.
-        // rewardType can be mapped to upgrades such as speed/coin/health.
+
     }
 
     @Override
@@ -69,6 +86,12 @@ public class LuckyBlock implements ILuckyBlock {
         return body;
     }
 
+
+    /**
+     * Returns the reward type associated with this lucky block.
+     *
+     * @return The reward type.
+     */
     public String getRewardType() {
         return rewardType;
     }

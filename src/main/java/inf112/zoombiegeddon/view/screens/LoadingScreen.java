@@ -14,13 +14,23 @@ import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.audio.Sfx;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 
+/**
+ * Displays a loading screen while game assets are being loaded.
+ * When loading is complete, the screen initializes shared resources
+ * and transitions to the splash screen.
+ */
 public class LoadingScreen extends AbstractScreen {
 
     private Label loadingLabel;
     private final StringBuilder progressText;
     private boolean isFinished = false;
-    private BitmapFont loadingFont; // Midlertidig font for loading-tekst
+    private BitmapFont loadingFont;
 
+    /**
+     * Constructs a new loading screen.
+     *
+     * @param app The game application instance.
+     */
     public LoadingScreen(GameApp app) {
         super(app);
         this.progressText = new StringBuilder();
@@ -28,7 +38,6 @@ public class LoadingScreen extends AbstractScreen {
 
     @Override
     public void show() {
-        // 1. Lag en midlertidig font for å vise progresjon
         loadingFont = new BitmapFont();
         Label.LabelStyle style = new Label.LabelStyle(loadingFont, Color.WHITE);
         loadingLabel = new Label("Loading... 0%", style);
@@ -91,7 +100,7 @@ public class LoadingScreen extends AbstractScreen {
         app.skin = app.manager.get(AssetConstants.UI_SKIN, Skin.class);
         app.font = app.manager.get(AssetConstants.FONT_PATH, BitmapFont.class);
 
-        // creating the player animations
+
         Texture playerMaleSpriteSheet = app.manager.get(AssetConstants.CHARACTER_MALE_SHEET, Texture.class);
         Texture playerFemaleSpriteSheet = app.manager.get(AssetConstants.CHARACTER_FEMALE_SHEET, Texture.class);
         app.playerMaleAnimations = new AnimationHandler(playerMaleSpriteSheet);
@@ -103,7 +112,7 @@ public class LoadingScreen extends AbstractScreen {
         Texture enemyChonkerSpriteSheet = app.manager.get(AssetConstants.CHONKER_SHEET, Texture.class);
         app.chonkerAnimations = new AnimationHandler(enemyChonkerSpriteSheet);
 
-        // Konfigurer bakgrunn med parallax-styrke
+
         app.background.addLayer(app.manager.get(AssetConstants.HEALTHBAR, Texture.class), 0.1f);
         app.background.addLayer(app.manager.get(AssetConstants.BG_GAME, Texture.class), 0.1f);
         app.background.addLayer(app.manager.get(AssetConstants.BG_SKY, Texture.class), 0.1f);
@@ -111,10 +120,10 @@ public class LoadingScreen extends AbstractScreen {
         app.background.addLayer(app.manager.get(AssetConstants.BG_L1, Texture.class), 0.7f);
         app.background.addLayer(app.manager.get(AssetConstants.BG_L2, Texture.class), 1.0f);
 
-        // Oppdater Skin slik at alle widgets bruker riktig font
+
         app.skin.add("default-font", app.font, BitmapFont.class);
 
-        // Font til UI elements
+
         app.skin.get(TextButton.TextButtonStyle.class).font = app.font;
         app.skin.get(Label.LabelStyle.class).font = app.font;
     }

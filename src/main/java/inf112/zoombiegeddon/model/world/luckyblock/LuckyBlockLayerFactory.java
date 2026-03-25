@@ -16,7 +16,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Parses a Tiled object layer and creates LuckyBlock instances in the physics world.
+ * Creates lucky blocks from a Tiled map layer and stores the corresponding render data.
+ * Supports both rectangle objects and tile map objects.
  */
 public class LuckyBlockLayerFactory {
 
@@ -26,6 +27,14 @@ public class LuckyBlockLayerFactory {
     private final List<ILuckyBlock> blocks = new ArrayList<>();
     private final List<TileRenderable> tileRenderables = new ArrayList<>();
 
+    /**
+     * Constructs lucky blocks from the specified map layer.
+     *
+     * @param world The Box2D world where block bodies are created.
+     * @param map The tiled map containing the lucky block layer.
+     * @param layerName The name of the layer to parse.
+     * @param pixelsPerTile The scale factor used to convert pixel coordinates to world units.
+     */
     public LuckyBlockLayerFactory(World world, TiledMap map, String layerName, float pixelsPerTile) {
         MapLayer layer = map.getLayers().get(layerName);
         if (layer == null) {
@@ -57,6 +66,13 @@ public class LuckyBlockLayerFactory {
         }
     }
 
+    /**
+     * Converts a map object into a rectangle in map coordinates.
+     * Supports both rectangle objects and tile-based objects.
+     *
+     * @param object The map object to convert.
+     * @return A rectangle representing the object bounds, or null if the object cannot be converted.
+     */
     private Rectangle toWorldRectangle(MapObject object) {
         if (object instanceof RectangleMapObject rectangleObject) {
             return rectangleObject.getRectangle();
@@ -90,10 +106,21 @@ public class LuckyBlockLayerFactory {
         return null;
     }
 
+    /**
+     * Returns the created lucky blocks as an unmodifiable list.
+     *
+     * @return The list of lucky blocks.
+     */
     public List<ILuckyBlock> getBlocks() {
         return Collections.unmodifiableList(blocks);
     }
 
+    /**
+     * Renders all unbroken tile-based lucky blocks.
+     *
+     * @param batch The batch used for drawing.
+     * @param unitScale The scale factor used to convert map coordinates to world coordinates.
+     */
     public void render(Batch batch, float unitScale) {
         for (TileRenderable renderable : tileRenderables) {
             if (renderable.block().isBroken()) {
