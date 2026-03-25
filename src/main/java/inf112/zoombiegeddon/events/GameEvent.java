@@ -14,5 +14,6 @@ public enum GameEvent {
     PLAYER_RUN_START,
     PLAYER_RUN_STOP,
     PLAYER_MOVE_STOP,
-    PLAYER_DEATH;// Examples for later
+    PLAYER_DEATH,
+    TOGGLE_PAUSE;
 }

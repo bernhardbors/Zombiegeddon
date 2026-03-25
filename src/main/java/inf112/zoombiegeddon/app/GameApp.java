@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import inf112.zoombiegeddon.audio.AudioManager;
 import inf112.zoombiegeddon.audio.IAudioService;
@@ -32,8 +33,9 @@ public class GameApp extends Game {
     public AnimationHandler playerMaleAnimations;
     public AnimationHandler playerFemaleAnimations;
     public AnimationHandler zombieAnimations;
-    public ParallaxBackground background;
     public AnimationHandler chonkerAnimations;
+    public ParallaxBackground background;
+    public ShapeRenderer shapeRenderer;
 
     /**
      * Initializes the core components of the application.
@@ -53,6 +55,7 @@ public class GameApp extends Game {
 
         this.setScreen(new LoadingScreen(this));
         Gdx.graphics.setForegroundFPS(60);
+        this.shapeRenderer = new ShapeRenderer();
     }
 
     /**

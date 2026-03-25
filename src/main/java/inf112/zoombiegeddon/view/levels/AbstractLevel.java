@@ -1,6 +1,7 @@
 package inf112.zoombiegeddon.view.levels;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -23,7 +24,11 @@ import inf112.zoombiegeddon.app.GameApp;
 
 import inf112.zoombiegeddon.audio.IAudioService;
 import inf112.zoombiegeddon.audio.MusicTrack;
+import inf112.zoombiegeddon.controller.LevelController;
 import inf112.zoombiegeddon.controller.PlayerController;
+import inf112.zoombiegeddon.events.GameEvent;
+import inf112.zoombiegeddon.events.GameEventBus;
+import inf112.zoombiegeddon.events.IEventListener;
 import inf112.zoombiegeddon.model.entity.Entity;
 import inf112.zoombiegeddon.model.entity.Player;
 import inf112.zoombiegeddon.model.entity.enemies.Enemy;
@@ -35,6 +40,7 @@ import inf112.zoombiegeddon.view.renderer.WorldRenderer;
 import inf112.zoombiegeddon.utils.CameraUtils;
 import inf112.zoombiegeddon.view.screens.GameOverScreen;
 import inf112.zoombiegeddon.view.screens.NextLevelScreen;
+import inf112.zoombiegeddon.view.screens.PauseScreen;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -45,7 +51,7 @@ import java.util.List;
  * Provides common functionality for physics simulation, world rendering,
  * camera management, and map loading within the LibGDX framework.
  */
-public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
+public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEventListener {
 
     protected GameApp app;
     protected OrthographicCamera camera;
@@ -62,6 +68,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
     protected TriggerZone triggerZone;
     protected String currentText = null;
     protected List<Enemy> enemies = new ArrayList<>();
+    protected LevelController levelController;
 
     public static final float PIXELS_PER_TILE = 8.0f;
     public static final float UNIT_SCALE = 1 / PIXELS_PER_TILE;
@@ -79,30 +86,61 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel {
         this.healthbar = app.manager.get(AssetConstants.HEALTHBAR, Texture.class);
         this.hudRenderer = new ShapeRenderer();
         this.debugRenderer = new Box2DDebugRenderer();
+        this.levelController = new LevelController();
     }
 
     @Override
     public void show() {
         app.background.setCamera(camera);
         audioService.playMusic(MusicTrack.GAMEPLAY, true);
-        if (playerController != null) {
+        /*if (playerController != null) {
             Gdx.input.setInputProcessor(playerController);
+        }*/
+        GameEventBus.register(this);
+
+        InputMultiplexer multiplexer = new InputMultiplexer();
+
+        multiplexer.addProcessor(levelController);
+
+        if (playerController != null) {
+            multiplexer.addProcessor(playerController);
         }
+
+        Gdx.input.setInputProcessor(multiplexer);
+    }
+
+    @Override
+    public void onEvent(GameEvent event) {
+        if (event == GameEvent.TOGGLE_PAUSE) {
+            app.setScreen(new PauseScreen(app, this));
+        }
+    }
+
+    @Override
+    public void hide() {
+        GameEventBus.unregister(this);
+
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
-        viewport.apply();
         if (playerController != null) {
             playerController.update(delta);
         }
         update(delta);
+        renderVisuals();
+    }
+
+    public void renderVisuals() {
+        viewport.apply();
         draw(app.batch);
 
         if (UIrenderer != null) {
             UIrenderer.drawHearts(app.batch, healthbar);
         }
+        renderTriggerText();
     }
 
     @Override

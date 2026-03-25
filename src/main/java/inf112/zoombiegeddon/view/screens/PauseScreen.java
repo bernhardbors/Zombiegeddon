@@ -1,0 +1,71 @@
+package inf112.zoombiegeddon.view.screens;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import inf112.zoombiegeddon.app.GameApp;
+import inf112.zoombiegeddon.utils.UIUtils;
+import inf112.zoombiegeddon.view.levels.AbstractLevel;
+
+public class PauseScreen extends AbstractScreen {
+
+    private final AbstractLevel previousLevel;
+
+    public PauseScreen(final GameApp app, AbstractLevel previousLevel) {
+        super(app);
+        this.previousLevel = previousLevel;
+    }
+
+    @Override
+    public void buildScreen() {
+        clearTable();
+
+        formatText("PAUSED", Color.WHITE, 4f);
+        table.row().pad(20);
+
+        UIUtils.addButton("Continue", app.skin, table, buttonWidth, buttonHeight,
+                () -> app.setScreen(previousLevel));
+
+        UIUtils.addButton("Settings", app.skin, table, buttonWidth, buttonHeight,
+                () -> app.setScreen(new SettingsScreen(app, this)));
+
+        UIUtils.addButton("Main Menu", app.skin, table, buttonWidth, buttonHeight,
+                () -> {
+                    previousLevel.dispose();
+                    app.setScreen(new MainMenuScreen(app));
+                });
+    }
+
+    @Override
+    public void render(float delta) {
+        previousLevel.renderVisuals();
+
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+        app.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        app.shapeRenderer.setColor(new Color(0f, 0f, 0f, 0.6f));
+        app.shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        app.shapeRenderer.end();
+
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+
+        stage.act(Math.min(delta, 1 / 30f));
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+
+        if (previousLevel != null) {
+            previousLevel.resize(width, height);
+        }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+    }
+}
