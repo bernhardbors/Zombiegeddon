@@ -19,9 +19,8 @@ import inf112.zoombiegeddon.view.renderer.UIRenderer;
 import inf112.zoombiegeddon.model.world.triggers.TriggerZone;
 
 /**
- * A concrete implementation of a game level used for testing purposes.
- * This level initializes a player, sets up input handling, and manages
- * camera movement relative to the player's position.
+ * Represents the first playable level in the game.
+ * Sets up the map, player, enemies, trigger zones, and lucky blocks.
  */
 public class Level1 extends AbstractLevel {
 
@@ -29,8 +28,11 @@ public class Level1 extends AbstractLevel {
     private Spawner spawner;
     private LuckyBlockLayerFactory luckyBlockLayerFactory;
 
-
-
+    /**
+     * Constructs level 1 and initializes its world, player, UI, enemies, and triggers.
+     *
+     * @param app The game application instance.
+     */
     public Level1(GameApp app) {
 
         super(app, new OrthographicCamera(), new Vector2(0,-15.0f));

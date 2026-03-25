@@ -5,9 +5,9 @@ import com.badlogic.gdx.audio.Sound;
 
 /**
  * Registry for all in-game sound effects.
- * This enum works as a central source of truth for all audio resources.
- * By using this enum, we avoid magic strings and assures both {@link AudioManager}
- * and game logic consistently refers to the same files.
+ * This enum serves as a central source of truth for audio resources.
+ * By using this enum, the code avoids magic strings and ensures that
+ * both {@link AudioManager} and game logic refer to the same sound files.
  */
 public enum Sfx {
     JUMP1("assets/audio/sfx/jumppp11.wav"),
@@ -20,7 +20,9 @@ public enum Sfx {
     private final String path;
 
     /**
-     * @param  path The name of the file (including extension) located in "assets/audio/sfx/".
+     * Creates a sound effect entry with the given asset path.
+     *
+     * @param path The file path to the sound effect.
      */
     Sfx(String path) {
         this.path = path;
@@ -28,12 +30,19 @@ public enum Sfx {
 
 
     /**
-     * @return The unique key for this sound.
+     * Returns the asset path for this sound effect.
+     *
+     * @return The file path of the sound effect.
      */
     public String path() {
         return path;
     }
 
+    /**
+     * Queues all sound effects for loading in the asset manager.
+     *
+     * @param manager The asset manager used to load sound assets.
+     */
     public static void queueAssets(AssetManager manager) {
         for (Sfx s : Sfx.values()) {
             manager.load(s.path(), Sound.class);

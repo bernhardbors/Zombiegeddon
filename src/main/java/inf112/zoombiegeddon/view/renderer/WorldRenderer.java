@@ -66,6 +66,9 @@ public class WorldRenderer implements Disposable {
         foregroundLayers = fg.stream().mapToInt(i -> i).toArray();
     }
 
+    /**
+     * Renders the foreground map layers.
+     */
     public void renderForeground() {
         if (mapRenderer != null && foregroundLayers != null) {
 
@@ -73,6 +76,9 @@ public class WorldRenderer implements Disposable {
         }
     }
 
+    /**
+     * Renders the background map layers.
+     */
     public void renderBackground() {
         if (mapRenderer != null && backgroundLayers != null) {
             
@@ -82,6 +88,13 @@ public class WorldRenderer implements Disposable {
         }
     }
 
+
+    /**
+     * Renders the Box2D debug view if debug mode is enabled.
+     *
+     * @param worldPhysics The physics world to render.
+     * @param debugMode True to render debug output, false otherwise.
+     */
     public void renderDebug(WorldPhysics worldPhysics, boolean debugMode) {
         if (debugMode && worldPhysics != null) {
             debugRenderer.render(worldPhysics.getWorld(), camera.combined);

@@ -125,6 +125,10 @@ public class AudioManager implements IAudioService, IEventListener {
     }
 
 
+    /**
+     * Starts looping the normal footsteps sound effect.
+     * Does nothing if that loop is already active.
+     */
     private void startFootstepsLoop() {
         if (footstepsLooping && !runningFootsteps) return;
 
@@ -134,7 +138,10 @@ public class AudioManager implements IAudioService, IEventListener {
         runningFootsteps = false;
     }
 
-
+    /**
+     * Starts looping the running footsteps sound effect.
+     * Does nothing if that loop is already active.
+     */
     private void startRunningFootstepsLoop() {
         if (footstepsLooping && runningFootsteps) return;
 
@@ -144,6 +151,9 @@ public class AudioManager implements IAudioService, IEventListener {
         runningFootsteps = true;
     }
 
+    /**
+     * Stops any currently active footsteps loop.
+     */
     private void stopFootstepsLoop() {
         if (!footstepsLooping) return;
 
@@ -152,6 +162,12 @@ public class AudioManager implements IAudioService, IEventListener {
         footstepsLooping = false;
         runningFootsteps = false;
     }
+
+    /**
+     * Handles game events and plays matching audio feedback when relevant.
+     *
+     * @param event The game event to respond to.
+     */
     @Override
     public void onEvent(GameEvent event) {
         switch (event) {
@@ -220,6 +236,7 @@ public class AudioManager implements IAudioService, IEventListener {
     public float getMusicVolume() {
         return musicVolume;
     }
+
     /**
      * Disposes of the background music. Note: AssetManager handles Sound disposal.
      */
@@ -227,6 +244,9 @@ public class AudioManager implements IAudioService, IEventListener {
         GameEventBus.unregister(this);
     }
 
+    /**
+     * Saves current audio settings if preferences are available.
+     */
     private void save() {
         if (prefs == null) return;
         prefs.putFloat(PREF_SFX_VOL, sfxVolume);
@@ -236,6 +256,12 @@ public class AudioManager implements IAudioService, IEventListener {
 
     }
 
+    /**
+     * Clamps a value to the range from 0.0 to 1.0.
+     *
+     * @param v The value to clamp.
+     * @return The clamped value.
+     */
     private static float clamp01(float v) {
         return Math.max(0f, Math.min(1f, v));
     }

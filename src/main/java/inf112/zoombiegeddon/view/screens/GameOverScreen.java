@@ -11,11 +11,16 @@ import inf112.zoombiegeddon.view.levels.Level1;
 import inf112.zoombiegeddon.view.levels.Level2;
 
 /**
- * Creates the gameoverscreen in the game when the player dies.
- * Either you can respawn or go back to the main menu.
+ * Displays the game over screen when the player dies.
+ * Allows the player to respawn or return to the main menu.
  */
 public class GameOverScreen extends AbstractScreen {
 
+    /**
+     * Constructs the game over screen.
+     *
+     * @param app The game application instance.
+     */
     public GameOverScreen(GameApp app) {
         super(app);
     }

@@ -12,6 +12,9 @@ import inf112.zoombiegeddon.model.entity.Entity;
 import inf112.zoombiegeddon.model.entity.IDamageable;
 import inf112.zoombiegeddon.model.entity.IEntity;
 
+/**
+ * Renders UI elements related to an entity, such as health hearts.
+ */
 public class UIRenderer {
 
     private final ShapeRenderer shapeRenderer;
@@ -21,7 +24,11 @@ public class UIRenderer {
     private int row;
 
     /**
-     * We pass the Player/Enemy as an Entity that also implements IDamageable.
+     * Creates a UI renderer for an entity that can take damage.
+     *
+     * @param camera The camera associated with the current view.
+     * @param entity The entity whose UI information should be rendered.
+     * @param <T> The entity type, which must extend {@link Entity} and implement {@link IDamageable}.
      */
     public <T extends Entity & IDamageable> UIRenderer(OrthographicCamera camera, T entity) {
         this.camera = camera;
@@ -32,6 +39,12 @@ public class UIRenderer {
 
     }
 
+    /**
+     * Draws the health hearts for the tracked entity.
+     *
+     * @param batch The sprite batch used for rendering.
+     * @param texture The texture containing the heart UI frames.
+     */
     public void drawHearts(SpriteBatch batch, Texture texture) {
         Matrix4 uiMatrix = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.setProjectionMatrix(uiMatrix);
@@ -51,6 +64,10 @@ public class UIRenderer {
 
         batch.end();
     }
+
+    /**
+     * Releases resources used by the UI renderer.
+     */
     public void dispose() {
         shapeRenderer.dispose();
     }

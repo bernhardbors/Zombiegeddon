@@ -12,33 +12,35 @@ import inf112.zoombiegeddon.view.levels.Level2;
 import inf112.zoombiegeddon.audio.MusicTrack;
 
 /**
- * MainMenuScreen bruker ressurser som allerede er lastet inn via AssetManager.
+ * Represents the main menu screen of the game.
+ * Displays navigation options such as starting the game,
+ * opening settings, viewing instructions, or exiting.
  */
 public class MainMenuScreen extends AbstractScreen {
 
+    /**
+     * Constructs the main menu screen.
+     *
+     * @param app The game application instance.
+     */
     public MainMenuScreen(final GameApp app) {
         super(app);
     }
 
     @Override
     public void buildScreen() {
-        // 1. Rydd tabellen før vi bygger (sikkerhet hvis skjermen vises flere ganger)
         clearTable();
 
         app.audio.playMusic(MusicTrack.MENU, true);
 
-        // 2. Hent bakgrunn fra manager (IKKE lag "new Texture")
         if (app.manager.isLoaded(AssetConstants.BG_GAME)) {
             Texture background = app.manager.get(AssetConstants.BG_GAME, Texture.class);
             table.setBackground(new TextureRegionDrawable(background));
         }
 
-        // 3. Tittel
         formatText("Zoombiegeddon", Color.WHITE, 5f);
         table.row().padTop(20);
 
-        // 4. Knapper via UIUtils
-        // Vi bruker app.skin som ble initialisert i LoadingScreen
         UIUtils.addButton("Start", app.skin, table, buttonWidth, buttonHeight,
                 () -> app.setScreen( new PickLevelScreen(app)));
 
@@ -54,8 +56,6 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void dispose() {
-        // Vi trenger IKKE dispose bakgrunnen her fordi den eies av AssetManager i GameApp.
-        // Hvis vi kaller background.dispose() her, vil bakgrunnen bli svart resten av tiden spillet kjører.
         super.dispose();
     }
 }

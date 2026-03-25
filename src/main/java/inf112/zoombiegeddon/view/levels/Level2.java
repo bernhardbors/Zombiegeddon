@@ -30,7 +30,11 @@ public class Level2 extends AbstractLevel {
     private LuckyBlockLayerFactory luckyBlockLayerFactory;
 
 
-
+    /**
+     * Constructs level 2  and initializes its world, player, UI, enemies, and triggers.
+     *
+     * @param app The game application instance.
+     */
     public Level2(GameApp app) {
 
         super(app, new OrthographicCamera(), new Vector2(0,-15.0f));

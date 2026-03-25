@@ -10,11 +10,16 @@ import inf112.zoombiegeddon.view.levels.Level1;
 import inf112.zoombiegeddon.view.levels.Level2;
 
 /**
- * Screen that lets you pick level when you press start.
+ * Displays the level selection screen.
+ * Allows the player to choose a level before starting the game.
  */
 public class PickLevelScreen extends AbstractScreen{
 
-
+    /**
+     * Constructs the level selection screen.
+     *
+     * @param app The game application instance.
+     */
     public PickLevelScreen(GameApp app) {super(app);}
 
     @Override

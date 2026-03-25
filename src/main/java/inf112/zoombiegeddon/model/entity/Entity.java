@@ -33,9 +33,32 @@ public abstract class Entity implements IEntity {
         this.physics = physics;
     }
 
-    public EntityState getCurrentState() { return currentState; }
-    public float getStateTime() { return stateTime; }
-    public boolean isFacingRight() { return facingRight; }
+    /**
+     * Returns the current animation state of the entity.
+     *
+     * @return The current entity state.
+     */
+    public EntityState getCurrentState() {
+        return currentState;
+    }
+
+    /**
+     * Returns the time spent in the current state.
+     *
+     * @return The state time in seconds.
+     */
+    public float getStateTime() {
+        return stateTime;
+    }
+
+    /**
+     * Returns whether the entity is facing right.
+     *
+     * @return True if the entity is facing right, false otherwise.
+     */
+    public boolean isFacingRight() {
+        return facingRight;
+    }
 
     /**
      *
@@ -63,11 +86,11 @@ public abstract class Entity implements IEntity {
         stateTime += dt;
         Vector2 velocity = physics.getVelocity();
 
-        // Determine orientation
+
         if (velocity.x > velocityThreshold) facingRight = true;
         else if (velocity.x < -velocityThreshold) facingRight = false;
 
-        // Determine state
+
         if (!isGrounded) {
             currentState = (velocity.y > velocityThreshold) ? EntityState.JUMPING : EntityState.FALLING;
         } else if (Math.abs(velocity.x) > 0.1f ) {
@@ -76,7 +99,7 @@ public abstract class Entity implements IEntity {
             currentState = EntityState.IDLE;
         }
 
-        // Reset state timer if the state has changed
+
         if (previousState != currentState) {
             stateTime = 0;
             previousState = currentState;
@@ -99,7 +122,6 @@ public abstract class Entity implements IEntity {
 
         isGrounded = (contactPoints > 0);
 
-        // DEBUG PRINT
         System.out.println("Entity " + this.getClass().getSimpleName() + " contact points: " + contactPoints + " isGrounded: " + isGrounded);
     }
 

@@ -12,13 +12,31 @@ import inf112.zoombiegeddon.view.levels.AbstractLevel;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Factory for creating enemies in the game world.
+ * Supports both direct enemy creation and creation from map layer spawn objects.
+ */
 public class EnemyFactory implements IEnemyFactory{
     private final World world;
 
+    /**
+     * Constructs a new enemy factory for the given physics world.
+     *
+     * @param world The Box2D world where enemies will be created.
+     */
     public EnemyFactory(World world) {
         this.world = world;
     }
 
+    /**
+     * Creates a single enemy of the given type at the specified position.
+     *
+     * @param type The type of enemy to create.
+     * @param position The spawn position of the enemy.
+     * @param normalAnims The animation handler for regular enemy types.
+     * @param chonkerAnims The animation handler for tank-type enemies.
+     * @return A newly created enemy.
+     */
     @Override
     public Enemy createEnemy(EnemyType type, Vector2 position, AnimationHandler normalAnims, AnimationHandler chonkerAnims) {
         int hp;
@@ -45,6 +63,16 @@ public class EnemyFactory implements IEnemyFactory{
         return new Enemy(world, position, animToUse, hp, speed);
     }
 
+
+    /**
+     * Creates enemies from spawn objects found in a map layer.
+     * Only objects named {@code enemy_spawn} are used.
+     *
+     * @param layer The map layer containing enemy spawn objects.
+     * @param normalAnims The animation handler for regular enemy types.
+     * @param chonkerAnims The animation handler for tank-type enemies.
+     * @return A list of enemies created from the layer.
+     */
     @Override
     public List<Enemy> createEnemiesFromLayer(MapLayer layer, AnimationHandler normalAnims, AnimationHandler chonkerAnims) {
         List<Enemy> enemies = new ArrayList<>();

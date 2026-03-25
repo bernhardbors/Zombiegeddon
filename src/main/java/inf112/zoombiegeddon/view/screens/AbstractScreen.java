@@ -12,6 +12,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.zoombiegeddon.app.GameApp;
 
+/**
+ * Abstract base class for UI-based screens in the game.
+ * Provides shared setup for stage, table layout, screen resizing,
+ * and common text formatting utilities.
+ */
 public abstract class AbstractScreen implements IScreen {
 
     protected final Stage stage;
@@ -23,7 +28,11 @@ public abstract class AbstractScreen implements IScreen {
     protected float buttonWidth;
     protected float buttonHeight;
 
-
+    /**
+     * Constructs a new abstract screen with shared UI setup.
+     *
+     * @param app The game application instance.
+     */
     AbstractScreen(final GameApp app) {
 
         this.app = app;
@@ -44,8 +53,12 @@ public abstract class AbstractScreen implements IScreen {
         buildScreen();
     }
 
+
     public abstract void buildScreen();
 
+    /**
+     * Clears all actors from the main table.
+     */
     protected void clearTable() {
         table.clear();
     }
@@ -84,6 +97,9 @@ public abstract class AbstractScreen implements IScreen {
         //stage.clear();
     }
 
+    /**
+     * Releases resources used by this screen.
+     */
     public void dispose() {
         if (stage != null) {
             stage.dispose();
@@ -95,6 +111,14 @@ public abstract class AbstractScreen implements IScreen {
         this.buttonHeight = (float) Gdx.graphics.getHeight() / 15;
     }
 
+    /**
+     * Creates and adds formatted text to the screen table.
+     *
+     * @param text The text to display.
+     * @param color The color of the text.
+     * @param scale The base scale of the text.
+     * @return The created label.
+     */
     protected Label formatText(String text, Color color, float scale) {
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = app.font;

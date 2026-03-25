@@ -49,7 +49,6 @@ public class AnimationHandler {
 
         TextureRegion region = animation.getKeyFrame(stateTime, loop);
 
-        // Logic for flipping the texture based on facing direction
         if ((!facingRight && !region.isFlipX()) || (facingRight && region.isFlipX())) {
             region.flip(true, false);
         }

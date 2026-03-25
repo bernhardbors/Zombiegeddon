@@ -18,7 +18,7 @@ public interface ILevel {
      * @param fileName               Path to the map file.
      * @param collisionLayerName Name of the layer used for physics collisions.
      */
-    public void loadMap(String fileName, String collisionLayerName);
+    void loadMap(String fileName, String collisionLayerName);
 
     /**
      * Updates the physics simulation.
@@ -27,17 +27,22 @@ public interface ILevel {
      */
     void update(float delta);
 
-    public abstract void draw(Batch batch);
+    /**
+     * Draws the level using the given batch.
+     *
+     * @param batch The batch used for rendering.
+     */
+    void draw(Batch batch);
 
     /**
      * Renders all game entities within a SpriteBatch block.
      */
-    public void drawEntities(Entity entity);
+    void drawEntities(Entity entity);
 
     /**
      * Renders the background using the application's background renderer.
      */
-    public void drawParallaxBackground();
+    void drawParallaxBackground();
 
     /**
      * Draws text to the screen while playing
@@ -46,6 +51,6 @@ public interface ILevel {
      * @param color The color of the text
      * @param scale The wanted scale of the text
      */
-    public Label drawText(String text, Color color, float scale);
+    Label drawText(String text, Color color, float scale);
 
 }

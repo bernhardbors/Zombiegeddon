@@ -81,9 +81,8 @@ public class PlayerController extends InputAdapter {
     }
 
     /**
-     * Processes continuous movement input and applies physics logic.
-     * Manages horizontal impulses based on current speed (walking vs running)
-     * and applies a custom friction coefficient for responsive stopping.
+     * Processes continuous horizontal movement and applies friction when needed.
+     * Walking and running speed are determined by whether the shift key is pressed.
      */
     private void handlePlayerMovement() {
         boolean left = isLeftPressed();
@@ -94,7 +93,6 @@ public class PlayerController extends InputAdapter {
 
         Vector2 vel = player.getPhysics().getVelocity();
 
-        // 1. Horizontal movement
         if (left && vel.x > -targetMax) {
             player.applyHorizontalImpulse(true, false);
         }
@@ -102,8 +100,6 @@ public class PlayerController extends InputAdapter {
             player.applyHorizontalImpulse(false, true);
         }
 
-        // 2. Responsive friction
-        // Applied if no movement keys are pressed or if the velocity exceeds targetMax
         if (!left && !right) {
             player.getPhysics().getBody().setLinearVelocity(vel.x * FRICTION_COEFFICIENT, vel.y);
         } else if (Math.abs(vel.x) > targetMax) {
@@ -121,33 +117,58 @@ public class PlayerController extends InputAdapter {
         return Gdx.input.isKeyPressed(Input.Keys.K);
     }
 
-    /** @return True if A or Left Arrow is pressed. */
+    /**
+     * Checks whether the player is moving left.
+     *
+     * @return True if A or Left Arrow is pressed, false otherwise.
+     */
     public boolean isLeftPressed() {
         return Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT);
     }
 
-    /** @return True if D or Right Arrow is pressed. */
+    /**
+     * Checks whether the player is moving right.
+     *
+     * @return True if D or Right Arrow is pressed, false otherwise.
+     */
     public boolean isRightPressed() {
         return Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT);
     }
 
-    /** @return True if Space, W, or Up Arrow was just pressed. */
+    /**
+     * Checks whether a jump key was just pressed.
+     *
+     * @return True if Space, W, or Up Arrow was just pressed.
+     */
     private boolean isJumpPressed() {
         return Gdx.input.isKeyJustPressed(Input.Keys.SPACE) ||
                 Gdx.input.isKeyJustPressed(Input.Keys.W) ||
                 Gdx.input.isKeyJustPressed(Input.Keys.UP);
     }
 
-    /** @return True if either Shift key is pressed. */
+    /**
+     * Checks whether either shift key is currently pressed.
+     *
+     * @return True if Left Shift or Right Shift is pressed, false otherwise.
+     */
     private boolean isShiftPressed() {
         return Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) || Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT);
     }
 
-
+    /**
+     * Returns whether shooting is currently active.
+     *
+     * @return True if shooting is active, false otherwise.
+     */
     public boolean isShooting() {
         return isShooting;
     }
 
+    /**
+     * Sets whether shooting is currently active.
+     *
+     * @param b True to mark shooting as active, false otherwise.
+     */
     public void setIsShooting(boolean b) {
         isShooting = b;
     }

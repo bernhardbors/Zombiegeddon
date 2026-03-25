@@ -8,7 +8,18 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.utils.Os;
 import com.badlogic.gdx.utils.SharedLibraryLoader;
 
+/**
+ * Launches the desktop version of the game.
+ * Configures the application window and applies platform-specific setup
+ * before starting the LibGDX application.
+ */
 public class Main {
+
+	/**
+	 * Starts the game application.
+	 *
+	 * @param args Command-line arguments passed to the application.
+	 */
 	public static void main(String[] args) {
 		// enable assertion checking by default
 		Main.class.getClassLoader().setDefaultAssertionStatus(true);
@@ -33,6 +44,9 @@ public class Main {
 		new Lwjgl3Application(appListener, cfg);
 	}
 
+	/**
+	 * Attempts to set the application icon on macOS systems that support taskbar icons.
+	 */
 	private static void setMacIcon() {
 		if (java.awt.Taskbar.isTaskbarSupported()) {
 			try {
