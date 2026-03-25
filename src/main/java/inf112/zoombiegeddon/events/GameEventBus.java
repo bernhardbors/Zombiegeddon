@@ -38,7 +38,9 @@ public class GameEventBus {
      * @param event The event to broadcast.
      */
     public static void post(GameEvent event) {
-        for (IEventListener listener : listeners) {
+        List<IEventListener> safeListeners = new ArrayList<>(listeners);
+
+        for (IEventListener listener : safeListeners) {
             listener.onEvent(event);
         }
     }

@@ -94,7 +94,7 @@ public abstract class AbstractScreen implements IScreen {
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
-        stage.clear();
+        //stage.clear();
     }
 
     /**

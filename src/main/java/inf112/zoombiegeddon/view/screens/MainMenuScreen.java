@@ -48,7 +48,7 @@ public class MainMenuScreen extends AbstractScreen {
                 () -> app.setScreen(new HowToScreen(app)));
 
         UIUtils.addButton("Settings", app.skin, table, buttonWidth, buttonHeight,
-                () -> app.setScreen(new SettingsScreen(app)));
+                () -> app.setScreen(new SettingsScreen(app, this)));
 
         UIUtils.addButton("Exit", app.skin, table, buttonWidth, buttonHeight,
                 () -> Gdx.app.exit());

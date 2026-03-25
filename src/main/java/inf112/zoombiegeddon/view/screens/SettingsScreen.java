@@ -1,6 +1,7 @@
 package inf112.zoombiegeddon.view.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -18,13 +19,16 @@ import inf112.zoombiegeddon.utils.UIUtils;
  */
 public class SettingsScreen extends AbstractScreen {
 
+    private final Screen returnScreen;
+
     /**
      * Constructs the settings screen.
      *
      * @param app The game application instance.
      */
-    public SettingsScreen(final GameApp app) {
+    public SettingsScreen(final GameApp app, Screen returnScreen) {
         super(app);
+        this.returnScreen = returnScreen;
     }
 
     @Override
@@ -85,7 +89,7 @@ public class SettingsScreen extends AbstractScreen {
         table.row().padTop(30);
 
         UIUtils.addButton("Back", app.skin, table, buttonWidth, buttonHeight,
-                () -> app.setScreen(new MainMenuScreen(app)));
+                () -> app.setScreen(returnScreen));
     }
 
     /**

@@ -55,10 +55,10 @@ public class PlayerController extends InputAdapter {
             player.jump();
             return true;
         }
-        if (keycode == Input.Keys.ESCAPE) {
+        /*if (keycode == Input.Keys.ESCAPE) {
             Gdx.app.exit();
             return true;
-        }
+        }*/
         if (keycode == Input.Keys.L) {
             isShooting = true;
             return true;
