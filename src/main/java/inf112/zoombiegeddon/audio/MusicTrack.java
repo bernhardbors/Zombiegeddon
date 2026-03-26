@@ -5,7 +5,7 @@ import com.badlogic.gdx.audio.Music;
 
 public enum MusicTrack {
     MENU("assets/audio/music/02 - Title Theme.wav"),
-    GAMEPLAY("assets/audio/music/ROCKWILDER 2019 - Hjemmesnekk - 404.mp3");
+    GAMEPLAY("assets/audio/music/中文字幕Kim Jung Goon 金正控- Hyperbaiter lyrics");
 
     private final String path;
 
