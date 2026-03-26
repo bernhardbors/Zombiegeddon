@@ -5,7 +5,7 @@ import com.badlogic.gdx.audio.Music;
 
 public enum MusicTrack {
     MENU("assets/audio/music/02 - Title Theme.wav"),
-    GAMEPLAY("assets/audio/music/04 - Silent forest.wav");
+    GAMEPLAY("assets/audio/music/ROCKWILDER 2019 - Hjemmesnekk - 404.mp3");
 
     private final String path;
 
