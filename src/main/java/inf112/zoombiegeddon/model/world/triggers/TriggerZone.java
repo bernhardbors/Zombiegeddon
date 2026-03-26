@@ -34,7 +34,6 @@ public class TriggerZone {
                         r.width * AbstractLevel.UNIT_SCALE, r.height * AbstractLevel.UNIT_SCALE
                 );
 
-                // Her velger vi hvilken "Action" som skal legges til basert på type i Tiled
                 String type = object.getProperties().get("type", String.class);
                 ITriggerAction action;
 
@@ -46,7 +45,7 @@ public class TriggerZone {
                 } else if ("goalzone".equals(type)) {
                     action = new GoalAction();
                 } else {
-                    continue; // Ukjent type
+                    continue;
                 }
 
                 zones.add(worldRect);
