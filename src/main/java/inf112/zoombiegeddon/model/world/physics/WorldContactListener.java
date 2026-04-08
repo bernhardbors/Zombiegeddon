@@ -3,6 +3,7 @@ package inf112.zoombiegeddon.model.world.physics;
 import com.badlogic.gdx.physics.box2d.*;
 import inf112.zoombiegeddon.model.entity.*;
 import inf112.zoombiegeddon.model.entity.enemies.Enemy;
+import inf112.zoombiegeddon.model.entity.pickups.IPickup;
 import inf112.zoombiegeddon.model.world.luckyblock.ILuckyBlock;
 
 import java.util.ArrayList;
@@ -17,6 +18,11 @@ import java.util.List;
 public class WorldContactListener implements ContactListener {
 
     private final List<Body> bodiesQueuedForRemoval = new ArrayList<>();
+    private final WorldPhysics worldPhysics;
+
+    public WorldContactListener(WorldPhysics worldPhysics) {
+        this.worldPhysics = worldPhysics;
+    }
 
     /**
      * Called when two fixtures begin to touch.
@@ -30,6 +36,7 @@ public class WorldContactListener implements ContactListener {
         handleFeetContact(contact, true);
         checkPlayerEntityCollision(contact);
         checkLuckyBlockCollision(contact);
+        checkPickupCollision(contact);
     }
 
     /**
@@ -150,8 +157,34 @@ public class WorldContactListener implements ContactListener {
             return;
         }
 
-        luckyBlock.breakBlock();
+        luckyBlock.breakBlock(worldPhysics);
         Body body = luckyBlock.getBody();
+        if (!bodiesQueuedForRemoval.contains(body)) {
+            bodiesQueuedForRemoval.add(body);
+        }
+    }
+
+    private void checkPickupCollision(Contact contact) {
+        Fixture fa = contact.getFixtureA();
+        Fixture fb = contact.getFixtureB();
+
+        Object bodyAData = fa.getBody().getUserData();
+        Object bodyBData = fb.getBody().getUserData();
+
+        if (bodyAData instanceof Player player && bodyBData instanceof IPickup pickup) {
+            collectPickup(player, pickup);
+        } else if (bodyBData instanceof Player player && bodyAData instanceof IPickup pickup) {
+            collectPickup(player, pickup);
+        }
+    }
+
+    private void collectPickup(Player player, IPickup pickup) {
+        if (pickup.isCollected()) {
+            return;
+        }
+
+        pickup.collect(player);
+        Body body = pickup.getBody();
         if (!bodiesQueuedForRemoval.contains(body)) {
             bodiesQueuedForRemoval.add(body);
         }

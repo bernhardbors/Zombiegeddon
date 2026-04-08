@@ -54,7 +54,7 @@ public class LuckyBlockLayerFactory {
 
             String rewardType = object.getProperties().get("info", String.class);
             if (rewardType == null || rewardType.isEmpty()) {
-                rewardType = "unknown";
+                rewardType = "speed";
             }
 
             ILuckyBlock block = new LuckyBlock(world, new Vector2(centerX, centerY), width, height, rewardType);

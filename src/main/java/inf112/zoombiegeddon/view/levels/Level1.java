@@ -41,7 +41,7 @@ public class Level1 extends AbstractLevel {
         this.player = new Player(physics.getWorld(), spawner.getSpawnPoint("player_spawn"), app.playerMaleAnimations, 3);
         this.playerController = new PlayerController(player);
 
-        this.entityRenderer = new EntityRenderer();
+        this.entityRenderer = new EntityRenderer(app);
         this.UIrenderer = new UIRenderer(camera, player);
         this.triggerZone = new TriggerZone(map, "Triggers");
 
@@ -87,6 +87,8 @@ public class Level1 extends AbstractLevel {
         for(Enemy enemy : enemies) {
             drawEntities(enemy);
         }
+
+        drawPickups();
 
         worldRenderer.renderForeground();
 

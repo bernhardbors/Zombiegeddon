@@ -89,7 +89,8 @@ public class PlayerController extends InputAdapter {
         boolean right = isRightPressed();
 
         player.setRunning(isShiftPressed());
-        float targetMax = player.isRunning() ? RUNNING_SPEED : WALKING_SPEED;
+        float baseSpeed = player.isRunning() ? RUNNING_SPEED : WALKING_SPEED;
+        float targetMax = baseSpeed * player.getActiveSpeedMultiplier();
 
         Vector2 vel = player.getPhysics().getVelocity();
 
