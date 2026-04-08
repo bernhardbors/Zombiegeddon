@@ -39,6 +39,10 @@ public class Player extends Entity implements IDamageable {
 
     private float spriteDim;
 
+    private float speedMultiplier = 1.0f;
+    private float speedBoostRemaining = 0f;
+    private float pickupVisualEffectRemaining = 0f;
+
     /**
      * Constructs a new player.
      *
@@ -84,8 +88,44 @@ public class Player extends Entity implements IDamageable {
 
         updateAnimationState(dt, VELOCITY_THRESHOLD);
         if (hitTimer > 0) hitTimer -= dt;
+
+        if (speedBoostRemaining > 0f) {
+            speedBoostRemaining -= dt;
+            if (speedBoostRemaining <= 0f) {
+                speedBoostRemaining = 0f;
+                speedMultiplier = 1.0f;
+            }
+        }
+
+        if (pickupVisualEffectRemaining > 0f) {
+            pickupVisualEffectRemaining = Math.max(0f, pickupVisualEffectRemaining - dt);
+        }
  
        }
+
+    public void applySpeedBoost(float multiplier, float durationSeconds) {
+        speedMultiplier = Math.max(1.0f, multiplier);
+        speedBoostRemaining = Math.max(0f, durationSeconds);
+    }
+
+    public float getActiveSpeedMultiplier() {
+        return speedMultiplier;
+    }
+
+    public void triggerPickupVisualEffect(float durationSeconds) {
+        pickupVisualEffectRemaining = Math.max(0f, durationSeconds);
+    }
+
+    public boolean hasPickupVisualEffect() {
+        return pickupVisualEffectRemaining > 0f;
+    }
+
+    public float getPickupFxIntensity() {
+        if (pickupVisualEffectRemaining <= 0f) {
+            return 0f;
+        }
+        return Math.min(1f, pickupVisualEffectRemaining);
+    }
 
     /**
      * Updates the entity's animation state based on current velocity and grounded status.

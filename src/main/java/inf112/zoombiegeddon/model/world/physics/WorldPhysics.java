@@ -2,6 +2,15 @@ package inf112.zoombiegeddon.model.world.physics;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import inf112.zoombiegeddon.model.entity.pickups.IPickup;
+import inf112.zoombiegeddon.model.entity.pickups.SpeedBoostPickup;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Manages the Box2D physics world and handles the simulation step logic.
@@ -14,8 +23,14 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class WorldPhysics {
 
+    private record PendingPickupSpawn(String rewardType, Vector2 spawnPosition) {
+    }
+
     private final World world;
     private final WorldContactListener contactListener;
+    private final List<IPickup> pickups;
+    private final Map<String, Function<Vector2, IPickup>> pickupFactories;
+    private final List<PendingPickupSpawn> pendingPickupSpawns;
     private float accumulatedTime = 0;
 
     /**
@@ -24,8 +39,73 @@ public class WorldPhysics {
      */
     public WorldPhysics(Vector2 gravity) {
         this.world = new World(gravity, true);
-        this.contactListener = new WorldContactListener();
+        this.pickups = new ArrayList<>();
+        this.pickupFactories = new HashMap<>();
+        this.pendingPickupSpawns = new ArrayList<>();
+        registerDefaultPickupFactories();
+
+        this.contactListener = new WorldContactListener(this);
         this.world.setContactListener(contactListener);
+    }
+
+    private void registerDefaultPickupFactories() {
+        registerPickupFactory("speed", spawn -> new SpeedBoostPickup(world, spawn));
+        registerPickupFactory("speed_boost", spawn -> new SpeedBoostPickup(world, spawn));
+        registerPickupFactory("faster", spawn -> new SpeedBoostPickup(world, spawn));
+    }
+
+    public void registerPickupFactory(String rewardType, Function<Vector2, IPickup> factory) {
+        if (rewardType == null || factory == null) {
+            return;
+        }
+        pickupFactories.put(rewardType.trim().toLowerCase(), factory);
+    }
+
+    public boolean spawnPickup(String rewardType, Vector2 spawnPosition) {
+        if (rewardType == null || spawnPosition == null) {
+            return false;
+        }
+
+        if (world.isLocked()) {
+            pendingPickupSpawns.add(new PendingPickupSpawn(rewardType, new Vector2(spawnPosition)));
+            return true;
+        }
+
+        return createPickupNow(rewardType, spawnPosition);
+    }
+
+    private boolean createPickupNow(String rewardType, Vector2 spawnPosition) {
+        if (rewardType == null || spawnPosition == null) {
+            return false;
+        }
+
+        Function<Vector2, IPickup> factory = pickupFactories.get(rewardType.trim().toLowerCase());
+        if (factory == null) {
+            return false;
+        }
+
+        IPickup pickup = factory.apply(new Vector2(spawnPosition));
+        if (pickup == null) {
+            return false;
+        }
+
+        pickups.add(pickup);
+        return true;
+    }
+
+    private void processPendingPickupSpawns() {
+        if (pendingPickupSpawns.isEmpty() || world.isLocked()) {
+            return;
+        }
+
+        for (PendingPickupSpawn pendingSpawn : pendingPickupSpawns) {
+            createPickupNow(pendingSpawn.rewardType(), pendingSpawn.spawnPosition());
+        }
+        pendingPickupSpawns.clear();
+    }
+
+    public List<IPickup> getPickups() {
+        return Collections.unmodifiableList(pickups);
     }
 
     /**
@@ -52,6 +132,8 @@ public class WorldPhysics {
         while (accumulatedTime >= timeStep) {
             world.step(timeStep, 6, 2);
             contactListener.processQueuedRemovals(world);
+            processPendingPickupSpawns();
+            pickups.removeIf(IPickup::isCollected);
             accumulatedTime -= timeStep;
         }
     }

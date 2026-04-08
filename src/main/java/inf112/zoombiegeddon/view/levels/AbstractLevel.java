@@ -32,6 +32,7 @@ import inf112.zoombiegeddon.events.IEventListener;
 import inf112.zoombiegeddon.model.entity.Entity;
 import inf112.zoombiegeddon.model.entity.Player;
 import inf112.zoombiegeddon.model.entity.enemies.Enemy;
+import inf112.zoombiegeddon.model.entity.pickups.IPickup;
 import inf112.zoombiegeddon.model.world.physics.WorldPhysics;
 import inf112.zoombiegeddon.model.world.triggers.TriggerZone;
 import inf112.zoombiegeddon.view.renderer.EntityRenderer;
@@ -216,6 +217,28 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
         app.batch.begin();
         app.background.render(app.batch);
         app.batch.end();
+    }
+
+    protected void drawPickups() {
+        List<IPickup> pickups = physics.getPickups();
+        if (pickups.isEmpty()) {
+            return;
+        }
+
+        app.shapeRenderer.setProjectionMatrix(camera.combined);
+        app.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        for (IPickup pickup : pickups) {
+            if (pickup.isCollected()) {
+                continue;
+            }
+
+            float size = pickup.getRenderSize();
+            float x = pickup.getPosition().x - size / 2f;
+            float y = pickup.getPosition().y - size / 2f;
+            app.shapeRenderer.setColor(1f, 0.86f, 0.25f, 1f);
+            app.shapeRenderer.rect(x, y, size, size);
+        }
+        app.shapeRenderer.end();
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import inf112.zoombiegeddon.audio.AudioManager;
@@ -36,6 +37,7 @@ public class GameApp extends Game {
     public AnimationHandler chonkerAnimations;
     public ParallaxBackground background;
     public ShapeRenderer shapeRenderer;
+    public ShaderProgram pickupEffectShader;
 
     /**
      * Initializes the core components of the application.
@@ -56,6 +58,22 @@ public class GameApp extends Game {
         this.setScreen(new LoadingScreen(this));
         Gdx.graphics.setForegroundFPS(60);
         this.shapeRenderer = new ShapeRenderer();
+        initializePickupShader();
+    }
+
+    private void initializePickupShader() {
+        ShaderProgram.pedantic = false;
+
+        String vertexShader = Gdx.files.internal("assets/shaders/vertex.glsl").readString();
+        String fragmentShader = Gdx.files.internal("assets/shaders/pickup_effect_fragment.glsl").readString();
+
+        pickupEffectShader = new ShaderProgram(vertexShader, fragmentShader);
+
+        if (!pickupEffectShader.isCompiled()) {
+            Gdx.app.error("Shader", "Pickup shader compile error: " + pickupEffectShader.getLog());
+            pickupEffectShader.dispose();
+            pickupEffectShader = null;
+        }
     }
 
     /**
@@ -69,6 +87,8 @@ public class GameApp extends Game {
         if (audio != null) audio.dispose();
         if (manager != null) manager.dispose();
         if (batch != null) batch.dispose();
+        if (shapeRenderer != null) shapeRenderer.dispose();
+        if (pickupEffectShader != null) pickupEffectShader.dispose();
     }
 
     /**
