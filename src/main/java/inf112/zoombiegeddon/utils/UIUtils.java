@@ -28,7 +28,7 @@ public class UIUtils {
             }
         });
 
-        table.add(button).fillX().uniformX().size(width, height).pad(10).row();
+        table.add(button).fillX().uniformX().size(width, height).pad(5).row();
 
         return button;
     }
