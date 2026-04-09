@@ -14,7 +14,7 @@ public class SpawnAction implements ITriggerAction{
 
     @Override
     public String onTrigger(Player player) {
-        player.setPosition(x,y);
+        player.setPosition(this.x, this.y);
         return null;
     }
 }

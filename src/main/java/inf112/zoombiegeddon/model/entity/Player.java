@@ -333,7 +333,6 @@ public class Player extends Entity implements IDamageable {
         physics.getBody().setLinearVelocity(0,0);
     }
 
-
     @Override
     public Vector2 getPosition() {
         return physics.getPosition();
