@@ -28,7 +28,9 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     @Override
+
     public void buildScreen() {
+
         clearTable();
 
         app.audio.playMusic(MusicTrack.MENU, true);
@@ -38,8 +40,8 @@ public class MainMenuScreen extends AbstractScreen {
             table.setBackground(new TextureRegionDrawable(background));
         }
 
-        formatText("Zoombiegeddon", Color.WHITE, 5f);
-        table.row().padTop(20);
+        formatText("Zoombiegeddon", Color.WHITE, 6f);
+        table.getCell(table.getChildren().peek()).expandY().top().padTop(0);
 
         UIUtils.addButton("Start", app.skin, table, buttonWidth, buttonHeight,
                 () -> app.setScreen( new PickLevelScreen(app)));

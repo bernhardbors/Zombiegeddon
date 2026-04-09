@@ -37,8 +37,8 @@ public class SettingsScreen extends AbstractScreen {
 
         app.audio.playMusic(MusicTrack.MENU, true);
 
-        if (app.manager.isLoaded(AssetConstants.BG_SKY)) {
-            Texture background = app.manager.get(AssetConstants.BG_SKY, Texture.class);
+        if (app.manager.isLoaded(AssetConstants.BG_GAME)) {
+            Texture background = app.manager.get(AssetConstants.BG_GAME, Texture.class);
             table.setBackground(new TextureRegionDrawable(background));
         }
         formatText("SETTINGS", Color.WHITE, 2f);
