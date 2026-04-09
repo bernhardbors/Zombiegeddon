@@ -211,6 +211,12 @@
 				<!-- gather coverage info while running tests -->
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
+
+				<configuration>
+					<excludes>
+						<exclude>**/view/**</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
 						<id>default-prepare-agent</id>
