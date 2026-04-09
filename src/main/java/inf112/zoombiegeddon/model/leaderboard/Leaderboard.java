@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Leaderboard {
+
     private final List<LeaderboardEntry> entries;
 
     public Leaderboard() {
