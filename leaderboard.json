@@ -1,0 +1,16 @@
+{
+leaderboards: {
+	class: java.util.HashMap
+	level1: [
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Theo
+			boardId: level1
+			score: 4200
+			collectedItems: 8
+			livesLeft: 2
+			timeUsed: 43.2
+		}
+	]
+}
+}

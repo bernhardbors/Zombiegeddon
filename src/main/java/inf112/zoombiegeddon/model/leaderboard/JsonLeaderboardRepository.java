@@ -1,0 +1,61 @@
+package inf112.zoombiegeddon.model.leaderboard;
+
+import com.badlogic.gdx.utils.Json;
+
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class JsonLeaderboardRepository implements ILeaderboardRepository{
+
+    private final String filePath;
+
+    public JsonLeaderboardRepository(String filePath) {
+        this.filePath = filePath;
+    }
+
+    @Override
+    public void save(LeaderboardManager leaderboardManager) {
+        LeaderboardData data = new LeaderboardData();
+
+        for (String boardId : leaderboardManager.getLeaderboards().keySet()) {
+            Leaderboard leaderboard = leaderboardManager.getLeaderboard(boardId);
+            data.getLeaderboards().put(boardId, leaderboard.getEntries());
+        }
+
+        Json json = new Json();
+        String jsonString = json.prettyPrint(data);
+
+        try (FileWriter writer = new FileWriter(filePath)) {
+            writer.write(jsonString);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to save leaderboard data.", e);
+        }
+    }
+
+    @Override
+    public LeaderboardManager load() {
+        Json json = new Json();
+
+        try (FileReader reader = new FileReader(filePath)) {
+            LeaderboardData data = json.fromJson(LeaderboardData.class, reader);
+            LeaderboardManager leaderboardManager = new LeaderboardManager();
+
+            if (data != null && data.getLeaderboards() != null) {
+                for (String boardId : data.getLeaderboards().keySet()) {
+                    for (LeaderboardEntry entry : data.getLeaderboards().get(boardId)) {
+                        leaderboardManager.addEntry(boardId, entry);
+                    }
+                }
+            }
+
+            return leaderboardManager;
+        } catch (IOException e) {
+            return new LeaderboardManager();
+        }
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+}

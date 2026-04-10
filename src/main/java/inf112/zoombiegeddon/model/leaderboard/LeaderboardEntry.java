@@ -2,12 +2,15 @@ package inf112.zoombiegeddon.model.leaderboard;
 
 // Har med mer enn bare score for å senere kunne vise tid, antall liv osv på leaderboard skjermen
 public class LeaderboardEntry {
-    private final String playerName;
-    private final String boardId;
-    private final int score;
-    private final int collectedItems;
-    private final int livesLeft;
-    private final float timeUsed;
+    private String playerName;
+    private String boardId;
+    private int score;
+    private int collectedItems;
+    private int livesLeft;
+    private float timeUsed;
+
+    public LeaderboardEntry() {
+    }
 
     public LeaderboardEntry(String playerName, String boardId, int score,
                             int collectedItems, int livesLeft, float timeUsed) {
