@@ -24,7 +24,7 @@ public class Enemy extends Entity implements IDamageable {
     private float spriteDim;
 
     private float patrolSpeed;
-    private int direction = 1;
+    private int direction = Math.random() < 0.5 ? 1 : -1;
 
     private boolean isDead = false;
     private int HP;
@@ -115,9 +115,10 @@ public class Enemy extends Entity implements IDamageable {
         Vector2 pos = physics.getPosition();
 
         float lookAheadX = pos.x + (this.width / 2f + 0.5f) * dir;
+        float scanY = pos.y - (this.height / 2f) + (this.height * 0.2f);
 
-        Vector2 wallStart = new Vector2(pos.x, pos.y);
-        Vector2 wallEnd = new Vector2(lookAheadX, pos.y);
+        Vector2 wallStart = new Vector2(pos.x, scanY);
+        Vector2 wallEnd = new Vector2(lookAheadX, scanY);
 
         Vector2 ledgeStart = new Vector2(lookAheadX, pos.y);
         Vector2 ledgeEnd = new Vector2(lookAheadX, pos.y - (this.height / 2f + 1.0f));
@@ -129,10 +130,13 @@ public class Enemy extends Entity implements IDamageable {
             if (fixture.isSensor()) {
                 return 1;
             }
-
             if (fixture.getBody() == physics.getBody()) {
                 return 1;
             }
+            if ("player".equals(fixture.getUserData())) {
+                return 1;
+            }
+
             hitWall[0] = true;
             return 0;
         };
