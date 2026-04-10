@@ -1,5 +1,6 @@
 package inf112.zoombiegeddon.model.entity.pickups;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import inf112.zoombiegeddon.model.entity.Player;
@@ -11,7 +12,7 @@ public class HealPickup extends Pickup {
     float FX_DURATION_SECONDS = 1;
 
     public HealPickup(World world, Vector2 spawnPosition) {
-        super(world, spawnPosition, 8f * AbstractLevel.UNIT_SCALE, "heal");
+        super(world, spawnPosition, 8f * AbstractLevel.UNIT_SCALE, "heal", Color.RED);
     }
 
     @Override
@@ -19,7 +20,7 @@ public class HealPickup extends Pickup {
         if (player.getHealth() < player.getMaxHealth()) {
             player.heal(healthAmount);
         }
-        player.triggerPickupVisualEffect(FX_DURATION_SECONDS);
+        player.triggerPickupVisualEffect(FX_DURATION_SECONDS, getPickupColor());
     }
 
 }

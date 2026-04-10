@@ -38,6 +38,12 @@ public class EntityRenderer  {
             batch.setShader(app.pickupEffectShader);
             app.pickupEffectShader.setUniformf("u_time", playerEntity.getStateTime());
             app.pickupEffectShader.setUniformf("u_intensity", playerEntity.getPickupFxIntensity());
+            app.pickupEffectShader.setUniformf(
+                    "u_pickupColor",
+                    playerEntity.getPickupFxColorR(),
+                    playerEntity.getPickupFxColorG(),
+                    playerEntity.getPickupFxColorB()
+            );
         }
 
         batch.draw(currentFrame, x, y, entity.getScaledSpriteDimensions(), entity.getScaledSpriteDimensions());
