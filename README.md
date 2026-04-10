@@ -11,7 +11,7 @@
 # Project resources
 * Git repository:  [Project](https://git.app.uib.no/inf112/26v/proj/a-laget)
 * Trello: [Link](https://trello.com/invite/b/697a6b2f6f393809f801d2e8/ATTIe6db3e071af79154e7d9739a6eda1ab8EE0DA4E4/inf112-a-laget)
-* Møtereferat: [Docs](https://docs.google.com/document/d/1DTBr6Ew_FQDBkRHb4hHOdzjmSTYw7m4FUMoYYwyxgII/edit?usp=sharing)
+* Meeting notes: [Docs](https://docs.google.com/document/d/1DTBr6Ew_FQDBkRHb4hHOdzjmSTYw7m4FUMoYYwyxgII/edit?usp=sharing)
 
 # About Zoombiegeddon: 
 Zoombiegeddon is a 2D-game where the player 
