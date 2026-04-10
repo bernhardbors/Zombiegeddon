@@ -1,5 +1,6 @@
 package inf112.zoombiegeddon.model.entity;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -42,6 +43,7 @@ public class Player extends Entity implements IDamageable {
     private float speedMultiplier = 1.0f;
     private float speedBoostRemaining = 0f;
     private float pickupVisualEffectRemaining = 0f;
+    private final Color pickupVisualEffectColor = new Color(Color.YELLOW);
 
     /**
      * Constructs a new player.
@@ -112,8 +114,11 @@ public class Player extends Entity implements IDamageable {
         return speedMultiplier;
     }
 
-    public void triggerPickupVisualEffect(float durationSeconds) {
+    public void triggerPickupVisualEffect(float durationSeconds, Color effectColor) {
         pickupVisualEffectRemaining = Math.max(0f, durationSeconds);
+        if (effectColor != null) {
+            pickupVisualEffectColor.set(effectColor);
+        }
     }
 
     public boolean hasPickupVisualEffect() {
@@ -125,6 +130,18 @@ public class Player extends Entity implements IDamageable {
             return 0f;
         }
         return Math.min(1f, pickupVisualEffectRemaining);
+    }
+
+    public float getPickupFxColorR() {
+        return pickupVisualEffectColor.r;
+    }
+
+    public float getPickupFxColorG() {
+        return pickupVisualEffectColor.g;
+    }
+
+    public float getPickupFxColorB() {
+        return pickupVisualEffectColor.b;
     }
 
     /**

@@ -12,7 +12,7 @@ public class HealPickup extends Pickup {
     float FX_DURATION_SECONDS = 1;
 
     public HealPickup(World world, Vector2 spawnPosition) {
-        super(world, spawnPosition, 8f * AbstractLevel.UNIT_SCALE, "heal", Color.GREEN);
+        super(world, spawnPosition, 8f * AbstractLevel.UNIT_SCALE, "heal", Color.RED);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class HealPickup extends Pickup {
         if (player.getHealth() < player.getMaxHealth()) {
             player.heal(healthAmount);
         }
-        player.triggerPickupVisualEffect(FX_DURATION_SECONDS);
+        player.triggerPickupVisualEffect(FX_DURATION_SECONDS, getPickupColor());
     }
 
 }

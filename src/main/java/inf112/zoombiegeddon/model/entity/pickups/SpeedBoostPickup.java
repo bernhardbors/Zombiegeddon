@@ -13,12 +13,12 @@ public class SpeedBoostPickup extends Pickup {
     private static final float FX_DURATION_SECONDS = 5f;
 
     public SpeedBoostPickup(World world, Vector2 spawnPosition) {
-        super(world, spawnPosition, 8f * AbstractLevel.UNIT_SCALE, "speed", Color.CYAN);
+        super(world, spawnPosition, 8f * AbstractLevel.UNIT_SCALE, "speed", Color.YELLOW);
     }
 
     @Override
     public void applyEffect(Player player) {
         player.applySpeedBoost(SPEED_MULTIPLIER, BOOST_DURATION_SECONDS);
-        player.triggerPickupVisualEffect(FX_DURATION_SECONDS);
+        player.triggerPickupVisualEffect(FX_DURATION_SECONDS, getPickupColor());
     }
 }
