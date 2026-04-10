@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="276" height="71" tilewidth="8" tileheight="8" infinite="0" nextlayerid="12" nextobjectid="43">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="276" height="71" tilewidth="8" tileheight="8" infinite="0" nextlayerid="12" nextobjectid="46">
  <tileset firstgid="1" source="../tiledProjectFiles/tilemap_packed.tsx"/>
  <tileset firstgid="901" source="../tiledProjectFiles/luckyblock.tsx"/>
  <layer id="4" name="Background2" width="276" height="71">
@@ -79,12 +79,24 @@
  </layer>
  <objectgroup id="9" name="Goal"/>
  <objectgroup id="5" name="Luckyblocks" offsetx="0.0965909" offsety="0.1875">
-  <object id="39" gid="901" x="1350.28" y="262.875" width="16" height="16"/>
-  <object id="40" gid="901" x="1401.74" y="262.875" width="16" height="16"/>
-  <object id="41" gid="901" x="1458.19" y="262.055" width="16" height="16"/>
-  <object id="42" gid="901" x="365.79" y="318.626" width="16" height="16">
+  <object id="39" gid="901" x="1350.28" y="262.875" width="16" height="16">
    <properties>
-    <property name="info" value="speed"/>
+    <property name="type" value="heal"/>
+   </properties>
+  </object>
+  <object id="43" gid="901" x="1406.17" y="261.011" width="16" height="16">
+   <properties>
+    <property name="type" value="heal"/>
+   </properties>
+  </object>
+  <object id="44" gid="901" x="1460.14" y="260.361" width="16" height="16">
+   <properties>
+    <property name="type" value="speed"/>
+   </properties>
+  </object>
+  <object id="45" gid="901" x="356.036" y="318.882" width="16" height="16">
+   <properties>
+    <property name="type" value="speed"/>
    </properties>
   </object>
  </objectgroup>

@@ -2,6 +2,7 @@ package inf112.zoombiegeddon.model.world.physics;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import inf112.zoombiegeddon.model.entity.pickups.HealPickup;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
 import inf112.zoombiegeddon.model.entity.pickups.SpeedBoostPickup;
 
@@ -50,8 +51,7 @@ public class WorldPhysics {
 
     private void registerDefaultPickupFactories() {
         registerPickupFactory("speed", spawn -> new SpeedBoostPickup(world, spawn));
-        registerPickupFactory("speed_boost", spawn -> new SpeedBoostPickup(world, spawn));
-        registerPickupFactory("faster", spawn -> new SpeedBoostPickup(world, spawn));
+        registerPickupFactory("heal", spawn -> new HealPickup(world, spawn));
     }
 
     public void registerPickupFactory(String rewardType, Function<Vector2, IPickup> factory) {
@@ -81,11 +81,13 @@ public class WorldPhysics {
 
         Function<Vector2, IPickup> factory = pickupFactories.get(rewardType.trim().toLowerCase());
         if (factory == null) {
+            System.err.println("No pickup factory registered for reward type: " + rewardType);
             return false;
         }
 
         IPickup pickup = factory.apply(new Vector2(spawnPosition));
         if (pickup == null) {
+            System.err.println("Pickup factory returned null for reward type: " + rewardType);
             return false;
         }
 
@@ -99,7 +101,9 @@ public class WorldPhysics {
         }
 
         for (PendingPickupSpawn pendingSpawn : pendingPickupSpawns) {
-            createPickupNow(pendingSpawn.rewardType(), pendingSpawn.spawnPosition());
+            if (!createPickupNow(pendingSpawn.rewardType(), pendingSpawn.spawnPosition())) {
+                System.err.println("Failed to spawn queued pickup for reward type: " + pendingSpawn.rewardType());
+            }
         }
         pendingPickupSpawns.clear();
     }
