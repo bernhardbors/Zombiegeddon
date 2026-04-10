@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx",
+    "activeFile": "C:/Users/synne/bakgrunntilemap.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -12,6 +12,9 @@
         "": {
             "scaleInDock": 3,
             "scaleInEditor": 0.0625
+        },
+        ":/automap-tiles.tsx": {
+            "scaleInDock": 1
         },
         "C:/Users/isakgraarud/Documents/01_University/Year_02/Vår_Sem/INF 112/a-laget/src/main/resources/tilemaps/map01.tmx": {
             "scale": 1.3502,
@@ -49,15 +52,14 @@
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx": {
             "expandedObjectLayers": [
-                5,
-                6,
-                7
+                7,
+                6
             ],
-            "scale": 2,
-            "selectedLayer": 4,
+            "scale": 0.75,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 2086,
-                "y": 180.75
+                "x": 1877.3333333333333,
+                "y": 341.99999999999994
             }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level2.tmx": {
@@ -66,6 +68,19 @@
             "viewCenter": {
                 "x": 312.3333333333333,
                 "y": 58.333333333333314
+            }
+        },
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level3.tmx": {
+            "expandedObjectLayers": [
+                4,
+                2,
+                6
+            ],
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 602,
+                "y": 210.5
             }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/map01.tmx": {
@@ -82,6 +97,14 @@
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/tilemap_packed.tsx": {
             "scaleInDock": 1
         },
+        "C:/Users/synne/bakgrunntilemap.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 373.33333333333326,
+                "y": 416.66666666666674
+            }
+        },
         "C:/Users/synne/tilemap_packed.tsx": {
             "scaleInDock": 1
         },
@@ -90,6 +113,7 @@
             "scaleInEditor": 4
         },
         "C:/Users/synne/tilemap_packed_FEIL2.tsx": {
+            "scaleInDock": 1,
             "scaleInEditor": 3
         },
         "CityTiles.tsx": {
@@ -119,20 +143,21 @@
     },
     "last.externalTilesetPath": "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tiledProjectFiles",
     "last.imagePath": "C:/Users/synne/Downloads/kenney_pixel-platformer",
-    "map.height": 40,
+    "map.height": 60,
     "map.lastUsedFormat": "tmx",
-    "map.tileHeight": 18,
-    "map.tileWidth": 18,
-    "map.width": 150,
+    "map.tileHeight": 8,
+    "map.tileWidth": 8,
+    "map.width": 170,
     "openFiles": [
-        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/map01.tmx",
+        "C:/Users/synne/bakgrunntilemap.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx"
     ],
     "project": "TiledProjectFile.tiled-project",
     "property.type": "string",
     "recentFiles": [
-        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx",
         "C:/Users/synne/tilemap_packed_FEIL2.tsx",
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx",
+        "C:/Users/synne/bakgrunntilemap.tmx",
         "C:/Users/synne/tilemap_packed_FEIL.tsx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/MyLevel.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/map01.tmx",

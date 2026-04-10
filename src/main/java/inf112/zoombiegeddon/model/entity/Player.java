@@ -329,9 +329,9 @@ public class Player extends Entity implements IDamageable {
 
     @Override
     public void setPosition(float x, float y) {
-        physics.getBody().getPosition().set(x, y);
+        physics.getBody().setTransform(x,y,physics.getBody().getAngle());
+        physics.getBody().setLinearVelocity(0,0);
     }
-
 
     @Override
     public Vector2 getPosition() {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="276" height="71" tilewidth="8" tileheight="8" infinite="0" nextlayerid="12" nextobjectid="43">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="276" height="71" tilewidth="8" tileheight="8" infinite="0" nextlayerid="13" nextobjectid="43">
  <tileset firstgid="1" source="../tiledProjectFiles/tilemap_packed.tsx"/>
  <tileset firstgid="901" source="../tiledProjectFiles/luckyblock.tsx"/>
  <layer id="4" name="Background2" width="276" height="71">
@@ -130,13 +130,13 @@
   </object>
   <object id="35" name="death" x="1564" y="426.5" width="437.667" height="38.5">
    <properties>
-    <property name="info" value="100"/>
+    <property name="info" value="3"/>
     <property name="type" value="killzone"/>
    </properties>
   </object>
   <object id="33" name="death" x="606.667" y="438.5" width="35" height="38.5">
    <properties>
-    <property name="info" value="100"/>
+    <property name="info" value="3"/>
     <property name="type" value="killzone"/>
    </properties>
   </object>

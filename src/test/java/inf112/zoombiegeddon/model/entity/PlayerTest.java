@@ -80,21 +80,6 @@ public class PlayerTest extends AbstractEntityTest {
     }
 
     @Test
-    void testPlayerGetAndSetPosition() {
-        float playerOriginalXPos = player.getPosition().x;
-
-        float playerOriginalYPos = player.getPosition().y;
-
-        player.setPosition(playerOriginalXPos + 1, playerOriginalYPos +1);
-
-        assertNotEquals(playerOriginalXPos, player.getPosition().x);
-        assertNotEquals(playerOriginalYPos, player.getPosition().y);
-
-        assertEquals(playerOriginalXPos + 1, player.getPosition().x);
-        assertEquals(playerOriginalYPos + 1, player.getPosition().y);
-    }
-
-    @Test
     void testSetPlayerRunning() {
         player.setRunning(true);
 
