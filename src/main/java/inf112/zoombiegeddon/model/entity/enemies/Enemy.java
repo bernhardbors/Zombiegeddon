@@ -214,6 +214,14 @@ public class Enemy extends Entity implements IDamageable {
     }
 
     /**
+     * Sets the movement direction of the enemy.
+     * @param direction 1 for right, -1 for left.
+     */
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+
+    /**
      * Provides access to the entity's physics component.
      *
      * @return The PhysicsComponent instance.

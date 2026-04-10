@@ -54,6 +54,7 @@ class EnemyTest extends AbstractEntityTest {
     @Test
     void testEnemyTurnsAroundWhenHittingWall() {
         Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 1, 2.0f);
+        enemy.setDirection(1);
         enemy.setGrounded(true);
 
         doAnswer(invocation -> {
@@ -84,6 +85,7 @@ class EnemyTest extends AbstractEntityTest {
     @Test
     void testEnemyTurnsAroundWhenMissingLedge() {
         Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 1, 2.0f);
+        enemy.setDirection(1);
         enemy.setGrounded(true);
 
         doAnswer(invocation -> {
@@ -98,6 +100,7 @@ class EnemyTest extends AbstractEntityTest {
     @Test
     void testEnemyWalksStraightWhenPathIsClear() {
         Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 1, 2.0f);
+        enemy.setDirection(1);
         enemy.setGrounded(true);
 
         doAnswer(invocation -> {
