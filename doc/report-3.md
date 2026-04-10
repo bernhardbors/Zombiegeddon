@@ -143,7 +143,7 @@ Flyten ser slik ut:
 
 #### 11. Fullføre nivå
 * **Som spiller vil jeg nå et målpunkt i enden av brettet for å låse opp neste nivå,**
-  fordi jeg vil kjenne på en følelse av progresjon
+  fordi jeg vil kjenne på en følelse av progresjon.
 * Kollisjon med mål-flagget på brettet trigger en level-overgang.
 
 ---

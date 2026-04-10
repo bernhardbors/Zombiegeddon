@@ -27,6 +27,20 @@ leaderboards: {
 			score: 4000
 			livesLeft: 2
 		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Player
+			boardId: level2
+			score: 4000
+			livesLeft: 2
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Player
+			boardId: level2
+			score: 4000
+			livesLeft: 2
+		}
 	]
 }
 }
