@@ -1,5 +1,6 @@
 package inf112.zoombiegeddon.model.entity.pickups;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -13,11 +14,13 @@ public abstract class Pickup implements IPickup {
     private final Body body;
     private final float renderSize;
     private final String pickupType;
+    private final Color pickupColor;
     private boolean collected;
 
-    protected Pickup(World world, Vector2 spawnPosition, float renderSize, String pickupType) {
+    protected Pickup(World world, Vector2 spawnPosition, float renderSize, String pickupType, Color pickupColor) {
         this.renderSize = renderSize;
         this.pickupType = pickupType;
+        this.pickupColor = pickupColor;
         this.body = createBody(world, spawnPosition, renderSize);
         this.body.setUserData(this);
         this.collected = false;
@@ -80,5 +83,10 @@ public abstract class Pickup implements IPickup {
     @Override
     public String getPickupType() {
         return pickupType;
+    }
+
+    @Override
+    public Color getPickupColor() {
+        return pickupColor;
     }
 }

@@ -1,5 +1,6 @@
 package inf112.zoombiegeddon.model.entity.pickups;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import inf112.zoombiegeddon.model.entity.Player;
@@ -12,7 +13,7 @@ public class SpeedBoostPickup extends Pickup {
     private static final float FX_DURATION_SECONDS = 5f;
 
     public SpeedBoostPickup(World world, Vector2 spawnPosition) {
-        super(world, spawnPosition, 8f * AbstractLevel.UNIT_SCALE, "speed");
+        super(world, spawnPosition, 8f * AbstractLevel.UNIT_SCALE, "speed", Color.CYAN);
     }
 
     @Override

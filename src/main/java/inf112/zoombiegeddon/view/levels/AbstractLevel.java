@@ -242,7 +242,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
             float size = pickup.getRenderSize();
             float x = pickup.getPosition().x - size / 2f;
             float y = pickup.getPosition().y - size / 2f;
-            app.shapeRenderer.setColor(1f, 0.86f, 0.25f, 1f);
+            app.shapeRenderer.setColor(pickup.getPickupColor());
             app.shapeRenderer.rect(x, y, size, size);
         }
         app.shapeRenderer.end();
