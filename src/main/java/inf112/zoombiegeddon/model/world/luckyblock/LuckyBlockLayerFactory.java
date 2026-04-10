@@ -52,9 +52,9 @@ public class LuckyBlockLayerFactory {
             float centerX = (rectangle.x + rectangle.width / 2f) / pixelsPerTile;
             float centerY = (rectangle.y + rectangle.height / 2f) / pixelsPerTile;
 
-            String rewardType = object.getProperties().get("info", String.class);
-            if (rewardType == null || rewardType.isEmpty()) {
-                rewardType = "speed";
+            String rewardType = object.getProperties().get("type", String.class);
+            if (rewardType != null) {
+                rewardType = rewardType.trim();
             }
 
             ILuckyBlock block = new LuckyBlock(world, new Vector2(centerX, centerY), width, height, rewardType);

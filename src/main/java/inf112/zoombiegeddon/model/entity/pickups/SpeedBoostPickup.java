@@ -7,9 +7,9 @@ import inf112.zoombiegeddon.view.levels.AbstractLevel;
 
 public class SpeedBoostPickup extends Pickup {
 
-    private static final float SPEED_MULTIPLIER = 1.5f;
+    private static final float SPEED_MULTIPLIER = 3.5f;
     private static final float BOOST_DURATION_SECONDS = 5f;
-    private static final float FX_DURATION_SECONDS = 0.9f;
+    private static final float FX_DURATION_SECONDS = 5f;
 
     public SpeedBoostPickup(World world, Vector2 spawnPosition) {
         super(world, spawnPosition, 8f * AbstractLevel.UNIT_SCALE, "speed");
