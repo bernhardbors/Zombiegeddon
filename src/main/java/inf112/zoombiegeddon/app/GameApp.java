@@ -43,11 +43,13 @@ public class GameApp extends Game {
     public ShapeRenderer shapeRenderer;
     public ShaderProgram pickupEffectShader;
 
+
     // Leaderboard resources
     public LeaderboardManager leaderboardManager;
     public JsonLeaderboardRepository leaderboardRepository;
     public ScoreCalculator scoreCalculator;
     public LeaderboardController leaderboardController;
+    public String currentPlayerName = "Player";
 
     /**
      * Initializes the core components of the application.
@@ -122,4 +124,28 @@ public class GameApp extends Game {
         int height = prefs.getInteger("height", 720);
         Gdx.graphics.setWindowedMode(width, height);
     }
+
+    /**
+     * Returns the current player name used for leaderboard registration.
+     *
+     * @return current player name
+     */
+    public String getCurrentPlayerName() {
+        return currentPlayerName;
+    }
+
+    /**
+     * Sets the current player name.
+     * Falls back to "Player" if null or blank.
+     *
+     * @param currentPlayerName player name to use
+     */
+    public void setCurrentPlayerName(String currentPlayerName) {
+        if (currentPlayerName == null || currentPlayerName.isBlank()) {
+            this.currentPlayerName = "Player";
+        } else {
+            this.currentPlayerName = currentPlayerName.trim();
+        }
+    }
+
 }

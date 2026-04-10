@@ -7,7 +7,45 @@ leaderboards: {
 			playerName: Player
 			boardId: level1
 			score: 4500
+			collectedItems: 0
 			livesLeft: 3
+			timeUsed: 0
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Player
+			boardId: level1
+			score: 4500
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 0
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: 67
+			boardId: level1
+			score: 4500
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 0
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: skjerm
+			boardId: level1
+			score: 4500
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 0
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Harry Maguire
+			boardId: level1
+			score: 4500
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 0
 		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
@@ -25,21 +63,45 @@ leaderboards: {
 			playerName: Player
 			boardId: level2
 			score: 4000
+			collectedItems: 0
 			livesLeft: 2
+			timeUsed: 0
 		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: Player
 			boardId: level2
 			score: 4000
+			collectedItems: 0
 			livesLeft: 2
+			timeUsed: 0
 		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: Player
 			boardId: level2
 			score: 4000
+			collectedItems: 0
 			livesLeft: 2
+			timeUsed: 0
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Player
+			boardId: level2
+			score: 3500
+			collectedItems: 0
+			livesLeft: 1
+			timeUsed: 0
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Harry Maguire
+			boardId: level2
+			score: 3500
+			collectedItems: 0
+			livesLeft: 1
+			timeUsed: 0
 		}
 	]
 }
