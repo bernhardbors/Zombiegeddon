@@ -44,6 +44,15 @@ public class TriggerZone {
                     action = new SignAction(text);
                 } else if ("goalzone".equals(type)) {
                     action = new GoalAction();
+                } else if ("newzone".equals(type)) {
+                    float spawnX = object.getProperties().get("spawn_x", Float.class);
+                    float spawnY = object.getProperties().get("spawn_y", Float.class);
+
+                    spawnX *= AbstractLevel.UNIT_SCALE;
+                    spawnY *= AbstractLevel.UNIT_SCALE;
+
+
+                    action = new SpawnAction(spawnX, spawnY);
                 } else {
                     continue;
                 }
