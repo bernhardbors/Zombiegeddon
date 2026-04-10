@@ -169,6 +169,13 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
             }
 
             if (player.inGoal()) {
+                app.leaderboardController.registerLevelCompletion(
+                        getLevelId(),
+                        getPlayerName(),
+                        getCollectedItems(),
+                        getLivesLeft(),
+                        getTimeUsed()
+                );
                 app.setScreen(new NextLevelScreen(app));
                 return;
             }
@@ -313,6 +320,26 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
         if (currentText != null && triggerZone != null && triggerZone.getZone() != null) {
             drawSignText(currentText, triggerZone.getZone());
         }
+    }
+
+    protected String getLevelId() {
+        return getClass().getSimpleName().toLowerCase();
+    }
+
+    protected String getPlayerName() {
+        return "Player";
+    }
+
+    protected int getCollectedItems() {
+        return 0;
+    }
+
+    protected int getLivesLeft() {
+        return player != null ? player.getHealth() : 0;
+    }
+
+    protected float getTimeUsed() {
+        return 0f;
     }
 
     @Override

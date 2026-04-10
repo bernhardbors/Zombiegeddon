@@ -12,7 +12,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import inf112.zoombiegeddon.audio.AudioManager;
 import inf112.zoombiegeddon.audio.IAudioService;
+import inf112.zoombiegeddon.controller.LeaderboardController;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
+import inf112.zoombiegeddon.model.leaderboard.JsonLeaderboardRepository;
+import inf112.zoombiegeddon.model.leaderboard.LeaderboardManager;
+import inf112.zoombiegeddon.model.leaderboard.ScoreCalculator;
 import inf112.zoombiegeddon.model.world.background.ParallaxBackground;
 import inf112.zoombiegeddon.view.screens.LoadingScreen;
 
@@ -39,9 +43,15 @@ public class GameApp extends Game {
     public ShapeRenderer shapeRenderer;
     public ShaderProgram pickupEffectShader;
 
+    // Leaderboard resources
+    public LeaderboardManager leaderboardManager;
+    public JsonLeaderboardRepository leaderboardRepository;
+    public ScoreCalculator scoreCalculator;
+    public LeaderboardController leaderboardController;
+
     /**
      * Initializes the core components of the application.
-     * Sets up the rendering batch, asset management, and user preferences.
+     * Sets up the rendering batch, asset management, user preferences.
      * It also configures the window resolution and starts the loading screen.
      */
     @Override
@@ -51,6 +61,7 @@ public class GameApp extends Game {
         prefs = Gdx.app.getPreferences(AssetConstants.PREFS_NAME);
         audio = new AudioManager(manager, prefs);
 
+        initializeLeaderboardSystem();
         setResolutionOnStartup();
 
         background = new ParallaxBackground(new OrthographicCamera());
@@ -59,6 +70,17 @@ public class GameApp extends Game {
         Gdx.graphics.setForegroundFPS(60);
         this.shapeRenderer = new ShapeRenderer();
         initializePickupShader();
+    }
+
+    private void initializeLeaderboardSystem() {
+        leaderboardRepository = new JsonLeaderboardRepository("leaderboard.json");
+        leaderboardManager = leaderboardRepository.load();
+        scoreCalculator = new ScoreCalculator();
+        leaderboardController = new LeaderboardController(
+                leaderboardManager,
+                leaderboardRepository,
+                scoreCalculator
+        );
     }
 
     private void initializePickupShader() {
