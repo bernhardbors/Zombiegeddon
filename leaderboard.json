@@ -19,5 +19,14 @@ leaderboards: {
 			timeUsed: 43.2
 		}
 	]
+	level2: [
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Player
+			boardId: level2
+			score: 4000
+			livesLeft: 2
+		}
+	]
 }
 }
