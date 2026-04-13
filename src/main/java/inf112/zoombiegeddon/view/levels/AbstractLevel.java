@@ -40,6 +40,7 @@ import inf112.zoombiegeddon.view.renderer.UIRenderer;
 import inf112.zoombiegeddon.view.renderer.WorldRenderer;
 import inf112.zoombiegeddon.utils.CameraUtils;
 import inf112.zoombiegeddon.view.screens.GameOverScreen;
+import inf112.zoombiegeddon.view.screens.LeaderboardScreen;
 import inf112.zoombiegeddon.view.screens.NextLevelScreen;
 import inf112.zoombiegeddon.view.screens.PauseScreen;
 
@@ -76,6 +77,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
     public static final float viewportWidth = 50.0f;
     public static final float viewportHeight = 30.0f;
     public Texture healthbar;
+    protected float levelTime = 0f;
 
     /**
      * Constructs a new abstract level with shared rendering and physics setup.
@@ -160,6 +162,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
     @Override
     public void update(float delta) {
         physics.update(delta);
+        levelTime += delta;
 
         if (player != null) {
             player.update(delta);
@@ -176,7 +179,12 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
                         getLivesLeft(),
                         getTimeUsed()
                 );
-                app.setScreen(new NextLevelScreen(app));
+
+                app.setScreen(new LeaderboardScreen(
+                        app,
+                        getLevelId(),
+                        LeaderboardScreen.ScreenType.NEXT_LEVEL
+                ));
                 return;
             }
 
@@ -327,7 +335,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
     }
 
     protected String getPlayerName() {
-        return "Player";
+        return app.getCurrentPlayerName();
     }
 
     protected int getCollectedItems() {
@@ -339,7 +347,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
     }
 
     protected float getTimeUsed() {
-        return 0f;
+        return levelTime;
     }
 
     @Override
