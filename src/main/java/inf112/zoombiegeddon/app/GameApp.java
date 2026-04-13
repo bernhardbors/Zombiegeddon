@@ -49,7 +49,7 @@ public class GameApp extends Game {
     public JsonLeaderboardRepository leaderboardRepository;
     public ScoreCalculator scoreCalculator;
     public LeaderboardController leaderboardController;
-    public String currentPlayerName = "Player";
+    public String currentPlayerName;
 
     /**
      * Initializes the core components of the application.

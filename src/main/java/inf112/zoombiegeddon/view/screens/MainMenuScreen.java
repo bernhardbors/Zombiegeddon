@@ -41,11 +41,12 @@ public class MainMenuScreen extends AbstractScreen {
         }
 
         formatText("Zoombiegeddon", Color.WHITE, 6f);
-        table.getCell(table.getChildren().peek()).expandY().top().padTop(0);
+        table.getCell(table.getChildren().peek()).expandY().top().padTop(-70);
+        table.row().padTop(5);
 
-        TextField nameField = new TextField(app.getCurrentPlayerName(), app.skin);
-        nameField.setMessageText("Enter player name");
-        table.add(nameField).width(buttonWidth).height(buttonHeight).pad(10).row();
+        TextField nameField = new TextField("", app.skin);
+        nameField.setMessageText("Skriv inn navnet ditt");
+        table.add(nameField).width(buttonWidth).height(buttonHeight).padBottom(250).row();
 
         UIUtils.addButton("Start", app.skin, table, buttonWidth, buttonHeight,
                 () -> {
