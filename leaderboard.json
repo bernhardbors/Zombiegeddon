@@ -4,42 +4,12 @@ leaderboards: {
 	level1: [
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Player
-			boardId: level1
-			score: 4500
-			livesLeft: 3
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: Theo
 			boardId: level1
 			score: 4200
 			collectedItems: 8
 			livesLeft: 2
 			timeUsed: 43.2
-		}
-	]
-	level2: [
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Player
-			boardId: level2
-			score: 4000
-			livesLeft: 2
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Player
-			boardId: level2
-			score: 4000
-			livesLeft: 2
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Player
-			boardId: level2
-			score: 4000
-			livesLeft: 2
 		}
 	]
 }
