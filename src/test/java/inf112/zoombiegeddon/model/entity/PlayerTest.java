@@ -106,7 +106,7 @@ public class PlayerTest extends AbstractEntityTest {
         player.hitEnemy(enemy, false);
         assertEquals(2, player.getHealth());
 
-        //When the playerhits the enemy from above, the player should not take damage
+        //When the player hits the enemy from above, the player should not take damage
         player.hitEnemy(enemy, true);
         assertEquals(2, player.getHealth());
 
