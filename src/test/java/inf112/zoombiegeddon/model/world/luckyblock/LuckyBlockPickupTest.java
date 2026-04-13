@@ -1,4 +1,4 @@
-package inf112.zoombiegeddon.model.world;
+package inf112.zoombiegeddon.model.world.luckyblock;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -8,14 +8,12 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import inf112.zoombiegeddon.AbstractLibGDXTest;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
-import inf112.zoombiegeddon.model.world.luckyblock.LuckyBlock;
 import inf112.zoombiegeddon.model.world.physics.WorldPhysics;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

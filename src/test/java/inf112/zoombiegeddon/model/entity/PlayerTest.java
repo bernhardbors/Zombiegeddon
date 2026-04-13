@@ -1,5 +1,6 @@
 package inf112.zoombiegeddon.model.entity;
 
+import com.badlogic.gdx.graphics.Color;
 import inf112.zoombiegeddon.model.entity.enemies.Enemy;
 import inf112.zoombiegeddon.view.levels.AbstractLevel;
 import org.junit.jupiter.api.BeforeEach;
@@ -77,6 +78,11 @@ public class PlayerTest extends AbstractEntityTest {
         player.heal(3);
         assertEquals(3, player.getHealth());
 
+        player.update(1.2f);
+        player.takeDamage(2);
+        player.heal(4);
+        assertEquals(3, player.getHealth());
+
     }
 
     @Test
@@ -136,5 +142,71 @@ public class PlayerTest extends AbstractEntityTest {
     void testGetAnimationHandler() {
         assertEquals(mockedAnims, player.getAnimationHandler());
     }
+
+    @Test
+    void testApplySpeedBoost() {
+        player.applySpeedBoost(2f, 4f);
+        assertEquals(2f, player.getActiveSpeedMultiplier());
+
+
+        player.applySpeedBoost(0.5f, 4f);
+        assertEquals(1.0f, player.getActiveSpeedMultiplier());
+
+        //After player has had the boost for given duration, the speedMultiplier
+        //becomes 1.0f again.
+        player.applySpeedBoost(2f, 1f);
+        player.update(1.2f);
+        assertEquals(1.0f, player.getActiveSpeedMultiplier());
+
+
+    }
+
+    @Test
+    void testTriggerPickupHasVisualEffectColor() {
+        player.triggerPickupVisualEffect(2f, null);
+
+        //Yellow should be RGB: 1, 1, 0
+        assertEquals(1.0f, player.getPickupFxColorR());
+        assertEquals(1.0f, player.getPickupFxColorG());
+        assertEquals(0.0f, player.getPickupFxColorB());
+
+        //See if the color is set correctly
+        player.triggerPickupVisualEffect(2f, Color.WHITE);
+        assertEquals(1.0f, player.getPickupFxColorR());
+        assertEquals(1.0f, player.getPickupFxColorG());
+        assertEquals(1.0f, player.getPickupFxColorB());
+
+        //See if the color does not get set back to yellow after you
+        //have set it to something else
+        player.triggerPickupVisualEffect(2f, null);
+        assertEquals(1.0f, player.getPickupFxColorR());
+        assertEquals(1.0f, player.getPickupFxColorG());
+        assertEquals(1.0f, player.getPickupFxColorB());
+    }
+
+    @Test
+    void testHasPickupVisualEffect() {
+        player.triggerPickupVisualEffect(1f, null);
+        player.update(0.2f);
+        assertTrue(player.hasPickupVisualEffect());
+
+        player.update(1.2f);
+        assertFalse(player.hasPickupVisualEffect());
+    }
+
+    @Test
+    void testGetPickupFxIntensity() {
+        player.triggerPickupVisualEffect(1.0f, null);
+
+        player.update(0.8f);
+        //Added delta because of rounding issues
+        assertEquals(0.2f, player.getPickupFxIntensity(), 0.001f);
+
+        player.update(1.2f);
+        assertEquals(0.0f, player.getPickupFxIntensity());
+
+    }
+
+
 
 }
