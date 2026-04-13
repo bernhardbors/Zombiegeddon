@@ -77,6 +77,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
     public static final float viewportWidth = 50.0f;
     public static final float viewportHeight = 30.0f;
     public Texture healthbar;
+    protected float levelTime = 0f;
 
     /**
      * Constructs a new abstract level with shared rendering and physics setup.
@@ -161,6 +162,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
     @Override
     public void update(float delta) {
         physics.update(delta);
+        levelTime += delta;
 
         if (player != null) {
             player.update(delta);
@@ -170,8 +172,6 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
             }
 
             if (player.inGoal()) {
-                System.out.println("Registering leaderboard name: " + getPlayerName());
-
                 app.leaderboardController.registerLevelCompletion(
                         getLevelId(),
                         getPlayerName(),
@@ -347,7 +347,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
     }
 
     protected float getTimeUsed() {
-        return 0f;
+        return levelTime;
     }
 
     @Override

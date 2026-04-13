@@ -4,293 +4,48 @@ leaderboards: {
 	level1: [
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Player
+			playerName: Phil Foden
 			boardId: level1
-			score: 4500
+			score: 4167
 			collectedItems: 0
 			livesLeft: 3
-			timeUsed: 0
+			timeUsed: 33.380077
 		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Player
+			playerName: Diddy
 			boardId: level1
-			score: 4500
+			score: 4160
 			collectedItems: 0
 			livesLeft: 3
-			timeUsed: 0
+			timeUsed: 34.088806
 		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: 67
+			playerName: Ole Saeter
 			boardId: level1
-			score: 4500
+			score: 4159
 			collectedItems: 0
 			livesLeft: 3
-			timeUsed: 0
+			timeUsed: 34.192066
 		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: skjerm
+			playerName: Alexander Arnold
 			boardId: level1
-			score: 4500
+			score: 4136
 			collectedItems: 0
 			livesLeft: 3
-			timeUsed: 0
+			timeUsed: 36.415977
 		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: Harry Maguire
 			boardId: level1
-			score: 4500
+			score: 4122
 			collectedItems: 0
 			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: HARRY
-			boardId: level1
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: HARRYMAGUIRE
-			boardId: level1
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: HARRRRY MAGUIQRE
-			boardId: level1
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Trent alex arnold
-			boardId: level1
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: 677777
-			boardId: level1
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Harry Maguire
-			boardId: level1
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Harry
-			boardId: level1
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: harry
-			boardId: level1
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: HARRY MAGUIRE
-			boardId: level1
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: HARRYMAHUIRE
-			boardId: level1
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: harald
-			boardId: level1
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: ha
-			boardId: level1
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Harry Maguiore
-			boardId: level1
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: HARRY MAGUIRE
-			boardId: level1
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Theo
-			boardId: level1
-			score: 4200
-			collectedItems: 8
-			livesLeft: 2
-			timeUsed: 43.2
-		}
-	]
-	level2: [
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: a
-			boardId: level2
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: ha
-			boardId: level2
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: a
-			boardId: level2
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Player
-			boardId: level2
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Player
-			boardId: level2
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Player
-			boardId: level2
-			score: 4500
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Player
-			boardId: level2
-			score: 4000
-			collectedItems: 0
-			livesLeft: 2
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Player
-			boardId: level2
-			score: 4000
-			collectedItems: 0
-			livesLeft: 2
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Player
-			boardId: level2
-			score: 4000
-			collectedItems: 0
-			livesLeft: 2
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Player
-			boardId: level2
-			score: 3500
-			collectedItems: 0
-			livesLeft: 1
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Harry Maguire
-			boardId: level2
-			score: 3500
-			collectedItems: 0
-			livesLeft: 1
-			timeUsed: 0
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Player
-			boardId: level2
-			score: 3500
-			collectedItems: 0
-			livesLeft: 1
-			timeUsed: 0
+			timeUsed: 37.800148
 		}
 	]
 }
