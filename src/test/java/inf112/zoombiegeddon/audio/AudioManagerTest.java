@@ -42,6 +42,7 @@ public class AudioManagerTest {
 
     @Test
     void testSetMuted() {
+        manager.setMuted(true);
 
 
     }

@@ -293,11 +293,7 @@ public class Player extends Entity implements IDamageable {
 
     @Override
     public void heal(int amount) {
-        this.HP += (int) amount;
-        if (this.HP >= maxHP) {
-            this.HP = maxHP;
-        }
-
+        this.HP = Math.min(this.HP + amount, maxHP);
     }
 
     /**
