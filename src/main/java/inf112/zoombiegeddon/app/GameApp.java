@@ -120,9 +120,15 @@ public class GameApp extends Game {
      * Defaults to 1280x720 if no preferences are found.
      */
     private void setResolutionOnStartup() {
-        int width = prefs.getInteger("width", 1280);
-        int height = prefs.getInteger("height", 720);
-        Gdx.graphics.setWindowedMode(width, height);
+        int width = prefs.getInteger(AssetConstants.PREF_WIDTH, 1280);
+        int height = prefs.getInteger(AssetConstants.PREF_HEIGHT, 720);
+        boolean fullscreen = prefs.getBoolean(AssetConstants.PREF_FULLSCREEN, false);
+
+        if (fullscreen) {
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        } else {
+            Gdx.graphics.setWindowedMode(width, height);
+        }
     }
 
     /**

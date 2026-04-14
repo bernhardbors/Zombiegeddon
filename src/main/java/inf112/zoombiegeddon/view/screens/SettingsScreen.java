@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -53,6 +54,18 @@ public class SettingsScreen extends AbstractScreen {
 
         UIUtils.addSelectBox("Resolutions:", resolutions, app.skin, table, buttonWidth, buttonHeight, this::changeResolution)
                 .setSelected(savedRes);
+
+        table.row().padTop(20);
+
+        CheckBox fullscreenCheckBox = new CheckBox(" Fullscreen", app.skin);
+        fullscreenCheckBox.setChecked(app.prefs.getBoolean(AssetConstants.PREF_FULLSCREEN, false));
+        fullscreenCheckBox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                setFullscreen(fullscreenCheckBox.isChecked());
+            }
+        });
+        table.add(fullscreenCheckBox).left().row();
 
         table.row().padTop(50);
 
@@ -103,20 +116,37 @@ public class SettingsScreen extends AbstractScreen {
             int width = Integer.parseInt(parts[0].trim());
             int height = Integer.parseInt(parts[1].trim());
 
-            Gdx.graphics.setWindowedMode(width, height);
-
             app.prefs.putInteger(AssetConstants.PREF_WIDTH, width);
             app.prefs.putInteger(AssetConstants.PREF_HEIGHT, height);
             app.prefs.putString(AssetConstants.PREF_RES_STRING, resolution);
             app.prefs.flush();
 
-            stage.getViewport().update(width, height, true);
+            if (!app.prefs.getBoolean(AssetConstants.PREF_FULLSCREEN, false)) {
+                Gdx.graphics.setWindowedMode(width, height);
+                stage.getViewport().update(width, height, true);
+            }
 
             table.invalidateHierarchy();
 
         } catch (Exception e) {
             Gdx.app.error("Settings", "Kunne ikke endre oppløsning: " + resolution);
         }
+    }
+
+    private void setFullscreen(boolean fullscreen) {
+        app.prefs.putBoolean(AssetConstants.PREF_FULLSCREEN, fullscreen);
+        app.prefs.flush();
+
+        if (fullscreen) {
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        } else {
+            int width = app.prefs.getInteger(AssetConstants.PREF_WIDTH, 1280);
+            int height = app.prefs.getInteger(AssetConstants.PREF_HEIGHT, 720);
+            Gdx.graphics.setWindowedMode(width, height);
+        }
+
+        stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+        table.invalidateHierarchy();
     }
 
 
