@@ -35,10 +35,10 @@ public class SettingsScreen extends AbstractScreen {
     public void buildScreen() {
         clearTable();
 
-        app.audio.playMusic(MusicTrack.MENU, true);
+        app.getAudio().playMusic(MusicTrack.MENU, true);
 
-        if (app.manager.isLoaded(AssetConstants.BG_GAME)) {
-            Texture background = app.manager.get(AssetConstants.BG_GAME, Texture.class);
+        if (app.getAssets().getManager().isLoaded(AssetConstants.BG_GAME)) {
+            Texture background = app.getAssets().getManager().get(AssetConstants.BG_GAME, Texture.class);
             table.setBackground(new TextureRegionDrawable(background));
         }
         formatText("SETTINGS", Color.WHITE, 2f);
@@ -48,23 +48,23 @@ public class SettingsScreen extends AbstractScreen {
         String[] resolutions = {"1280 x 720", "1366 x 768", "1600 x 900", "1920 x 1080", "2560 x 1440", "3840 x 2160"};
 
 
-        String savedRes = app.prefs.getString(AssetConstants.PREF_RES_STRING, resolutions[0]);
+        String savedRes = app.getPrefs().getString(AssetConstants.PREF_RES_STRING, resolutions[0]);
 
 
-        UIUtils.addSelectBox("Resolutions:", resolutions, app.skin, table, buttonWidth, buttonHeight, this::changeResolution)
+        UIUtils.addSelectBox("Resolutions:", resolutions, app.getAssets().getSkin(), table, buttonWidth, buttonHeight, this::changeResolution)
                 .setSelected(savedRes);
 
         table.row().padTop(50);
 
         formatText("Music Volume", Color.WHITE, 1.2f);
 
-        Slider musicSlider = new Slider(0f, 1f, 0.01f, false, app.skin);
-        musicSlider.setValue(app.audio.getMusicVolume());
+        Slider musicSlider = new Slider(0f, 1f, 0.01f, false, app.getAssets().getSkin());
+        musicSlider.setValue(app.getAudio().getMusicVolume());
 
         musicSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                app.audio.setMusicVolume(musicSlider.getValue());
+                app.getAudio().setMusicVolume(musicSlider.getValue());
             }
         });
 
@@ -75,20 +75,20 @@ public class SettingsScreen extends AbstractScreen {
 
         formatText("SFX Volume", Color.WHITE, 1.2f);
 
-        Slider sfxSlider = new Slider(0f, 1f, 0.01f, false, app.skin);
-        sfxSlider.setValue(app.audio.getSfxVolume());
+        Slider sfxSlider = new Slider(0f, 1f, 0.01f, false, app.getAssets().getSkin());
+        sfxSlider.setValue(app.getAudio().getSfxVolume());
 
         sfxSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                app.audio.setSfxVolume(sfxSlider.getValue());
+                app.getAudio().setSfxVolume(sfxSlider.getValue());
             }
         });
 
         table.add(sfxSlider).width(buttonWidth).row();
         table.row().padTop(30);
 
-        UIUtils.addButton("Back", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("Back", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
                 () -> app.setScreen(returnScreen));
     }
 
@@ -105,10 +105,10 @@ public class SettingsScreen extends AbstractScreen {
 
             Gdx.graphics.setWindowedMode(width, height);
 
-            app.prefs.putInteger(AssetConstants.PREF_WIDTH, width);
-            app.prefs.putInteger(AssetConstants.PREF_HEIGHT, height);
-            app.prefs.putString(AssetConstants.PREF_RES_STRING, resolution);
-            app.prefs.flush();
+            app.getPrefs().putInteger(AssetConstants.PREF_WIDTH, width);
+            app.getPrefs().putInteger(AssetConstants.PREF_HEIGHT, height);
+            app.getPrefs().putString(AssetConstants.PREF_RES_STRING, resolution);
+            app.getPrefs().flush();
 
             stage.getViewport().update(width, height, true);
 

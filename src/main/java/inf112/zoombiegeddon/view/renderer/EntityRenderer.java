@@ -2,6 +2,7 @@ package inf112.zoombiegeddon.view.renderer;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.Player;
@@ -30,15 +31,17 @@ public class EntityRenderer  {
         float y = entity.getPosition().y - entity.getScaledSpriteDimensions() / 2f;
 
         Player playerEntity = entity instanceof Player ? (Player) entity : null;
+        ShaderProgram shader = app.getAssets().getPickupEffectShader();
+
         boolean usePickupShader = playerEntity != null
                 && playerEntity.hasPickupVisualEffect()
-                && app.pickupEffectShader != null;
+                && shader != null;
 
         if (usePickupShader) {
-            batch.setShader(app.pickupEffectShader);
-            app.pickupEffectShader.setUniformf("u_time", playerEntity.getStateTime());
-            app.pickupEffectShader.setUniformf("u_intensity", playerEntity.getPickupFxIntensity());
-            app.pickupEffectShader.setUniformf(
+            batch.setShader(shader);
+            shader.setUniformf("u_time", playerEntity.getStateTime());
+            shader.setUniformf("u_intensity", playerEntity.getPickupFxIntensity());
+            shader.setUniformf(
                     "u_pickupColor",
                     playerEntity.getPickupFxColorR(),
                     playerEntity.getPickupFxColorG(),

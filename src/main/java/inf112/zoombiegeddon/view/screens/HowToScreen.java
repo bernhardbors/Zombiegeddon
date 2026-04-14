@@ -27,10 +27,10 @@ public class HowToScreen extends AbstractScreen {
     public void buildScreen() {
        clearTable();
 
-        app.audio.playMusic(MusicTrack.MENU, true);
+        app.getAudio().playMusic(MusicTrack.MENU, true);
 
-        if (app.manager.isLoaded(AssetConstants.BG_SKY)) {
-            Texture background = app.manager.get(AssetConstants.BG_SKY, Texture.class);
+        if (app.getAssets().getManager().isLoaded(AssetConstants.BG_SKY)) {
+            Texture background = app.getAssets().getManager().get(AssetConstants.BG_SKY, Texture.class);
             table.setBackground(new TextureRegionDrawable(background));
         }
 

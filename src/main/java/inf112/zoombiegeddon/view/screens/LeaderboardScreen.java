@@ -34,7 +34,7 @@ public class LeaderboardScreen extends AbstractScreen {
         formatText("Level: " + levelId, Color.LIGHT_GRAY, 2f);
         table.row().padTop(20);
 
-        Leaderboard leaderboard = app.leaderboardManager.getLeaderboard(levelId);
+        Leaderboard leaderboard = app.getLeaderboardManager().getLeaderboard(levelId);
         List<LeaderboardEntry> entries = leaderboard.getTopEntries(3);
 
         if (entries.isEmpty()) {
@@ -69,11 +69,11 @@ public class LeaderboardScreen extends AbstractScreen {
         table.row().padTop(25);
 
         if (nextScreenType == ScreenType.NEXT_LEVEL) {
-            UIUtils.addButton("Continue", app.skin, table, buttonWidth, buttonHeight,
+            UIUtils.addButton("Continue", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
                     () -> app.setScreen(new NextLevelScreen(app)));
         }
 
-        UIUtils.addButton("Main Menu", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("Main Menu", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new MainMenuScreen(app)));
     }
 
