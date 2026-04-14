@@ -88,7 +88,7 @@ public class LoadingScreen extends AbstractScreen {
             if (!isFinished) {
                 isFinished = true;
                 finalizeLoading();
-                app.setScreen(new StoryScreen(app));
+                app.setScreen(new SplashScreen(app));
             }
         } else {
             int progress = (int) (app.manager.getProgress() * 100);

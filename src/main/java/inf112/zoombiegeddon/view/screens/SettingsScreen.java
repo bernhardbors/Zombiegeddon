@@ -101,7 +101,7 @@ public class SettingsScreen extends AbstractScreen {
         table.add(sfxSlider).width(buttonWidth).row();
         table.row().padTop(30);
 
-        UIUtils.addButton("Back", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("BACK", app.skin, table, buttonWidth, buttonHeight,
                 () -> app.setScreen(returnScreen));
     }
 

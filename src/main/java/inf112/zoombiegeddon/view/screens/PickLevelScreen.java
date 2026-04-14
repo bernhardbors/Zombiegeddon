@@ -46,19 +46,31 @@ public class PickLevelScreen extends AbstractScreen {
         nameField.setMessageText("Skriv inn navnet ditt");
         table.add(nameField).width(buttonWidth).height(buttonHeight).padBottom(280).row();
 
-        UIUtils.addButton("Level 1", skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("LEVEL 1", skin, table, buttonWidth, buttonHeight,
                 () -> {
                     app.setCurrentPlayerName(nameField.getText());
                     app.setScreen(new Level1(app));
                 });
 
-        UIUtils.addButton("Level 2", skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("LEVEL 2", skin, table, buttonWidth, buttonHeight,
                 () -> {
                     app.setCurrentPlayerName(nameField.getText());
                     app.setScreen(new Level2(app));
                 });
 
-        UIUtils.addButton("Back", skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("PLACEHOLDER", skin, table, buttonWidth, buttonHeight,
+                () -> {
+                    app.setCurrentPlayerName(nameField.getText());
+                    //app.setScreen(new );
+                });
+
+        UIUtils.addButton("PLACEHOLDER", skin, table, buttonWidth, buttonHeight,
+                () -> {
+                    app.setCurrentPlayerName(nameField.getText());
+                    //app.setScreen(new );
+                });
+
+        UIUtils.addButton("BACK", skin, table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new MainMenuScreen(app)));
     }
 }

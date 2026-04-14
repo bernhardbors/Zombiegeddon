@@ -45,16 +45,19 @@ public class MainMenuScreen extends AbstractScreen {
         table.row().padTop(5);
 
 
-        UIUtils.addButton("Start", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("STORY MODE", app.skin, table, buttonWidth, buttonHeight,
+                () -> app.setScreen(new StoryScreen(app)));
+
+        UIUtils.addButton("LEVELS", app.skin, table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new PickLevelScreen(app)));
 
-        UIUtils.addButton("How To Play", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("HOW TO PLAY", app.skin, table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new HowToScreen(app)));
 
-        UIUtils.addButton("Settings", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("SETTINGS", app.skin, table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new SettingsScreen(app, this)));
 
-        UIUtils.addButton("Exit", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("EXIT", app.skin, table, buttonWidth, buttonHeight,
                 () -> Gdx.app.exit());
     }
 

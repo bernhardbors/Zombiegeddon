@@ -15,6 +15,7 @@ import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.audio.Sfx;
+import inf112.zoombiegeddon.view.levels.Level1;
 
 public class StoryScreen extends AbstractScreen {
 
@@ -54,7 +55,7 @@ public class StoryScreen extends AbstractScreen {
         table.add(storyImage).center();
 
         if (STORY_IMAGES.length == 0) {
-            goToMainMenu();
+            goToLevel1();
             return;
         }
 
@@ -66,7 +67,7 @@ public class StoryScreen extends AbstractScreen {
         String storyImagePath = STORY_IMAGES[storyIndex];
 
         if (!app.manager.isLoaded(storyImagePath)) {
-            goToMainMenu();
+            goToLevel1();
             return;
         }
 
@@ -99,7 +100,7 @@ public class StoryScreen extends AbstractScreen {
         }
         currentStoryIndex++;
         if (currentStoryIndex >= STORY_IMAGES.length) {
-            goToMainMenu();
+            goToLevel1();
             return;
         }
         showSlide(currentStoryIndex);
@@ -119,7 +120,7 @@ public class StoryScreen extends AbstractScreen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
-                    goToMainMenu();
+                    goToLevel1();
                 } else {
                     manualAdvance();
                 }
@@ -128,7 +129,7 @@ public class StoryScreen extends AbstractScreen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (button == Input.Buttons.RIGHT) {
-                    goToMainMenu();
+                    goToLevel1();
                 } else {
                     manualAdvance();
                 }
@@ -137,7 +138,7 @@ public class StoryScreen extends AbstractScreen {
         });
     }
 
-    private void goToMainMenu() {
+    private void goToLevel1() {
         if (finished) {
             return;
         }
@@ -146,7 +147,7 @@ public class StoryScreen extends AbstractScreen {
         if (storyImage != null) {
             storyImage.clearActions();
         }
-        app.setScreen(new MainMenuScreen(app));
+        app.setScreen(new Level1(app));
     }
 
     @Override
