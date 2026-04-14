@@ -12,7 +12,7 @@ public class GoalActionTest extends AbstractEntityTest {
     private Player player;
 
     @Test
-    public void testGoalActionSetsPlayerInGoalToTrue() {
+    void testGoalActionSetsPlayerInGoalToTrue() {
         goalAction = new GoalAction();
         player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
 

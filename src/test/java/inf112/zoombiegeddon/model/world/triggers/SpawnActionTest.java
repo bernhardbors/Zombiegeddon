@@ -10,7 +10,7 @@ public class SpawnActionTest extends AbstractEntityTest {
     private Player player;
 
     @Test
-    public void testSpawnActionSetsCorrectPosition() {
+    void testSpawnActionSetsCorrectPosition() {
         spawnAction = new SpawnAction(10, 10);
         player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
 

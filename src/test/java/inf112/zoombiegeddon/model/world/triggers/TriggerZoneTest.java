@@ -66,35 +66,35 @@ public class TriggerZoneTest extends AbstractEntityTest {
 
     }
     @Test
-    public void testTriggerZoneActivatesSigns() {
+    void testTriggerZoneActivatesSigns() {
         playerBounds = new Rectangle(0,0, 1 * scale, 1 * scale);
         String result = triggerZone.update(playerBounds, player);
         assertTrue(testText.equals(result), "Signs should return text");
     }
 
     @Test
-    public void testTriggerZoneActivatesGoals() {
+    void testTriggerZoneActivatesGoals() {
         playerBounds = new Rectangle(20 * scale, 20 * scale, 1 * scale, 1 * scale);
         triggerZone.update(playerBounds, player);
         assertTrue(player.inGoal(), "Player should have been put as inGoal = true");
 
     }
     @Test
-    public void testTriggerZoneActivatesKillZone() {
+    void testTriggerZoneActivatesKillZone() {
         playerBounds = new Rectangle(40 * scale, 40 * scale, 1 * scale, 1 * scale);
         triggerZone.update(playerBounds, player);
         assertTrue(player.isDead(), "Player should be put as isDead = true");
 
     }
     @Test
-    public void testTriggerZoneActivatesNewSpawn() {
+    void testTriggerZoneActivatesNewSpawn() {
         playerBounds = new Rectangle(60 * scale, 60 * scale, 1 * scale, 1 * scale);
         triggerZone.update(playerBounds, mockedPlayer);
         verify(mockedPlayer).setPosition(100f * scale, 100f * scale);
 
     }
     @Test
-    public void testTriggerZoneReturnsNullWhenNotActivated() {
+    void testTriggerZoneReturnsNullWhenNotActivated() {
         playerBounds = new Rectangle(100 * scale, 100 * scale, 1 * scale, 1 * scale);
         assertNull(triggerZone.update(playerBounds, player));
     }

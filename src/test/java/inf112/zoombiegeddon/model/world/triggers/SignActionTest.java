@@ -11,7 +11,7 @@ public class SignActionTest extends AbstractEntityTest {
     private Player player;
 
     @Test
-    public void testSignActionReturnsCorrectText() {
+    void testSignActionReturnsCorrectText() {
         String testText = "Test123";
         signAction = new SignAction(testText);
         player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
