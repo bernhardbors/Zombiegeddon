@@ -48,12 +48,14 @@ public class PickLevelScreen extends AbstractScreen {
 
         UIUtils.addButton("LEVEL 1", skin, table, buttonWidth, buttonHeight,
                 () -> {
+                    app.finishStoryRun();
                     app.setCurrentPlayerName(nameField.getText());
                     app.setScreen(new Level1(app));
                 });
 
         UIUtils.addButton("LEVEL 2", skin, table, buttonWidth, buttonHeight,
                 () -> {
+                    app.finishStoryRun();
                     app.setCurrentPlayerName(nameField.getText());
                     app.setScreen(new Level2(app));
                 });
@@ -71,6 +73,9 @@ public class PickLevelScreen extends AbstractScreen {
                 });
 
         UIUtils.addButton("BACK", skin, table, buttonWidth, buttonHeight,
-                () -> app.setScreen(new MainMenuScreen(app)));
+                () -> {
+                    app.finishStoryRun();
+                    app.setScreen(new MainMenuScreen(app));
+                });
     }
 }

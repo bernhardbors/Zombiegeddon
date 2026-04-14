@@ -147,6 +147,7 @@ public class StoryScreen extends AbstractScreen {
         if (storyImage != null) {
             storyImage.clearActions();
         }
+        app.startStoryTimer();
         app.setScreen(new Level1(app));
     }
 

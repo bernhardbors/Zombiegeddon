@@ -28,6 +28,8 @@ import inf112.zoombiegeddon.view.screens.LoadingScreen;
  */
 public class GameApp extends Game {
 
+    public static final String STORY_LEADERBOARD_ID = "storymode";
+
     // Public shared resources
     public SpriteBatch batch;
     public AssetManager manager;
@@ -50,6 +52,9 @@ public class GameApp extends Game {
     public ScoreCalculator scoreCalculator;
     public LeaderboardController leaderboardController;
     public String currentPlayerName;
+    public boolean storyModeActive;
+    public boolean storyTimerActive;
+    public float storyTimeCarrySeconds;
 
     /**
      * Initializes the core components of the application.
@@ -152,6 +157,36 @@ public class GameApp extends Game {
         } else {
             this.currentPlayerName = currentPlayerName.trim();
         }
+    }
+
+    public void startStoryRun(String playerName) {
+        setCurrentPlayerName(playerName);
+        storyModeActive = true;
+        storyTimerActive = false;
+        storyTimeCarrySeconds = 0f;
+    }
+
+    public void startStoryTimer() {
+        storyModeActive = true;
+        storyTimerActive = true;
+    }
+
+    public void carryStoryTime(float elapsedSeconds) {
+        storyTimeCarrySeconds = Math.max(0f, elapsedSeconds);
+    }
+
+    public float getStoryElapsedSeconds(float currentLevelTime) {
+        if (storyModeActive && storyTimerActive) {
+            return storyTimeCarrySeconds + currentLevelTime;
+        }
+
+        return currentLevelTime;
+    }
+
+    public void finishStoryRun() {
+        storyModeActive = false;
+        storyTimerActive = false;
+        storyTimeCarrySeconds = 0f;
     }
 
 }

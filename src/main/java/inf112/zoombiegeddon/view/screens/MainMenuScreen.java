@@ -31,6 +31,7 @@ public class MainMenuScreen extends AbstractScreen {
     public void buildScreen() {
 
         clearTable();
+        app.finishStoryRun();
 
         app.audio.playMusic(MusicTrack.MENU, true);
 
@@ -45,7 +46,7 @@ public class MainMenuScreen extends AbstractScreen {
 
 
         UIUtils.addButton("STORY MODE", app.skin, table, buttonWidth, buttonHeight,
-                () -> app.setScreen(new StoryScreen(app)));
+        () -> app.setScreen(new StoryNameScreen(app)));
 
         UIUtils.addButton("LEVELS", app.skin, table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new PickLevelScreen(app)));
@@ -55,6 +56,9 @@ public class MainMenuScreen extends AbstractScreen {
 
         UIUtils.addButton("SETTINGS", app.skin, table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new SettingsScreen(app, this)));
+
+        UIUtils.addButton("SCOREBOARD", app.skin, table, buttonWidth, buttonHeight,
+            () -> app.setScreen(new LeaderboardScreen(app, GameApp.STORY_LEADERBOARD_ID, LeaderboardScreen.ScreenType.MAIN_MENU)));
 
         UIUtils.addButton("EXIT", app.skin, table, buttonWidth, buttonHeight,
                 () -> Gdx.app.exit());

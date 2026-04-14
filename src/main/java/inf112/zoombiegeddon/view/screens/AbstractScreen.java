@@ -66,7 +66,7 @@ public abstract class AbstractScreen implements IScreen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.DARK_GRAY);
-        table.debug();
+        //table.debug();
         stage.act(Math.min(delta, 1 / 30f));
         stage.draw();
     }
