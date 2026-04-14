@@ -37,25 +37,30 @@ public class SettingsScreen extends AbstractScreen {
 
     @Override
     public void buildScreen() {
+        if (app.manager.isLoaded(AssetConstants.BG_SKY)) {
+            Texture background = app.manager.get(AssetConstants.BG_SKY, Texture.class);
+            table.setBackground(new TextureRegionDrawable(background));
+        }
+
         clearTable();
         app.audio.playMusic(MusicTrack.MENU, true);
 
         table.defaults().pad(4f);
-        formatText("SETTINGS", Color.WHITE, 2f);
-        table.row().padTop(18f);
+
+        // Title in Gold for prominence
+        formatText("SETTINGS", Color.GOLD, 2.5f);
+        table.row().padTop(25f);
 
         float contentWidth = Math.max(buttonWidth * 1.5f, Gdx.graphics.getWidth() * 0.45f);
 
         Table contentTable = new Table();
         contentTable.defaults().left().pad(4f);
 
-
-        // --- DISPLAY SECTION ---
+        // --- DISPLAY SECTION (Cyan Theme) ---
         Table displaySection = createSectionTable();
-        addSectionTitle(displaySection, "Display");
+        addSectionTitle(displaySection, "VIDEO SETTINGS", Color.CYAN);
 
         String[] resolutions = {"1280 x 720", "1366 x 768", "1600 x 900", "1920 x 1080", "2560 x 1440", "3840 x 2160"};
-        String savedRes = app.prefs.getString(AssetConstants.PREF_RES_STRING, resolutions[0]);
 
         UIUtils.addSelectBox("Resolution", resolutions, app.skin, displaySection,
                 buttonWidth, buttonHeight, this::changeResolution);
@@ -63,9 +68,9 @@ public class SettingsScreen extends AbstractScreen {
         UIUtils.addCheckBox("Fullscreen", app.skin, displaySection,
                 app.prefs.getBoolean(AssetConstants.PREF_FULLSCREEN, false), this::setFullscreen);
 
-        // --- AUDIO SECTION ---
+        // --- AUDIO SECTION (Orange Theme) ---
         Table audioSection = createSectionTable();
-        addSectionTitle(audioSection, "Audio");
+        addSectionTitle(audioSection, "AUDIO SETTINGS", Color.ORANGE);
 
         UIUtils.addSlider("Music Volume", app.skin, audioSection,
                 app.audio.getMusicVolume(), 0f, 1f, 0.01f, app.audio::setMusicVolume);
@@ -75,11 +80,13 @@ public class SettingsScreen extends AbstractScreen {
 
         // --- ASSEMBLE ---
         contentTable.add(displaySection).growX().row();
-        contentTable.row().padTop(20f);
+        contentTable.row().padTop(30f); // More breathing room between sections
         contentTable.add(audioSection).growX().row();
 
         table.add(contentTable).width(contentWidth).expand().center().row();
 
+        // Back button in a distinct color or standard white
+        table.row().padTop(40f);
         UIUtils.addButton("BACK", app.skin, table, buttonWidth, buttonHeight,
                 () -> app.setScreen(returnScreen));
     }
@@ -90,11 +97,18 @@ public class SettingsScreen extends AbstractScreen {
         return section;
     }
 
-    private void addSectionTitle(Table section, String title) {
-        Label.LabelStyle style = new Label.LabelStyle(app.font, Color.WHITE);
+    /**
+     * Helper to create a consistent section title with color.
+     */
+    private void addSectionTitle(Table section, String title, Color color) {
+        Label.LabelStyle style = new Label.LabelStyle(app.font, color);
         Label sectionTitle = new Label(title, style);
-        sectionTitle.setFontScale(1.6f * (Gdx.graphics.getHeight() / 1080f));
-        section.add(sectionTitle).colspan(2).left().padTop(2f).padBottom(15f).row();
+
+        // Dynamic scaling based on screen height
+        float fontScale = 1.6f * (Gdx.graphics.getHeight() / 1080f);
+        sectionTitle.setFontScale(fontScale);
+
+        section.add(sectionTitle).colspan(2).left().padTop(5f).padBottom(15f).row();
     }
 
     /**
