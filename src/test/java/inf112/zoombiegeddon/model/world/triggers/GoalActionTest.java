@@ -1,12 +1,8 @@
 package inf112.zoombiegeddon.model.world.triggers;
 
-import inf112.zoombiegeddon.AbstractLibGDXTest;
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
 import inf112.zoombiegeddon.model.entity.Player;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

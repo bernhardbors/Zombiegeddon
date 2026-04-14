@@ -1,12 +1,7 @@
 package inf112.zoombiegeddon.model.world.triggers;
-
-import com.badlogic.gdx.math.Vector2;
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
 import inf112.zoombiegeddon.model.entity.Player;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 
 public class SpawnActionTest extends AbstractEntityTest {
