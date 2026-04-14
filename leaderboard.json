@@ -1,6 +1,17 @@
 {
 leaderboards: {
 	class: java.util.HashMap
+	storymode: [
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Player
+			boardId: storymode
+			score: 3553
+			collectedItems: 0
+			livesLeft: 2
+			timeUsed: 44.779922
+		}
+	]
 	level1: [
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry

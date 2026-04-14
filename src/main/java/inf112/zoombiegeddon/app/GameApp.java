@@ -28,6 +28,8 @@ import inf112.zoombiegeddon.view.screens.LoadingScreen;
  */
 public class GameApp extends Game {
 
+    public static final String STORY_LEADERBOARD_ID = "storymode";
+
     // Public shared resources
     public SpriteBatch batch;
     public AssetManager manager;
@@ -50,6 +52,9 @@ public class GameApp extends Game {
     public ScoreCalculator scoreCalculator;
     public LeaderboardController leaderboardController;
     public String currentPlayerName;
+    public boolean storyModeActive;
+    public boolean storyTimerActive;
+    public float storyTimeCarrySeconds;
 
     /**
      * Initializes the core components of the application.
@@ -120,9 +125,15 @@ public class GameApp extends Game {
      * Defaults to 1280x720 if no preferences are found.
      */
     private void setResolutionOnStartup() {
-        int width = prefs.getInteger("width", 1280);
-        int height = prefs.getInteger("height", 720);
-        Gdx.graphics.setWindowedMode(width, height);
+        int width = prefs.getInteger(AssetConstants.PREF_WIDTH, 1280);
+        int height = prefs.getInteger(AssetConstants.PREF_HEIGHT, 720);
+        boolean fullscreen = prefs.getBoolean(AssetConstants.PREF_FULLSCREEN, false);
+
+        if (fullscreen) {
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        } else {
+            Gdx.graphics.setWindowedMode(width, height);
+        }
     }
 
     /**
@@ -146,6 +157,36 @@ public class GameApp extends Game {
         } else {
             this.currentPlayerName = currentPlayerName.trim();
         }
+    }
+
+    public void startStoryRun(String playerName) {
+        setCurrentPlayerName(playerName);
+        storyModeActive = true;
+        storyTimerActive = false;
+        storyTimeCarrySeconds = 0f;
+    }
+
+    public void startStoryTimer() {
+        storyModeActive = true;
+        storyTimerActive = true;
+    }
+
+    public void carryStoryTime(float elapsedSeconds) {
+        storyTimeCarrySeconds = Math.max(0f, elapsedSeconds);
+    }
+
+    public float getStoryElapsedSeconds(float currentLevelTime) {
+        if (storyModeActive && storyTimerActive) {
+            return storyTimeCarrySeconds + currentLevelTime;
+        }
+
+        return currentLevelTime;
+    }
+
+    public void finishStoryRun() {
+        storyModeActive = false;
+        storyTimerActive = false;
+        storyTimeCarrySeconds = 0f;
     }
 
 }

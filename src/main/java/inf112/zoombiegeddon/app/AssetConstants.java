@@ -26,6 +26,13 @@ public class AssetConstants {
     public static final String PREF_WIDTH = "width";
     public static final String PREF_HEIGHT = "height";
     public static final String PREF_RES_STRING = "resString";
+    public static final String PREF_FULLSCREEN = "fullscreen";
+
+    //Story Images
+    public static final String STORY_IMAGE_01 = "assets/Images/StoryImage1.png";
+    public static final String STORY_IMAGE_02 = "assets/Images/StoryImage2.png";
+    public static final String STORY_IMAGE_03 = "assets/Images/StoryImage3.png";
+    public static final String STORY_IMAGE_04 = "assets/Images/StoryImage4.png";
 
 }
 

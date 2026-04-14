@@ -48,8 +48,41 @@ public class UIUtils {
             }
         });
 
-        table.add(label).padRight(10);
-        table.add(selectBox).size(width, height).row();
+        table.add(label).width(150f).left();
+        table.add(selectBox).size(width, height).growX().row();
         return selectBox;
+    }
+    public static CheckBox addCheckBox(String name, Skin skin, Table table, boolean checked, java.util.function.Consumer<Boolean> action) {
+        Label label = new Label(name, skin);
+        CheckBox checkBox = new CheckBox("", skin);
+        checkBox.setChecked(checked);
+
+        checkBox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                action.accept(checkBox.isChecked());
+            }
+        });
+
+        table.add(label).width(150f).left();
+        table.add(checkBox).left().row();
+        return checkBox;
+    }
+
+    public static Slider addSlider(String name, Skin skin, Table table, float value, float min, float max, float step, java.util.function.Consumer<Float> action) {
+        Label label = new Label(name, skin);
+        Slider slider = new Slider(min, max, step, false, skin);
+        slider.setValue(value);
+
+        slider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                action.accept(slider.getValue());
+            }
+        });
+
+        table.add(label).left().row();
+        table.add(slider).growX().height(30f).padBottom(12f).row();
+        return slider;
     }
 }

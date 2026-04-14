@@ -66,7 +66,7 @@ public abstract class AbstractScreen implements IScreen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.DARK_GRAY);
-
+        //table.debug();
         stage.act(Math.min(delta, 1 / 30f));
         stage.draw();
     }
@@ -107,8 +107,8 @@ public abstract class AbstractScreen implements IScreen {
     }
 
     private void calculateButtonSize(){
-        this.buttonWidth = (float) Gdx.graphics.getWidth() / 5;
-        this.buttonHeight = (float) Gdx.graphics.getHeight() / 15;
+        this.buttonWidth = (float) Gdx.graphics.getWidth() / 7;
+        this.buttonHeight = (float) Gdx.graphics.getHeight() / 18;
     }
 
     /**

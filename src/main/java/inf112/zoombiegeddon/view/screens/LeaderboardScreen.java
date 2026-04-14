@@ -31,7 +31,8 @@ public class LeaderboardScreen extends AbstractScreen {
         formatText("Leaderboard", Color.WHITE, 4f);
         table.row().padTop(10);
 
-        formatText("Level: " + levelId, Color.LIGHT_GRAY, 2f);
+        String boardLabel = GameApp.STORY_LEADERBOARD_ID.equals(levelId) ? "Story Mode" : levelId;
+        formatText("Level: " + boardLabel, Color.LIGHT_GRAY, 2f);
         table.row().padTop(20);
 
         Leaderboard leaderboard = app.leaderboardManager.getLeaderboard(levelId);
@@ -74,7 +75,10 @@ public class LeaderboardScreen extends AbstractScreen {
         }
 
         UIUtils.addButton("Main Menu", app.skin, table, buttonWidth, buttonHeight,
-                () -> app.setScreen(new MainMenuScreen(app)));
+                () -> {
+                    app.finishStoryRun();
+                    app.setScreen(new MainMenuScreen(app));
+                });
     }
 
     @Override

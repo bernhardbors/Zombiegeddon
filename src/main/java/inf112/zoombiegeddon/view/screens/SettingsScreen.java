@@ -5,7 +5,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
@@ -33,63 +37,78 @@ public class SettingsScreen extends AbstractScreen {
 
     @Override
     public void buildScreen() {
-        clearTable();
-
-        app.audio.playMusic(MusicTrack.MENU, true);
-
-        if (app.manager.isLoaded(AssetConstants.BG_GAME)) {
-            Texture background = app.manager.get(AssetConstants.BG_GAME, Texture.class);
+        if (app.manager.isLoaded(AssetConstants.BG_SKY)) {
+            Texture background = app.manager.get(AssetConstants.BG_SKY, Texture.class);
             table.setBackground(new TextureRegionDrawable(background));
         }
-        formatText("SETTINGS", Color.WHITE, 2f);
-        table.row().pad(20);
 
+        clearTable();
+        app.audio.playMusic(MusicTrack.MENU, true);
+
+        table.defaults().pad(4f);
+
+        // Title in Gold for prominence
+        formatText("SETTINGS", Color.GOLD, 2.5f);
+        table.row().padTop(25f);
+
+        float contentWidth = Math.max(buttonWidth * 1.5f, Gdx.graphics.getWidth() * 0.45f);
+
+        Table contentTable = new Table();
+        contentTable.defaults().left().pad(4f);
+
+        // --- DISPLAY SECTION (Cyan Theme) ---
+        Table displaySection = createSectionTable();
+        addSectionTitle(displaySection, "VIDEO SETTINGS", Color.CYAN);
 
         String[] resolutions = {"1280 x 720", "1366 x 768", "1600 x 900", "1920 x 1080", "2560 x 1440", "3840 x 2160"};
 
+        UIUtils.addSelectBox("Resolution", resolutions, app.skin, displaySection,
+                buttonWidth, buttonHeight, this::changeResolution);
 
-        String savedRes = app.prefs.getString(AssetConstants.PREF_RES_STRING, resolutions[0]);
+        UIUtils.addCheckBox("Fullscreen", app.skin, displaySection,
+                app.prefs.getBoolean(AssetConstants.PREF_FULLSCREEN, false), this::setFullscreen);
 
+        // --- AUDIO SECTION (Orange Theme) ---
+        Table audioSection = createSectionTable();
+        addSectionTitle(audioSection, "AUDIO SETTINGS", Color.ORANGE);
 
-        UIUtils.addSelectBox("Resolutions:", resolutions, app.skin, table, buttonWidth, buttonHeight, this::changeResolution)
-                .setSelected(savedRes);
+        UIUtils.addSlider("Music Volume", app.skin, audioSection,
+                app.audio.getMusicVolume(), 0f, 1f, 0.01f, app.audio::setMusicVolume);
 
-        table.row().padTop(50);
+        UIUtils.addSlider("SFX Volume", app.skin, audioSection,
+                app.audio.getSfxVolume(), 0f, 1f, 0.01f, app.audio::setSfxVolume);
 
-        formatText("Music Volume", Color.WHITE, 1.2f);
+        // --- ASSEMBLE ---
+        contentTable.add(displaySection).growX().row();
+        contentTable.row().padTop(30f); // More breathing room between sections
+        contentTable.add(audioSection).growX().row();
 
-        Slider musicSlider = new Slider(0f, 1f, 0.01f, false, app.skin);
-        musicSlider.setValue(app.audio.getMusicVolume());
+        table.add(contentTable).width(contentWidth).expand().center().row();
 
-        musicSlider.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                app.audio.setMusicVolume(musicSlider.getValue());
-            }
-        });
-
-        table.add(musicSlider).width(buttonWidth).row();
-        table.row().padTop(30);
-
-        table.row().padTop(30);
-
-        formatText("SFX Volume", Color.WHITE, 1.2f);
-
-        Slider sfxSlider = new Slider(0f, 1f, 0.01f, false, app.skin);
-        sfxSlider.setValue(app.audio.getSfxVolume());
-
-        sfxSlider.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                app.audio.setSfxVolume(sfxSlider.getValue());
-            }
-        });
-
-        table.add(sfxSlider).width(buttonWidth).row();
-        table.row().padTop(30);
-
-        UIUtils.addButton("Back", app.skin, table, buttonWidth, buttonHeight,
+        // Back button in a distinct color or standard white
+        table.row().padTop(40f);
+        UIUtils.addButton("BACK", app.skin, table, buttonWidth, buttonHeight,
                 () -> app.setScreen(returnScreen));
+    }
+
+    private Table createSectionTable() {
+        Table section = new Table();
+        section.defaults().left().fillX().pad(4f);
+        return section;
+    }
+
+    /**
+     * Helper to create a consistent section title with color.
+     */
+    private void addSectionTitle(Table section, String title, Color color) {
+        Label.LabelStyle style = new Label.LabelStyle(app.font, color);
+        Label sectionTitle = new Label(title, style);
+
+        // Dynamic scaling based on screen height
+        float fontScale = 1.6f * (Gdx.graphics.getHeight() / 1080f);
+        sectionTitle.setFontScale(fontScale);
+
+        section.add(sectionTitle).colspan(2).left().padTop(5f).padBottom(15f).row();
     }
 
     /**
@@ -103,20 +122,38 @@ public class SettingsScreen extends AbstractScreen {
             int width = Integer.parseInt(parts[0].trim());
             int height = Integer.parseInt(parts[1].trim());
 
-            Gdx.graphics.setWindowedMode(width, height);
-
             app.prefs.putInteger(AssetConstants.PREF_WIDTH, width);
             app.prefs.putInteger(AssetConstants.PREF_HEIGHT, height);
             app.prefs.putString(AssetConstants.PREF_RES_STRING, resolution);
             app.prefs.flush();
 
-            stage.getViewport().update(width, height, true);
+            if (!app.prefs.getBoolean(AssetConstants.PREF_FULLSCREEN, false)) {
+                Gdx.graphics.setWindowedMode(width, height);
 
-            table.invalidateHierarchy();
+                stage.getViewport().update(width, height, true);
 
+                table.setFillParent(true);
+                table.invalidateHierarchy();
+            }
         } catch (Exception e) {
-            Gdx.app.error("Settings", "Kunne ikke endre oppløsning: " + resolution);
+            Gdx.app.error("Settings", "Resolution change failed: " + resolution);
         }
+    }
+
+    private void setFullscreen(boolean fullscreen) {
+        app.prefs.putBoolean(AssetConstants.PREF_FULLSCREEN, fullscreen);
+        app.prefs.flush();
+
+        if (fullscreen) {
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        } else {
+            int width = app.prefs.getInteger(AssetConstants.PREF_WIDTH, 1280);
+            int height = app.prefs.getInteger(AssetConstants.PREF_HEIGHT, 720);
+            Gdx.graphics.setWindowedMode(width, height);
+        }
+
+        stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+        table.invalidateHierarchy();
     }
 
 

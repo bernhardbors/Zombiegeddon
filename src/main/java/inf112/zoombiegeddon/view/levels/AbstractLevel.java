@@ -163,28 +163,41 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
     public void update(float delta) {
         physics.update(delta);
         levelTime += delta;
+        String levelId = getLevelId();
 
         if (player != null) {
             player.update(delta);
             if (player.isDead()) {
+                if (app.storyModeActive) {
+                    app.finishStoryRun();
+                }
                 app.setScreen(new GameOverScreen(app));
                 return;
             }
 
             if (player.inGoal()) {
-                app.leaderboardController.registerLevelCompletion(
-                        getLevelId(),
-                        getPlayerName(),
-                        getCollectedItems(),
-                        getLivesLeft(),
-                        getTimeUsed()
-                );
-
-                app.setScreen(new LeaderboardScreen(
-                        app,
-                        getLevelId(),
-                        LeaderboardScreen.ScreenType.NEXT_LEVEL
-                ));
+                if (app.storyModeActive) {
+                    if ("level1".equals(levelId)) {
+                        app.carryStoryTime(levelTime);
+                        app.setScreen(new Level2(app));
+                    } else {
+                        app.leaderboardController.registerLevelCompletion(
+                                GameApp.STORY_LEADERBOARD_ID,
+                                getPlayerName(),
+                                getCollectedItems(),
+                                getLivesLeft(),
+                                getTimeUsed()
+                        );
+                        app.finishStoryRun();
+                        app.setScreen(new LeaderboardScreen(
+                                app,
+                                GameApp.STORY_LEADERBOARD_ID,
+                                LeaderboardScreen.ScreenType.MAIN_MENU
+                        ));
+                    }
+                } else {
+                    app.setScreen(new NextLevelScreen(app));
+                }
                 return;
             }
 
@@ -347,7 +360,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
     }
 
     protected float getTimeUsed() {
-        return levelTime;
+        return app.getStoryElapsedSeconds(levelTime);
     }
 
     @Override
