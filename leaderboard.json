@@ -4,10 +4,64 @@ leaderboards: {
 	level1: [
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Theo
+			playerName: Jamie vardy
+			boardId: level1
+			score: 4217
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 28.334822
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Theoflor
+			boardId: level1
+			score: 4215
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 28.506952
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Van Dijk
+			boardId: level1
+			score: 4201
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 29.950697
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Player
 			boardId: level1
 			score: 4200
-			collectedItems: 8
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 30.014055
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Player
+			boardId: level1
+			score: 4169
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 33.192688
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: andre onana
+			boardId: level1
+			score: 4161
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 33.998398
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Theo
+			boardId: level1
+			score: 4000
+			collectedItems: 0
 			livesLeft: 2
 			timeUsed: 43.2
 		}

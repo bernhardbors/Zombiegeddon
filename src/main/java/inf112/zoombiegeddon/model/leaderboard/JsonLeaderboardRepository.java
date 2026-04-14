@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+
 public class JsonLeaderboardRepository implements ILeaderboardRepository{
 
     private final String filePath;
@@ -24,6 +25,7 @@ public class JsonLeaderboardRepository implements ILeaderboardRepository{
         }
 
         Json json = new Json();
+        json.setUsePrototypes(false);
         String jsonString = json.prettyPrint(data);
 
         try (FileWriter writer = new FileWriter(filePath)) {
