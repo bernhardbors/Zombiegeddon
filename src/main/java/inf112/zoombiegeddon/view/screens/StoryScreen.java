@@ -66,23 +66,23 @@ public class StoryScreen extends AbstractScreen {
     private void showSlide(int storyIndex) {
         String storyImagePath = STORY_IMAGES[storyIndex];
 
-        if (!app.manager.isLoaded(storyImagePath)) {
+        if (!app.getAssets().getManager().isLoaded(storyImagePath)) {
             goToLevel1();
             return;
         }
 
         switch(storyIndex) {
             case 0 ->
-                    app.audio.playMusic(MusicTrack.STORY_CHILL_BACKGROUND, false);
+                    app.getAudio().playMusic(MusicTrack.STORY_CHILL_BACKGROUND, false);
             case 2 -> {
-                app.audio.stopMusic();
-                app.audio.playSfx(Sfx.GLASSBREAK);
+                app.getAudio().stopMusic();
+                app.getAudio().playSfx(Sfx.GLASSBREAK);
             }
             case 3  ->
-                    app.audio.playSfx(Sfx.WARSOUNDS);
+                    app.getAudio().playSfx(Sfx.WARSOUNDS);
         }
 
-        Texture texture = app.manager.get(storyImagePath, Texture.class);
+        Texture texture = app.getAssets().getManager().get(storyImagePath, Texture.class);
         storyImage.setDrawable(new TextureRegionDrawable(new TextureRegion(texture)));
 
         storyImage.clearActions();
@@ -154,8 +154,8 @@ public class StoryScreen extends AbstractScreen {
     @Override
     public void hide() {
         super.hide();
-        app.audio.stopMusic();
-        app.audio.stopSfx(Sfx.WARSOUNDS);
+        app.getAudio().stopMusic();
+        app.getAudio().stopSfx(Sfx.WARSOUNDS);
     }
 
     @Override
