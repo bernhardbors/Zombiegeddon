@@ -33,10 +33,10 @@ public class MainMenuScreen extends AbstractScreen {
         clearTable();
         app.finishStoryRun();
 
-        app.audio.playMusic(MusicTrack.MENU, true);
+        app.getAudio().playMusic(MusicTrack.MENU, true);
 
-        if (app.manager.isLoaded(AssetConstants.BG_GAME)) {
-            Texture background = app.manager.get(AssetConstants.BG_GAME, Texture.class);
+        if (app.getAssets().getManager().isLoaded(AssetConstants.BG_GAME)) {
+            Texture background = app.getAssets().getManager().get(AssetConstants.BG_GAME, Texture.class);
             table.setBackground(new TextureRegionDrawable(background));
         }
 
@@ -45,22 +45,22 @@ public class MainMenuScreen extends AbstractScreen {
         table.row().padTop(5);
 
 
-        UIUtils.addButton("STORY MODE", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("STORY MODE", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
         () -> app.setScreen(new StoryNameScreen(app)));
 
-        UIUtils.addButton("LEVELS", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("LEVELS", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new PickLevelScreen(app)));
 
-        UIUtils.addButton("HOW TO PLAY", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("HOW TO PLAY", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new HowToScreen(app)));
 
-        UIUtils.addButton("SETTINGS", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("SETTINGS", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new SettingsScreen(app, this)));
 
-        UIUtils.addButton("SCOREBOARD", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("SCOREBOARD", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
             () -> app.setScreen(new LeaderboardScreen(app, GameApp.STORY_LEADERBOARD_ID, LeaderboardScreen.ScreenType.MAIN_MENU)));
 
-        UIUtils.addButton("EXIT", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("EXIT", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
                 () -> Gdx.app.exit());
     }
 

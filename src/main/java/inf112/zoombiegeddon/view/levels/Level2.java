@@ -40,7 +40,7 @@ public class Level2 extends AbstractLevel {
         super(app, new OrthographicCamera(), new Vector2(0,-15.0f));
         loadMap("tilemaps/level3.tmx", "Collision");
         this.spawner = new Spawner(map);
-        this.player = new Player(physics.getWorld(), spawner.getSpawnPoint("player_spawn"), app.playerMaleAnimations, 3);
+        this.player = new Player(physics.getWorld(), spawner.getSpawnPoint("player_spawn"), app.getAssets().getPlayerMaleAnimations(),  3);
         this.playerController = new PlayerController(player);
 
         this.entityRenderer = new EntityRenderer(app);
@@ -50,8 +50,8 @@ public class Level2 extends AbstractLevel {
         IEnemyFactory enemyFactory = new EnemyFactory(physics.getWorld());
         this.enemies = enemyFactory.createEnemiesFromLayer(
                 map.getLayers().get("SpawnPoints"),
-                app.zombieAnimations,
-                app.chonkerAnimations
+                app.getAssets().getZombieAnimations(),
+                app.getAssets().getChonkerAnimations()
         );
     }
 

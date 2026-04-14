@@ -37,7 +37,7 @@ public class SplashScreen extends AbstractScreen {
     public void buildScreen() {
         clearTable();
 
-        app.audio.playMusic(MusicTrack.MENU, true);
+        app.getAudio().playMusic(MusicTrack.MENU, true);
 
         Runnable toMainMenu = () -> app.setScreen(new MainMenuScreen(app));
 
