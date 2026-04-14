@@ -44,16 +44,9 @@ public class MainMenuScreen extends AbstractScreen {
         table.getCell(table.getChildren().peek()).expandY().top().padTop(-70);
         table.row().padTop(5);
 
-        TextField nameField = new TextField("", app.skin);
-        nameField.setMessageText("Skriv inn navnet ditt");
-        table.add(nameField).width(buttonWidth).height(buttonHeight).padBottom(250).row();
 
         UIUtils.addButton("Start", app.skin, table, buttonWidth, buttonHeight,
-                () -> {
-                    app.setCurrentPlayerName(nameField.getText());
-                    System.out.println("Saved player name from menu: " + app.getCurrentPlayerName());
-                    app.setScreen(new PickLevelScreen(app));
-                });
+                () -> app.setScreen(new PickLevelScreen(app)));
 
         UIUtils.addButton("How To Play", app.skin, table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new HowToScreen(app)));
