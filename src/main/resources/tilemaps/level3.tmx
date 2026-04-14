@@ -39,8 +39,16 @@
   </object>
  </objectgroup>
  <objectgroup id="4" name="Luckyblocks">
-  <object id="5" gid="901" x="535" y="24" width="16" height="16"/>
-  <object id="17" gid="901" x="378.667" y="581.333" width="16" height="16"/>
+  <object id="5" gid="901" x="535" y="24" width="16" height="16">
+   <properties>
+    <property name="type" value="speed"/>
+   </properties>
+  </object>
+  <object id="17" gid="901" x="378.667" y="581.333" width="16" height="16">
+   <properties>
+    <property name="type" value="heal"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="2" name="SpawnPoints">
   <object id="1" name="enemy_spawn" x="337.636" y="44.1818">
