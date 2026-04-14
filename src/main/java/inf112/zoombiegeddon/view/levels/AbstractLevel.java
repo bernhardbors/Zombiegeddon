@@ -149,6 +149,9 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
 
         if (UIrenderer != null) {
             UIrenderer.drawHearts(app.getBatch(), healthbar);
+            if (app.storyModeActive) {
+                UIrenderer.drawStoryTime(app.getBatch(), app.getAssets().getFont(), getTimeUsed());
+            }
         }
         renderTriggerText();
     }
