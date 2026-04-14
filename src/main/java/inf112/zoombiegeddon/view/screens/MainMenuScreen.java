@@ -9,7 +9,6 @@ import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
 
 import inf112.zoombiegeddon.audio.MusicTrack;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 /**
  * Represents the main menu screen of the game.
