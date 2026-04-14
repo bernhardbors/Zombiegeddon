@@ -18,8 +18,7 @@ public class PlayerController extends InputAdapter {
     private static final float WALKING_SPEED = 4f;
     private static final float RUNNING_SPEED = 8f;
     private static final float FRICTION_COEFFICIENT = 0.9f;
-    public static boolean isShooting = false;
-    public static boolean isJumpKeyPressed = false;
+    private boolean isJumpKeyPressed = false;
 
     /**
      * Constructs a new PlayerController for the specified player.
@@ -53,14 +52,6 @@ public class PlayerController extends InputAdapter {
         if ((keycode == Input.Keys.SPACE || keycode == Input.Keys.W || keycode == Input.Keys.UP) && !isJumpKeyPressed) {
             isJumpKeyPressed = true;
             player.jump();
-            return true;
-        }
-        /*if (keycode == Input.Keys.ESCAPE) {
-            Gdx.app.exit();
-            return true;
-        }*/
-        if (keycode == Input.Keys.L) {
-            isShooting = true;
             return true;
         }
         return false;
@@ -154,23 +145,5 @@ public class PlayerController extends InputAdapter {
      */
     private boolean isShiftPressed() {
         return Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) || Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT);
-    }
-
-    /**
-     * Returns whether shooting is currently active.
-     *
-     * @return True if shooting is active, false otherwise.
-     */
-    public boolean isShooting() {
-        return isShooting;
-    }
-
-    /**
-     * Sets whether shooting is currently active.
-     *
-     * @param b True to mark shooting as active, false otherwise.
-     */
-    public void setIsShooting(boolean b) {
-        isShooting = b;
     }
 }

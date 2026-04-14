@@ -18,8 +18,8 @@ public class StoryNameScreen extends AbstractScreen {
     public void buildScreen() {
         clearTable();
 
-        if (app.manager.isLoaded(AssetConstants.BG_SKY)) {
-            Texture background = app.manager.get(AssetConstants.BG_SKY, Texture.class);
+        if (app.getAssets().getManager().isLoaded(AssetConstants.BG_SKY)) {
+            Texture background = app.getAssets().getManager().get(AssetConstants.BG_SKY, Texture.class);
             table.setBackground(new TextureRegionDrawable(background));
         }
 
@@ -32,7 +32,7 @@ public class StoryNameScreen extends AbstractScreen {
             currentName = "";
         }
 
-        TextField nameField = new TextField(currentName, app.skin);
+        TextField nameField = new TextField(currentName, app.getAssets().getSkin());
         nameField.setMessageText("Skriv inn navnet ditt");
         table.add(nameField).width(buttonWidth).height(buttonHeight).padBottom(220).row();
 

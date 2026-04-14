@@ -2,7 +2,6 @@ package inf112.zoombiegeddon.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -36,8 +35,10 @@ public abstract class AbstractScreen implements IScreen {
     AbstractScreen(final GameApp app) {
 
         this.app = app;
-        this.skin = app.skin;
-        this.prefs = app.prefs;
+
+        this.skin = app.getAssets().getSkin();
+        this.prefs = app.getPrefs();
+
         this.table = new Table();
         this.stage = new Stage(new ScreenViewport());
 
@@ -121,7 +122,7 @@ public abstract class AbstractScreen implements IScreen {
      */
     protected Label formatText(String text, Color color, float scale) {
         Label.LabelStyle style = new Label.LabelStyle();
-        style.font = app.font;
+        style.font = app.getAssets().getFont();;
         style.fontColor = color;
 
         float screenScale = Gdx.graphics.getHeight() / 1080f;

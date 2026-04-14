@@ -4,13 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
@@ -37,14 +32,21 @@ public class SettingsScreen extends AbstractScreen {
 
     @Override
     public void buildScreen() {
-        if (app.manager.isLoaded(AssetConstants.BG_SKY)) {
-            Texture background = app.manager.get(AssetConstants.BG_SKY, Texture.class);
+        if (app.getAssets().getManager().isLoaded(AssetConstants.BG_SKY)) {
+            Texture background = app.getAssets().getManager().get(AssetConstants.BG_SKY, Texture.class);
             table.setBackground(new TextureRegionDrawable(background));
         }
 
         clearTable();
-        app.audio.playMusic(MusicTrack.MENU, true);
 
+        app.getAudio().playMusic(MusicTrack.MENU, true);
+
+        if (app.getAssets().getManager().isLoaded(AssetConstants.BG_GAME)) {
+            Texture background = app.getAssets().getManager().get(AssetConstants.BG_GAME, Texture.class);
+            table.setBackground(new TextureRegionDrawable(background));
+        }
+        formatText("SETTINGS", Color.WHITE, 2f);
+        table.row().pad(20);
         table.defaults().pad(4f);
 
         // Title in Gold for prominence
@@ -62,21 +64,21 @@ public class SettingsScreen extends AbstractScreen {
 
         String[] resolutions = {"1280 x 720", "1366 x 768", "1600 x 900", "1920 x 1080", "2560 x 1440", "3840 x 2160"};
 
-        UIUtils.addSelectBox("Resolution", resolutions, app.skin, displaySection,
+        UIUtils.addSelectBox("Resolution", resolutions, app.getAssets().getSkin(), displaySection,
                 buttonWidth, buttonHeight, this::changeResolution);
 
-        UIUtils.addCheckBox("Fullscreen", app.skin, displaySection,
-                app.prefs.getBoolean(AssetConstants.PREF_FULLSCREEN, false), this::setFullscreen);
+        UIUtils.addCheckBox("Fullscreen", app.getAssets().getSkin(), displaySection,
+                app.getPrefs().getBoolean(AssetConstants.PREF_FULLSCREEN, false), this::setFullscreen);
 
         // --- AUDIO SECTION (Orange Theme) ---
         Table audioSection = createSectionTable();
         addSectionTitle(audioSection, "AUDIO SETTINGS", Color.ORANGE);
 
-        UIUtils.addSlider("Music Volume", app.skin, audioSection,
-                app.audio.getMusicVolume(), 0f, 1f, 0.01f, app.audio::setMusicVolume);
+        UIUtils.addSlider("Music Volume", app.getAssets().getSkin(), audioSection,
+                app.getAudio().getMusicVolume(), 0f, 1f, 0.01f, app.getAudio()::setMusicVolume);
 
-        UIUtils.addSlider("SFX Volume", app.skin, audioSection,
-                app.audio.getSfxVolume(), 0f, 1f, 0.01f, app.audio::setSfxVolume);
+        UIUtils.addSlider("SFX Volume", app.getAssets().getSkin(), audioSection,
+                app.getAudio().getSfxVolume(), 0f, 1f, 0.01f, app.getAudio()::setSfxVolume);
 
         // --- ASSEMBLE ---
         contentTable.add(displaySection).growX().row();
@@ -87,7 +89,7 @@ public class SettingsScreen extends AbstractScreen {
 
         // Back button in a distinct color or standard white
         table.row().padTop(40f);
-        UIUtils.addButton("BACK", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("BACK", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
                 () -> app.setScreen(returnScreen));
     }
 
@@ -101,7 +103,7 @@ public class SettingsScreen extends AbstractScreen {
      * Helper to create a consistent section title with color.
      */
     private void addSectionTitle(Table section, String title, Color color) {
-        Label.LabelStyle style = new Label.LabelStyle(app.font, color);
+        Label.LabelStyle style = new Label.LabelStyle(app.getAssets().getFont(), color);
         Label sectionTitle = new Label(title, style);
 
         // Dynamic scaling based on screen height
@@ -122,12 +124,12 @@ public class SettingsScreen extends AbstractScreen {
             int width = Integer.parseInt(parts[0].trim());
             int height = Integer.parseInt(parts[1].trim());
 
-            app.prefs.putInteger(AssetConstants.PREF_WIDTH, width);
-            app.prefs.putInteger(AssetConstants.PREF_HEIGHT, height);
-            app.prefs.putString(AssetConstants.PREF_RES_STRING, resolution);
-            app.prefs.flush();
+            app.getPrefs().putInteger(AssetConstants.PREF_WIDTH, width);
+            app.getPrefs().putInteger(AssetConstants.PREF_HEIGHT, height);
+            app.getPrefs().putString(AssetConstants.PREF_RES_STRING, resolution);
+            app.getPrefs().flush();
 
-            if (!app.prefs.getBoolean(AssetConstants.PREF_FULLSCREEN, false)) {
+            if (!app.getPrefs().getBoolean(AssetConstants.PREF_FULLSCREEN, false)) {
                 Gdx.graphics.setWindowedMode(width, height);
 
                 stage.getViewport().update(width, height, true);
@@ -141,14 +143,14 @@ public class SettingsScreen extends AbstractScreen {
     }
 
     private void setFullscreen(boolean fullscreen) {
-        app.prefs.putBoolean(AssetConstants.PREF_FULLSCREEN, fullscreen);
-        app.prefs.flush();
+        app.getPrefs().putBoolean(AssetConstants.PREF_FULLSCREEN, fullscreen);
+        app.getPrefs().flush();
 
         if (fullscreen) {
             Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         } else {
-            int width = app.prefs.getInteger(AssetConstants.PREF_WIDTH, 1280);
-            int height = app.prefs.getInteger(AssetConstants.PREF_HEIGHT, 720);
+            int width = app.getPrefs().getInteger(AssetConstants.PREF_WIDTH, 1280);
+            int height = app.getPrefs().getInteger(AssetConstants.PREF_HEIGHT, 720);
             Gdx.graphics.setWindowedMode(width, height);
         }
 

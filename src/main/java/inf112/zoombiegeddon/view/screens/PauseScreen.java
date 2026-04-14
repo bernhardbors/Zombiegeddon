@@ -24,13 +24,13 @@ public class PauseScreen extends AbstractScreen {
         formatText("PAUSED", Color.WHITE, 4f);
         table.row().pad(20);
 
-        UIUtils.addButton("Continue", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("Continue", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
                 () -> app.setScreen(previousLevel));
 
-        UIUtils.addButton("Settings", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("Settings", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new SettingsScreen(app, this)));
 
-        UIUtils.addButton("Main Menu", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("Main Menu", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
                 () -> {
                     previousLevel.dispose();
                     app.setScreen(new MainMenuScreen(app));
@@ -44,10 +44,10 @@ public class PauseScreen extends AbstractScreen {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-        app.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        app.shapeRenderer.setColor(new Color(0f, 0f, 0f, 0.6f));
-        app.shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        app.shapeRenderer.end();
+        app.getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
+        app.getShapeRenderer().setColor(new Color(0f, 0f, 0f, 0.6f));
+        app.getShapeRenderer().rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        app.getShapeRenderer().end();
 
         Gdx.gl.glDisable(GL20.GL_BLEND);
 

@@ -20,6 +20,9 @@ public class AssetConstants {
     public static final String BG_L1 = "assets/backgrounds/CityBackgroundLayer1.png";
     public static final String BG_L2 = "assets/backgrounds/CityBackgroundLayer2.png";
     public static final String BG_GAME = "assets/backgrounds/bg.png";
+    // Shaders
+    public static final String SHADER_VERTEX = "assets/shaders/vertex.glsl";
+    public static final String SHADER_FRAGMENT_PICKUP = "assets/shaders/pickup_effect_fragment.glsl";
 
     // Preferanser
     public static final String PREFS_NAME = "Prefs";
