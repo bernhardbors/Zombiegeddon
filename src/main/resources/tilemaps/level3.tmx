@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="191" height="105" tilewidth="8" tileheight="8" infinite="0" nextlayerid="9" nextobjectid="25">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="191" height="105" tilewidth="8" tileheight="8" infinite="0" nextlayerid="9" nextobjectid="24">
  <tileset firstgid="1" source="../tiledProjectFiles/tilemap_packed.tsx"/>
- <tileset firstgid="317318" source="../tiledProjectFiles/luckyblock.tsx"/>
- <objectgroup id="6" name="Triggers" visible="0" offsetx="-4" offsety="2">
+ <tileset firstgid="901" source="../tiledProjectFiles/luckyblock.tsx"/>
+ <objectgroup id="6" name="Triggers" offsetx="-4" offsety="2">
   <object id="7" name="death" x="765.625" y="182" width="294.875" height="9">
    <properties>
     <property name="info" value="3"/>
@@ -39,8 +39,16 @@
   </object>
  </objectgroup>
  <objectgroup id="4" name="Luckyblocks">
-  <object id="5" gid="317318" x="535" y="24" width="16" height="16"/>
-  <object id="17" gid="317318" x="378.667" y="581.333" width="16" height="16"/>
+  <object id="5" gid="901" x="535" y="24" width="16" height="16">
+   <properties>
+    <property name="type" value="speed"/>
+   </properties>
+  </object>
+  <object id="17" gid="901" x="378.667" y="581.333" width="16" height="16">
+   <properties>
+    <property name="type" value="heal"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="2" name="SpawnPoints">
   <object id="1" name="enemy_spawn" x="337.636" y="44.1818">

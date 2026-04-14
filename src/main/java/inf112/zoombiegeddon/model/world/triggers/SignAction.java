@@ -4,6 +4,7 @@ import inf112.zoombiegeddon.model.entity.Player;
 
 public class SignAction implements ITriggerAction{
     private String text;
+
     public SignAction(String text) { this.text = text; }
 
     @Override
