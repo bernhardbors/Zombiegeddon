@@ -70,6 +70,11 @@ public class LoadingScreen extends AbstractScreen {
         app.manager.load(AssetConstants.BG_L1, Texture.class);
         app.manager.load(AssetConstants.BG_L2, Texture.class);
 
+        app.manager.load(AssetConstants.STORY_IMAGE_01, Texture.class);
+        app.manager.load(AssetConstants.STORY_IMAGE_02, Texture.class);
+        app.manager.load(AssetConstants.STORY_IMAGE_03, Texture.class);
+        app.manager.load(AssetConstants.STORY_IMAGE_04, Texture.class);
+
         Sfx.queueAssets(app.manager);
         MusicTrack.queueAssets(app.manager);
 
@@ -83,7 +88,7 @@ public class LoadingScreen extends AbstractScreen {
             if (!isFinished) {
                 isFinished = true;
                 finalizeLoading();
-                app.setScreen(new SplashScreen(app));
+                app.setScreen(new StoryScreen(app));
             }
         } else {
             int progress = (int) (app.manager.getProgress() * 100);
