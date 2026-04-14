@@ -107,8 +107,8 @@ public abstract class AbstractScreen implements IScreen {
     }
 
     private void calculateButtonSize(){
-        this.buttonWidth = (float) Gdx.graphics.getWidth() / 5;
-        this.buttonHeight = (float) Gdx.graphics.getHeight() / 15;
+        this.buttonWidth = (float) Gdx.graphics.getWidth() / 7;
+        this.buttonHeight = (float) Gdx.graphics.getHeight() / 18;
     }
 
     /**
