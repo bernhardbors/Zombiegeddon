@@ -17,5 +17,7 @@ public enum GameEvent {
     PLAYER_MOVE_STOP,
     PLAYER_DEATH,
     LEVEL_FINISHED,
-    TOGGLE_PAUSE
+    TOGGLE_PAUSE,
+    PICKUP_HEALTH,
+    PICKUP_SPEED,
 }
