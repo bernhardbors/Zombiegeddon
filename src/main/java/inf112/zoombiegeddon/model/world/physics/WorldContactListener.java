@@ -1,6 +1,8 @@
 package inf112.zoombiegeddon.model.world.physics;
 
 import com.badlogic.gdx.physics.box2d.*;
+import inf112.zoombiegeddon.events.GameEvent;
+import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.entity.*;
 import inf112.zoombiegeddon.model.entity.enemies.Enemy;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
@@ -184,6 +186,7 @@ public class WorldContactListener implements ContactListener {
         }
 
         pickup.collect(player);
+        GameEventBus.post(GameEvent.PICKUP_COLLECTED);
         Body body = pickup.getBody();
         if (!bodiesQueuedForRemoval.contains(body)) {
             bodiesQueuedForRemoval.add(body);

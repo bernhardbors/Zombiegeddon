@@ -19,7 +19,8 @@ public enum Sfx {
     GLASSBREAK("assets/audio/sfx/GlassBreaking.mp3"),
     VICTORY("assets/audio/sfx/VICTORY.wav"),
     WARSOUNDS("assets/audio/sfx/warSounds.mp3"),
-    HEAL_PICKUP("assets/audio/sfx/1up 3 - Sound effects Pack 2.wav");
+    HEAL_PICKUP("assets/audio/sfx/1up 3 - Sound effects Pack 2.wav"),
+    POWERUP("assets/audio/sfx/PowerUp.wav");
 
     private final String path;
 
