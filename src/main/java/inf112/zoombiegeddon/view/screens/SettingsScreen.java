@@ -38,27 +38,17 @@ public class SettingsScreen extends AbstractScreen {
         }
 
         clearTable();
+        table.top();
 
         app.getAudio().playMusic(MusicTrack.MENU, true);
 
-        if (app.getAssets().getManager().isLoaded(AssetConstants.BG_GAME)) {
-            Texture background = app.getAssets().getManager().get(AssetConstants.BG_GAME, Texture.class);
-            table.setBackground(new TextureRegionDrawable(background));
-        }
-        formatText("SETTINGS", Color.WHITE, 2f);
-        table.row().pad(20);
-        table.defaults().pad(4f);
-
-        // Title in Gold for prominence
-        formatText("SETTINGS", Color.GOLD, 2.5f);
-        table.row().padTop(25f);
+        formatText("SETTINGS", Color.GOLD, 3.0f);
 
         float contentWidth = Math.max(buttonWidth * 1.5f, Gdx.graphics.getWidth() * 0.45f);
 
         Table contentTable = new Table();
         contentTable.defaults().left().pad(4f);
 
-        // --- DISPLAY SECTION (Cyan Theme) ---
         Table displaySection = createSectionTable();
         addSectionTitle(displaySection, "VIDEO SETTINGS", Color.CYAN);
 
@@ -82,20 +72,18 @@ public class SettingsScreen extends AbstractScreen {
 
         // --- ASSEMBLE ---
         contentTable.add(displaySection).growX().row();
-        contentTable.row().padTop(30f); // More breathing room between sections
         contentTable.add(audioSection).growX().row();
 
         table.add(contentTable).width(contentWidth).expand().center().row();
 
-        // Back button in a distinct color or standard white
-        table.row().padTop(40f);
+        // Back button
         UIUtils.addButton("BACK", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
                 () -> app.setScreen(returnScreen));
     }
 
     private Table createSectionTable() {
         Table section = new Table();
-        section.defaults().left().fillX().pad(4f);
+        section.defaults().pad(2f);
         return section;
     }
 

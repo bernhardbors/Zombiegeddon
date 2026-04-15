@@ -20,6 +20,15 @@ leaderboards: {
 			livesLeft: 3
 			timeUsed: 73.22366
 		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: IsakG
+			boardId: storymode
+			score: 2890
+			collectedItems: 0
+			livesLeft: 1
+			timeUsed: 61.03383
+		}
 	]
 	level1: [
 		{
