@@ -13,21 +13,32 @@ leaderboards: {
 		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Phil Foden
+			playerName: Isak
 			boardId: storymode
-			score: 3717
+			score: 3768
 			collectedItems: 0
 			livesLeft: 3
-			timeUsed: 78.37999
+			timeUsed: 73.22366
 		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: 676767
+			playerName: IsakG
 			boardId: storymode
-			score: 3703
+			score: 2890
 			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 79.75451
+			livesLeft: 1
+			timeUsed: 61.03383
+		}
+	]
+	level1: [
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Theo
+			boardId: level1
+			score: 4200
+			collectedItems: 8
+			livesLeft: 2
+			timeUsed: 43.2
 		}
 	]
 }

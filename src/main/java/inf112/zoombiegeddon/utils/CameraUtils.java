@@ -22,8 +22,8 @@ public class CameraUtils {
     public static void updateCamera(Player player, OrthographicCamera camera) {
 
         float DEADZONE_WIDTH = 4f;
-        float DEADZONE_HEIGHT = 3f;
-        float VERTICAL_OFFSET = 1.5f;
+        float DEADZONE_HEIGHT = 4f;
+        float VERTICAL_OFFSET = 5.5f;
 
         float playerX = player.getPosition().x;
         float playerY = player.getPosition().y + VERTICAL_OFFSET;

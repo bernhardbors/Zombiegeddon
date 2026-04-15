@@ -31,10 +31,6 @@ public class LeaderboardScreen extends AbstractScreen {
         formatText("Leaderboard", Color.WHITE, 4f);
         table.row().padTop(10);
 
-        String boardLabel = GameApp.STORY_LEADERBOARD_ID.equals(levelId) ? "Story Mode" : levelId;
-        formatText("Level: " + boardLabel, Color.LIGHT_GRAY, 2f);
-        table.row().padTop(20);
-
         Leaderboard leaderboard = app.getLeaderboardManager().getLeaderboard(levelId);
         List<LeaderboardEntry> entries = leaderboard.getTopEntries(3);
 
@@ -50,7 +46,6 @@ public class LeaderboardScreen extends AbstractScreen {
                 String line = (i + 1) + ". "
                         + entry.getPlayerName()
                         + " - Score: " + entry.getScore()
-                        + " - HP: " + entry.getLivesLeft()
                         + " - Time: " + roundedTime + "s";
 
                 Color color = Color.WHITE;

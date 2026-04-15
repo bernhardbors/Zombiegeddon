@@ -24,6 +24,7 @@ import inf112.zoombiegeddon.app.GameApp;
 
 import inf112.zoombiegeddon.audio.IAudioService;
 import inf112.zoombiegeddon.audio.MusicTrack;
+import inf112.zoombiegeddon.audio.Sfx;
 import inf112.zoombiegeddon.controller.LevelController;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.events.GameEvent;
@@ -149,6 +150,9 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
 
         if (UIrenderer != null) {
             UIrenderer.drawHearts(app.getBatch(), healthbar);
+            if (app.storyModeActive) {
+                UIrenderer.drawStoryTime(app.getBatch(), app.getAssets().getFont(), getTimeUsed());
+            }
         }
         renderTriggerText();
     }
