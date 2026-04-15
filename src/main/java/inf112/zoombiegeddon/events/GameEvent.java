@@ -16,5 +16,6 @@ public enum GameEvent {
     PLAYER_RUN_STOP,
     PLAYER_MOVE_STOP,
     PLAYER_DEATH,
+    LEVEL_FINISHED,
     TOGGLE_PAUSE
 }
