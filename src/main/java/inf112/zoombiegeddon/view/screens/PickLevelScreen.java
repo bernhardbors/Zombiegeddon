@@ -9,6 +9,7 @@ import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
 import inf112.zoombiegeddon.view.levels.Level1;
 import inf112.zoombiegeddon.view.levels.Level2;
+import inf112.zoombiegeddon.view.levels.Level3;
 
 /**
  * Displays the level selection screen.
@@ -51,7 +52,7 @@ public class PickLevelScreen extends AbstractScreen {
 
         UIUtils.addButton("PLACEHOLDER", skin, table, buttonWidth, buttonHeight,
                 () -> {
-                    //app.setScreen(new );
+                    app.setScreen(new Level3(app));
                 });
 
         UIUtils.addButton("PLACEHOLDER", skin, table, buttonWidth, buttonHeight,
