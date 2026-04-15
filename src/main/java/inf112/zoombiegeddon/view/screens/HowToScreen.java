@@ -26,6 +26,7 @@ public class HowToScreen extends AbstractScreen {
     @Override
     public void buildScreen() {
         clearTable();
+        table.top();
 
         app.getAudio().playMusic(MusicTrack.MENU, true);
 
@@ -36,7 +37,7 @@ public class HowToScreen extends AbstractScreen {
 
         // Title
         formatText("HOW TO PLAY", Color.GOLD, 2.5f);
-        table.row().padTop(20);
+        table.row().padTop(-10f);
 
         // --- Controls Section ---
         formatText("CONTROLS", Color.ORANGE, 1.5f);
@@ -47,7 +48,7 @@ public class HowToScreen extends AbstractScreen {
                         "Pause: P  |  Quit: ESC",
                 Color.WHITE, 1.2f);
 
-        table.row().padTop(30);
+        table.row().padTop(10);
 
         // --- Game Modes Section ---
         formatText("GAME MODES", Color.ORANGE, 1.5f);
@@ -58,7 +59,7 @@ public class HowToScreen extends AbstractScreen {
                         "Your final score will be submitted to the Leaderboard!",
                 Color.WHITE, 1.0f);
 
-        table.row().padTop(10);
+        table.row().padTop(10f);
 
         // Level Select Description
         formatText("LEVEL SELECT", Color.CYAN, 1.2f);
@@ -67,8 +68,10 @@ public class HowToScreen extends AbstractScreen {
                 Color.WHITE, 1.0f);
 
         // --- Back Button ---
-        table.row().padTop(40);
+        table.row().padTop(40f);
         UIUtils.addButton("Back", skin, table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new MainMenuScreen(app))).row();
+
+        table.row().padBottom(-10);
     }
 }

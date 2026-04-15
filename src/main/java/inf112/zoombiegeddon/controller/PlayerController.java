@@ -132,10 +132,10 @@ public class PlayerController extends InputAdapter {
      *
      * @return True if Space, W, or Up Arrow was just pressed.
      */
-    private boolean isJumpPressed() {
-        return Gdx.input.isKeyJustPressed(Input.Keys.SPACE) ||
-                Gdx.input.isKeyJustPressed(Input.Keys.W) ||
-                Gdx.input.isKeyJustPressed(Input.Keys.UP);
+    public boolean isJumpPressed() {
+        return Gdx.input.isKeyPressed(Input.Keys.SPACE) ||
+                Gdx.input.isKeyPressed(Input.Keys.W) ||
+                Gdx.input.isKeyPressed(Input.Keys.UP);
     }
 
     /**

@@ -82,7 +82,7 @@ public class Level2 extends AbstractLevel {
             luckyBlockLayerFactory.render(batch, UNIT_SCALE);
             batch.end();
         }
-        worldRenderer.renderDebug(physics,true);
+        worldRenderer.renderDebug(physics,false);
 
         if (player != null) drawEntities(player);
 
@@ -95,7 +95,5 @@ public class Level2 extends AbstractLevel {
         worldRenderer.renderForeground();
 
         renderTriggerText();
-
-        drawDebug();
     }
 }
