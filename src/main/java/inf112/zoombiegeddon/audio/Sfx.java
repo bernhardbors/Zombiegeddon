@@ -17,7 +17,8 @@ public enum Sfx {
     FOOTSTEPS_RUN("assets/audio/sfx/footstep_run.wav"),
     PLAYER_DEATH("assets/audio/sfx/lose.wav"),
     GLASSBREAK("assets/audio/sfx/GlassBreaking.mp3"),
-    WARSOUNDS("assets/audio/sfx/warSounds.mp3");
+    WARSOUNDS("assets/audio/sfx/warSounds.mp3"),
+    POWERUP("assets/audio/sfx/PowerUp.wav");
 
     private final String path;
 

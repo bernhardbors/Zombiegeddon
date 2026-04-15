@@ -177,6 +177,9 @@ public class AudioManager implements IAudioService, IEventListener {
             case UI_BUTTON_CLICK:
                 playSfx(Sfx.BUTTON_CLICK);
                 break;
+            case PICKUP_COLLECTED:
+                playSfx(Sfx.POWERUP);
+                break;
             case PLAYER_MOVE_START:
                 startFootstepsLoop();
                 break;
