@@ -196,6 +196,9 @@ public class AudioManager implements IAudioService, IEventListener {
             case LEVEL_FINISHED:
                 stopFootstepsLoop();
                 break;
+            case TOGGLE_PAUSE:
+                stopFootstepsLoop();
+                break;
             default:
                 break;
         }
