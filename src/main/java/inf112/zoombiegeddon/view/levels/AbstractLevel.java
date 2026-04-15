@@ -180,6 +180,9 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
                     if ("level1".equals(levelId)) {
                         app.carryStoryTime(levelTime);
                         app.setScreen(new Level2(app));
+                    } else if ("level2".equals(levelId)) {
+                        app.carryStoryTime(levelTime);
+                        app.setScreen(new Level3(app));
                     } else {
                         app.getLeaderboardController().registerLevelCompletion(
                                 GameApp.STORY_LEADERBOARD_ID,

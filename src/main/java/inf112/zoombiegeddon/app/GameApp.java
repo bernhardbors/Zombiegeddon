@@ -35,7 +35,7 @@ public class GameApp extends Game {
     private ILeaderboardRepository leaderboardRepository;
     private LeaderboardManager leaderboardManager;
     private ScoreCalculator scoreCalculator;
-    private String currentPlayerName = "Player";
+    private String currentPlayerName;
     public boolean storyModeActive;
     public boolean storyTimerActive;
     public float storyTimeCarrySeconds;
