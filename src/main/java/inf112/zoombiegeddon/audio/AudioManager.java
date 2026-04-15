@@ -200,6 +200,8 @@ public class AudioManager implements IAudioService, IEventListener {
             case TOGGLE_PAUSE:
                 stopFootstepsLoop();
                 break;
+            case PICKUP_HEALTH:
+                playSfx(Sfx.HEAL_PICKUP);
             default:
                 break;
         }

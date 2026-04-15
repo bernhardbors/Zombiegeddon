@@ -3,6 +3,8 @@ package inf112.zoombiegeddon.model.entity.pickups;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import inf112.zoombiegeddon.events.GameEvent;
+import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.entity.Player;
 import inf112.zoombiegeddon.view.levels.AbstractLevel;
 
@@ -19,8 +21,10 @@ public class HealPickup extends Pickup {
     public void applyEffect(Player player) {
         if (player.getHealth() < player.getMaxHealth()) {
             player.heal(healthAmount);
+            GameEventBus.post(GameEvent.PICKUP_HEALTH);
         }
         player.triggerPickupVisualEffect(FX_DURATION_SECONDS, getPickupColor());
+
     }
 
 }
