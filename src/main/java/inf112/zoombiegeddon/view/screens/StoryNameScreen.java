@@ -33,7 +33,7 @@ public class StoryNameScreen extends AbstractScreen {
         }
 
         TextField nameField = new TextField(currentName, app.getAssets().getSkin());
-        nameField.setMessageText("Skriv inn navnet ditt");
+        nameField.setMessageText("Enter player name");
         table.add(nameField).width(buttonWidth).height(buttonHeight).padBottom(220).row();
 
         UIUtils.addButton("START STORY", skin, table, buttonWidth, buttonHeight,

@@ -11,16 +11,23 @@ leaderboards: {
 			livesLeft: 3
 			timeUsed: 72.54958
 		}
-	]
-	level1: [
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Theo
-			boardId: level1
-			score: 4200
-			collectedItems: 8
-			livesLeft: 2
-			timeUsed: 43.2
+			playerName: Phil Foden
+			boardId: storymode
+			score: 3717
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 78.37999
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: 676767
+			boardId: storymode
+			score: 3703
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 79.75451
 		}
 	]
 }
