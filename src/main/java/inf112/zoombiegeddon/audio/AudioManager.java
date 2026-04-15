@@ -195,6 +195,7 @@ public class AudioManager implements IAudioService, IEventListener {
                 break;
             case LEVEL_FINISHED:
                 stopFootstepsLoop();
+                playSfx(Sfx.VICTORY);
                 break;
             case TOGGLE_PAUSE:
                 stopFootstepsLoop();
