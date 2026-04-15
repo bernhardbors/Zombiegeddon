@@ -31,7 +31,7 @@ public class Level2 extends AbstractLevel {
 
 
     /**
-     * Constructs level 2  and initializes its world, player, UI, enemies, and triggers.
+     * Constructs level 3  and initializes its world, player, UI, enemies, and triggers.
      *
      * @param app The game application instance.
      */

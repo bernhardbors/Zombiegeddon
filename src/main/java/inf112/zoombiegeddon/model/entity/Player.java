@@ -349,6 +349,9 @@ public class Player extends Entity implements IDamageable {
      * @param bool True if the player is in the goal, false otherwise.
      */
     public void setInGoal(boolean bool){
+        if (!this.inGoal && bool) {
+            GameEventBus.post(GameEvent.LEVEL_FINISHED);
+        }
         this.inGoal = bool;
     }
 
