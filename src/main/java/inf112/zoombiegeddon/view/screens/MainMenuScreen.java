@@ -9,7 +9,6 @@ import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
 
 import inf112.zoombiegeddon.audio.MusicTrack;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 /**
  * Represents the main menu screen of the game.
@@ -32,11 +31,12 @@ public class MainMenuScreen extends AbstractScreen {
     public void buildScreen() {
 
         clearTable();
+        app.finishStoryRun();
 
-        app.audio.playMusic(MusicTrack.MENU, true);
+        app.getAudio().playMusic(MusicTrack.MENU, true);
 
-        if (app.manager.isLoaded(AssetConstants.BG_GAME)) {
-            Texture background = app.manager.get(AssetConstants.BG_GAME, Texture.class);
+        if (app.getAssets().getManager().isLoaded(AssetConstants.BG_GAME)) {
+            Texture background = app.getAssets().getManager().get(AssetConstants.BG_GAME, Texture.class);
             table.setBackground(new TextureRegionDrawable(background));
         }
 
@@ -45,16 +45,22 @@ public class MainMenuScreen extends AbstractScreen {
         table.row().padTop(5);
 
 
-        UIUtils.addButton("Start", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("STORY MODE", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
+        () -> app.setScreen(new StoryNameScreen(app)));
+
+        UIUtils.addButton("LEVELS", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new PickLevelScreen(app)));
 
-        UIUtils.addButton("How To Play", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("HOW TO PLAY", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new HowToScreen(app)));
 
-        UIUtils.addButton("Settings", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("SETTINGS", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
                 () -> app.setScreen(new SettingsScreen(app, this)));
 
-        UIUtils.addButton("Exit", app.skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("SCOREBOARD", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
+            () -> app.setScreen(new LeaderboardScreen(app, GameApp.STORY_LEADERBOARD_ID, LeaderboardScreen.ScreenType.MAIN_MENU)));
+
+        UIUtils.addButton("EXIT", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
                 () -> Gdx.app.exit());
     }
 

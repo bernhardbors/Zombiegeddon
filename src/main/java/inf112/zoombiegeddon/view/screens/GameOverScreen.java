@@ -29,21 +29,19 @@ public class GameOverScreen extends AbstractScreen {
     public void buildScreen() {
         clearTable();
 
-        app.audio.playMusic(MusicTrack.MENU, true);
+        app.getAudio().playMusic(MusicTrack.MENU, true);
 
-        if (app.manager.isLoaded(AssetConstants.BG_SKY)) {
-            Texture background = app.manager.get(AssetConstants.BG_SKY, Texture.class);
+        if (app.getAssets().getManager().isLoaded(AssetConstants.BG_SKY)) {
+            Texture background = app.getAssets().getManager().get(AssetConstants.BG_SKY, Texture.class);
             table.setBackground(new TextureRegionDrawable(background));
         }
 
         formatText("GAME OVER", Color.WHITE, 6f);
 
-
-
-        UIUtils.addButton("Respawn level 1", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new Level1(app)));
-        UIUtils.addButton("Respawn level 2", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new Level2(app)));
-
-        UIUtils.addButton("MainScreen", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new MainMenuScreen(app)));
+        UIUtils.addButton("MainScreen", skin, table, buttonWidth, buttonHeight, () -> {
+            app.finishStoryRun();
+            app.setScreen(new MainMenuScreen(app));
+        });
     }
 }
 

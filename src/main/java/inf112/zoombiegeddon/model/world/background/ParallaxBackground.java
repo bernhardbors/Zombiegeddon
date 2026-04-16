@@ -28,6 +28,13 @@ public class ParallaxBackground {
     }
 
     /**
+     * Empty constructor for creating the background before the camera is available.
+     */
+    public ParallaxBackground() {
+        this.layers = new ArrayList<>();
+    }
+
+    /**
      * Updates the camera reference used for calculating background movement.
      * Useful if the camera is recreated or swapped between levels.
      *

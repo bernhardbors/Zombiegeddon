@@ -1,98 +1,44 @@
 {
 leaderboards: {
 	class: java.util.HashMap
+	storymode: [
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Berni
+			boardId: storymode
+			score: 3775
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 72.54958
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Isak
+			boardId: storymode
+			score: 3768
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 73.22366
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: IsakG
+			boardId: storymode
+			score: 2890
+			collectedItems: 0
+			livesLeft: 1
+			timeUsed: 61.03383
+		}
+	]
 	level1: [
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Jamie vardy
-			boardId: level1
-			score: 4217
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 28.334822
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Theoflor
-			boardId: level1
-			score: 4215
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 28.506952
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Van Dijk
-			boardId: level1
-			score: 4201
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 29.950697
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Player
-			boardId: level1
-			score: 4200
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 30.014055
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Player
-			boardId: level1
-			score: 4169
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 33.192688
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: andre onana
-			boardId: level1
-			score: 4161
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 33.998398
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: tuva
-			boardId: level1
-			score: 4049
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 45.133373
-		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: Theo
 			boardId: level1
-			score: 4000
-			collectedItems: 0
+			score: 4200
+			collectedItems: 8
 			livesLeft: 2
 			timeUsed: 43.2
-		}
-	]
-	level2: [
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Tuva
-			boardId: level2
-			score: 3623
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 87.790245
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: tuva
-			boardId: level2
-			score: 3318
-			collectedItems: 0
-			livesLeft: 2
-			timeUsed: 68.266655
 		}
 	]
 }

@@ -25,25 +25,53 @@ public class HowToScreen extends AbstractScreen {
 
     @Override
     public void buildScreen() {
-       clearTable();
+        clearTable();
+        table.top();
 
-        app.audio.playMusic(MusicTrack.MENU, true);
+        app.getAudio().playMusic(MusicTrack.MENU, true);
 
-        if (app.manager.isLoaded(AssetConstants.BG_SKY)) {
-            Texture background = app.manager.get(AssetConstants.BG_SKY, Texture.class);
+        if (app.getAssets().getManager().isLoaded(AssetConstants.BG_SKY)) {
+            Texture background = app.getAssets().getManager().get(AssetConstants.BG_SKY, Texture.class);
             table.setBackground(new TextureRegionDrawable(background));
         }
 
-        formatText("HOW TO PLAY", Color.WHITE, 2f);
+        // Title
+        formatText("HOW TO PLAY", Color.GOLD, 2.5f);
+        table.row().padTop(-10f);
 
+        // --- Controls Section ---
+        formatText("CONTROLS", Color.ORANGE, 1.5f);
         formatText(
-                "Move: W, A, S, D or Arrow Keys\n" +
-                "Jump: Space or Up\n" +
-                "Sprint: Shift\n" +
-                        "Pause: P\n" +
-                "Quit: Escape",
-                Color.WHITE, 1.5f);
+                "Move: W, A, S, D / Arrows\n" +
+                        "Jump: Space / Up\n" +
+                        "Sprint: Left Shift\n" +
+                        "Pause: P  |  Quit: ESC",
+                Color.WHITE, 1.2f);
 
-        UIUtils.addButton("Back", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new MainMenuScreen(app))).row();
+        table.row().padTop(10);
+
+        // --- Game Modes Section ---
+        formatText("GAME MODES", Color.ORANGE, 1.5f);
+
+        // Story Mode Description
+        formatText("STORY MODE", Color.CYAN, 1.2f);
+        formatText("Experience the apocalypse in order. \n" +
+                        "Your final score will be submitted to the Leaderboard!",
+                Color.WHITE, 1.0f);
+
+        table.row().padTop(10f);
+
+        // Level Select Description
+        formatText("LEVEL SELECT", Color.CYAN, 1.2f);
+        formatText("Practice any level in any order. \n" +
+                        "Note: Highscores are disabled in this mode.",
+                Color.WHITE, 1.0f);
+
+        // --- Back Button ---
+        table.row().padTop(40f);
+        UIUtils.addButton("Back", skin, table, buttonWidth, buttonHeight,
+                () -> app.setScreen(new MainMenuScreen(app))).row();
+
+        table.row().padBottom(-10);
     }
 }

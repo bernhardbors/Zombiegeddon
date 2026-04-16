@@ -24,6 +24,7 @@ import inf112.zoombiegeddon.app.GameApp;
 
 import inf112.zoombiegeddon.audio.IAudioService;
 import inf112.zoombiegeddon.audio.MusicTrack;
+import inf112.zoombiegeddon.audio.Sfx;
 import inf112.zoombiegeddon.controller.LevelController;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.events.GameEvent;
@@ -89,11 +90,11 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
     public AbstractLevel(GameApp app, OrthographicCamera camera, Vector2 gravity) {
         this.physics = new WorldPhysics(gravity);
         this.worldRenderer = new WorldRenderer(camera);
-        this.audioService = app.audio;
+        this.audioService = app.getAudio();
         this.viewport = new ExtendViewport(viewportWidth, viewportHeight, camera);
         this.camera = camera;
         this.app = app;
-        this.healthbar = app.manager.get(AssetConstants.HEALTHBAR, Texture.class);
+        this.healthbar = app.getAssets().getManager().get(AssetConstants.HEALTHBAR, Texture.class);
         this.hudRenderer = new ShapeRenderer();
         this.debugRenderer = new Box2DDebugRenderer();
         this.levelController = new LevelController();
@@ -101,7 +102,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
 
     @Override
     public void show() {
-        app.background.setCamera(camera);
+        app.getBackground().setCamera(camera);
         audioService.playMusic(MusicTrack.GAMEPLAY, true);
         /*if (playerController != null) {
             Gdx.input.setInputProcessor(playerController);
@@ -145,10 +146,13 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
 
     public void renderVisuals() {
         viewport.apply();
-        draw(app.batch);
+        draw(app.getBatch());
 
         if (UIrenderer != null) {
-            UIrenderer.drawHearts(app.batch, healthbar);
+            UIrenderer.drawHearts(app.getBatch(), healthbar);
+            if (app.storyModeActive) {
+                UIrenderer.drawStoryTime(app.getBatch(), app.getAssets().getFont(), getTimeUsed());
+            }
         }
         renderTriggerText();
     }
@@ -163,28 +167,44 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
     public void update(float delta) {
         physics.update(delta);
         levelTime += delta;
+        String levelId = getLevelId();
 
         if (player != null) {
             player.update(delta);
             if (player.isDead()) {
+                if (app.storyModeActive) {
+                    app.finishStoryRun();
+                }
                 app.setScreen(new GameOverScreen(app));
                 return;
             }
 
             if (player.inGoal()) {
-                app.leaderboardController.registerLevelCompletion(
-                        getLevelId(),
-                        getPlayerName(),
-                        getCollectedItems(),
-                        getLivesLeft(),
-                        getTimeUsed()
-                );
-
-                app.setScreen(new LeaderboardScreen(
-                        app,
-                        getLevelId(),
-                        LeaderboardScreen.ScreenType.NEXT_LEVEL
-                ));
+                if (app.storyModeActive) {
+                    if ("level1".equals(levelId)) {
+                        app.carryStoryTime(levelTime);
+                        app.setScreen(new Level2(app));
+                    } else if ("level2".equals(levelId)) {
+                        app.carryStoryTime(levelTime);
+                        app.setScreen(new Level3(app));
+                    } else {
+                        app.getLeaderboardController().registerLevelCompletion(
+                                GameApp.STORY_LEADERBOARD_ID,
+                                getPlayerName(),
+                                getCollectedItems(),
+                                getLivesLeft(),
+                                getTimeUsed()
+                        );
+                        app.finishStoryRun();
+                        app.setScreen(new LeaderboardScreen(
+                                app,
+                                GameApp.STORY_LEADERBOARD_ID,
+                                LeaderboardScreen.ScreenType.MAIN_MENU
+                        ));
+                    }
+                } else {
+                    app.setScreen(new NextLevelScreen(app));
+                }
                 return;
             }
 
@@ -220,18 +240,18 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
             return;
         }
         TextureRegion playerFrame = entity.getAnimationHandler().getFrame(entity.getCurrentState(), entity.getStateTime(), entity.isFacingRight());
-        app.batch.setProjectionMatrix(camera.combined);
-        app.batch.begin();
-        entityRenderer.render(app.batch, entity, playerFrame);
-        app.batch.end();
+        app.getBatch().setProjectionMatrix(camera.combined);
+        app.getBatch().begin();
+        entityRenderer.render(app.getBatch(), entity, playerFrame);
+        app.getBatch().end();
     }
 
     @Override
     public void drawParallaxBackground() {
-        app.batch.setProjectionMatrix(camera.combined);
-        app.batch.begin();
-        app.background.render(app.batch);
-        app.batch.end();
+        app.getBatch().setProjectionMatrix(camera.combined);
+        app.getBatch().begin();
+        app.getBackground().render(app.getBatch());
+        app.getBatch().end();
     }
 
     protected void drawPickups() {
@@ -240,8 +260,8 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
             return;
         }
 
-        app.shapeRenderer.setProjectionMatrix(camera.combined);
-        app.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        app.getShapeRenderer().setProjectionMatrix(camera.combined);
+        app.getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
         for (IPickup pickup : pickups) {
             if (pickup.isCollected()) {
                 continue;
@@ -250,16 +270,16 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
             float size = pickup.getRenderSize();
             float x = pickup.getPosition().x - size / 2f;
             float y = pickup.getPosition().y - size / 2f;
-            app.shapeRenderer.setColor(pickup.getPickupColor());
-            app.shapeRenderer.rect(x, y, size, size);
+            app.getShapeRenderer().setColor(pickup.getPickupColor());
+            app.getShapeRenderer().rect(x, y, size, size);
         }
-        app.shapeRenderer.end();
+        app.getShapeRenderer().end();
     }
 
     @Override
     public Label drawText(String text, Color color, float scale) {
         Label.LabelStyle style = new Label.LabelStyle();
-        style.font = app.font;
+        style.font = app.getAssets().getFont();
         style.fontColor = color;
 
         style.font.setUseIntegerPositions(false);
@@ -284,9 +304,9 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
         float padding = 16f;
         float fontScale = 2.0f;
 
-        app.font.getData().setScale(fontScale);
+        app.getAssets().getFont().getData().setScale(fontScale);
         GlyphLayout layout = new GlyphLayout();
-        layout.setText(app.font, text, Color.WHITE, boxW - padding * 2, Align.center, true);
+        layout.setText(app.getAssets().getFont(), text, Color.WHITE, boxW - padding * 2, Align.center, true);
 
         float boxH = layout.height + padding * 2;
 
@@ -305,13 +325,13 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
         boxY = Math.min(boxY, screenH - boxH);
 
 
-        app.batch.setProjectionMatrix(screenMatrix);
-        app.batch.begin();
-        app.font.draw(app.batch, layout, boxX + padding, boxY + boxH - padding);
-        app.batch.end();
+        app.getBatch().setProjectionMatrix(screenMatrix);
+        app.getBatch().begin();
+        app.getAssets().getFont().draw(app.getBatch(), layout, boxX + padding, boxY + boxH - padding);
+        app.getBatch().end();
 
 
-        app.font.getData().setScale(1f);
+        app.getAssets().getFont().getData().setScale(1f);
     }
 
     /**
@@ -347,7 +367,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
     }
 
     protected float getTimeUsed() {
-        return levelTime;
+        return app.getStoryElapsedSeconds(levelTime);
     }
 
     @Override

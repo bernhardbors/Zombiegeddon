@@ -15,7 +15,12 @@ public enum Sfx {
     BUTTON_CLICK("assets/audio/sfx/button_click.wav"),
     FOOTSTEPS("assets/audio/sfx/footstep_soft.wav"),
     FOOTSTEPS_RUN("assets/audio/sfx/footstep_run.wav"),
-    PLAYER_DEATH("assets/audio/sfx/lose.wav");
+    PLAYER_DEATH("assets/audio/sfx/lose.wav"),
+    GLASSBREAK("assets/audio/sfx/GlassBreaking.mp3"),
+    VICTORY("assets/audio/sfx/VICTORY.wav"),
+    WARSOUNDS("assets/audio/sfx/warSounds.mp3"),
+    HEAL_PICKUP("assets/audio/sfx/1up 3 - Sound effects Pack 2.wav"),
+    POWERUP("assets/audio/sfx/PowerUp.wav");
 
     private final String path;
 

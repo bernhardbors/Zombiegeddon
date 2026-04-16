@@ -2,7 +2,6 @@ package inf112.zoombiegeddon.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -36,8 +35,10 @@ public abstract class AbstractScreen implements IScreen {
     AbstractScreen(final GameApp app) {
 
         this.app = app;
-        this.skin = app.skin;
-        this.prefs = app.prefs;
+
+        this.skin = app.getAssets().getSkin();
+        this.prefs = app.getPrefs();
+
         this.table = new Table();
         this.stage = new Stage(new ScreenViewport());
 
@@ -66,7 +67,7 @@ public abstract class AbstractScreen implements IScreen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.DARK_GRAY);
-
+        //table.debug();
         stage.act(Math.min(delta, 1 / 30f));
         stage.draw();
     }
@@ -107,8 +108,8 @@ public abstract class AbstractScreen implements IScreen {
     }
 
     private void calculateButtonSize(){
-        this.buttonWidth = (float) Gdx.graphics.getWidth() / 5;
-        this.buttonHeight = (float) Gdx.graphics.getHeight() / 15;
+        this.buttonWidth = (float) Gdx.graphics.getWidth() / 7;
+        this.buttonHeight = (float) Gdx.graphics.getHeight() / 18;
     }
 
     /**
@@ -121,7 +122,7 @@ public abstract class AbstractScreen implements IScreen {
      */
     protected Label formatText(String text, Color color, float scale) {
         Label.LabelStyle style = new Label.LabelStyle();
-        style.font = app.font;
+        style.font = app.getAssets().getFont();;
         style.fontColor = color;
 
         float screenScale = Gdx.graphics.getHeight() / 1080f;

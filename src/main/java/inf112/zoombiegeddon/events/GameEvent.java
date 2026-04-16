@@ -10,11 +10,15 @@ import inf112.zoombiegeddon.audio.AudioManager;
 public enum GameEvent {
     PLAYER_JUMP,
     UI_BUTTON_CLICK,
+    PICKUP_COLLECTED,
     ENEMY_HIT,
     PLAYER_MOVE_START,
     PLAYER_RUN_START,
     PLAYER_RUN_STOP,
     PLAYER_MOVE_STOP,
     PLAYER_DEATH,
-    TOGGLE_PAUSE;
+    LEVEL_FINISHED,
+    TOGGLE_PAUSE,
+    PICKUP_HEALTH,
+    PICKUP_SPEED,
 }

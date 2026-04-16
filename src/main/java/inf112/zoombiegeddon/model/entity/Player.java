@@ -18,9 +18,15 @@ import inf112.zoombiegeddon.view.levels.AbstractLevel;
  */
 public class Player extends Entity implements IDamageable {
 
-    private static final float JUMP_IMPULSE = 10.0f;
-    private static final float MOVE_IMPULSE = 0.7f;
+    private static final float JUMP_IMPULSE = 14.0f;
+    private static final float MOVE_IMPULSE = 1.0f;
     private static final float VELOCITY_THRESHOLD = 0.1f;
+
+    private float coyoteTimer = 0f;
+    private final float COYOTE_TIME_MAX = 0.15f; // 150ms window
+
+    private float jumpBufferTimer = 0f;
+    private final float JUMP_BUFFER_MAX = 0.10f;
 
     private final PlayerController controller;
     private final AnimationHandler animationHandler;
@@ -101,6 +107,32 @@ public class Player extends Entity implements IDamageable {
 
         if (pickupVisualEffectRemaining > 0f) {
             pickupVisualEffectRemaining = Math.max(0f, pickupVisualEffectRemaining - dt);
+        }
+
+        if (isGrounded()) {
+            coyoteTimer = COYOTE_TIME_MAX;
+        } else {
+            coyoteTimer -= dt;
+        }
+
+        if (jumpBufferTimer > 0) {
+            jumpBufferTimer -= dt;
+        }
+
+        if (jumpBufferTimer > 0 && coyoteTimer > 0) {
+            executeJump();
+        }
+
+        Vector2 vel = physics.getVelocity();
+
+        if (vel.y > 0.1f) {
+            if (!controller.isJumpPressed()) {
+                physics.getBody().setGravityScale(5.0f);
+            } else {
+                physics.getBody().setGravityScale(1.5f);
+            }
+        } else {
+            physics.getBody().setGravityScale(2.0f);
         }
  
        }
@@ -192,10 +224,16 @@ public class Player extends Entity implements IDamageable {
      * Makes the player jump if grounded and posts a jump event.
      */
     public void jump() {
-        if (isGrounded()) {
-            physics.applyImpulse(new Vector2(0, JUMP_IMPULSE));
-            GameEventBus.post(GameEvent.PLAYER_JUMP);
-        }
+        jumpBufferTimer = JUMP_BUFFER_MAX;
+    }
+
+    private void executeJump() {
+        physics.applyImpulse(new Vector2(0, JUMP_IMPULSE));
+
+        jumpBufferTimer = 0;
+        coyoteTimer = 0;
+
+        GameEventBus.post(GameEvent.PLAYER_JUMP);
     }
 
     /**
@@ -311,6 +349,9 @@ public class Player extends Entity implements IDamageable {
      * @param bool True if the player is in the goal, false otherwise.
      */
     public void setInGoal(boolean bool){
+        if (!this.inGoal && bool) {
+            GameEventBus.post(GameEvent.LEVEL_FINISHED);
+        }
         this.inGoal = bool;
     }
 
