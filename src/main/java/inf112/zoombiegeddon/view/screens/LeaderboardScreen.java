@@ -71,7 +71,7 @@ public class LeaderboardScreen extends AbstractScreen {
 
         UIUtils.addButton("Main Menu", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
                 () -> {
-                    app.finishStoryRun();
+                    app.getStoryManager().finishRun();
                     app.setScreen(new MainMenuScreen(app));
                 });
     }

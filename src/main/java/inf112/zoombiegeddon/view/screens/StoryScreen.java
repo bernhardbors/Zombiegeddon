@@ -15,6 +15,7 @@ import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.audio.Sfx;
+import inf112.zoombiegeddon.model.story.StorySlide;
 import inf112.zoombiegeddon.view.levels.Level1;
 
 public class StoryScreen extends AbstractScreen {
@@ -23,11 +24,11 @@ public class StoryScreen extends AbstractScreen {
     private static final float fadeOutDuration = 1.5f;
     private static final float delayDuration = 2f;
 
-    private static final String[] STORY_IMAGES = {
-            AssetConstants.STORY_IMAGE_01,
-            AssetConstants.STORY_IMAGE_02,
-            AssetConstants.STORY_IMAGE_03,
-            AssetConstants.STORY_IMAGE_04
+    private static final StorySlide[] SLIDES = {
+            new StorySlide(AssetConstants.STORY_IMAGE_01, MusicTrack.STORY_CHILL_BACKGROUND, null, false),
+            new StorySlide(AssetConstants.STORY_IMAGE_02, null, null, false),
+            new StorySlide(AssetConstants.STORY_IMAGE_03, null, Sfx.GLASSBREAK, true),
+            new StorySlide(AssetConstants.STORY_IMAGE_04, null, Sfx.WARSOUNDS, false)
     };
 
     private Image storyImage;
@@ -54,7 +55,7 @@ public class StoryScreen extends AbstractScreen {
 
         table.add(storyImage).center();
 
-        if (STORY_IMAGES.length == 0) {
+        if (SLIDES.length == 0) {
             goToLevel1();
             return;
         }
@@ -64,25 +65,29 @@ public class StoryScreen extends AbstractScreen {
     }
 
     private void showSlide(int storyIndex) {
-        String storyImagePath = STORY_IMAGES[storyIndex];
-
-        if (!app.getAssets().getManager().isLoaded(storyImagePath)) {
+        if (storyIndex >= SLIDES.length) {
             goToLevel1();
             return;
         }
 
-        switch(storyIndex) {
-            case 0 ->
-                    app.getAudio().playMusic(MusicTrack.STORY_CHILL_BACKGROUND, false);
-            case 2 -> {
-                app.getAudio().stopMusic();
-                app.getAudio().playSfx(Sfx.GLASSBREAK);
-            }
-            case 3  ->
-                    app.getAudio().playSfx(Sfx.WARSOUNDS);
+        StorySlide currentSlide = SLIDES[storyIndex];
+
+        if (!app.getAssets().getManager().isLoaded(currentSlide.imagePath())) {
+            goToLevel1();
+            return;
         }
 
-        Texture texture = app.getAssets().getManager().get(storyImagePath, Texture.class);
+        if (currentSlide.stopPreviousMusic()) {
+            app.getAudio().stopMusic();
+        }
+        if (currentSlide.musicTrack() != null) {
+            app.getAudio().playMusic(currentSlide.musicTrack(), false);
+        }
+        if (currentSlide.sfxTrack() != null) {
+            app.getAudio().playSfx(currentSlide.sfxTrack());
+        }
+
+        Texture texture = app.getAssets().getManager().get(currentSlide.imagePath(), Texture.class);
         storyImage.setDrawable(new TextureRegionDrawable(new TextureRegion(texture)));
 
         storyImage.clearActions();
@@ -99,7 +104,7 @@ public class StoryScreen extends AbstractScreen {
             return;
         }
         currentStoryIndex++;
-        if (currentStoryIndex >= STORY_IMAGES.length) {
+        if (currentStoryIndex >= SLIDES.length) {
             goToLevel1();
             return;
         }
@@ -147,7 +152,7 @@ public class StoryScreen extends AbstractScreen {
         if (storyImage != null) {
             storyImage.clearActions();
         }
-        app.startStoryTimer();
+        app.getStoryManager().startTimer();
         app.setScreen(new Level1(app));
     }
 

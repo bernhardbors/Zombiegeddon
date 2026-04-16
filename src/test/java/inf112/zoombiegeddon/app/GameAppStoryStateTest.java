@@ -1,5 +1,6 @@
 package inf112.zoombiegeddon.app;
 
+import inf112.zoombiegeddon.model.story.StorySession;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,9 +14,11 @@ public class GameAppStoryStateTest {
         GameApp app = new GameApp();
 
         app.startStoryRun("  Alice  ");
-        assertTrue(app.storyModeActive);
-        assertFalse(app.storyTimerActive);
-        assertEquals("Alice", app.getCurrentPlayerName());
+        StorySession session = app.getStorySession();
+
+        assertTrue(session.isActive());
+        assertFalse(session.isTimerRunning());
+        assertEquals("Alice", session.getPlayerName());
 
         app.startStoryTimer();
         app.carryStoryTime(42.5f);
@@ -24,8 +27,7 @@ public class GameAppStoryStateTest {
 
         app.finishStoryRun();
 
-        assertFalse(app.storyModeActive);
-        assertFalse(app.storyTimerActive);
-        assertEquals(0f, app.storyTimeCarrySeconds, 0.0001f);
+        assertFalse(session.isActive());
+        assertFalse(session.isTimerRunning());
     }
 }

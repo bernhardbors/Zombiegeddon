@@ -378,7 +378,7 @@ public class Player extends Entity implements IDamageable {
 
             Vector2 vel = this.physics.getVelocity();
             this.physics.getBody().setLinearVelocity(vel.x, 0);
-            this.physics.applyImpulse(new Vector2(0, 4.0f));
+            executeJump();
         } else {
             this.takeDamage(1);
         }
