@@ -178,7 +178,7 @@ public class AudioManager implements IAudioService, IEventListener {
                 playSfx(Sfx.BUTTON_CLICK);
                 break;
             case PICKUP_COLLECTED:
-                playSfx(Sfx.POWERUP);
+                playSfx(Sfx.SPEED);
                 break;
             case PLAYER_MOVE_START:
                 startFootstepsLoop();
@@ -205,6 +205,10 @@ public class AudioManager implements IAudioService, IEventListener {
                 break;
             case PICKUP_HEALTH:
                 playSfx(Sfx.HEAL_PICKUP);
+                break;
+            case PICKUP_SPEED:
+                playSfx(Sfx.SPEED);
+                break;
             default:
                 break;
         }

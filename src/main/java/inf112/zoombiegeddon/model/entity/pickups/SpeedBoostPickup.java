@@ -3,6 +3,8 @@ package inf112.zoombiegeddon.model.entity.pickups;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import inf112.zoombiegeddon.events.GameEvent;
+import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.entity.Player;
 import inf112.zoombiegeddon.view.levels.AbstractLevel;
 
@@ -20,5 +22,6 @@ public class SpeedBoostPickup extends Pickup {
     public void applyEffect(Player player) {
         player.applySpeedBoost(SPEED_MULTIPLIER, BOOST_DURATION_SECONDS);
         player.triggerPickupVisualEffect(FX_DURATION_SECONDS, getPickupColor());
+        GameEventBus.post(GameEvent.PICKUP_SPEED);
     }
 }
