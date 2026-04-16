@@ -12,6 +12,9 @@ import inf112.zoombiegeddon.model.leaderboard.ILeaderboardRepository;
 import inf112.zoombiegeddon.model.leaderboard.JsonLeaderboardRepository;
 import inf112.zoombiegeddon.model.leaderboard.LeaderboardManager;
 import inf112.zoombiegeddon.model.leaderboard.ScoreCalculator;
+import inf112.zoombiegeddon.model.story.IStoryManager;
+import inf112.zoombiegeddon.model.story.StoryManager;
+import inf112.zoombiegeddon.model.story.StorySession;
 import inf112.zoombiegeddon.model.world.background.ParallaxBackground;
 import inf112.zoombiegeddon.view.screens.LoadingScreen;
 
@@ -36,9 +39,8 @@ public class GameApp extends Game {
     private LeaderboardManager leaderboardManager;
     private ScoreCalculator scoreCalculator;
     private String currentPlayerName;
-    public boolean storyModeActive;
-    public boolean storyTimerActive;
-    public float storyTimeCarrySeconds;
+
+    private IStoryManager storyManager;
     /**
      * Initializes the core components of the application.
      * Sets up the rendering batch, asset management, user preferences.
@@ -55,9 +57,11 @@ public class GameApp extends Game {
         this.assets.load();
 
         this.audio = new AudioManager(assets.getManager(), prefs);
+        this.storyManager = new StoryManager();
 
         initializeLeaderboardSystem();
         setResolutionOnStartup();
+
 
         this.setScreen(new LoadingScreen(this));
     }
@@ -100,6 +104,7 @@ public class GameApp extends Game {
     public SpriteBatch getBatch() { return batch; }
     public Assets getAssets() { return assets; }
     public IAudioService getAudio() { return audio; }
+    public IStoryManager getStoryManager() { return storyManager; }
     public LeaderboardController getLeaderboardController() { return leaderboardController; }
     public LeaderboardManager getLeaderboardManager() { return leaderboardManager; }
     public ParallaxBackground getBackground() { return background; }
@@ -115,34 +120,6 @@ public class GameApp extends Game {
         }
     }
 
-    public void startStoryRun(String playerName) {
-        setCurrentPlayerName(playerName);
-        storyModeActive = true;
-        storyTimerActive = false;
-        storyTimeCarrySeconds = 0f;
-    }
 
-    public void startStoryTimer() {
-        storyModeActive = true;
-        storyTimerActive = true;
-    }
-
-    public void carryStoryTime(float elapsedSeconds) {
-        storyTimeCarrySeconds = Math.max(0f, elapsedSeconds);
-    }
-
-    public float getStoryElapsedSeconds(float currentLevelTime) {
-        if (storyModeActive && storyTimerActive) {
-            return storyTimeCarrySeconds + currentLevelTime;
-        }
-
-        return currentLevelTime;
-    }
-
-    public void finishStoryRun() {
-        storyModeActive = false;
-        storyTimerActive = false;
-        storyTimeCarrySeconds = 0f;
-    }
 
 }

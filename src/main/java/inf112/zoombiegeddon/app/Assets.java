@@ -38,14 +38,14 @@ public class Assets {
         manager.load(AssetConstants.UI_SKIN, Skin.class);
         manager.load(AssetConstants.FONT_PATH, BitmapFont.class);
 
-        // Lasting av karakterer og fiender (Textures)
+        // Loading of player and enemies
         manager.load(AssetConstants.CHARACTER_MALE_SHEET, Texture.class);
         manager.load(AssetConstants.CHARACTER_FEMALE_SHEET, Texture.class);
         manager.load(AssetConstants.ZOMBIE_SHEET, Texture.class);
         manager.load(AssetConstants.CHONKER_SHEET, Texture.class);
         manager.load(AssetConstants.HEALTHBAR, Texture.class);
 
-        // Lasting av bakgrunner (Textures)
+        // Loading of backgrounds
         manager.load(AssetConstants.BG_SKY, Texture.class);
         manager.load(AssetConstants.BG_CITY, Texture.class);
         manager.load(AssetConstants.BG_L1, Texture.class);
@@ -68,8 +68,6 @@ public class Assets {
         chonkerAnimations = new AnimationHandler(manager.get(AssetConstants.CHONKER_SHEET, Texture.class));
 
         skin.add("default-font", font, BitmapFont.class);
-        // Avhengig av LibGDX-versjon kan disse to linjene feile hvis de ikke ligger i skin-filen.
-        // Kan beholdes om de funker for dere!
         skin.get(TextButton.TextButtonStyle.class).font = font;
         skin.get(Label.LabelStyle.class).font = font;
 

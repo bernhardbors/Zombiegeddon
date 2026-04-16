@@ -150,7 +150,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
 
         if (UIrenderer != null) {
             UIrenderer.drawHearts(app.getBatch(), healthbar);
-            if (app.storyModeActive) {
+            if (app.getStoryManager().isActive()) {
                 UIrenderer.drawStoryTime(app.getBatch(), app.getAssets().getFont(), getTimeUsed());
             }
         }
@@ -172,20 +172,20 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
         if (player != null) {
             player.update(delta);
             if (player.isDead()) {
-                if (app.storyModeActive) {
-                    app.finishStoryRun();
+                if (app.getStoryManager().isActive()) {
+                    app.getStoryManager().finishRun();
                 }
                 app.setScreen(new GameOverScreen(app));
                 return;
             }
 
             if (player.inGoal()) {
-                if (app.storyModeActive) {
+                if (app.getStoryManager().isActive()) {
                     if ("level1".equals(levelId)) {
-                        app.carryStoryTime(levelTime);
+                        app.getStoryManager().carryTime(levelTime);
                         app.setScreen(new Level2(app));
                     } else if ("level2".equals(levelId)) {
-                        app.carryStoryTime(levelTime);
+                        app.getStoryManager().carryTime(levelTime);
                         app.setScreen(new Level3(app));
                     } else {
                         app.getLeaderboardController().registerLevelCompletion(
@@ -195,7 +195,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
                                 getLivesLeft(),
                                 getTimeUsed()
                         );
-                        app.finishStoryRun();
+                        app.getStoryManager().finishRun();
                         app.setScreen(new LeaderboardScreen(
                                 app,
                                 GameApp.STORY_LEADERBOARD_ID,
@@ -367,7 +367,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
     }
 
     protected float getTimeUsed() {
-        return app.getStoryElapsedSeconds(levelTime);
+        return app.getStoryManager().getElapsedSeconds(levelTime);
     }
 
     @Override

@@ -18,7 +18,7 @@ import inf112.zoombiegeddon.view.levels.AbstractLevel;
  */
 public class Player extends Entity implements IDamageable {
 
-    private static final float JUMP_IMPULSE = 14.0f;
+    private static final float JUMP_IMPULSE = 23.0f;
     private static final float MOVE_IMPULSE = 1.0f;
     private static final float VELOCITY_THRESHOLD = 0.1f;
 
@@ -378,7 +378,7 @@ public class Player extends Entity implements IDamageable {
 
             Vector2 vel = this.physics.getVelocity();
             this.physics.getBody().setLinearVelocity(vel.x, 0);
-            this.physics.applyImpulse(new Vector2(0, 4.0f));
+            executeJump();
         } else {
             this.takeDamage(1);
         }
