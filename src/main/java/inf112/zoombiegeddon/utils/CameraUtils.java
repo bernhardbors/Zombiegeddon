@@ -23,7 +23,7 @@ public class CameraUtils {
 
         float DEADZONE_WIDTH = 4f;
         float DEADZONE_HEIGHT = 4f;
-        float VERTICAL_OFFSET = 5.5f;
+        float VERTICAL_OFFSET = 3.5f;
 
         float playerX = player.getPosition().x;
         float playerY = player.getPosition().y + VERTICAL_OFFSET;

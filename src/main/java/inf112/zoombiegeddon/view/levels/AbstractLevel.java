@@ -13,7 +13,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -24,7 +23,6 @@ import inf112.zoombiegeddon.app.GameApp;
 
 import inf112.zoombiegeddon.audio.IAudioService;
 import inf112.zoombiegeddon.audio.MusicTrack;
-import inf112.zoombiegeddon.audio.Sfx;
 import inf112.zoombiegeddon.controller.LevelController;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.events.GameEvent;
@@ -79,6 +77,11 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
     public static final float viewportHeight = 30.0f;
     public Texture healthbar;
     protected float levelTime = 0f;
+
+    private static final float SIGN_BOX_WIDTH = 0.6F;
+    private static final float SIGN_PADDING = 0.02f;
+    private static final float SIGN_FONT_SCALE = 2.0f;
+    private static final float SIGN_Y_POSITION = 0.75f;
 
     /**
      * Constructs a new abstract level with shared rendering and physics setup.
@@ -293,43 +296,26 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
      * Draws sign text above the given sign area in screen space.
      *
      * @param text The text to display.
-     * @param signRect The rectangle representing the sign area in world coordinates.
      */
-    public void drawSignText(String text, Rectangle signRect) {
+    public void drawSignText(String text) {
         int screenW = Gdx.graphics.getWidth();
         int screenH = Gdx.graphics.getHeight();
         Matrix4 screenMatrix = new Matrix4().setToOrtho2D(0, 0, screenW, screenH);
 
-        float boxW = screenW * 0.6f;
-        float padding = 16f;
-        float fontScale = 2.0f;
+        float boxW = SIGN_BOX_WIDTH * screenW;
+        float padding = SIGN_PADDING * screenH;
 
-        app.getAssets().getFont().getData().setScale(fontScale);
+        app.getAssets().getFont().getData().setScale(SIGN_FONT_SCALE);
         GlyphLayout layout = new GlyphLayout();
         layout.setText(app.getAssets().getFont(), text, Color.WHITE, boxW - padding * 2, Align.center, true);
 
-        float boxH = layout.height + padding * 2;
-
-
-        Vector3 signTop = new Vector3(
-                signRect.x + signRect.width / 2f,
-                signRect.y + signRect.height,
-                0);
-        camera.project(signTop);
-
-        float boxX = signTop.x - boxW / 2f;
-        float boxY = signTop.y + 8f;
-
-
-        boxX = Math.max(0, Math.min(boxX, screenW - boxW));
-        boxY = Math.min(boxY, screenH - boxH);
-
+        float boxX = (screenW - boxW) / 2f;
+        float boxY = screenH * SIGN_Y_POSITION;
 
         app.getBatch().setProjectionMatrix(screenMatrix);
         app.getBatch().begin();
-        app.getAssets().getFont().draw(app.getBatch(), layout, boxX + padding, boxY + boxH - padding);
+        app.getAssets().getFont().draw(app.getBatch(), layout, boxX + padding, boxY);
         app.getBatch().end();
-
 
         app.getAssets().getFont().getData().setScale(1f);
     }
@@ -346,7 +332,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
      */
     public void renderTriggerText() {
         if (currentText != null && triggerZone != null && triggerZone.getZone() != null) {
-            drawSignText(currentText, triggerZone.getZone());
+            drawSignText(currentText);
         }
     }
 
