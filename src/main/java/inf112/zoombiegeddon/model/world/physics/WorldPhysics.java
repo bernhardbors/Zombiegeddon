@@ -2,9 +2,7 @@ package inf112.zoombiegeddon.model.world.physics;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import inf112.zoombiegeddon.model.entity.pickups.HealPickup;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
-import inf112.zoombiegeddon.model.entity.pickups.SpeedBoostPickup;
 
 import java.util.ArrayList;
 import java.util.Collections;

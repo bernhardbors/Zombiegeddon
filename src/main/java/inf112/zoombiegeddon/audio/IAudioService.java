@@ -1,7 +1,5 @@
 package inf112.zoombiegeddon.audio;
 
-import com.badlogic.gdx.audio.Music;
-
 /**
  * Interface defining the contract for audio playback and management.
  * Provides methods for playing sound effects, managing volume, and state control.

@@ -7,13 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 
-public class JsonLeaderboardRepository implements ILeaderboardRepository{
-
-    private final String filePath;
-
-    public JsonLeaderboardRepository(String filePath) {
-        this.filePath = filePath;
-    }
+public record JsonLeaderboardRepository(String filePath) implements ILeaderboardRepository {
 
     @Override
     public void save(LeaderboardManager leaderboardManager) {
@@ -55,9 +49,5 @@ public class JsonLeaderboardRepository implements ILeaderboardRepository{
         } catch (IOException e) {
             return new LeaderboardManager();
         }
-    }
-
-    public String getFilePath() {
-        return filePath;
     }
 }
