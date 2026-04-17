@@ -62,10 +62,10 @@ public class Assets {
         skin = manager.get(AssetConstants.UI_SKIN, Skin.class);
         font = manager.get(AssetConstants.FONT_PATH, BitmapFont.class);
 
-        playerMaleAnimations = new AnimationHandler(manager.get(AssetConstants.CHARACTER_MALE_SHEET, Texture.class));
-        playerFemaleAnimations = new AnimationHandler(manager.get(AssetConstants.CHARACTER_FEMALE_SHEET, Texture.class));
-        zombieAnimations = new AnimationHandler(manager.get(AssetConstants.ZOMBIE_SHEET, Texture.class));
-        chonkerAnimations = new AnimationHandler(manager.get(AssetConstants.CHONKER_SHEET, Texture.class));
+        playerMaleAnimations = new AnimationHandler(manager.get(AssetConstants.CHARACTER_MALE_SHEET, Texture.class), 32, 32);
+        playerFemaleAnimations = new AnimationHandler(manager.get(AssetConstants.CHARACTER_FEMALE_SHEET, Texture.class), 32, 32);
+        zombieAnimations = new AnimationHandler(manager.get(AssetConstants.ZOMBIE_SHEET, Texture.class), 32, 32);
+        chonkerAnimations = new AnimationHandler(manager.get(AssetConstants.CHONKER_SHEET, Texture.class), 32, 32);
 
         skin.add("default-font", font, BitmapFont.class);
         skin.get(TextButton.TextButtonStyle.class).font = font;

@@ -1,26 +1,14 @@
 package inf112.zoombiegeddon.model.leaderboard;
 
-public class ScoreData {
-    private final int collectedItems;
-    private final int livesLeft;
-    private final float timeUsed;
-
-    public ScoreData(int collectibles, int livesLeft, float timeUsed) {
-        this.collectedItems = collectibles;
-        this.livesLeft = livesLeft;
-        this.timeUsed = timeUsed;
-    }
-
-    public int getCollectedItems() {
-        return collectedItems;
-    }
-
-    public int getLivesLeft() {
-        return livesLeft;
-    }
-
-    public float getTimeUsed() {
-        return timeUsed;
-    }
-}
-
+/**
+ * Data record carrying the necessary statistics to calculate a level score.
+ *
+ * @param collectedItems number of items collected during run.
+ * @param livesLeft Number of lives left when a player reaches the goal zone.
+ * @param timeUsed Amount of time used to complete a level.
+ */
+public record ScoreData(
+        int collectedItems,
+        int livesLeft,
+        float timeUsed
+) {}

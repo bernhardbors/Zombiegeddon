@@ -44,4 +44,13 @@ public class GameEventBus {
             listener.onEvent(event);
         }
     }
+
+    /**
+     * Clears all registered listeners.
+     * Should be called when transitioning between major game states.
+     * to prevent memory leaks and duplicate event handling.
+     */
+    public static void clear() {
+        listeners.clear();
+    }
 }

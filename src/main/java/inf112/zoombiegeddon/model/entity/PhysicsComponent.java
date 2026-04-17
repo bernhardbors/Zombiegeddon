@@ -2,7 +2,6 @@ package inf112.zoombiegeddon.model.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import inf112.zoombiegeddon.view.levels.AbstractLevel;
 
 /**
  * Manages the Box2D physics body for an entity.
