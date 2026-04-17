@@ -16,7 +16,7 @@ public interface ILuckyBlock {
     /**
      * Placeholder for spawning a future reward entity.
      */
-    void SpawnReward(WorldPhysics worldPhysics);
+    void spawnReward(WorldPhysics worldPhysics);
 
     /**
      * @return true if this block has already been broken.

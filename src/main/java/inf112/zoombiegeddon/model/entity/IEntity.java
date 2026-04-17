@@ -46,16 +46,6 @@ public interface IEntity {
     public boolean isGrounded();
 
     /**
-     * Sets the entity Width
-     */
-    public void setWidth();
-
-    /**
-     * Sets the entity Height
-     */
-    public void setHeight();
-
-    /**
      * @return entity Width
      */
     public float getWidth();

@@ -14,8 +14,7 @@ import inf112.zoombiegeddon.model.leaderboard.LeaderboardManager;
 import inf112.zoombiegeddon.model.leaderboard.ScoreCalculator;
 import inf112.zoombiegeddon.model.story.IStoryManager;
 import inf112.zoombiegeddon.model.story.StoryManager;
-import inf112.zoombiegeddon.model.story.StorySession;
-import inf112.zoombiegeddon.model.world.background.ParallaxBackground;
+import inf112.zoombiegeddon.view.background.ParallaxBackground;
 import inf112.zoombiegeddon.view.screens.LoadingScreen;
 
 /**
