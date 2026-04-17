@@ -105,9 +105,9 @@ public class PhysicsComponent {
     /**
      * Sets the physics body of this component.
      *
-     * @param o The object to assign as the body. Must be a {@link Body}.
+     * @param body The object to assign as the body. Must be a {@link Body}.
      */
-    public void setBody(Object o) {
-        this.body = (Body) o;
+    public void setBody(Body body) {
+        this.body = body;
     }
 }

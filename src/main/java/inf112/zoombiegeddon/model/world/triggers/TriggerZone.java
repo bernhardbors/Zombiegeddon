@@ -6,7 +6,6 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import inf112.zoombiegeddon.model.entity.Player;
-import inf112.zoombiegeddon.view.levels.AbstractLevel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ public class TriggerZone {
         private final List<ITriggerAction> actions = new ArrayList<>();
         private int lastIndex = -1;
 
-        public TriggerZone(TiledMap map, String layerName) {
+        public TriggerZone(TiledMap map, String layerName, float unitScale) {
             MapLayer layer = map.getLayers().get(layerName);
             if (layer == null) return;
 
@@ -30,8 +29,8 @@ public class TriggerZone {
 
                 Rectangle r = ((RectangleMapObject) object).getRectangle();
                 Rectangle worldRect = new Rectangle(
-                        r.x * AbstractLevel.UNIT_SCALE, r.y * AbstractLevel.UNIT_SCALE,
-                        r.width * AbstractLevel.UNIT_SCALE, r.height * AbstractLevel.UNIT_SCALE
+                        r.x * unitScale, r.y * unitScale,
+                        r.width * unitScale, r.height * unitScale
                 );
 
                 String type = object.getProperties().get("type", String.class);
@@ -48,8 +47,8 @@ public class TriggerZone {
                     float spawnX = object.getProperties().get("spawn_x", Float.class);
                     float spawnY = object.getProperties().get("spawn_y", Float.class);
 
-                    spawnX *= AbstractLevel.UNIT_SCALE;
-                    spawnY *= AbstractLevel.UNIT_SCALE;
+                    spawnX *= unitScale;
+                    spawnY *= unitScale;
 
 
                     action = new SpawnAction(spawnX, spawnY);

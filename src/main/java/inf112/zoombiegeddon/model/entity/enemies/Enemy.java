@@ -241,22 +241,6 @@ public class Enemy extends Entity implements IDamageable {
     }
 
     /**
-     * Sets the entity Width
-     */
-    @Override
-    public void setWidth() {
-        //TODO: IMPLEMENT METHODE
-    }
-
-    /**
-     * Sets the entity Height
-     */
-    @Override
-    public void setHeight() {
-        //TODO: IMPLEMENT METHODE
-    }
-
-    /**
      * @return entity Width
      */
     @Override

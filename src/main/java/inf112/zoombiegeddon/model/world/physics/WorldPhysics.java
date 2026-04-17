@@ -43,15 +43,9 @@ public class WorldPhysics {
         this.pickups = new ArrayList<>();
         this.pickupFactories = new HashMap<>();
         this.pendingPickupSpawns = new ArrayList<>();
-        registerDefaultPickupFactories();
 
         this.contactListener = new WorldContactListener(this);
         this.world.setContactListener(contactListener);
-    }
-
-    private void registerDefaultPickupFactories() {
-        registerPickupFactory("speed", spawn -> new SpeedBoostPickup(world, spawn));
-        registerPickupFactory("heal", spawn -> new HealPickup(world, spawn));
     }
 
     public void registerPickupFactory(String rewardType, Function<Vector2, IPickup> factory) {
