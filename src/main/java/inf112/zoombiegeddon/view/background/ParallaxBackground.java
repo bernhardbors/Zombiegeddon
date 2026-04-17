@@ -3,6 +3,7 @@ package inf112.zoombiegeddon.model.world.background;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import inf112.zoombiegeddon.view.background.Layer;
 
 import java.util.ArrayList;
 import java.util.List;
