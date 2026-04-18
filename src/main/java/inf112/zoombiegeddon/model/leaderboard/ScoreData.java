@@ -5,8 +5,8 @@ public class ScoreData {
     private final int livesLeft;
     private final float timeUsed;
 
-    public ScoreData(int collectibles, int livesLeft, float timeUsed) {
-        this.collectedItems = collectibles;
+    public ScoreData(int collectedItems, int livesLeft, float timeUsed) {
+        this.collectedItems = collectedItems;
         this.livesLeft = livesLeft;
         this.timeUsed = timeUsed;
     }

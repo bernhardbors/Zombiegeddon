@@ -50,7 +50,7 @@ public class PickLevelScreen extends AbstractScreen {
                     app.setScreen(new Level2(app));
                 });
 
-        UIUtils.addButton("PLACEHOLDER", skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("LEVEL 3", skin, table, buttonWidth, buttonHeight,
                 () -> {
                     app.setScreen(new Level3(app));
                 });
