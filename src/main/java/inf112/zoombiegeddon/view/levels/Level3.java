@@ -86,7 +86,7 @@ public class Level3 extends AbstractLevel {
             luckyBlockRenderer.render(batch, UNIT_SCALE);
             batch.end();
         }
-        worldRenderer.renderDebug(physics,true);
+        worldRenderer.renderDebug(physics,false);
 
         if (player != null) drawEntities(player);
 
@@ -99,7 +99,5 @@ public class Level3 extends AbstractLevel {
         worldRenderer.renderForeground();
 
         renderTriggerText();
-
-        drawDebug();
     }
 }
