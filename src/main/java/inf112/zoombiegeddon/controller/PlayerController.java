@@ -18,7 +18,6 @@ public class PlayerController extends InputAdapter {
     private static final float WALKING_SPEED = 4f;
     private static final float RUNNING_SPEED = 8f;
     private static final float FRICTION_COEFFICIENT = 0.9f;
-    private boolean isJumpKeyPressed = false;
 
     /**
      * Constructs a new PlayerController for the specified player.
@@ -49,8 +48,7 @@ public class PlayerController extends InputAdapter {
      */
     @Override
     public boolean keyDown(int keycode) {
-        if ((keycode == Input.Keys.SPACE || keycode == Input.Keys.W || keycode == Input.Keys.UP) && !isJumpKeyPressed) {
-            isJumpKeyPressed = true;
+        if ((keycode == Input.Keys.SPACE || keycode == Input.Keys.W || keycode == Input.Keys.UP)) {
             player.jump();
             return true;
         }
@@ -65,7 +63,6 @@ public class PlayerController extends InputAdapter {
     @Override
     public boolean keyUp(int keycode) {
         if (keycode == Input.Keys.SPACE || keycode == Input.Keys.W || keycode == Input.Keys.UP) {
-            isJumpKeyPressed = false;
             return true;
         }
         return false;
@@ -133,11 +130,9 @@ public class PlayerController extends InputAdapter {
      * @return True if Space, W, or Up Arrow was just pressed.
      */
     public boolean isJumpPressed() {
-        return isJumpKeyPressed;
-                /* Gdx.input.isKeyPressed(Input.Keys.SPACE) ||
-                Gdx.input.isKeyPressed(Input.Keys.W) ||
-                Gdx.input.isKeyPressed(Input.Keys.UP); */
+        return Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP);
     }
+
 
     /**
      * Checks whether either shift key is currently pressed.

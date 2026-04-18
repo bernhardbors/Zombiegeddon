@@ -18,7 +18,7 @@ import inf112.zoombiegeddon.view.levels.AbstractLevel;
  */
 public class Player extends Entity implements IDamageable {
 
-    private static final float JUMP_IMPULSE = 23.0f;
+    private static final float JUMP_IMPULSE = 13.0f;
     private static final float MOVE_IMPULSE = 1.0f;
     private static final float VELOCITY_THRESHOLD = 0.1f;
 
