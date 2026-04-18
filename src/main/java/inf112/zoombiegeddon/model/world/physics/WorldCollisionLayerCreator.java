@@ -32,9 +32,9 @@ public class WorldCollisionLayerCreator {
      * @param world         The Box2D world where the physics bodies will be created.
      * @param tilemap       The TiledMap containing the collision data.
      * @param layer         The name of the layer to be parsed for collisions.
-     * @param PIXEL_PR_TILE The scaling factor (Pixels Per Meter) used to convert map coordinates to physics world units.
+     * @param pixelsPerTile The scaling factor (Pixels Per Meter) used to convert map coordinates to physics world units.
      */
-    public WorldCollisionLayerCreator(World world, TiledMap tilemap, String layer, float PIXEL_PR_TILE) {
+    public WorldCollisionLayerCreator(World world, TiledMap tilemap, String layer, float pixelsPerTile) {
 
         this.world = world;
 
@@ -50,7 +50,7 @@ public class WorldCollisionLayerCreator {
             System.err.println("Error: Layer '" + layer + "' not found in map.");
             return;
         }
-        createHitboxes(tileMapLayer, tileMapLayer.getTileWidth(), PIXEL_PR_TILE);
+        createHitboxes(tileMapLayer, tileMapLayer.getTileWidth(), pixelsPerTile);
 
         dispose();
     }
@@ -60,9 +60,9 @@ public class WorldCollisionLayerCreator {
      *
      * @param tileMapLayer  The specific layer being processed.
      * @param tileSize      The width/height of an individual tile in pixels.
-     * @param PIXEL_PR_TILE The conversion ratio from pixels to meters.
+     * @param pixelsPerTile The conversion ratio from pixels to meters.
      */
-    private void createHitboxes(TiledMapTileLayer tileMapLayer, float tileSize, float PIXEL_PR_TILE) {
+    private void createHitboxes(TiledMapTileLayer tileMapLayer, float tileSize, float pixelsPerTile) {
 
         ArrayList<CellCord> cellArray = new ArrayList<>();
 
@@ -78,7 +78,7 @@ public class WorldCollisionLayerCreator {
 
                     if (!cellArray.isEmpty()) {
 
-                        createStaticBody(world, cellArray, tileSize, PIXEL_PR_TILE
+                        createStaticBody(world, cellArray, tileSize, pixelsPerTile
                                 , bodyDef, fixtureDef, tileShape);
                         cellArray.clear();
                     }
@@ -93,21 +93,21 @@ public class WorldCollisionLayerCreator {
      * @param world         The Box2D world.
      * @param tiles         The list of coordinates for the contiguous tiles.
      * @param tileSize      Tile size in pixels.
-     * @param PIXEL_PR_TILE Pixels per meter ratio.
+     * @param pixelPerTile Pixels per meter ratio.
      * @param bodyDef       Reusable body definition.
      * @param fixtureDef    Reusable fixture definition.
      * @param shape         Reusable polygon shape for the box.
      */
-    private void createStaticBody(World world, ArrayList<CellCord> tiles, float tileSize, float PIXEL_PR_TILE,
+    private void createStaticBody(World world, ArrayList<CellCord> tiles, float tileSize, float pixelPerTile,
                                   BodyDef bodyDef, FixtureDef fixtureDef, PolygonShape shape) {
 
         int count = tiles.size();
 
-        float widthMeters = (count * tileSize) / PIXEL_PR_TILE;
-        float heightMeters = tileSize / PIXEL_PR_TILE;
+        float widthMeters = (count * tileSize) / pixelPerTile;
+        float heightMeters = tileSize / pixelPerTile;
 
-        float startX = (tiles.getFirst().x() * tileSize) / PIXEL_PR_TILE;
-        float startY = (tiles.getFirst().y() * tileSize) / PIXEL_PR_TILE;
+        float startX = (tiles.getFirst().x() * tileSize) / pixelPerTile;
+        float startY = (tiles.getFirst().y() * tileSize) / pixelPerTile;
 
         float centerX = startX + (widthMeters / 2f);
         float centerY = startY + (heightMeters / 2f);

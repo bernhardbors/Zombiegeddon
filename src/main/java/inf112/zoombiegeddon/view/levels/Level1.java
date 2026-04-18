@@ -15,6 +15,7 @@ import inf112.zoombiegeddon.model.world.Spawner;
 import inf112.zoombiegeddon.model.world.luckyblock.LuckyBlockLayerFactory;
 import inf112.zoombiegeddon.model.world.physics.WorldCollisionLayerCreator;
 import inf112.zoombiegeddon.view.renderer.EntityRenderer;
+import inf112.zoombiegeddon.view.renderer.LuckyBlockRenderer;
 import inf112.zoombiegeddon.view.renderer.UIRenderer;
 import inf112.zoombiegeddon.model.world.triggers.TriggerZone;
 
@@ -27,6 +28,7 @@ public class Level1 extends AbstractLevel {
     private TiledMap map;
     private Spawner spawner;
     private LuckyBlockLayerFactory luckyBlockLayerFactory;
+    private LuckyBlockRenderer luckyBlockRenderer;
 
     /**
      * Constructs level 1 and initializes its world, player, UI, enemies, and triggers.
@@ -37,13 +39,13 @@ public class Level1 extends AbstractLevel {
 
         super(app, new OrthographicCamera(), new Vector2(0,-15.0f));
         loadMap("tilemaps/level1.tmx", "Collision");
-        this.spawner = new Spawner(map);
+        this.spawner = new Spawner(map, UNIT_SCALE);
         this.player = new Player(physics.getWorld(), spawner.getSpawnPoint("player_spawn"), app.getAssets().getPlayerMaleAnimations(), 3);
         this.playerController = new PlayerController(player);
 
         this.entityRenderer = new EntityRenderer(app);
         this.UIrenderer = new UIRenderer(camera, player);
-        this.triggerZone = new TriggerZone(map, "Triggers");
+        this.triggerZone = new TriggerZone(map, "Triggers", UNIT_SCALE);
 
         IEnemyFactory enemyFactory = new EnemyFactory(physics.getWorld());
         this.enemies = enemyFactory.createEnemiesFromLayer(
@@ -61,6 +63,8 @@ public class Level1 extends AbstractLevel {
         }
         new WorldCollisionLayerCreator(physics.getWorld(), map, collisionLayerName,PIXELS_PER_TILE);
         luckyBlockLayerFactory = new LuckyBlockLayerFactory(physics.getWorld(), map, "Luckyblocks", PIXELS_PER_TILE);
+
+        luckyBlockRenderer = new LuckyBlockRenderer(luckyBlockLayerFactory);
     }
 
     @Override
@@ -74,10 +78,10 @@ public class Level1 extends AbstractLevel {
         drawParallaxBackground();
 
         worldRenderer.renderBackground();
-        if (luckyBlockLayerFactory != null) {
+        if (luckyBlockRenderer != null) {
             batch.setProjectionMatrix(camera.combined);
             batch.begin();
-            luckyBlockLayerFactory.render(batch, UNIT_SCALE);
+            luckyBlockRenderer.render(batch, UNIT_SCALE);
             batch.end();
         }
         worldRenderer.renderDebug(physics,false);

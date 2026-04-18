@@ -68,10 +68,6 @@ public class WorldContactListener implements ContactListener {
         Fixture fa = contact.getFixtureA();
         Fixture fb = contact.getFixtureB();
 
-
-        if ("feet".equals(fa.getUserData()) || "feet".equals(fb.getUserData())) {
-        }
-
         if ("feet".equals(fa.getUserData())) {
             Object data = fa.getBody().getUserData();
             if (data instanceof IEntity) ((IEntity) data).setGrounded(grounded);

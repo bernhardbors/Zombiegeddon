@@ -31,8 +31,7 @@ public class MainMenuScreen extends AbstractScreen {
     public void buildScreen() {
 
         clearTable();
-        app.finishStoryRun();
-
+        app.getStoryManager().finishRun();
         app.getAudio().playMusic(MusicTrack.MENU, true);
 
         if (app.getAssets().getManager().isLoaded(AssetConstants.BG_GAME)) {

@@ -18,7 +18,7 @@ import inf112.zoombiegeddon.view.levels.AbstractLevel;
  */
 public class Player extends Entity implements IDamageable {
 
-    private static final float JUMP_IMPULSE = 14.0f;
+    private static final float JUMP_IMPULSE = 23.0f;
     private static final float MOVE_IMPULSE = 1.0f;
     private static final float VELOCITY_THRESHOLD = 0.1f;
 
@@ -40,8 +40,6 @@ public class Player extends Entity implements IDamageable {
     private final float InvulnerabilityCooldown = 1.0f;
     private boolean isDead = false;
     private boolean inGoal =  false;
-    private final float bodyW;
-    private final float bodyH;
     private final Rectangle bounds = new Rectangle();
 
     private float spriteDim;
@@ -65,16 +63,15 @@ public class Player extends Entity implements IDamageable {
         float actualW = 11 * AbstractLevel.UNIT_SCALE;
         float actualH = 20 * AbstractLevel.UNIT_SCALE;
 
-        this.bodyW = actualW;
-        this.bodyH = actualH;
-
-
         super(new PhysicsComponent(world, spawnPos, actualW, actualH, "player"));
 
         this.physics.getBody().setUserData(this);
         this.animationHandler = animationHandler;
         this.HP = Hp;
         this.maxHP = Hp;
+
+        this.width = actualW;
+        this.height = actualH;
 
         this.controller = new PlayerController(this);
     }
@@ -362,7 +359,7 @@ public class Player extends Entity implements IDamageable {
      */
     public Rectangle getBounds() {
         Vector2 p = physics.getPosition();
-        bounds.set(p.x - bodyW / 2f, p.y - bodyH / 2f, bodyW, bodyH);
+        bounds.set(p.x - width / 2f, p.y - height / 2f, width, height);
         return bounds;
     }
 
@@ -378,7 +375,7 @@ public class Player extends Entity implements IDamageable {
 
             Vector2 vel = this.physics.getVelocity();
             this.physics.getBody().setLinearVelocity(vel.x, 0);
-            this.physics.applyImpulse(new Vector2(0, 4.0f));
+            executeJump();
         } else {
             this.takeDamage(1);
         }
@@ -408,26 +405,15 @@ public class Player extends Entity implements IDamageable {
         return isGrounded;
     }
 
-
-    @Override
-    public void setWidth() {
-
-    }
-
-    @Override
-    public void setHeight() {
-
-    }
-
     @Override
     public float getWidth() {
-        return bodyW;
+        return width;
     }
 
 
     @Override
     public float getHeight() {
-        return bodyH;
+        return height;
     }
 
 

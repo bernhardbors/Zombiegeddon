@@ -105,7 +105,7 @@ public class PlayerController extends InputAdapter {
      *
      * @return True if the hit key (K) is currently pressed.
      */
-    public static boolean hitPressed() {
+    public boolean hitPressed() {
         return Gdx.input.isKeyPressed(Input.Keys.K);
     }
 
@@ -133,9 +133,10 @@ public class PlayerController extends InputAdapter {
      * @return True if Space, W, or Up Arrow was just pressed.
      */
     public boolean isJumpPressed() {
-        return Gdx.input.isKeyPressed(Input.Keys.SPACE) ||
+        return isJumpKeyPressed;
+                /* Gdx.input.isKeyPressed(Input.Keys.SPACE) ||
                 Gdx.input.isKeyPressed(Input.Keys.W) ||
-                Gdx.input.isKeyPressed(Input.Keys.UP);
+                Gdx.input.isKeyPressed(Input.Keys.UP); */
     }
 
     /**

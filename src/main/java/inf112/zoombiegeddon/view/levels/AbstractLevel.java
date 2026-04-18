@@ -24,7 +24,6 @@ import inf112.zoombiegeddon.app.GameApp;
 
 import inf112.zoombiegeddon.audio.IAudioService;
 import inf112.zoombiegeddon.audio.MusicTrack;
-import inf112.zoombiegeddon.audio.Sfx;
 import inf112.zoombiegeddon.controller.LevelController;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.events.GameEvent;
@@ -33,7 +32,9 @@ import inf112.zoombiegeddon.events.IEventListener;
 import inf112.zoombiegeddon.model.entity.Entity;
 import inf112.zoombiegeddon.model.entity.Player;
 import inf112.zoombiegeddon.model.entity.enemies.Enemy;
+import inf112.zoombiegeddon.model.entity.pickups.HealPickup;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
+import inf112.zoombiegeddon.model.entity.pickups.SpeedBoostPickup;
 import inf112.zoombiegeddon.model.world.physics.WorldPhysics;
 import inf112.zoombiegeddon.model.world.triggers.TriggerZone;
 import inf112.zoombiegeddon.view.renderer.EntityRenderer;
@@ -89,6 +90,8 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
      */
     public AbstractLevel(GameApp app, OrthographicCamera camera, Vector2 gravity) {
         this.physics = new WorldPhysics(gravity);
+        this.physics.registerPickupFactory("speed", spawn -> new SpeedBoostPickup(physics.getWorld(), spawn));
+        this.physics.registerPickupFactory("heal", spawn -> new HealPickup(physics.getWorld(), spawn));
         this.worldRenderer = new WorldRenderer(camera);
         this.audioService = app.getAudio();
         this.viewport = new ExtendViewport(viewportWidth, viewportHeight, camera);
@@ -104,9 +107,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
     public void show() {
         app.getBackground().setCamera(camera);
         audioService.playMusic(MusicTrack.GAMEPLAY, true);
-        /*if (playerController != null) {
-            Gdx.input.setInputProcessor(playerController);
-        }*/
+
         GameEventBus.register(this);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
@@ -150,7 +151,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
 
         if (UIrenderer != null) {
             UIrenderer.drawHearts(app.getBatch(), healthbar);
-            if (app.storyModeActive) {
+            if (app.getStoryManager().isActive()) {
                 UIrenderer.drawStoryTime(app.getBatch(), app.getAssets().getFont(), getTimeUsed());
             }
         }
@@ -172,20 +173,20 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
         if (player != null) {
             player.update(delta);
             if (player.isDead()) {
-                if (app.storyModeActive) {
-                    app.finishStoryRun();
+                if (app.getStoryManager().isActive()) {
+                    app.getStoryManager().finishRun();
                 }
                 app.setScreen(new GameOverScreen(app));
                 return;
             }
 
             if (player.inGoal()) {
-                if (app.storyModeActive) {
+                if (app.getStoryManager().isActive()) {
                     if ("level1".equals(levelId)) {
-                        app.carryStoryTime(levelTime);
+                        app.getStoryManager().carryTime(levelTime);
                         app.setScreen(new Level2(app));
                     } else if ("level2".equals(levelId)) {
-                        app.carryStoryTime(levelTime);
+                        app.getStoryManager().carryTime(levelTime);
                         app.setScreen(new Level3(app));
                     } else {
                         app.getLeaderboardController().registerLevelCompletion(
@@ -195,7 +196,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
                                 getLivesLeft(),
                                 getTimeUsed()
                         );
-                        app.finishStoryRun();
+                        app.getStoryManager().finishRun();
                         app.setScreen(new LeaderboardScreen(
                                 app,
                                 GameApp.STORY_LEADERBOARD_ID,
@@ -367,7 +368,7 @@ public abstract class AbstractLevel extends ScreenAdapter implements ILevel, IEv
     }
 
     protected float getTimeUsed() {
-        return app.getStoryElapsedSeconds(levelTime);
+        return app.getStoryManager().getElapsedSeconds(levelTime);
     }
 
     @Override

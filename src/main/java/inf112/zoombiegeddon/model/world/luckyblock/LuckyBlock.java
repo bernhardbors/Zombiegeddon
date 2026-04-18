@@ -69,11 +69,11 @@ public class LuckyBlock implements ILuckyBlock {
         }
         broken = true;
         System.out.println("Block broken.");
-        SpawnReward(worldPhysics);
+        spawnReward(worldPhysics);
     }
 
     @Override
-    public void SpawnReward(WorldPhysics worldPhysics) {
+    public void spawnReward(WorldPhysics worldPhysics) {
         if (worldPhysics == null || rewardType == null || rewardType.isEmpty()) {
             return;
         }

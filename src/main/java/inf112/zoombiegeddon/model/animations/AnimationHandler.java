@@ -24,9 +24,9 @@ public class AnimationHandler {
      *
      * @param characterSpriteSheet The texture containing all character animation frames.
      */
-    public AnimationHandler(Texture characterSpriteSheet) {
+    public AnimationHandler(Texture characterSpriteSheet, int frameWidth, int frameHeight) {
         this.characterSpriteSheet = characterSpriteSheet;
-        createAnimationMap();
+        createAnimationMap(frameWidth, frameHeight);
     }
 
     /**
@@ -60,8 +60,8 @@ public class AnimationHandler {
      * Splits the spritesheet and populates the animation map with sequences
      * for all entity states.
      */
-    private void createAnimationMap() {
-        TextureRegion[][] characterFrames = TextureRegion.split(characterSpriteSheet, 32, 32);
+    private void createAnimationMap(int frameWidth, int frameHeight) {
+        TextureRegion[][] characterFrames = TextureRegion.split(characterSpriteSheet, frameWidth, frameHeight);
 
         int rows = characterFrames.length;
         int columns = characterFrames[0].length;

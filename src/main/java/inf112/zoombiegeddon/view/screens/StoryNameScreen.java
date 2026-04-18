@@ -38,13 +38,13 @@ public class StoryNameScreen extends AbstractScreen {
 
         UIUtils.addButton("START STORY", skin, table, buttonWidth, buttonHeight,
                 () -> {
-                    app.startStoryRun(nameField.getText());
+                    app.getStoryManager().startRun(nameField.getText());
                     app.setScreen(new StoryScreen(app));
                 });
 
         UIUtils.addButton("BACK", skin, table, buttonWidth, buttonHeight,
                 () -> {
-                    app.finishStoryRun();
+                    app.getStoryManager().finishRun();
                     app.setScreen(new MainMenuScreen(app));
                 });
     }
