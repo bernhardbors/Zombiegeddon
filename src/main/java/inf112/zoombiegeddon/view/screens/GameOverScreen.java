@@ -7,8 +7,6 @@ import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.utils.UIUtils;
-import inf112.zoombiegeddon.view.levels.Level1;
-import inf112.zoombiegeddon.view.levels.Level2;
 
 /**
  * Displays the game over screen when the player dies.
@@ -39,7 +37,7 @@ public class GameOverScreen extends AbstractScreen {
         formatText("GAME OVER", Color.WHITE, 6f);
 
         UIUtils.addButton("MainScreen", skin, table, buttonWidth, buttonHeight, () -> {
-            app.finishStoryRun();
+            app.getStoryManager().finishRun();
             app.setScreen(new MainMenuScreen(app));
         });
     }

@@ -1,7 +1,7 @@
 package inf112.zoombiegeddon.utils;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.IEntity;
 
 /**
  * Utility class for camera manipulation and behavior.
@@ -10,23 +10,22 @@ import inf112.zoombiegeddon.model.entity.Player;
  */
 public class CameraUtils {
 
+    private static final float DEADZONE_WIDTH = 4f;
+    private static final float DEADZONE_HEIGHT = 4f;
+    private static final float VERTICAL_OFFSET = 5.5f;
     /**
      * Updates the camera position to follow the player using a deadzone approach.
      * The camera only moves when the player exceeds the horizontal or vertical
      * boundaries (deadzones) defined within the method. This creates a smoother
      * following effect compared to a locked camera.
      *
-     * @param player The player instance whose position the camera should track.
+     * @param entity The entity instance whose position the camera should track.
      * @param camera The {@link OrthographicCamera} to be updated.
      */
-    public static void updateCamera(Player player, OrthographicCamera camera) {
+    public static void updateCamera(IEntity entity, OrthographicCamera camera) {
 
-        float DEADZONE_WIDTH = 4f;
-        float DEADZONE_HEIGHT = 4f;
-        float VERTICAL_OFFSET = 3.5f;
-
-        float playerX = player.getPosition().x;
-        float playerY = player.getPosition().y + VERTICAL_OFFSET;
+        float playerX = entity.getPosition().x;
+        float playerY = entity.getPosition().y + VERTICAL_OFFSET;
 
         if (playerX < camera.position.x - DEADZONE_WIDTH / 2) {
             camera.position.x = playerX + DEADZONE_WIDTH / 2;

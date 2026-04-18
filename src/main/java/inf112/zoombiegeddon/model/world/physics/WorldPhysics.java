@@ -2,9 +2,7 @@ package inf112.zoombiegeddon.model.world.physics;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import inf112.zoombiegeddon.model.entity.pickups.HealPickup;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
-import inf112.zoombiegeddon.model.entity.pickups.SpeedBoostPickup;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,15 +41,9 @@ public class WorldPhysics {
         this.pickups = new ArrayList<>();
         this.pickupFactories = new HashMap<>();
         this.pendingPickupSpawns = new ArrayList<>();
-        registerDefaultPickupFactories();
 
         this.contactListener = new WorldContactListener(this);
         this.world.setContactListener(contactListener);
-    }
-
-    private void registerDefaultPickupFactories() {
-        registerPickupFactory("speed", spawn -> new SpeedBoostPickup(world, spawn));
-        registerPickupFactory("heal", spawn -> new HealPickup(world, spawn));
     }
 
     public void registerPickupFactory(String rewardType, Function<Vector2, IPickup> factory) {

@@ -2,7 +2,6 @@ package inf112.zoombiegeddon.model.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import inf112.zoombiegeddon.view.levels.AbstractLevel;
 
 /**
  * Manages the Box2D physics body for an entity.
@@ -105,9 +104,9 @@ public class PhysicsComponent {
     /**
      * Sets the physics body of this component.
      *
-     * @param o The object to assign as the body. Must be a {@link Body}.
+     * @param body The object to assign as the body. Must be a {@link Body}.
      */
-    public void setBody(Object o) {
-        this.body = (Body) o;
+    public void setBody(Body body) {
+        this.body = body;
     }
 }

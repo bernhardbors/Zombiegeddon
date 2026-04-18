@@ -2,7 +2,6 @@ package inf112.zoombiegeddon.view.screens;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
@@ -40,17 +39,17 @@ public class PickLevelScreen extends AbstractScreen {
 
         UIUtils.addButton("LEVEL 1", skin, table, buttonWidth, buttonHeight,
                 () -> {
-                    app.finishStoryRun();
+                    app.getStoryManager().finishRun();
                     app.setScreen(new Level1(app));
                 });
 
         UIUtils.addButton("LEVEL 2", skin, table, buttonWidth, buttonHeight,
                 () -> {
-                    app.finishStoryRun();
+                    app.getStoryManager().finishRun();
                     app.setScreen(new Level2(app));
                 });
 
-        UIUtils.addButton("PLACEHOLDER", skin, table, buttonWidth, buttonHeight,
+        UIUtils.addButton("LEVEL 3", skin, table, buttonWidth, buttonHeight,
                 () -> {
                     app.setScreen(new Level3(app));
                 });
@@ -62,7 +61,7 @@ public class PickLevelScreen extends AbstractScreen {
 
         UIUtils.addButton("BACK", skin, table, buttonWidth, buttonHeight,
                 () -> {
-                    app.finishStoryRun();
+                    app.getStoryManager().finishRun();
                     app.setScreen(new MainMenuScreen(app));
                 });
     }

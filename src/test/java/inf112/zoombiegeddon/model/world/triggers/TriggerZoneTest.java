@@ -7,7 +7,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
 import inf112.zoombiegeddon.model.entity.Player;
-import inf112.zoombiegeddon.view.levels.AbstractLevel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class TriggerZoneTest extends AbstractEntityTest {
-    private float scale = AbstractLevel.UNIT_SCALE;
+    private float scale = 1.0f;
     private Rectangle playerBounds;
     private TriggerZone triggerZone;
     private Player player;
@@ -60,7 +59,7 @@ public class TriggerZoneTest extends AbstractEntityTest {
 
         when(map.getLayers()).thenReturn(layers);
 
-        triggerZone = new TriggerZone(map, "testLayer");
+        triggerZone = new TriggerZone(map, "testLayer", scale);
         player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
         mockedPlayer = mock(Player.class);
 

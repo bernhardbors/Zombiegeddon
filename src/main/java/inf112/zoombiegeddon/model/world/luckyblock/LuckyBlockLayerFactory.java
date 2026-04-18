@@ -1,6 +1,5 @@
 package inf112.zoombiegeddon.model.world.luckyblock;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -21,7 +20,8 @@ import java.util.List;
  */
 public class LuckyBlockLayerFactory {
 
-    private record TileRenderable(TiledMapTileMapObject tileObject, ILuckyBlock block) {
+    //Public so that the Renderer-class kan read what texture belongs to which block.
+    public record TileRenderable(TiledMapTileMapObject tileObject, ILuckyBlock block) {
     }
 
     private final List<ILuckyBlock> blocks = new ArrayList<>();
@@ -42,26 +42,25 @@ public class LuckyBlockLayerFactory {
         }
 
         for (MapObject object : layer.getObjects()) {
-            Rectangle rectangle = toWorldRectangle(object);
+            Rectangle rectangle = getRectangle(object, pixelsPerTile);
             if (rectangle == null) {
                 continue;
             }
 
+            Vector2 centerPos = new Vector2(
+                    (rectangle.x + rectangle.width / 2f) /pixelsPerTile,
+                    (rectangle.y + rectangle.height / 2f) / pixelsPerTile
+            );
+
             float width = rectangle.width / pixelsPerTile;
             float height = rectangle.height / pixelsPerTile;
-            float centerX = (rectangle.x + rectangle.width / 2f) / pixelsPerTile;
-            float centerY = (rectangle.y + rectangle.height / 2f) / pixelsPerTile;
 
-            String rewardType = object.getProperties().get("type", String.class);
-            if (rewardType != null) {
-                rewardType = rewardType.trim();
-            }
-
-            ILuckyBlock block = new LuckyBlock(world, new Vector2(centerX, centerY), width, height, rewardType);
-            blocks.add(block);
+            String rewardType = object.getProperties().get("rewardType", String.class);
+            ILuckyBlock luckyBlock = new LuckyBlock(world, centerPos, width, height, rewardType);
+            blocks.add(luckyBlock);
 
             if (object instanceof TiledMapTileMapObject tileObject) {
-                tileRenderables.add(new TileRenderable(tileObject, block));
+                tileRenderables.add(new TileRenderable(tileObject, luckyBlock));
             }
         }
     }
@@ -106,6 +105,21 @@ public class LuckyBlockLayerFactory {
         return null;
     }
 
+    private Rectangle getRectangle(MapObject object, float pixelsPerTile) {
+        if (object instanceof RectangleMapObject rectObject) {
+            return rectObject.getRectangle();
+        } else if (object instanceof TiledMapTileMapObject tileObject) {
+            TextureRegion region = tileObject.getTile().getTextureRegion();
+            if (region == null) {
+                return null;
+            }
+            float width = region.getRegionWidth() * Math.abs(tileObject.getScaleX());
+            float height = region.getRegionHeight() * Math.abs(tileObject.getScaleY());
+            return new Rectangle(tileObject.getX(), tileObject.getY(), width, height);
+        }
+        return null;
+    }
+
     /**
      * Returns the created lucky blocks as an unmodifiable list.
      *
@@ -116,31 +130,10 @@ public class LuckyBlockLayerFactory {
     }
 
     /**
-     * Renders all unbroken tile-based lucky blocks.
-     *
-     * @param batch The batch used for drawing.
-     * @param unitScale The scale factor used to convert map coordinates to world coordinates.
+     * Method for letting view-classes reach blocks to be drawn
+     * @return tiles to be drawn
      */
-    public void render(Batch batch, float unitScale) {
-        for (TileRenderable renderable : tileRenderables) {
-            if (renderable.block().isBroken()) {
-                continue;
-            }
-
-            TiledMapTileMapObject tileObject = renderable.tileObject();
-            if (tileObject.getTile() == null || tileObject.getTile().getTextureRegion() == null) {
-                continue;
-            }
-
-            TextureRegion region = tileObject.getTile().getTextureRegion();
-            float width = region.getRegionWidth() * Math.abs(tileObject.getScaleX()) * unitScale;
-            float height = region.getRegionHeight() * Math.abs(tileObject.getScaleY()) * unitScale;
-
-            batch.draw(region,
-                    tileObject.getX() * unitScale,
-                    tileObject.getY() * unitScale,
-                    width,
-                    height);
-        }
+    public List<TileRenderable> getTileRenderables() {
+        return Collections.unmodifiableList(tileRenderables);
     }
 }

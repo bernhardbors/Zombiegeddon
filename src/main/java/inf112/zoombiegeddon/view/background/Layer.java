@@ -1,4 +1,4 @@
-package inf112.zoombiegeddon.model.world.background;
+package inf112.zoombiegeddon.view.background;
 
 import com.badlogic.gdx.graphics.Texture;
 
@@ -10,13 +10,13 @@ import com.badlogic.gdx.graphics.Texture;
 public class Layer {
 
     /** The texture image used for this background layer. */
-    Texture texture;
+    protected final Texture texture;
 
     /** * The parallax factor.
      * A value of 0 means the layer is static, while values closer to 1
      * make the layer move almost as fast as the camera.
      */
-    float factor;
+    protected final float factor;
 
     /**
      * Constructs a new Layer with a texture and a parallax factor.

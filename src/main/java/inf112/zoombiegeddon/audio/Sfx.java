@@ -20,7 +20,7 @@ public enum Sfx {
     VICTORY("assets/audio/sfx/VICTORY.wav"),
     WARSOUNDS("assets/audio/sfx/warSounds.mp3"),
     HEAL_PICKUP("assets/audio/sfx/1up 3 - Sound effects Pack 2.wav"),
-    POWERUP("assets/audio/sfx/PowerUp.wav");
+    SPEED("assets/audio/sfx/1up 8 - Sound effects Pack 2.wav");
 
     private final String path;
 

@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import inf112.zoombiegeddon.AbstractLibGDXTest;
+import inf112.zoombiegeddon.model.entity.pickups.HealPickup;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
 import inf112.zoombiegeddon.model.world.physics.WorldPhysics;
 import org.junit.jupiter.api.Test;
@@ -24,9 +25,11 @@ class LuckyBlockPickupTest extends AbstractLibGDXTest {
     void spawnPickupCreatesHealPickup() {
         WorldPhysics worldPhysics = new WorldPhysics(new Vector2(0f, -9.81f));
 
+        worldPhysics.registerPickupFactory("heal", spawn -> new HealPickup(worldPhysics.getWorld(), spawn));
         try {
             boolean spawned = worldPhysics.spawnPickup("heal", new Vector2(4f, 2f));
 
+            worldPhysics.update(1/60f);
             assertTrue(spawned, "Heal pickup should spawn successfully.");
             assertEquals(1, worldPhysics.getPickups().size(), "One pickup should be registered.");
             IPickup pickup = worldPhysics.getPickups().get(0);
