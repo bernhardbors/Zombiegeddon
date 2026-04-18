@@ -55,7 +55,7 @@ public class LuckyBlockLayerFactory {
             float width = rectangle.width / pixelsPerTile;
             float height = rectangle.height / pixelsPerTile;
 
-            String rewardType = object.getProperties().get("rewardType", String.class);
+            String rewardType = object.getProperties().get("type", String.class);
             ILuckyBlock luckyBlock = new LuckyBlock(world, centerPos, width, height, rewardType);
             blocks.add(luckyBlock);
 

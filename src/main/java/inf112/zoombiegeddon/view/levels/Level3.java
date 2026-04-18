@@ -65,6 +65,8 @@ public class Level3 extends AbstractLevel {
         }
         new WorldCollisionLayerCreator(physics.getWorld(), map, collisionLayerName,PIXELS_PER_TILE);
         luckyBlockLayerFactory = new LuckyBlockLayerFactory(physics.getWorld(), map, "Luckyblocks", PIXELS_PER_TILE);
+
+        luckyBlockRenderer = new LuckyBlockRenderer(luckyBlockLayerFactory);
     }
 
     @Override
