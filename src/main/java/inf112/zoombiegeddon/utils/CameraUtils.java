@@ -12,7 +12,7 @@ public class CameraUtils {
 
     private static final float DEADZONE_WIDTH = 4f;
     private static final float DEADZONE_HEIGHT = 4f;
-    private static final float VERTICAL_OFFSET = 5.5f;
+    private static final float VERTICAL_OFFSET = 3.5f;
     /**
      * Updates the camera position to follow the player using a deadzone approach.
      * The camera only moves when the player exceeds the horizontal or vertical
