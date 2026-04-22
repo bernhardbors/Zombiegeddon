@@ -68,4 +68,11 @@ public interface IEntity {
      * @return The animation handler.
      */
     public AnimationHandler getAnimationHandler();
+
+    /**
+     * returns the speed of the entity
+     *
+     * @return float speed of entity
+     */
+    float getSpeed();
 }

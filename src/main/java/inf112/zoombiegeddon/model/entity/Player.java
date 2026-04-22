@@ -426,4 +426,14 @@ public class Player extends Entity implements IDamageable {
     public AnimationHandler getAnimationHandler() {
         return animationHandler;
     }
+
+    /**
+     * returns the speed of the entity
+     *
+     * @return float speed of entity
+     */
+    @Override
+    public float getSpeed() {
+        return physics.getBody().getLinearVelocity().y;
+    }
 }
