@@ -65,6 +65,8 @@ public class Level3 extends AbstractLevel {
         }
         new WorldCollisionLayerCreator(physics.getWorld(), map, collisionLayerName,PIXELS_PER_TILE);
         luckyBlockLayerFactory = new LuckyBlockLayerFactory(physics.getWorld(), map, "Luckyblocks", PIXELS_PER_TILE);
+
+        luckyBlockRenderer = new LuckyBlockRenderer(luckyBlockLayerFactory);
     }
 
     @Override
@@ -84,7 +86,7 @@ public class Level3 extends AbstractLevel {
             luckyBlockRenderer.render(batch, UNIT_SCALE);
             batch.end();
         }
-        worldRenderer.renderDebug(physics,true);
+        worldRenderer.renderDebug(physics,false);
 
         if (player != null) drawEntities(player);
 
@@ -97,7 +99,5 @@ public class Level3 extends AbstractLevel {
         worldRenderer.renderForeground();
 
         renderTriggerText();
-
-        drawDebug();
     }
 }
