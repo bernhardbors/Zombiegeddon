@@ -8,13 +8,15 @@ import inf112.zoombiegeddon.model.entity.Entity;
 import inf112.zoombiegeddon.model.entity.EntityState;
 import inf112.zoombiegeddon.model.entity.IDamageable;
 import inf112.zoombiegeddon.model.entity.PhysicsComponent;
-import inf112.zoombiegeddon.view.levels.AbstractLevel;
+import inf112.zoombiegeddon.model.levels.LevelModel;
+
+import java.util.logging.Level;
 
 /**
  * Represents an enemy entity in the game.
  * Handles simple patrol behavior, health, and physics-based interactions.
  */
-public class Enemy extends Entity implements IDamageable {
+public class Enemy extends Entity implements IEnemy {
 
 
     private static final float VELOCITY_THRESHOLD = 0.1f;
@@ -42,9 +44,9 @@ public class Enemy extends Entity implements IDamageable {
      */
     public Enemy(World world, Vector2 spawnPos, AnimationHandler animationHandler, int hp, float speed) {
 
-        this.spriteDim = 32 * AbstractLevel.UNIT_SCALE;
-        float actualW = 11 * AbstractLevel.UNIT_SCALE;
-        float actualH = 20 * AbstractLevel.UNIT_SCALE;
+        this.spriteDim = 32 * LevelModel.UNIT_SCALE;
+        float actualW = 11 * LevelModel.UNIT_SCALE;
+        float actualH = 20 * LevelModel.UNIT_SCALE;
 
         super(new PhysicsComponent(world, spawnPos, actualW, actualH, "enemy"));
 

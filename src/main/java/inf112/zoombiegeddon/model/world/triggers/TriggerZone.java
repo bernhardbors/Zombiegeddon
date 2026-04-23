@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
-import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.IPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +61,7 @@ public class TriggerZone {
             }
         }
 
-        public String update(Rectangle playerBounds, Player player) {
+        public String update(Rectangle playerBounds, IPlayer player) {
             for (int i = 0; i < zones.size(); i++) {
                 if (zones.get(i).overlaps(playerBounds)) {
                     lastIndex = i;

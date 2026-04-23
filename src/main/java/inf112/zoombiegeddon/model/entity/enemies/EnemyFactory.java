@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
-import inf112.zoombiegeddon.view.levels.AbstractLevel;
+import inf112.zoombiegeddon.model.levels.LevelModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class EnemyFactory implements IEnemyFactory{
      * @return A newly created enemy.
      */
     @Override
-    public Enemy createEnemy(EnemyType type, Vector2 position, AnimationHandler normalAnims, AnimationHandler chonkerAnims) {
+    public IEnemy createEnemy(EnemyType type, Vector2 position, AnimationHandler normalAnims, AnimationHandler chonkerAnims) {
         int hp;
         float speed;
         AnimationHandler animToUse;
@@ -74,16 +74,16 @@ public class EnemyFactory implements IEnemyFactory{
      * @return A list of enemies created from the layer.
      */
     @Override
-    public List<Enemy> createEnemiesFromLayer(MapLayer layer, AnimationHandler normalAnims, AnimationHandler chonkerAnims) {
-        List<Enemy> enemies = new ArrayList<>();
+    public List<IEnemy> createEnemiesFromLayer(MapLayer layer, AnimationHandler normalAnims, AnimationHandler chonkerAnims) {
+        List<IEnemy> enemies = new ArrayList<>();
         if (layer == null) return enemies;
 
         for (MapObject object : layer.getObjects()) {
             if (object instanceof RectangleMapObject rectObj && "enemy_spawn".equals(object.getName())) {
                 Rectangle rect = rectObj.getRectangle();
                 Vector2 pos = new Vector2(
-                        rect.x * AbstractLevel.UNIT_SCALE,
-                        rect.y * AbstractLevel.UNIT_SCALE
+                        rect.x * LevelModel.UNIT_SCALE,
+                        rect.y * LevelModel.UNIT_SCALE
                 );
 
                 String typeStr = object.getProperties().get("type", String.class);

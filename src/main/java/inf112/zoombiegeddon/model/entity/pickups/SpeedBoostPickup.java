@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.entity.Player;
-import inf112.zoombiegeddon.view.levels.AbstractLevel;
+import inf112.zoombiegeddon.model.levels.LevelModel;
 
 public class SpeedBoostPickup extends Pickup {
 
@@ -15,7 +15,7 @@ public class SpeedBoostPickup extends Pickup {
     private static final float FX_DURATION_SECONDS = 5f;
 
     public SpeedBoostPickup(World world, Vector2 spawnPosition) {
-        super(world, spawnPosition, 8f * AbstractLevel.UNIT_SCALE, "speed", Color.YELLOW);
+        super(world, spawnPosition, 8f * LevelModel.UNIT_SCALE, "speed", Color.YELLOW);
     }
 
     @Override
