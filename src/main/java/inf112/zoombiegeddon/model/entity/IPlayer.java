@@ -27,6 +27,5 @@ public interface IPlayer extends IEntity, IDamageable {
     void setInGoal(boolean bool);
     Rectangle getBounds();
 
-    // Legg merke til at vi bruker IEnemy her i stedet for Enemy!
     void hitEnemy(IEnemy enemy, boolean hitWithFeet);
 }
