@@ -16,7 +16,6 @@ import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.audio.Sfx;
 import inf112.zoombiegeddon.model.story.StorySlide;
-import inf112.zoombiegeddon.view.levels.Level1;
 
 public class StoryScreen extends AbstractScreen {
 
@@ -153,7 +152,7 @@ public class StoryScreen extends AbstractScreen {
             storyImage.clearActions();
         }
         app.getStoryManager().startTimer();
-        app.setScreen(new Level1(app));
+        app.setScreen(new PlayableLevel(app, "tilemaps/level1.tmx", "level1"));
     }
 
     @Override

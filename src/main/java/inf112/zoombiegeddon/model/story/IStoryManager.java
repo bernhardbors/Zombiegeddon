@@ -14,6 +14,14 @@ public interface IStoryManager {
 
     public boolean isActive();
 
+    public boolean hasNextLevel();
+
+    public void advanceLevel();
+
+    public String getCurrentMapPath();
+
+    public String getCurrentLevelId();
+
     public StorySession getSession();
 
     public String getCurrentPlayerName();

@@ -39,10 +39,10 @@ class EnemyFactoryTest extends AbstractEntityTest {
         objects.add(spawnPoint);
         when(layer.getObjects()).thenReturn(objects);
 
-        List<Enemy> enemies = factory.createEnemiesFromLayer(layer, mockedAnims, mockedAnims);
+        List<IEnemy> enemies = factory.createEnemiesFromLayer(layer, mockedAnims, mockedAnims);
 
         assertEquals(1, enemies.size(), "One enemy should be created.");
-        assertEquals(3, enemies.get(0).getMaxHealth(), "A TANK should have 3 HP.");
+        assertEquals(3, enemies.getFirst().getMaxHealth(), "A TANK should have 3 HP.");
     }
 
     @Test
@@ -50,10 +50,10 @@ class EnemyFactoryTest extends AbstractEntityTest {
         AnimationHandler tankAnims = mock(AnimationHandler.class);
         AnimationHandler normalAnims = mock(AnimationHandler.class);
 
-        Enemy tank = factory.createEnemy(EnemyType.TANK, spawnPos, normalAnims, tankAnims);
+        IEnemy tank = factory.createEnemy(EnemyType.TANK, spawnPos, normalAnims, tankAnims);
         assertEquals(3, tank.getMaxHealth());
 
-        Enemy fast = factory.createEnemy(EnemyType.FAST_ZOMBIE, spawnPos, normalAnims, tankAnims);
+        IEnemy fast = factory.createEnemy(EnemyType.FAST_ZOMBIE, spawnPos, normalAnims, tankAnims);
         assertEquals(1, fast.getMaxHealth());
     }
 }

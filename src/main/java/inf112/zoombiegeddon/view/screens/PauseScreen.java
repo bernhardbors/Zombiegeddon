@@ -6,13 +6,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
-import inf112.zoombiegeddon.view.levels.AbstractLevel;
 
 public class PauseScreen extends AbstractScreen {
 
-    private final AbstractLevel previousLevel;
+    private final PlayableLevel previousLevel;
 
-    public PauseScreen(final GameApp app, AbstractLevel previousLevel) {
+    public PauseScreen(final GameApp app, PlayableLevel previousLevel) {
         super(app);
         this.previousLevel = previousLevel;
     }

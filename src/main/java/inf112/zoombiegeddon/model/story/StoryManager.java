@@ -3,9 +3,14 @@ package inf112.zoombiegeddon.model.story;
 public class StoryManager implements IStoryManager{
     private StorySession storySession;
 
+    private final String[] storyMapPaths = {"tilemaps/level1.tmx", "tilemaps/level3.tmx", "tilemaps/level5.tmx"};
+    private final String[] storyLevelIds = {"level1", "level2", "level3"};
+    private int currentLevelIndex = 0;
+
     @Override
     public void startRun(String playerName) {
         this.storySession = new StorySession(playerName);
+        this.currentLevelIndex = 0;
     }
 
     @Override
@@ -34,6 +39,26 @@ public class StoryManager implements IStoryManager{
     @Override
     public boolean isActive() {
         return storySession != null && storySession.isActive();
+    }
+
+    @Override
+    public boolean hasNextLevel() {
+        return currentLevelIndex < storyMapPaths.length;
+    }
+
+    @Override
+    public void advanceLevel() {
+        currentLevelIndex++;
+    }
+
+    @Override
+    public String getCurrentMapPath() {
+        return storyMapPaths[currentLevelIndex];
+    }
+
+    @Override
+    public String getCurrentLevelId() {
+        return storyLevelIds[currentLevelIndex];
     }
 
     @Override

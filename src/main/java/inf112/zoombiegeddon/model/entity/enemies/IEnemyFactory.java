@@ -20,7 +20,7 @@ public interface IEnemyFactory {
      * @param chonkerAnims The animation handler for tank-type enemies.
      * @return A newly created enemy.
      */
-    Enemy createEnemy(EnemyType type, Vector2 position, AnimationHandler normalAnims, AnimationHandler chonkerAnims);
+    IEnemy createEnemy(EnemyType type, Vector2 position, AnimationHandler normalAnims, AnimationHandler chonkerAnims);
 
     /**
      * Creates enemies from spawn objects found in a map layer.
@@ -30,5 +30,5 @@ public interface IEnemyFactory {
      * @param chonkerAnims The animation handler for tank-type enemies.
      * @return A list of enemies created from the layer.
      */
-    List<Enemy> createEnemiesFromLayer(MapLayer layer, AnimationHandler normalAnims, AnimationHandler chonkerAnims);
+    List<IEnemy> createEnemiesFromLayer(MapLayer layer, AnimationHandler normalAnims, AnimationHandler chonkerAnims);
 }
