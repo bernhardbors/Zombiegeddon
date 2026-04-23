@@ -15,21 +15,21 @@ public interface IEntity {
      * @param x pos on the x-axis
      * @param y pos on the y-axis
      */
-    public void setPosition(float x, float y);
+    void setPosition(float x, float y);
 
     /**
      * Gets the current position of the entity from the physics component.
      *
      * @return A Vector2 representing the world coordinates.
      */
-    public Vector2 getPosition();
+    Vector2 getPosition();
 
     /**
      * Provides access to the entity's physics component.
      *
      * @return The PhysicsComponent instance.
      */
-    public PhysicsComponent getPhysics();
+    PhysicsComponent getPhysics();
 
     /**
      * Sets whether the entity is currently touching the ground.
@@ -37,35 +37,57 @@ public interface IEntity {
      *
      * @param grounded True if the entity is on the ground, false otherwise.
      */
-    public void setGrounded(boolean grounded);
+    void setGrounded(boolean grounded);
 
     /**
      *
      * @return boolean true if on ground false if not.
      */
-    public boolean isGrounded();
+    boolean isGrounded();
 
     /**
      * @return entity Width
      */
-    public float getWidth();
+    float getWidth();
 
     /**
      * @return entity Height
      */
-    public float getHeight();
+    float getHeight();
 
     /**
      * Returns the scaled sprite dimension of the entity.
      *
      * @return The scaled sprite dimension.
      */
-    public float getScaledSpriteDimensions();
+    float getScaledSpriteDimensions();
 
     /**
      * Returns the animation handler used by the entity.
      *
      * @return The animation handler.
      */
-    public AnimationHandler getAnimationHandler();
+    AnimationHandler getAnimationHandler();
+
+    /**
+     * Returns the current animation state of the entity.
+     */
+    EntityState getCurrentState();
+
+    /**
+     * Returns the time spent in the current state.
+     */
+    float getStateTime();
+
+    /**
+     * Returns whether the entity is facing right.
+     */
+    boolean isFacingRight();
+
+    /**
+     * Updates the entity logic.
+     *
+     * @param dt Time in seconds since the last update.
+     */
+    void update(float dt);
 }

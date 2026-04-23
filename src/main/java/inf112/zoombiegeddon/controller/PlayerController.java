@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
-import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.IPlayer;
 
 /**
  * Handles user input and translates it into player actions and movement.
@@ -13,7 +13,7 @@ import inf112.zoombiegeddon.model.entity.Player;
  */
 public class PlayerController extends InputAdapter {
 
-    private final Player player;
+    private final IPlayer player;
 
     private static final float WALKING_SPEED = 4f;
     private static final float RUNNING_SPEED = 8f;
@@ -25,7 +25,7 @@ public class PlayerController extends InputAdapter {
      *
      * @param player The player instance to be controlled.
      */
-    public PlayerController(Player player) {
+    public PlayerController(IPlayer player) {
         this.player = player;
     }
 

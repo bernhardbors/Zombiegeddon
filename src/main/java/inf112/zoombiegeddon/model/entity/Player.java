@@ -9,14 +9,15 @@ import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 import inf112.zoombiegeddon.model.entity.enemies.Enemy;
-import inf112.zoombiegeddon.view.levels.AbstractLevel;
+import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
+import inf112.zoombiegeddon.model.levels.LevelModel;
 
 /**
  * Represents the player character in the game.
  * This class handles player-specific logic including physics interaction,
  * animations based on movement states, and user-triggered actions like jumping.
  */
-public class Player extends Entity implements IDamageable {
+public class Player extends Entity implements IPlayer {
 
     private static final float JUMP_IMPULSE = 23.0f;
     private static final float MOVE_IMPULSE = 1.0f;
@@ -59,9 +60,9 @@ public class Player extends Entity implements IDamageable {
      */
     public Player(World world, Vector2 spawnPos, AnimationHandler animationHandler, int Hp) {
 
-        this.spriteDim = 32 * AbstractLevel.UNIT_SCALE;
-        float actualW = 11 * AbstractLevel.UNIT_SCALE;
-        float actualH = 20 * AbstractLevel.UNIT_SCALE;
+        this.spriteDim = 32 * LevelModel.UNIT_SCALE;
+        float actualW = 11 * LevelModel.UNIT_SCALE;
+        float actualH = 20 * LevelModel.UNIT_SCALE;
 
         super(new PhysicsComponent(world, spawnPos, actualW, actualH, "player"));
 
@@ -369,7 +370,7 @@ public class Player extends Entity implements IDamageable {
      * @param enemy The enemy involved in the collision.
      * @param hitWithFeet True if the player hit the enemy from above.
      */
-    public void hitEnemy(Enemy enemy, boolean hitWithFeet) {
+    public void hitEnemy(IEnemy enemy, boolean hitWithFeet) {
         if (hitWithFeet) {
             enemy.takeDamage(1);
 

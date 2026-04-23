@@ -2,7 +2,7 @@ package inf112.zoombiegeddon.model.entity;
 
 import com.badlogic.gdx.graphics.Color;
 import inf112.zoombiegeddon.model.entity.enemies.Enemy;
-import inf112.zoombiegeddon.view.levels.AbstractLevel;
+import inf112.zoombiegeddon.model.levels.LevelModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -116,7 +116,7 @@ public class PlayerTest extends AbstractEntityTest {
     void testGetScaledSpriteDimensions() {
         float playerDim = player.getScaledSpriteDimensions();
 
-        float expected = 32 * AbstractLevel.UNIT_SCALE;
+        float expected = 32 * LevelModel.UNIT_SCALE;
         assertEquals(expected, playerDim);
     }
 
@@ -134,8 +134,8 @@ public class PlayerTest extends AbstractEntityTest {
         float playerHeight = player.getHeight();
         float playerWidth = player.getWidth();
 
-        assertEquals(11 * AbstractLevel.UNIT_SCALE, playerWidth);
-        assertEquals(20 * AbstractLevel.UNIT_SCALE, playerHeight);
+        assertEquals(11 * LevelModel.UNIT_SCALE, playerWidth);
+        assertEquals(20 * LevelModel.UNIT_SCALE, playerHeight);
     }
 
     @Test

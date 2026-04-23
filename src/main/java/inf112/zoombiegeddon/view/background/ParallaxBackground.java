@@ -2,7 +2,7 @@ package inf112.zoombiegeddon.view.background;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Batch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +62,7 @@ public class ParallaxBackground {
      *
      * @param batch The SpriteBatch used for drawing the textures.
      */
-    public void render(SpriteBatch batch) {
+    public void render(Batch batch) {
         if (camera == null) return;
 
         for (Layer layer : layers) {

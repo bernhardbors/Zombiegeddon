@@ -4,14 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import inf112.zoombiegeddon.model.entity.Entity;
 import inf112.zoombiegeddon.model.entity.IDamageable;
+import inf112.zoombiegeddon.model.entity.IEntity;
 
 import java.util.Locale;
 
@@ -31,7 +29,7 @@ public class UIRenderer {
      * @param entity The entity whose UI information should be rendered.
      * @param <T> The entity type, which must extend {@link Entity} and implement {@link IDamageable}.
      */
-    public <T extends Entity & IDamageable> UIRenderer(OrthographicCamera camera, T entity) {
+    public <T extends IEntity & IDamageable> UIRenderer(OrthographicCamera camera, T entity) {
         this.shapeRenderer = new ShapeRenderer();
         this.damageable = entity;
 
@@ -44,7 +42,7 @@ public class UIRenderer {
      * @param batch The sprite batch used for rendering.
      * @param texture The texture containing the heart UI frames.
      */
-    public void drawHearts(SpriteBatch batch, Texture texture) {
+    public void drawHearts(Batch batch, Texture texture) {
         Matrix4 uiMatrix = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.setProjectionMatrix(uiMatrix);
 
@@ -71,7 +69,7 @@ public class UIRenderer {
      * @param font The bitmap font used for the timer label.
      * @param storyTimeSeconds The elapsed story time to display.
      */
-    public void drawStoryTime(SpriteBatch batch, BitmapFont font, float storyTimeSeconds) {
+    public void drawStoryTime(Batch batch, BitmapFont font, float storyTimeSeconds) {
         Matrix4 uiMatrix = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.setProjectionMatrix(uiMatrix);
 

@@ -6,9 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
-import inf112.zoombiegeddon.view.levels.Level1;
-import inf112.zoombiegeddon.view.levels.Level2;
-import inf112.zoombiegeddon.view.levels.Level3;
 
 /**
  * Displays the level selection screen.
@@ -40,18 +37,18 @@ public class PickLevelScreen extends AbstractScreen {
         UIUtils.addButton("LEVEL 1", skin, table, buttonWidth, buttonHeight,
                 () -> {
                     app.getStoryManager().finishRun();
-                    app.setScreen(new Level1(app));
+                    app.setScreen(new PlayableLevel(app, "tilemaps/level1.tmx", "level1"));
                 });
 
         UIUtils.addButton("LEVEL 2", skin, table, buttonWidth, buttonHeight,
                 () -> {
                     app.getStoryManager().finishRun();
-                    app.setScreen(new Level2(app));
+                    app.setScreen(new PlayableLevel(app, "tilemaps/level3.tmx", "level2"));
                 });
 
         UIUtils.addButton("LEVEL 3", skin, table, buttonWidth, buttonHeight,
                 () -> {
-                    app.setScreen(new Level3(app));
+                    app.setScreen(new PlayableLevel(app, "tilemaps/level5.tmx", "level3"));
                 });
 
         UIUtils.addButton("PLACEHOLDER", skin, table, buttonWidth, buttonHeight,
