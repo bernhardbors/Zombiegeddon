@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
-import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.IPlayer;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 
 public class HealPickup extends Pickup {
@@ -18,7 +18,7 @@ public class HealPickup extends Pickup {
     }
 
     @Override
-    public void applyEffect(Player player) {
+    public void applyEffect(IPlayer player) {
         if (player.getHealth() < player.getMaxHealth()) {
             player.heal(HEALTH_AMOUNT);
             GameEventBus.post(GameEvent.PICKUP_HEALTH);
