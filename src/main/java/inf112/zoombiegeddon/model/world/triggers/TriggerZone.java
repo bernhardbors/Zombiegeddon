@@ -36,24 +36,26 @@ public class TriggerZone {
                 String type = object.getProperties().get("type", String.class);
                 ITriggerAction action;
 
-                if ("killzone".equals(type)) {
-                    action = new KillAction();
-                } else if ("sign".equals(type)) {
-                    String text = object.getProperties().get("info", String.class);
-                    action = new SignAction(text);
-                } else if ("goalzone".equals(type)) {
-                    action = new GoalAction();
-                } else if ("newzone".equals(type)) {
-                    float spawnX = object.getProperties().get("spawn_x", Float.class);
-                    float spawnY = object.getProperties().get("spawn_y", Float.class);
-
-                    spawnX *= unitScale;
-                    spawnY *= unitScale;
-
-
-                    action = new SpawnAction(spawnX, spawnY);
-                } else {
-                    continue;
+                switch (type == null ? "" : type) {
+                    case "killzone":
+                        action = new KillAction();
+                        break;
+                    case "sign":
+                        String text = object.getProperties().get("info", String.class);
+                        action = new SignAction(text);
+                        break;
+                    case "goalzone":
+                        action = new GoalAction();
+                        break;
+                    case "newzone":
+                        float spawnX = object.getProperties().get("spawn_x", Float.class);
+                        float spawnY = object.getProperties().get("spawn_y", Float.class);
+                        spawnX *= unitScale;
+                        spawnY *= unitScale;
+                        action = new SpawnAction(spawnX, spawnY);
+                        break;
+                    default:
+                        continue;
                 }
 
                 zones.add(worldRect);
