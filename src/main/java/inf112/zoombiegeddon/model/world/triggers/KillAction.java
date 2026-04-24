@@ -8,7 +8,7 @@ public class KillAction implements ITriggerAction {
 
     @Override
     public String onTrigger(IPlayer player) {
-        GameEventBus.post(GameEvent.PLAYER_DEATH);
+        player.takeDamage(player.getHealth());
         return null;
     }
 }
