@@ -25,4 +25,10 @@ public interface IStoryManager {
     public StorySession getSession();
 
     public String getCurrentPlayerName();
+
+    public int getTotalLevels();
+
+    public String getMapPathForLevel(int index);
+
+    public String getIdForLevel(int index);
 }

@@ -152,7 +152,11 @@ public class StoryScreen extends AbstractScreen {
             storyImage.clearActions();
         }
         app.getStoryManager().startTimer();
-        app.setScreen(new PlayableLevel(app, "tilemaps/level1.tmx", "level1"));
+        app.setScreen(new PlayableLevel(
+                app,
+                app.getStoryManager().getCurrentMapPath(),
+                app.getStoryManager().getCurrentLevelId()
+        ));
     }
 
     @Override

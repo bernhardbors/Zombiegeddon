@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.IPlayer;
 
 public abstract class Pickup implements IPickup {
 
@@ -51,7 +51,7 @@ public abstract class Pickup implements IPickup {
     }
 
     @Override
-    public void collect(Player player) {
+    public void collect(IPlayer player) {
         if (collected) {
             return;
         }

@@ -34,27 +34,19 @@ public class PickLevelScreen extends AbstractScreen {
         formatText("PICK LEVEL", Color.WHITE, 6f);
         table.row().padTop(10);
 
-        UIUtils.addButton("LEVEL 1", skin, table, buttonWidth, buttonHeight,
-                () -> {
-                    app.getStoryManager().finishRun();
-                    app.setScreen(new PlayableLevel(app, "tilemaps/level1.tmx", "level1"));
-                });
+        int totalLevels = app.getStoryManager().getTotalLevels();
 
-        UIUtils.addButton("LEVEL 2", skin, table, buttonWidth, buttonHeight,
-                () -> {
-                    app.getStoryManager().finishRun();
-                    app.setScreen(new PlayableLevel(app, "tilemaps/level3.tmx", "level2"));
-                });
+        for (int i = 0; i < totalLevels; i++) {
+            final String mapPath = app.getStoryManager().getMapPathForLevel(i);
+            final String levelId = app.getStoryManager().getIdForLevel(i);
+            final int levelNumber = i + 1;
 
-        UIUtils.addButton("LEVEL 3", skin, table, buttonWidth, buttonHeight,
-                () -> {
-                    app.setScreen(new PlayableLevel(app, "tilemaps/level5.tmx", "level3"));
-                });
-
-        UIUtils.addButton("PLACEHOLDER", skin, table, buttonWidth, buttonHeight,
-                () -> {
-                    //app.setScreen(new );
-                });
+            UIUtils.addButton("LEVEL " + levelNumber, skin, table, buttonWidth, buttonHeight,
+                    () -> {
+                        app.getStoryManager().finishRun();
+                        app.setScreen(new PlayableLevel(app, mapPath, levelId));
+                    });
+        }
 
         UIUtils.addButton("BACK", skin, table, buttonWidth, buttonHeight,
                 () -> {

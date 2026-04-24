@@ -3,13 +3,13 @@ package inf112.zoombiegeddon.model.entity.pickups;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.IPlayer;
 
 public interface IPickup {
 
-    void applyEffect(Player player);
+    void applyEffect(IPlayer player);
 
-    void collect(Player player);
+    void collect(IPlayer player);
 
     boolean isCollected();
 
