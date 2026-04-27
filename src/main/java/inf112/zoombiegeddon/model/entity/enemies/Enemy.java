@@ -6,11 +6,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 import inf112.zoombiegeddon.model.entity.Entity;
 import inf112.zoombiegeddon.model.entity.EntityState;
-import inf112.zoombiegeddon.model.entity.IDamageable;
 import inf112.zoombiegeddon.model.entity.PhysicsComponent;
 import inf112.zoombiegeddon.model.levels.LevelModel;
-
-import java.util.logging.Level;
 
 /**
  * Represents an enemy entity in the game.

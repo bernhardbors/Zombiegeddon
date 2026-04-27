@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.model.entity.Entity;
 import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
 import inf112.zoombiegeddon.model.levels.LevelModel;
