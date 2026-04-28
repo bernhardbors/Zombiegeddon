@@ -18,15 +18,15 @@ import inf112.zoombiegeddon.model.levels.LevelModel;
  */
 public class Player extends Entity implements IPlayer {
 
-    private static final float jumpImpulse = 13.0f;
-    private static final float moveImpulse = 1.0f;
-    private static final float velocityThreshold = 0.1f;
+    private static final float JUMP_IMPULSE = 13.0f;
+    private static final float MOVE_IMPULSE = 1.0f;
+    private static final float VELOCITY_THRESHOLD = 0.1f;
 
-    private float coyoteTimer = 0f;
-    private static final float coyoteTimeMax = 0.15f;
+    private float COYOTE_TIMER = 0f;
+    private static final float COYOTE_TIME_MAX = 0.15f;
 
-    private float jumpBufferTimer = 0f;
-    private static final float jumpBufferMax = 0.10f;
+    private float JUMP_BUFFER_TIMER = 0f;
+    private static final float JUMP_BUFFER_MAX = 0.10f;
 
     private final PlayerController controller;
     private final AnimationHandler animationHandler;
@@ -90,7 +90,7 @@ public class Player extends Entity implements IPlayer {
         }
         controller.update(dt);
         postHorizontalMoveStateEvents();
-        updateAnimationState(dt, velocityThreshold);
+        updateAnimationState(dt, VELOCITY_THRESHOLD);
         updateTimers(dt);
         updateJumpMechanics(dt);
         updateGravityScale();
@@ -114,14 +114,14 @@ public class Player extends Entity implements IPlayer {
 
     private void updateJumpMechanics(float dt) {
         if (isGrounded()) {
-            coyoteTimer = coyoteTimeMax;
+            COYOTE_TIMER = COYOTE_TIME_MAX;
         } else {
-            coyoteTimer -= dt;
+            COYOTE_TIMER -= dt;
         }
 
-        if (jumpBufferTimer > 0) jumpBufferTimer -= dt;
+        if (JUMP_BUFFER_TIMER > 0) JUMP_BUFFER_TIMER -= dt;
 
-        if (jumpBufferTimer > 0 && coyoteTimer > 0) {
+        if (JUMP_BUFFER_TIMER > 0 && COYOTE_TIMER > 0) {
             executeJump();
         }
     }
@@ -218,14 +218,14 @@ public class Player extends Entity implements IPlayer {
      * Makes the player jump if grounded and posts a jump event.
      */
     public void jump() {
-        jumpBufferTimer = jumpBufferMax;
+        JUMP_BUFFER_TIMER = JUMP_BUFFER_MAX;
     }
 
     private void executeJump() {
-        physics.applyImpulse(new Vector2(0, jumpImpulse));
+        physics.applyImpulse(new Vector2(0, JUMP_IMPULSE));
 
-        jumpBufferTimer = 0;
-        coyoteTimer = 0;
+        JUMP_BUFFER_TIMER = 0;
+        COYOTE_TIMER = 0;
 
         GameEventBus.post(GameEvent.PLAYER_JUMP);
     }
@@ -235,7 +235,7 @@ public class Player extends Entity implements IPlayer {
      */
     private void postHorizontalMoveStateEvents() {
         Vector2 vel = physics.getVelocity();
-        boolean movingHorizontally = isGrounded() && Math.abs(vel.x) > velocityThreshold;
+        boolean movingHorizontally = isGrounded() && Math.abs(vel.x) > VELOCITY_THRESHOLD;
         boolean runningNow = movingHorizontally && isRunning;
 
         postMoveTransition(movingHorizontally);
@@ -268,8 +268,8 @@ public class Player extends Entity implements IPlayer {
      * @param right True if the player should move right.
      */
     public void applyHorizontalImpulse(boolean left, boolean right) {
-        if (left) physics.applyImpulse(new Vector2(-moveImpulse, 0));
-        if (right) physics.applyImpulse(new Vector2(moveImpulse, 0));
+        if (left) physics.applyImpulse(new Vector2(-MOVE_IMPULSE, 0));
+        if (right) physics.applyImpulse(new Vector2(MOVE_IMPULSE, 0));
     }
 
     /**

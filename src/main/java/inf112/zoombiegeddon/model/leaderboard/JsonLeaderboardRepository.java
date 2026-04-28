@@ -24,7 +24,7 @@ public record JsonLeaderboardRepository(String filePath) implements ILeaderboard
         try (FileWriter writer = new FileWriter(filePath)) {
             writer.write(jsonString);
         } catch (IOException exception) {
-            throw new RuntimeException("Failed to save leaderboard data.", exception);
+            throw new LeaderboardPersistenceException("Failed to save leaderboard data.", exception);
         }
     }
 
@@ -45,7 +45,7 @@ public record JsonLeaderboardRepository(String filePath) implements ILeaderboard
             }
 
             return leaderboardManager;
-        } catch (IOException ignored) {
+        } catch (IOException _) {
             return new LeaderboardManager();
         }
     }

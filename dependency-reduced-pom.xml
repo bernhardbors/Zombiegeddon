@@ -66,7 +66,6 @@
 								target/surefire-reports</configurationParameters>
             </properties>
             <useModulePath>false</useModulePath>
-            <argLine />
           </configuration>
         </plugin>
         <plugin>
@@ -187,6 +186,11 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <excludes>
+            <exclude>**/view/**</exclude>
+          </excludes>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
@@ -198,6 +202,13 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>25</source>
+          <target>25</target>
+        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -319,7 +330,7 @@
   <properties>
     <maven.compiler.release>25</maven.compiler.release>
     <libgdx.version>1.14.0</libgdx.version>
-    <main.class>inf112.Zoombiegeddon.app.Main</main.class>
+    <main.class>inf112.zoombiegeddon.app.Main</main.class>
     <slf4j.version>2.0.17</slf4j.version>
     <jvm.extra.args>--enable-native-access=ALL-UNNAMED</jvm.extra.args>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

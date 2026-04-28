@@ -1,6 +1,5 @@
 package inf112.zoombiegeddon.model.world.physics;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
@@ -70,11 +69,9 @@ public class WorldContactListener implements ContactListener {
         Fixture fb = contact.getFixtureB();
 
         if ("feet".equals(fa.getUserData())) {
-            Object data = fa.getBody().getUserData();
-            if (data instanceof IEntity ientity) ientity.setGrounded(grounded);
+            if (fa.getBody().getUserData() instanceof IEntity ientity) ientity.setGrounded(grounded);
         } else if ("feet".equals(fb.getUserData())) {
-            Object data = fb.getBody().getUserData();
-            if (data instanceof IEntity ientity) ientity.setGrounded(grounded);
+            if (fb.getBody().getUserData() instanceof IEntity ientity) ientity.setGrounded(grounded);
         }
     }
 
@@ -144,10 +141,8 @@ public class WorldContactListener implements ContactListener {
 
         if (bodyAData instanceof Player && bodyBData instanceof ILuckyBlock luckyBlock) {
             breakLuckyBlock(luckyBlock);
-            Gdx.app.debug("WorldContactListener", "Lucky block collision.");
         } else if (bodyBData instanceof Player && bodyAData instanceof ILuckyBlock luckyBlock) {
             breakLuckyBlock(luckyBlock);
-            Gdx.app.debug("WorldContactListener", "Lucky block collision.");
         }
     }
 

@@ -62,10 +62,7 @@ public class PlayerController extends InputAdapter {
      */
     @Override
     public boolean keyUp(int keycode) {
-        if (keycode == Input.Keys.SPACE || keycode == Input.Keys.W || keycode == Input.Keys.UP) {
-            return true;
-        }
-        return false;
+        return (keycode == Input.Keys.SPACE || keycode == Input.Keys.W || keycode == Input.Keys.UP);
     }
 
     /**
