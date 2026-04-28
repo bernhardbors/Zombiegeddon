@@ -49,3 +49,5 @@ Thumbs.db
 hs_err_pid*
 dependency-reduced-pom.xml.DS_Store
 **/.DS_Store
+
+.temp/
