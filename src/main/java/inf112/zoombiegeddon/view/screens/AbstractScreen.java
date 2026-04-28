@@ -53,9 +53,6 @@ public abstract class AbstractScreen implements IScreen {
         buildScreen();
     }
 
-
-    public abstract void buildScreen();
-
     /**
      * Clears all actors from the main table.
      */
@@ -119,7 +116,7 @@ public abstract class AbstractScreen implements IScreen {
      */
     protected Label formatText(String text, Color color, float scale) {
         Label.LabelStyle style = new Label.LabelStyle();
-        style.font = app.getAssets().getFont();;
+        style.font = app.getAssets().getFont();
         style.fontColor = color;
 
         float screenScale = Gdx.graphics.getHeight() / 1080f;
