@@ -9,6 +9,8 @@ import inf112.zoombiegeddon.model.entity.EntityState;
 import inf112.zoombiegeddon.model.entity.PhysicsComponent;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 
+
+
 /**
  * Represents an enemy entity in the game.
  * Handles simple patrol behavior, health, and physics-based interactions.
@@ -26,8 +28,8 @@ public class Enemy extends Entity implements IEnemy {
     private int direction = Math.random() < 0.5 ? 1 : -1;
 
     private boolean isDead = false;
-    private int HP;
-    private final int maxHP;
+    private int hp;
+    private final int maxHp;
 
     /**
      * Constructs a new enemy with the given spawn position, animation handler,
@@ -49,8 +51,8 @@ public class Enemy extends Entity implements IEnemy {
 
         this.physics.getBody().setUserData(this);
         this.animationHandler = animationHandler;
-        this.HP = hp;
-        this.maxHP = hp;
+        this.hp = hp;
+        this.maxHp = hp;
 
         this.patrolSpeed = speed;
 
@@ -67,10 +69,8 @@ public class Enemy extends Entity implements IEnemy {
     public void update(float dt) {
         Vector2 vel = physics.getVelocity();
 
-        if (isGrounded()) {
-            if (shouldTurnAround(direction)) {
-                direction *= -1;
-            }
+        if (isGrounded() && shouldTurnAround(direction)) {
+            direction *= -1;
         }
 
         physics.getBody().setLinearVelocity(direction * patrolSpeed, vel.y);
@@ -96,8 +96,8 @@ public class Enemy extends Entity implements IEnemy {
      */
     @Override
     public void takeDamage(int amount) {
-        this.HP -= amount;
-        if (this.HP <= 0) {
+        this.hp -= amount;
+        if (this.hp <= 0) {
             isDead = true;
         }
     }
@@ -159,7 +159,7 @@ public class Enemy extends Entity implements IEnemy {
      */
     @Override
     public int getHealth() {
-        return this.HP;
+        return this.hp;
     }
 
     /**
@@ -167,7 +167,7 @@ public class Enemy extends Entity implements IEnemy {
      */
     @Override
     public int getMaxHealth() {
-        return this.maxHP;
+        return this.maxHp;
     }
 
     /**
@@ -185,10 +185,7 @@ public class Enemy extends Entity implements IEnemy {
      */
     @Override
     public void heal(int amount) {
-        this.HP += amount;
-        if (this.HP >= maxHP) {
-            this.HP = maxHP;
-        }
+        this.hp = Math.min(this.hp + amount, maxHp);
     }
 
     /**
