@@ -42,14 +42,15 @@ public class NextLevelScreen extends AbstractScreen{
             final String levelId = app.getStoryManager().getIdForLevel(i);
             final int levelNumber = i + 1;
 
-            UIUtils.addButton("Level " + levelNumber, skin, table, buttonWidth, buttonHeight,
-                    () -> {
+            UIUtils.button("Level " + levelNumber, skin).size(buttonWidth, buttonHeight)
+                    .action(() -> {
                         app.getStoryManager().finishRun();
                         app.setScreen(new PlayableLevel(app, mapPath, levelId));
-                    });
+                    }).addTo(table);
         }
 
-        UIUtils.addButton("Main menu", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new MainMenuScreen(app)));
+        UIUtils.button("Main menu", skin).size(buttonWidth, buttonHeight)
+                .action(() -> app.setScreen(new MainMenuScreen(app))).addTo(table);
 
     }
 }

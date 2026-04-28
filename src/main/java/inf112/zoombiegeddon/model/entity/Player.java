@@ -18,15 +18,15 @@ import inf112.zoombiegeddon.model.levels.LevelModel;
  */
 public class Player extends Entity implements IPlayer {
 
-    private static final float JUMP_IMPULSE = 13.0f;
-    private static final float MOVE_IMPULSE = 1.0f;
-    private static final float VELOCITY_THRESHOLD = 0.1f;
+    private static final float jumpImpulse = 13.0f;
+    private static final float moveImpulse = 1.0f;
+    private static final float velocityThreshold = 0.1f;
 
     private float coyoteTimer = 0f;
-    private final float COYOTE_TIME_MAX = 0.15f; // 150ms window
+    private static final float coyoteTimeMax = 0.15f;
 
     private float jumpBufferTimer = 0f;
-    private final float JUMP_BUFFER_MAX = 0.10f;
+    private static final float jumpBufferMax = 0.10f;
 
     private final PlayerController controller;
     private final AnimationHandler animationHandler;
@@ -34,12 +34,12 @@ public class Player extends Entity implements IPlayer {
     private boolean wasMovingHorizontally = false;
     private boolean wasRunningWhileMoving = false;
 
-    private int HP;
-    private final int maxHP;
+    private int hp;
+    private final int maxHp;
     private float hitTimer;
-    private final float InvulnerabilityCooldown = 1.0f;
+    private static final float invulnerabilityCooldown = 1.0f;
     private boolean isDead = false;
-    private boolean inGoal =  false;
+    private boolean inGoal = false;
     private final Rectangle bounds = new Rectangle();
 
     private float spriteDim;
@@ -55,9 +55,9 @@ public class Player extends Entity implements IPlayer {
      * @param world The Box2D world where the player exists.
      * @param spawnPos The initial spawn position of the player.
      * @param animationHandler The animation handler used for player animations.
-     * @param Hp The starting and maximum health of the player.
+     * @param hp The starting and maximum health of the player.
      */
-    public Player(World world, Vector2 spawnPos, AnimationHandler animationHandler, int Hp) {
+    public Player(World world, Vector2 spawnPos, AnimationHandler animationHandler, int hp) {
 
         this.spriteDim = 32 * LevelModel.UNIT_SCALE;
         float actualW = 11 * LevelModel.UNIT_SCALE;
@@ -67,8 +67,8 @@ public class Player extends Entity implements IPlayer {
 
         this.physics.getBody().setUserData(this);
         this.animationHandler = animationHandler;
-        this.HP = Hp;
-        this.maxHP = Hp;
+        this.hp = hp;
+        this.maxHp = hp;
 
         this.width = actualW;
         this.height = actualH;
@@ -90,8 +90,13 @@ public class Player extends Entity implements IPlayer {
         }
         controller.update(dt);
         postHorizontalMoveStateEvents();
+        updateAnimationState(dt, velocityThreshold);
+        updateTimers(dt);
+        updateJumpMechanics(dt);
+        updateGravityScale();
+    }
 
-        updateAnimationState(dt, VELOCITY_THRESHOLD);
+    private void updateTimers(float dt) {
         if (hitTimer > 0) hitTimer -= dt;
 
         if (speedBoostRemaining > 0f) {
@@ -105,34 +110,30 @@ public class Player extends Entity implements IPlayer {
         if (pickupVisualEffectRemaining > 0f) {
             pickupVisualEffectRemaining = Math.max(0f, pickupVisualEffectRemaining - dt);
         }
+    }
 
+    private void updateJumpMechanics(float dt) {
         if (isGrounded()) {
-            coyoteTimer = COYOTE_TIME_MAX;
+            coyoteTimer = coyoteTimeMax;
         } else {
             coyoteTimer -= dt;
         }
 
-        if (jumpBufferTimer > 0) {
-            jumpBufferTimer -= dt;
-        }
+        if (jumpBufferTimer > 0) jumpBufferTimer -= dt;
 
         if (jumpBufferTimer > 0 && coyoteTimer > 0) {
             executeJump();
         }
+    }
 
+    private void updateGravityScale() {
         Vector2 vel = physics.getVelocity();
-
         if (vel.y > 0.1f) {
-            if (!controller.isJumpPressed()) {
-                physics.getBody().setGravityScale(5.0f);
-            } else {
-                physics.getBody().setGravityScale(1.5f);
-            }
+            physics.getBody().setGravityScale(controller.isJumpPressed() ? 1.5f : 5.0f);
         } else {
             physics.getBody().setGravityScale(2.0f);
         }
- 
-       }
+    }
 
     public void applySpeedBoost(float multiplier, float durationSeconds) {
         speedMultiplier = Math.max(1.0f, multiplier);
@@ -186,26 +187,22 @@ public class Player extends Entity implements IPlayer {
         stateTime += dt;
         Vector2 velocity = physics.getVelocity();
 
-
         if (velocity.x > velocityThreshold) facingRight = true;
         else if (velocity.x < -velocityThreshold) facingRight = false;
 
-
         if (!isGrounded()) {
             currentState = (velocity.y > velocityThreshold) ? EntityState.JUMPING : EntityState.FALLING;
-        } else if (Math.abs(velocity.x) > velocityThreshold) { // Use velocity instead of controller-buttons
+        } else if (Math.abs(velocity.x) > velocityThreshold) {
             currentState = determineMovingState();
         } else {
             currentState = EntityState.IDLE;
         }
-
 
         if (previousState != currentState) {
             stateTime = 0;
             previousState = currentState;
         }
     }
-
 
     /**
      * Determines whether the player should use the walking or running animation state.
@@ -221,11 +218,11 @@ public class Player extends Entity implements IPlayer {
      * Makes the player jump if grounded and posts a jump event.
      */
     public void jump() {
-        jumpBufferTimer = JUMP_BUFFER_MAX;
+        jumpBufferTimer = jumpBufferMax;
     }
 
     private void executeJump() {
-        physics.applyImpulse(new Vector2(0, JUMP_IMPULSE));
+        physics.applyImpulse(new Vector2(0, jumpImpulse));
 
         jumpBufferTimer = 0;
         coyoteTimer = 0;
@@ -238,30 +235,30 @@ public class Player extends Entity implements IPlayer {
      */
     private void postHorizontalMoveStateEvents() {
         Vector2 vel = physics.getVelocity();
-        boolean movingHorizontally = isGrounded() && Math.abs(vel.x) > VELOCITY_THRESHOLD;
+        boolean movingHorizontally = isGrounded() && Math.abs(vel.x) > velocityThreshold;
         boolean runningNow = movingHorizontally && isRunning;
 
-        if (!wasMovingHorizontally && movingHorizontally) {
-            GameEventBus.post(GameEvent.PLAYER_MOVE_START);
-
-            if (runningNow) {
-                GameEventBus.post(GameEvent.PLAYER_RUN_START);
-            }
-        } else if (wasMovingHorizontally && !movingHorizontally) {
-            if (wasRunningWhileMoving) {
-                GameEventBus.post(GameEvent.PLAYER_RUN_STOP);
-            }
-            GameEventBus.post(GameEvent.PLAYER_MOVE_STOP);
-        } else if (movingHorizontally) {
-            if (!wasRunningWhileMoving && runningNow) {
-                GameEventBus.post(GameEvent.PLAYER_RUN_START);
-            } else if (wasRunningWhileMoving && !runningNow) {
-                GameEventBus.post(GameEvent.PLAYER_RUN_STOP);
-            }
-        }
+        postMoveTransition(movingHorizontally);
+        postRunTransition(runningNow);
 
         wasMovingHorizontally = movingHorizontally;
         wasRunningWhileMoving = runningNow;
+    }
+
+    private void postMoveTransition(boolean movingHorizontally) {
+        if (!wasMovingHorizontally && movingHorizontally) {
+            GameEventBus.post(GameEvent.PLAYER_MOVE_START);
+        } else if (wasMovingHorizontally && !movingHorizontally) {
+            GameEventBus.post(GameEvent.PLAYER_MOVE_STOP);
+        }
+    }
+
+    private void postRunTransition(boolean runningNow) {
+        if (!wasRunningWhileMoving && runningNow) {
+            GameEventBus.post(GameEvent.PLAYER_RUN_START);
+        } else if (wasRunningWhileMoving && !runningNow) {
+            GameEventBus.post(GameEvent.PLAYER_RUN_STOP);
+        }
     }
 
     /**
@@ -271,8 +268,8 @@ public class Player extends Entity implements IPlayer {
      * @param right True if the player should move right.
      */
     public void applyHorizontalImpulse(boolean left, boolean right) {
-        if (left) physics.applyImpulse(new Vector2(-MOVE_IMPULSE, 0));
-        if (right) physics.applyImpulse(new Vector2(MOVE_IMPULSE, 0));
+        if (left) physics.applyImpulse(new Vector2(-moveImpulse, 0));
+        if (right) physics.applyImpulse(new Vector2(moveImpulse, 0));
     }
 
     /**
@@ -293,32 +290,30 @@ public class Player extends Entity implements IPlayer {
         return isRunning;
     }
 
-
     @Override
     public void takeDamage(int amount) {
         if (isDead) return;
 
         if (hitTimer <= 0) {
-            this.HP -= amount;
-            hitTimer = InvulnerabilityCooldown;
+            this.hp -= amount;
+            hitTimer = invulnerabilityCooldown;
         }
 
-        if (this.HP <= 0) {
-            this.HP = 0;
+        if (this.hp <= 0) {
+            this.hp = 0;
             isDead = true;
             GameEventBus.post(GameEvent.PLAYER_DEATH);
-            System.out.println("player dead");
         }
     }
 
     @Override
     public int getHealth() {
-        return HP;
+        return hp;
     }
 
     @Override
     public int getMaxHealth() {
-        return maxHP;
+        return maxHp;
     }
 
     @Override
@@ -328,7 +323,7 @@ public class Player extends Entity implements IPlayer {
 
     @Override
     public void heal(int amount) {
-        this.HP = Math.min(this.HP + amount, maxHP);
+        this.hp = Math.min(this.hp + amount, maxHp);
     }
 
     /**
@@ -336,7 +331,7 @@ public class Player extends Entity implements IPlayer {
      *
      * @return True if the player is in the goal area, false otherwise.
      */
-    public boolean inGoal(){
+    public boolean inGoal() {
         return inGoal;
     }
 
@@ -345,7 +340,7 @@ public class Player extends Entity implements IPlayer {
      *
      * @param bool True if the player is in the goal, false otherwise.
      */
-    public void setInGoal(boolean bool){
+    public void setInGoal(boolean bool) {
         if (!this.inGoal && bool) {
             GameEventBus.post(GameEvent.LEVEL_FINISHED);
         }
@@ -381,11 +376,10 @@ public class Player extends Entity implements IPlayer {
         }
     }
 
-
     @Override
     public void setPosition(float x, float y) {
-        physics.getBody().setTransform(x,y,physics.getBody().getAngle());
-        physics.getBody().setLinearVelocity(0,0);
+        physics.getBody().setTransform(x, y, physics.getBody().getAngle());
+        physics.getBody().setLinearVelocity(0, 0);
     }
 
     @Override
@@ -393,12 +387,10 @@ public class Player extends Entity implements IPlayer {
         return physics.getPosition();
     }
 
-
     @Override
     public PhysicsComponent getPhysics() {
         return physics;
     }
-
 
     @Override
     public boolean isGrounded() {
@@ -410,12 +402,10 @@ public class Player extends Entity implements IPlayer {
         return width;
     }
 
-
     @Override
     public float getHeight() {
         return height;
     }
-
 
     @Override
     public float getScaledSpriteDimensions() {
@@ -428,12 +418,12 @@ public class Player extends Entity implements IPlayer {
     }
 
     /**
-     * returns the speed of the entity
+     * Returns the speed of the entity as the magnitude of its velocity vector.
      *
      * @return float speed of entity
      */
     @Override
     public float getSpeed() {
-        return physics.getBody().getLinearVelocity().y;
+        return physics.getBody().getLinearVelocity().len();
     }
 }
