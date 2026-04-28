@@ -18,7 +18,7 @@ class MainAppCreationTest {
     @Test
     void testMainLaunchSequence() {
 
-        try (MockedStatic<SharedLibraryLoader> loaderMock = mockStatic(SharedLibraryLoader.class);
+        try (MockedStatic<SharedLibraryLoader> _ = mockStatic(SharedLibraryLoader.class);
              MockedConstruction<Lwjgl3Application> appMock = mockConstruction(Lwjgl3Application.class);
              MockedConstruction<Lwjgl3ApplicationConfiguration> cfgMock = mockConstruction(Lwjgl3ApplicationConfiguration.class)) {
 
@@ -38,9 +38,9 @@ class MainAppCreationTest {
 
     @Test
     void testMacSpecificWorkaround() {
-        try (MockedStatic<SharedLibraryLoader> loaderMock = mockStatic(SharedLibraryLoader.class);
-             MockedStatic<Configuration> lwjglCfgMock = mockStatic(Configuration.class);
-             MockedConstruction<Lwjgl3Application> appMock = mockConstruction(Lwjgl3Application.class)) {
+        try (MockedStatic<SharedLibraryLoader> _ = mockStatic(SharedLibraryLoader.class);
+             MockedStatic<Configuration> _ = mockStatic(Configuration.class);
+             MockedConstruction<Lwjgl3Application> _ = mockConstruction(Lwjgl3Application.class)) {
 
             SharedLibraryLoader.os = Os.MacOsX;
 
