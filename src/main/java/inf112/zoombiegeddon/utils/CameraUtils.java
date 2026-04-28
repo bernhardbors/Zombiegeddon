@@ -10,6 +10,10 @@ import inf112.zoombiegeddon.model.entity.IEntity;
  */
 public class CameraUtils {
 
+    private CameraUtils() {
+        /* This utility class should not be instantiated */
+    }
+
     private static final float DEADZONE_WIDTH = 4f;
     private static final float DEADZONE_HEIGHT = 4f;
     private static final float VERTICAL_OFFSET = 3.5f;
