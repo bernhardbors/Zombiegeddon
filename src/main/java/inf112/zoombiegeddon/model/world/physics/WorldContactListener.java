@@ -70,10 +70,10 @@ public class WorldContactListener implements ContactListener {
 
         if ("feet".equals(fa.getUserData())) {
             Object data = fa.getBody().getUserData();
-            if (data instanceof IEntity) ((IEntity) data).setGrounded(grounded);
+            if (data instanceof IEntity ientity) ientity.setGrounded(grounded);
         } else if ("feet".equals(fb.getUserData())) {
             Object data = fb.getBody().getUserData();
-            if (data instanceof IEntity) ((IEntity) data).setGrounded(grounded);
+            if (data instanceof IEntity ientity) ientity.setGrounded(grounded);
         }
     }
 
