@@ -34,9 +34,7 @@ public class GameApp extends Game {
     private LeaderboardController leaderboardController;
     private ParallaxBackground background;
 
-    private ILeaderboardRepository leaderboardRepository;
     private LeaderboardManager leaderboardManager;
-    private ScoreCalculator scoreCalculator;
     private String currentPlayerName;
 
     private IStoryManager storyManager;
@@ -66,9 +64,9 @@ public class GameApp extends Game {
     }
 
     private void initializeLeaderboardSystem() {
-        leaderboardRepository = new JsonLeaderboardRepository("leaderboard.json");
+        ILeaderboardRepository leaderboardRepository = new JsonLeaderboardRepository("leaderboard.json");
         leaderboardManager = leaderboardRepository.load();
-        scoreCalculator = new ScoreCalculator();
+        ScoreCalculator scoreCalculator = new ScoreCalculator();
         leaderboardController = new LeaderboardController(
                 leaderboardManager,
                 leaderboardRepository,

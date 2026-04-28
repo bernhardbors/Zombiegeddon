@@ -278,6 +278,6 @@ public class AudioManager implements IAudioService, IEventListener {
      * @return The clamped value.
      */
     private static float clamp01(float v) {
-        return Math.max(0f, Math.min(1f, v));
+        return Math.clamp(v, 0, 1);
     }
 }

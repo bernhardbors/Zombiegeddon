@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 
+import static com.badlogic.gdx.graphics.glutils.ShaderProgram.pedantic;
+
 /**
  * Class for handling all game resources.
  * Relieves responsibility from {@link GameApp} and gathers all resource logic in one place
@@ -71,7 +73,7 @@ public class Assets {
         skin.get(TextButton.TextButtonStyle.class).font = font;
         skin.get(Label.LabelStyle.class).font = font;
 
-        ShaderProgram.pedantic = false;
+        pedantic = false;
         String vertexShader = Gdx.files.internal(AssetConstants.SHADER_VERTEX).readString();
         String fragmentShader = Gdx.files.internal(AssetConstants.SHADER_FRAGMENT_PICKUP).readString();
 

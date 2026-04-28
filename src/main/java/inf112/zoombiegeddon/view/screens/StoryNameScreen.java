@@ -36,16 +36,16 @@ public class StoryNameScreen extends AbstractScreen {
         nameField.setMessageText("Player Name... ");
         table.add(nameField).width(buttonWidth).height(buttonHeight).padBottom(220).row();
 
-        UIUtils.addButton("START STORY", skin, table, buttonWidth, buttonHeight,
-                () -> {
+        UIUtils.button("START STORY", skin).size(buttonWidth, buttonHeight)
+                .action(() -> {
                     app.getStoryManager().startRun(nameField.getText());
                     app.setScreen(new StoryScreen(app));
-                });
+                }).addTo(table);
 
-        UIUtils.addButton("BACK", skin, table, buttonWidth, buttonHeight,
-                () -> {
+        UIUtils.button("BACK", skin).size(buttonWidth, buttonHeight)
+                .action(() -> {
                     app.getStoryManager().finishRun();
                     app.setScreen(new MainMenuScreen(app));
-                });
+                }).addTo(table);
     }
 }

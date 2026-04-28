@@ -57,28 +57,29 @@ public class SettingsScreen extends AbstractScreen {
 
         String[] resolutions = {"1280 x 720", "1366 x 768", "1600 x 900", "1920 x 1080", "2560 x 1440", "3840 x 2160"};
 
-        UIUtils.addSelectBox("Resolution", resolutions, app.getAssets().getSkin(), displaySection,
-                buttonWidth, buttonHeight, controller::applyResolution);
+        UIUtils.selectBox("Resolution", resolutions, app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
+                .action(controller::applyResolution).addTo(displaySection);
 
-        UIUtils.addCheckBox("Fullscreen", app.getAssets().getSkin(), displaySection,
-                app.getPrefs().getBoolean(AssetConstants.PREF_FULLSCREEN, false), controller::toggleFullscreen);
+        UIUtils.checkBox("Fullscreen", app.getAssets().getSkin())
+                .checked(app.getPrefs().getBoolean(AssetConstants.PREF_FULLSCREEN, false))
+                .action(controller::toggleFullscreen).addTo(displaySection);
 
         Table audioSection = createSectionTable();
         addSectionTitle(audioSection, "AUDIO SETTINGS", Color.ORANGE);
 
-        UIUtils.addSlider("Music Volume", app.getAssets().getSkin(), audioSection,
-                app.getAudio().getMusicVolume(), 0f, 1f, 0.01f, controller::updateMusicVolume);
+        UIUtils.slider("Music Volume", app.getAssets().getSkin()).value(app.getAudio().getMusicVolume())
+                .range(0f, 1f, 0.01f).action(controller::updateMusicVolume).addTo(audioSection);
 
-        UIUtils.addSlider("SFX Volume", app.getAssets().getSkin(), audioSection,
-                app.getAudio().getSfxVolume(), 0f, 1f, 0.01f, controller::updateSfxVolume);
+        UIUtils.slider("SFX Volume", app.getAssets().getSkin()).value(app.getAudio().getSfxVolume())
+                .range(0f, 1f, 0.01f).action(controller::updateSfxVolume).addTo(audioSection);
 
         contentTable.add(displaySection).growX().row();
         contentTable.add(audioSection).growX().row();
 
         table.add(contentTable).width(contentWidth).expand().center().row();
 
-        UIUtils.addButton("BACK", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
-                () -> app.setScreen(returnScreen));
+        UIUtils.button("BACK", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
+                .action(() -> app.setScreen(returnScreen)).addTo(table);
     }
 
     private Table createSectionTable() {

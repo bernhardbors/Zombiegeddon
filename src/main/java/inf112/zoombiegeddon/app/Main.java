@@ -1,6 +1,8 @@
 package inf112.zoombiegeddon.app;
 
 import org.lwjgl.system.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
@@ -14,6 +16,8 @@ import com.badlogic.gdx.utils.SharedLibraryLoader;
  * before starting the LibGDX application.
  */
 public class Main {
+
+	private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
 	/**
 	 * Starts the game application.
@@ -53,15 +57,15 @@ public class Main {
 				java.awt.Taskbar taskbar = java.awt.Taskbar.getTaskbar();
 
 				java.net.URL iconURL = Main.class.getClassLoader().getResource("assets/sprites/appicons/icon_lg.png");
-				System.out.println(iconURL);
+				logger.info("{}", iconURL);
 				if (iconURL != null) {
 					java.awt.Image image = java.awt.Toolkit.getDefaultToolkit().getImage(iconURL);
 					taskbar.setIconImage(image);
 				} else {
-					System.out.println("Kunne ikke finne ikon-filen i resources!");
+					logger.warn("Kunne ikke finne ikon-filen i resources!");
 				}
 			} catch (Exception e) {
-				// Ignorerer feil på systemer som ikke støtter Taskbar
+				logger.error("Kunne ikke sette ikon-filen!", e);
 			}
 		}
 	}

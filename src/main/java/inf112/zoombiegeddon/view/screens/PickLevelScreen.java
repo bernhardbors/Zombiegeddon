@@ -41,17 +41,17 @@ public class PickLevelScreen extends AbstractScreen {
             final String levelId = app.getStoryManager().getIdForLevel(i);
             final int levelNumber = i + 1;
 
-            UIUtils.addButton("LEVEL " + levelNumber, skin, table, buttonWidth, buttonHeight,
-                    () -> {
+            UIUtils.button("LEVEL " + levelNumber, skin).size(buttonWidth, buttonHeight)
+                    .action(() -> {
                         app.getStoryManager().finishRun();
                         app.setScreen(new PlayableLevel(app, mapPath, levelId));
-                    });
+                    }).addTo(table);
         }
 
-        UIUtils.addButton("BACK", skin, table, buttonWidth, buttonHeight,
-                () -> {
+        UIUtils.button("BACK", skin).size(buttonWidth, buttonHeight)
+                .action(() -> {
                     app.getStoryManager().finishRun();
                     app.setScreen(new MainMenuScreen(app));
-                });
+                }).addTo(table);
     }
 }
