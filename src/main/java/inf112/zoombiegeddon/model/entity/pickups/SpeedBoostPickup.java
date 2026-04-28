@@ -26,7 +26,6 @@ public class SpeedBoostPickup extends Pickup {
         super(world, spawnPosition, 8f * LevelModel.UNIT_SCALE, "speed", Color.YELLOW);
     }
 
-    /** {@inheritDoc} */
     @Override
     public void applyEffect(IPlayer player) {
         player.applySpeedBoost(SPEED_MULTIPLIER, BOOST_DURATION_SECONDS);

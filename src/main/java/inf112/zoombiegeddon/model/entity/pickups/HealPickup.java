@@ -26,7 +26,6 @@ public class HealPickup extends Pickup {
         super(world, spawnPosition, 8f * LevelModel.UNIT_SCALE, "heal", Color.RED);
     }
 
-    /** {@inheritDoc} */
     @Override
     public void applyEffect(IPlayer player) {
         if (player.getHealth() < player.getMaxHealth()) {

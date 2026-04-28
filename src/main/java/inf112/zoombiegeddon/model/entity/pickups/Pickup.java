@@ -64,7 +64,6 @@ public abstract class Pickup implements IPickup {
         return pickupBody;
     }
 
-    /** {@inheritDoc} */
     @Override
     public void collect(IPlayer player) {
         if (collected) {
@@ -75,37 +74,31 @@ public abstract class Pickup implements IPickup {
         applyEffect(player);
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean isCollected() {
         return collected;
     }
 
-    /** {@inheritDoc} */
     @Override
     public Body getBody() {
         return body;
     }
 
-    /** {@inheritDoc} */
     @Override
     public Vector2 getPosition() {
         return body.getPosition();
     }
 
-    /** {@inheritDoc} */
     @Override
     public float getRenderSize() {
         return renderSize;
     }
 
-    /** {@inheritDoc} */
     @Override
     public String getPickupType() {
         return pickupType;
     }
 
-    /** {@inheritDoc} */
     @Override
     public Color getPickupColor() {
         return pickupColor;
