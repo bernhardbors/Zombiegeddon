@@ -89,10 +89,7 @@ public class PlayerController extends InputAdapter {
             player.applyHorizontalImpulse(false, true);
         }
 
-        if (!left && !right) {
-            player.getPhysics().getBody().setLinearVelocity(vel.x * FRICTION_COEFFICIENT, vel.y);
-        } else if (Math.abs(vel.x) > targetMax) {
-            // Gradual slowdown to targetMax if Shift is released while moving fast
+        if (!left && !right || Math.abs(vel.x) > targetMax) {
             player.getPhysics().getBody().setLinearVelocity(vel.x * FRICTION_COEFFICIENT, vel.y);
         }
     }

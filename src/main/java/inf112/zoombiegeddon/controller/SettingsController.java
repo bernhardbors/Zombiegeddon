@@ -4,10 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
+import inf112.zoombiegeddon.app.Main;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SettingsController {
     private final GameApp app;
     private final Preferences prefs;
+
+    private static final Logger logger = LoggerFactory.getLogger(SettingsController.class);
 
     public SettingsController(GameApp app) {
         this.app = app;
@@ -33,8 +38,8 @@ public class SettingsController {
             if (!prefs.getBoolean(AssetConstants.PREF_FULLSCREEN, false)) {
                 Gdx.graphics.setWindowedMode(width, height);
             }
-        } catch (Exception e) {
-            Gdx.app.error("Settings", "Resolution change failed: " + resolution);
+        } catch (Exception e){
+            logger.error("Failed to apply resolution", e);
         }
     }
 

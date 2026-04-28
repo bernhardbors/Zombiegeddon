@@ -41,7 +41,7 @@ public class PhysicsComponent {
         bdef.position.set(pos);
         bdef.type = BodyDef.BodyType.DynamicBody;
         bdef.fixedRotation = true;
-        Body body = world.createBody(bdef);
+        Body newbody = world.createBody(bdef);
 
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
@@ -49,7 +49,7 @@ public class PhysicsComponent {
         shape.setAsBox(hitboxW / 2f, hitboxH / 2f);
         fdef.shape = shape;
         fdef.friction = 0f;
-        body.createFixture(fdef).setUserData(userData);
+        newbody.createFixture(fdef).setUserData(userData);
 
         float sensorWidth = (hitboxW / 2f) * 0.9f;
         float sensorHeight = 0.3f;
@@ -58,10 +58,10 @@ public class PhysicsComponent {
         shape.setAsBox(sensorWidth, sensorHeight, sensorCenter, 0);
         fdef.shape = shape;
         fdef.isSensor = true;
-        body.createFixture(fdef).setUserData("feet");
+        newbody.createFixture(fdef).setUserData("feet");
 
         shape.dispose();
-        return body;
+        return newbody;
     }
 
     /**

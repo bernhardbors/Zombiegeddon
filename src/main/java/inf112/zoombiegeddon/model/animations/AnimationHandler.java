@@ -66,8 +66,6 @@ public class AnimationHandler {
         int rows = characterFrames.length;
         int columns = characterFrames[0].length;
 
-        System.out.println("Creating animation map (" + characterSpriteSheet +"): Rows " + rows + " Columns " + columns);
-
         animations.put(EntityState.IDLE,     createAnimation(characterFrames[0], 3, 0.5f));
         if (rows > 1) animations.put(EntityState.WALKING,  createAnimation(characterFrames[1], 3, 0.06f));
         if (rows > 1) animations.put(EntityState.RUNNING,  createAnimation(characterFrames[1], 3, 0.06f));

@@ -7,9 +7,6 @@ import com.badlogic.gdx.audio.Sound;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.events.IEventListener;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -281,6 +278,6 @@ public class AudioManager implements IAudioService, IEventListener {
      * @return The clamped value.
      */
     private static float clamp01(float v) {
-        return Math.max(0f, Math.min(1f, v));
+        return Math.clamp(v, 0, 1);
     }
 }

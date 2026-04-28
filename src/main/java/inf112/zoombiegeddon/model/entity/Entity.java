@@ -29,7 +29,7 @@ public abstract class Entity implements IEntity {
      *
      * @param physics The physics component managing this entity's body.
      */
-    public Entity(PhysicsComponent physics) {
+    protected Entity(PhysicsComponent physics) {
         this.physics = physics;
     }
 
@@ -59,12 +59,6 @@ public abstract class Entity implements IEntity {
     public boolean isFacingRight() {
         return facingRight;
     }
-
-    /**
-     *
-     * @param dt Delta Time
-     */
-    public abstract void update(float dt);
 
     /**
      * Determines which state the entity should be in when it is moving on the ground.
@@ -121,8 +115,6 @@ public abstract class Entity implements IEntity {
         if (contactPoints < 0) contactPoints = 0;
 
         isGrounded = (contactPoints > 0);
-
-        System.out.println("Entity " + this.getClass().getSimpleName() + " contact points: " + contactPoints + " isGrounded: " + isGrounded);
     }
 
 }
