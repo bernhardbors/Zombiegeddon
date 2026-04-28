@@ -39,13 +39,12 @@ public class NextLevelScreen extends AbstractScreen{
 
         for (int i = 0; i < totalLevels; i++) {
             final String mapPath = app.getStoryManager().getMapPathForLevel(i);
-            final String levelId = app.getStoryManager().getIdForLevel(i);
             final int levelNumber = i + 1;
 
             UIUtils.button("Level " + levelNumber, skin).size(buttonWidth, buttonHeight)
                     .action(() -> {
                         app.getStoryManager().finishRun();
-                        app.setScreen(new PlayableLevel(app, mapPath, levelId));
+                        app.setScreen(new PlayableLevel(app, mapPath));
                     }).addTo(table);
         }
 

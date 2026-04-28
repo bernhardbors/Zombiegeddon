@@ -31,14 +31,11 @@ public class EntityRenderer  {
         float x = entity.getPosition().x - entity.getScaledSpriteDimensions() / 2f;
         float y = entity.getPosition().y - entity.getScaledSpriteDimensions() / 2f;
 
-        Player playerEntity = entity instanceof Player player ? player : null;
         ShaderProgram shader = app.getAssets().getPickupEffectShader();
 
-        boolean usePickupShader = playerEntity != null
+        if (entity instanceof Player playerEntity
                 && playerEntity.hasPickupVisualEffect()
-                && shader != null;
-
-        if (usePickupShader) {
+                && shader != null) {
             batch.setShader(shader);
             shader.setUniformf("u_time", playerEntity.getStateTime());
             shader.setUniformf("u_intensity", playerEntity.getPickupFxIntensity());
@@ -48,12 +45,11 @@ public class EntityRenderer  {
                     playerEntity.getPickupFxColorG(),
                     playerEntity.getPickupFxColorB()
             );
+            batch.draw(currentFrame, x, y, entity.getScaledSpriteDimensions(), entity.getScaledSpriteDimensions());
+            batch.setShader(null);
+            return;
         }
 
         batch.draw(currentFrame, x, y, entity.getScaledSpriteDimensions(), entity.getScaledSpriteDimensions());
-
-        if (usePickupShader) {
-            batch.setShader(null);
-        }
     }
 }

@@ -19,7 +19,7 @@ public enum EnemyType {
         if (type == null) return ZOMBIE;
         try {
             return EnemyType.valueOf(type.toUpperCase());
-        } catch (IllegalArgumentException ignored) {
+        } catch (IllegalArgumentException _) {
             return ZOMBIE;
         }
     }

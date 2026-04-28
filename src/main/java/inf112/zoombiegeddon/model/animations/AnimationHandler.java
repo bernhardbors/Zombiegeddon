@@ -63,7 +63,6 @@ public class AnimationHandler {
         TextureRegion[][] characterFrames = TextureRegion.split(characterSpriteSheet, frameWidth, frameHeight);
 
         int rows = characterFrames.length;
-        int columns = characterFrames[0].length;
 
         animations.put(EntityState.IDLE,     createAnimation(characterFrames[0], 3, 0.5f));
         if (rows > 1) animations.put(EntityState.WALKING,  createAnimation(characterFrames[1], 3, 0.06f));

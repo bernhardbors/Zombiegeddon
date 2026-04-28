@@ -62,9 +62,4 @@ public class PauseScreen extends AbstractScreen {
             previousLevel.resize(width, height);
         }
     }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-    }
 }

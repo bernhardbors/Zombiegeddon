@@ -3,7 +3,10 @@ package inf112.zoombiegeddon.model.world.physics;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import inf112.zoombiegeddon.app.Main;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,6 +35,8 @@ public class WorldPhysics {
     private final Map<String, Function<Vector2, IPickup>> pickupFactories;
     private final List<PendingPickupSpawn> pendingPickupSpawns;
     private float accumulatedTime = 0;
+
+    private static final Logger logger = LoggerFactory.getLogger(WorldPhysics.class);
 
     /**
      * Initializes a new physics world with the specified gravity.
@@ -74,13 +79,13 @@ public class WorldPhysics {
 
         Function<Vector2, IPickup> factory = pickupFactories.get(rewardType.trim().toLowerCase());
         if (factory == null) {
-            Gdx.app.error("WorldPhysics","No pickup factory registered for reward type: " + rewardType);
+            logger.error("No pickup factory registered for reward type: {}", rewardType);
             return false;
         }
 
         IPickup pickup = factory.apply(new Vector2(spawnPosition));
         if (pickup == null) {
-            Gdx.app.error("WorldPhysics","Pickup factory returned null for reward type: " + rewardType);
+            logger.error("No pickup registered for reward type: {}", rewardType);
             return false;
         }
 
@@ -95,7 +100,7 @@ public class WorldPhysics {
 
         for (PendingPickupSpawn pendingSpawn : pendingPickupSpawns) {
             if (!createPickupNow(pendingSpawn.rewardType(), pendingSpawn.spawnPosition())) {
-               Gdx.app.error("WorldPhysics", "Failed to spawn queued pickup for reward type: " + pendingSpawn.rewardType());
+                logger.error("Failed to spawn queued pickup for reward type: {} ", pendingSpawn.rewardType());
             }
         }
         pendingPickupSpawns.clear();

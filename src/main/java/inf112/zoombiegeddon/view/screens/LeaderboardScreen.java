@@ -75,9 +75,4 @@ public class LeaderboardScreen extends AbstractScreen {
                     app.setScreen(new MainMenuScreen(app));
                 }).addTo(table);
     }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-    }
 }
