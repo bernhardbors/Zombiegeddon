@@ -1,9 +1,7 @@
 package inf112.zoombiegeddon.model.world.physics;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import inf112.zoombiegeddon.app.Main;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
