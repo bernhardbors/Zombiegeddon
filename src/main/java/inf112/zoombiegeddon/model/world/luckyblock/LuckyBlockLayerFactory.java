@@ -42,13 +42,13 @@ public class LuckyBlockLayerFactory {
         }
 
         for (MapObject object : layer.getObjects()) {
-            Rectangle rectangle = getRectangle(object, pixelsPerTile);
+            Rectangle rectangle = getRectangle(object);
             if (rectangle == null) {
                 continue;
             }
 
             Vector2 centerPos = new Vector2(
-                    (rectangle.x + rectangle.width / 2f) /pixelsPerTile,
+                    (rectangle.x + rectangle.width / 2f) / pixelsPerTile,
                     (rectangle.y + rectangle.height / 2f) / pixelsPerTile
             );
 
@@ -65,58 +65,24 @@ public class LuckyBlockLayerFactory {
         }
     }
 
-    /**
-     * Converts a map object into a rectangle in map coordinates.
-     * Supports both rectangle objects and tile-based objects.
-     *
-     * @param object The map object to convert.
-     * @return A rectangle representing the object bounds, or null if the object cannot be converted.
-     */
-    private Rectangle toWorldRectangle(MapObject object) {
-        if (object instanceof RectangleMapObject rectangleObject) {
-            return rectangleObject.getRectangle();
+
+    private Rectangle getRectangle(MapObject object) {
+        if (object instanceof RectangleMapObject rectObject) {
+            return rectObject.getRectangle();
         }
 
         if (object instanceof TiledMapTileMapObject tileObject) {
-            if (tileObject.getTile() == null || tileObject.getTile().getTextureRegion() == null) {
-                return null;
-            }
-
-            TextureRegion region = tileObject.getTile().getTextureRegion();
-            float width = region.getRegionWidth() * Math.abs(tileObject.getScaleX());
-            float height = region.getRegionHeight() * Math.abs(tileObject.getScaleY());
-
-            Number widthValue = tileObject.getProperties().get("width", Number.class);
-            Number heightValue = tileObject.getProperties().get("height", Number.class);
-            if (widthValue != null && widthValue.floatValue() > 0f) {
-                width = widthValue.floatValue();
-            }
-            if (heightValue != null && heightValue.floatValue() > 0f) {
-                height = heightValue.floatValue();
-            }
-
-            if (width <= 0 || height <= 0) {
-                return null;
-            }
-
-            return new Rectangle(tileObject.getX(), tileObject.getY(), width, height);
-        }
-
-        return null;
-    }
-
-    private Rectangle getRectangle(MapObject object, float pixelsPerTile) {
-        if (object instanceof RectangleMapObject rectObject) {
-            return rectObject.getRectangle();
-        } else if (object instanceof TiledMapTileMapObject tileObject) {
             TextureRegion region = tileObject.getTile().getTextureRegion();
             if (region == null) {
                 return null;
             }
+
             float width = region.getRegionWidth() * Math.abs(tileObject.getScaleX());
             float height = region.getRegionHeight() * Math.abs(tileObject.getScaleY());
+
             return new Rectangle(tileObject.getX(), tileObject.getY(), width, height);
         }
+
         return null;
     }
 

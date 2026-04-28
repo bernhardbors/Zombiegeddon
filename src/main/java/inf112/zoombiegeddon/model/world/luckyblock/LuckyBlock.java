@@ -68,7 +68,6 @@ public class LuckyBlock implements ILuckyBlock {
             return;
         }
         broken = true;
-        System.out.println("Block broken.");
         spawnReward(worldPhysics);
     }
 

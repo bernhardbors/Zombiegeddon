@@ -29,7 +29,7 @@ public class LevelModel {
     private List<IEnemy> enemies;
     private TriggerZone triggerZone;
     private Spawner spawner;
-    private LuckyBlockLayerFactory luckyBlockLayerFactory;;
+    private LuckyBlockLayerFactory luckyBlockLayerFactory;
 
     private float levelTime = 0f;
     private String currentText = null;
