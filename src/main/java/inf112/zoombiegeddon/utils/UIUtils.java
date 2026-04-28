@@ -10,10 +10,6 @@ import inf112.zoombiegeddon.events.GameEventBus;
 
 public class UIUtils {
 
-    private UIUtils() {
-        /* This utility class should not be instantiated */
-    }
-
     /**
      * Creates a button and adds it to the provided table.
      */
