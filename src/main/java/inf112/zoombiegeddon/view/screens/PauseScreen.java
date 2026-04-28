@@ -23,17 +23,17 @@ public class PauseScreen extends AbstractScreen {
         formatText("PAUSED", Color.WHITE, 4f);
         table.row().pad(20);
 
-        UIUtils.addButton("Continue", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
-                () -> app.setScreen(previousLevel));
+        UIUtils.button("Continue", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
+                .action(() -> app.setScreen(previousLevel)).addTo(table);
 
-        UIUtils.addButton("Settings", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
-                () -> app.setScreen(new SettingsScreen(app, this)));
+        UIUtils.button("Settings", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
+                .action(() -> app.setScreen(new SettingsScreen(app, this))).addTo(table);
 
-        UIUtils.addButton("Main Menu", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
-                () -> {
+        UIUtils.button("Main Menu", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
+                .action(() -> {
                     previousLevel.dispose();
                     app.setScreen(new MainMenuScreen(app));
-                });
+                }).addTo(table);
     }
 
     @Override
