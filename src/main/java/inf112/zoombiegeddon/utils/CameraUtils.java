@@ -8,13 +8,13 @@ import inf112.zoombiegeddon.model.entity.IEntity;
  * Provides specialized logic for following the player with specific
  * constraints like deadzones and vertical offsets.
  */
-public class CameraUtils {
+public final class CameraUtils {
 
     private static final float DEADZONE_WIDTH = 4f;
     private static final float DEADZONE_HEIGHT = 4f;
     private static final float VERTICAL_OFFSET = 3.5f;
 
-    public CameraUtils() {}
+    private CameraUtils() {}
 
     /**
      * Updates the camera position to follow the player using a deadzone approach.
