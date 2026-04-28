@@ -21,19 +21,24 @@ public class TriggerZone {
         if (layer == null) return;
 
         for (MapObject object : layer.getObjects()) {
-            if (!(object instanceof RectangleMapObject rectObj)) continue;
-
-            Rectangle r = rectObj.getRectangle();
-            Rectangle worldRect = new Rectangle(
-                    r.x * unitScale, r.y * unitScale,
-                    r.width * unitScale, r.height * unitScale
-            );
-
-            ITriggerAction action = buildAction(object, unitScale);
-            if (action == null) continue;
-
-            zones.add(new Zone(worldRect, action));
+            Zone zone = createZone(object, unitScale);
+            if (zone != null) zones.add(zone);
         }
+    }
+
+    private Zone createZone(MapObject object, float unitScale) {
+        if (!(object instanceof RectangleMapObject rectObj)) return null;
+
+        Rectangle r = rectObj.getRectangle();
+        Rectangle worldRect = new Rectangle(
+                r.x * unitScale, r.y * unitScale,
+                r.width * unitScale, r.height * unitScale
+        );
+
+        ITriggerAction action = buildAction(object, unitScale);
+        if (action == null) return null;
+
+        return new Zone(worldRect, action);
     }
 
     private ITriggerAction buildAction(MapObject object, float unitScale) {

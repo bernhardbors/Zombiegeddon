@@ -20,7 +20,6 @@ public class UIRenderer {
 
     private final ShapeRenderer shapeRenderer;
     private final IDamageable damageable;
-    private int row;
 
     /**
      * Creates a UI renderer for an entity that can take damage.
@@ -48,16 +47,16 @@ public class UIRenderer {
 
         batch.begin();
 
-        int currentHealth = (int) damageable.getHealth();
+        int currentHealth = damageable.getHealth();
 
-        this.row= (3 - currentHealth) *2;
+        int row = (3 - currentHealth) * 2;
 
         int frameHeight = texture.getHeight() / 7;
         int srcY = row * frameHeight;
 
         TextureRegion currentFrame = new TextureRegion(texture, 0, srcY, texture.getWidth(), frameHeight);
 
-        batch.draw(currentFrame, 20, Gdx.graphics.getHeight() - 60, texture.getWidth() * 4, frameHeight * 4);
+        batch.draw(currentFrame, 20, (float) Gdx.graphics.getHeight() - 60, (float) texture.getWidth() * 4, (float) frameHeight * 4);
 
         batch.end();
     }

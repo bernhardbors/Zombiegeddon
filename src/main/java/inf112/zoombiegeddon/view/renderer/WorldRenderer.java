@@ -7,6 +7,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Disposable;
 import inf112.zoombiegeddon.model.world.physics.WorldPhysics;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.List;
  * and physics debug shapes.
  */
 public class WorldRenderer implements Disposable {
+
+    private static final Logger logger = LoggerFactory.getLogger(WorldRenderer.class);
 
     private final OrthographicCamera camera;
     private OrthogonalTiledMapRenderer mapRenderer;
@@ -53,7 +57,7 @@ public class WorldRenderer implements Disposable {
 
         for (int i = 0; i < map.getLayers().getCount(); i++) {
             MapLayer layer = map.getLayers().get(i);
-            System.out.println(layer.getName());
+            logger.info("{}", layer.getName());
             if (layer.getName().contains("Foreground")) {
                 fg.add(i);
             } else {

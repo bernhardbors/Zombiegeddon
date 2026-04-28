@@ -62,9 +62,4 @@ public class MainMenuScreen extends AbstractScreen {
         UIUtils.button("EXIT", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
                 .action(Gdx.app::exit).addTo(table);
     }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-    }
 }

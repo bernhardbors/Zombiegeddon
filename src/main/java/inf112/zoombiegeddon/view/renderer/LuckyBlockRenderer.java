@@ -9,7 +9,6 @@ import inf112.zoombiegeddon.model.world.luckyblock.LuckyBlockLayerFactory;
  * This is a pure View-class collecting data from {@link LuckyBlockLayerFactory}.
  */
 public class LuckyBlockRenderer {
-    //TODO: Consider an interface for the factory.
     private final LuckyBlockLayerFactory factory;
 
     public LuckyBlockRenderer(LuckyBlockLayerFactory factory) {
@@ -24,24 +23,24 @@ public class LuckyBlockRenderer {
      */
     public void render(Batch batch, float unitScale) {
         for (LuckyBlockLayerFactory.TileRenderable renderable : factory.getTileRenderables()) {
-            if (renderable.block().isBroken()) {
-                continue;
-            }
-
-            TiledMapTileMapObject tileObject = renderable.tileObject();
-            if (tileObject.getTile() == null || tileObject.getTile().getTextureRegion() == null) {
-                continue;
-            }
-
-            TextureRegion region = tileObject.getTile().getTextureRegion();
-            float width = region.getRegionWidth() * Math.abs(tileObject.getScaleX()) * unitScale;
-            float height = region.getRegionHeight() * Math.abs(tileObject.getScaleY()) * unitScale;
-
-            batch.draw(region,
-                    tileObject.getX() * unitScale,
-                    tileObject.getY() * unitScale,
-                    width,
-                    height);
+            drawRenderable(batch, renderable, unitScale);
         }
+    }
+
+    private void drawRenderable(Batch batch, LuckyBlockLayerFactory.TileRenderable renderable, float unitScale) {
+        if (renderable.block().isBroken()) return;
+
+        TiledMapTileMapObject tileObject = renderable.tileObject();
+        if (tileObject.getTile() == null || tileObject.getTile().getTextureRegion() == null) return;
+
+        TextureRegion region = tileObject.getTile().getTextureRegion();
+        float width = region.getRegionWidth() * Math.abs(tileObject.getScaleX()) * unitScale;
+        float height = region.getRegionHeight() * Math.abs(tileObject.getScaleY()) * unitScale;
+
+        batch.draw(region,
+                tileObject.getX() * unitScale,
+                tileObject.getY() * unitScale,
+                width,
+                height);
     }
 }
