@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import inf112.zoombiegeddon.model.entity.EntityState;
-
 import java.util.EnumMap;
 import java.util.Map;
 

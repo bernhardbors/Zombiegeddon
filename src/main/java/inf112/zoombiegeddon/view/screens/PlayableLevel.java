@@ -15,7 +15,6 @@ import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.events.IEventListener;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 import inf112.zoombiegeddon.view.renderer.LevelRenderer;
-import inf112.zoombiegeddon.view.screens.*;
 
 public class PlayableLevel extends ScreenAdapter implements IEventListener {
 

@@ -34,7 +34,7 @@ public class Assets {
      * Called to start asynchronous loading of resources.
      */
     public void load() {
-        // Lasting av UI og fonter
+        // Loading of UI and fonts
         manager.load(AssetConstants.UI_SKIN, Skin.class);
         manager.load(AssetConstants.FONT_PATH, BitmapFont.class);
 

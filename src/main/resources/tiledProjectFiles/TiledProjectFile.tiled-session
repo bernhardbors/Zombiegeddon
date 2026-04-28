@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx",
+    "activeFile": "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level3.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -24,8 +24,22 @@
                 "y": 47.03006961931567
             }
         },
+        "C:/Users/synne/IdeaProjects/a-laget/a-laget/src/main/resources/tiledProjectFiles/tilemap_packed.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/synne/IdeaProjects/a-laget/src/a-laget/src/main/resources/tiledProjectFiles/tilemap_packed.tsx": {
+            "scaleInDock": 1
+        },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/Documents/kenney_pixel-platformer/Tiled/tileset-tiles.tsx": {
             "scaleInDock": 1
+        },
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/level3.tmx": {
+            "scale": 0.79978125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 800.2188098308133,
+                "y": 239.44047200406357
+            }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/MyLevel.tmx": {
             "scale": 3,
@@ -52,14 +66,14 @@
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx": {
             "expandedObjectLayers": [
-                7,
-                6
+                6,
+                7
             ],
-            "scale": 1.5,
-            "selectedLayer": 1,
+            "scale": 1,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 318.66666666666663,
-                "y": 433.66666666666663
+                "x": 1104,
+                "y": 283.5
             }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level2.tmx": {
@@ -71,19 +85,44 @@
             }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level3.tmx": {
-            "scale": 1.5,
-            "selectedLayer": 0,
+            "expandedObjectLayers": [
+                2,
+                6
+            ],
+            "scale": 0.5,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 766.6666666666666,
-                "y": 373.66666666666663
+                "x": 186,
+                "y": -3
             }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level4.tmx": {
             "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1000,
+                "x": 2386,
                 "y": 0.5
+            }
+        },
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level5.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2294,
+                "y": 181.5
+            }
+        },
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level6.tmx": {
+            "expandedObjectLayers": [
+                2,
+                5,
+                6
+            ],
+            "scale": 0.75,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 847.9999999999999,
+                "y": 115.33333333333326
             }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/map01.tmx": {
@@ -99,6 +138,17 @@
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/tilemap_packed.tsx": {
             "scaleInDock": 1
+        },
+        "C:/Users/synne/IdeaProjects/inf-112-a-laget-2-d-platformer/assets/tilemaps/level3.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 4,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 239.5,
+                "y": 183.125
+            }
         },
         "C:/Users/synne/bakgrunntilemap.tmx": {
             "scale": 0.75,
@@ -155,26 +205,26 @@
     "map.tileWidth": 8,
     "map.width": 170,
     "openFiles": [
-        "C:/Users/synne/bakgrunntilemap.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level3.tmx",
-        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level4.tmx"
+        "C:/Users/synne/IdeaProjects/inf-112-a-laget-2-d-platformer/assets/tilemaps/level3.tmx",
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level6.tmx"
     ],
     "project": "TiledProjectFile.tiled-project",
     "property.type": "string",
     "recentFiles": [
         "C:/Users/synne/bakgrunntilemap.tmx",
-        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level4.tmx",
-        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level3.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx",
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level3.tmx",
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/level3.tmx",
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level4.tmx",
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level5.tmx",
         "C:/Users/synne/tilemap_packed_FEIL2.tsx",
         "C:/Users/synne/tilemap_packed_FEIL.tsx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/MyLevel.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/map01.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/first try yilr copy.tmx",
-        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level2.tmx",
-        "level1.tmx",
-        "C:/Users/isakgraarud/Documents/01_University/Year_02/Vår_Sem/INF 112/a-laget/src/main/resources/tilemaps/map01.tmx"
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level2.tmx"
     ],
     "tileset.lastUsedFilter": "Tiled-fissettfiler (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
