@@ -31,7 +31,7 @@ public class EntityRenderer  {
         float x = entity.getPosition().x - entity.getScaledSpriteDimensions() / 2f;
         float y = entity.getPosition().y - entity.getScaledSpriteDimensions() / 2f;
 
-        Player playerEntity = entity instanceof Player ? (Player) entity : null;
+        Player playerEntity = entity instanceof Player player ? player : null;
         ShaderProgram shader = app.getAssets().getPickupEffectShader();
 
         boolean usePickupShader = playerEntity != null

@@ -1,5 +1,6 @@
 package inf112.zoombiegeddon.model.world.physics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.physics.box2d.*;
@@ -47,7 +48,7 @@ public class WorldCollisionLayerCreator {
 
         TiledMapTileLayer tileMapLayer = (TiledMapTileLayer) tilemap.getLayers().get(layer);
         if (tileMapLayer == null) {
-            System.err.println("Error: Layer '" + layer + "' not found in map.");
+            Gdx.app.error("WorldCollisionLayerCreator", "Error: Layer '" + layer + "' not found in map.");
             return;
         }
         createHitboxes(tileMapLayer, tileMapLayer.getTileWidth(), pixelsPerTile);
@@ -72,16 +73,16 @@ public class WorldCollisionLayerCreator {
 
                 if (cell != null && cell.getTile() != null) {
                     cellArray.add(new CellCord(x, y));
+                } else if (!cellArray.isEmpty()) {
+                    createStaticBody(world, cellArray, tileSize, pixelsPerTile,
+                            bodyDef, fixtureDef, tileShape);
+                    cellArray.clear();
                 }
 
-                if (cell == null || cell.getTile() == null || x == tileMapLayer.getWidth() - 1) {
-
-                    if (!cellArray.isEmpty()) {
-
-                        createStaticBody(world, cellArray, tileSize, pixelsPerTile
-                                , bodyDef, fixtureDef, tileShape);
-                        cellArray.clear();
-                    }
+                if (x == tileMapLayer.getWidth() - 1 && !cellArray.isEmpty()) {
+                    createStaticBody(world, cellArray, tileSize, pixelsPerTile,
+                            bodyDef, fixtureDef, tileShape);
+                    cellArray.clear();
                 }
             }
         }

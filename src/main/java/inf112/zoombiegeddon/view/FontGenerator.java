@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
  * Generates and stores bitmap fonts used by the game UI.
  */
 public class FontGenerator {
-    public BitmapFont mainFont;
-    public BitmapFont titleFont;
+    private BitmapFont mainFont;
+    private BitmapFont titleFont;
 
 
     /**
@@ -32,7 +32,9 @@ public class FontGenerator {
         titleFont = generator.generateFont(parameter);
         generator.dispose();
     }
+    public BitmapFont getMainFont() { return mainFont; }
 
+    public BitmapFont getTitleFont() { return titleFont; }
     /**
      * Releases the font resources used by this generator.
      */

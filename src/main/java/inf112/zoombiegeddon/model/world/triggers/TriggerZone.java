@@ -35,41 +35,41 @@ public class TriggerZone {
         if (layer == null) return;
 
         for (MapObject object : layer.getObjects()) {
-            if (!(object instanceof RectangleMapObject)) continue;
+            if (object instanceof RectangleMapObject rectObj) {
+                Rectangle r = rectObj.getRectangle();
+                Rectangle worldRect = new Rectangle(
+                        r.x * unitScale, r.y * unitScale,
+                        r.width * unitScale, r.height * unitScale
+                );
 
-            Rectangle r = ((RectangleMapObject) object).getRectangle();
-            Rectangle worldRect = new Rectangle(
-                    r.x * unitScale, r.y * unitScale,
-                    r.width * unitScale, r.height * unitScale
-            );
+                String type = object.getProperties().get("type", String.class);
+                ITriggerAction action;
 
-            String type = object.getProperties().get("type", String.class);
-            ITriggerAction action;
+                switch (type == null ? "" : type) {
+                    case "killzone":
+                        action = new KillAction();
+                        break;
+                    case "sign":
+                        String text = object.getProperties().get("info", String.class);
+                        action = new SignAction(text);
+                        break;
+                    case "goalzone":
+                        action = new GoalAction();
+                        break;
+                    case "newzone":
+                        float spawnX = object.getProperties().get("spawn_x", Float.class);
+                        float spawnY = object.getProperties().get("spawn_y", Float.class);
+                        spawnX *= unitScale;
+                        spawnY *= unitScale;
+                        action = new SpawnAction(spawnX, spawnY);
+                        break;
+                    default:
+                        continue;
+                }
 
-            switch (type == null ? "" : type) {
-                case "killzone":
-                    action = new KillAction();
-                    break;
-                case "sign":
-                    String text = object.getProperties().get("info", String.class);
-                    action = new SignAction(text);
-                    break;
-                case "goalzone":
-                    action = new GoalAction();
-                    break;
-                case "newzone":
-                    float spawnX = object.getProperties().get("spawn_x", Float.class);
-                    float spawnY = object.getProperties().get("spawn_y", Float.class);
-                    spawnX *= unitScale;
-                    spawnY *= unitScale;
-                    action = new SpawnAction(spawnX, spawnY);
-                    break;
-                default:
-                    continue;
+                zones.add(worldRect);
+                actions.add(action);
             }
-
-        zones.add(worldRect);
-        actions.add(action);
         }
     }
 
