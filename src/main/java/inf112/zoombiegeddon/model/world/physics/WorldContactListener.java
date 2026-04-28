@@ -1,5 +1,6 @@
 package inf112.zoombiegeddon.model.world.physics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
@@ -143,10 +144,10 @@ public class WorldContactListener implements ContactListener {
 
         if (bodyAData instanceof Player && bodyBData instanceof ILuckyBlock luckyBlock) {
             breakLuckyBlock(luckyBlock);
-            System.out.println("Lucky block collision.");
+            Gdx.app.debug("WorldContactListener", "Lucky block collision.");
         } else if (bodyBData instanceof Player && bodyAData instanceof ILuckyBlock luckyBlock) {
             breakLuckyBlock(luckyBlock);
-            System.out.println("Lucky block collision.");
+            Gdx.app.debug("WorldContactListener", "Lucky block collision.");
         }
     }
 
