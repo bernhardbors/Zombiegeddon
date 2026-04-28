@@ -44,23 +44,23 @@ public class MainMenuScreen extends AbstractScreen {
         table.row().padTop(5);
 
 
-        UIUtils.addButton("STORY MODE", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
-        () -> app.setScreen(new StoryNameScreen(app)));
+        UIUtils.button("STORY MODE", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
+                .action(() -> app.setScreen(new StoryNameScreen(app))).addTo(table);
 
-        UIUtils.addButton("LEVELS", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
-                () -> app.setScreen(new PickLevelScreen(app)));
+        UIUtils.button("LEVELS", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
+                .action(() -> app.setScreen(new PickLevelScreen(app))).addTo(table);
 
-        UIUtils.addButton("HOW TO PLAY", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
-                () -> app.setScreen(new HowToScreen(app)));
+        UIUtils.button("HOW TO PLAY", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
+                .action(() -> app.setScreen(new HowToScreen(app))).addTo(table);
 
-        UIUtils.addButton("SETTINGS", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
-                () -> app.setScreen(new SettingsScreen(app, this)));
+        UIUtils.button("SETTINGS", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
+                .action(() -> app.setScreen(new SettingsScreen(app, this))).addTo(table);
 
-        UIUtils.addButton("SCOREBOARD", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
-            () -> app.setScreen(new LeaderboardScreen(app, GameApp.STORY_LEADERBOARD_ID, LeaderboardScreen.ScreenType.MAIN_MENU)));
+        UIUtils.button("SCOREBOARD", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
+                .action(() -> app.setScreen(new LeaderboardScreen(app, GameApp.STORY_LEADERBOARD_ID, LeaderboardScreen.ScreenType.MAIN_MENU))).addTo(table);
 
-        UIUtils.addButton("EXIT", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
-                () -> Gdx.app.exit());
+        UIUtils.button("EXIT", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
+                .action(Gdx.app::exit).addTo(table);
     }
 
     @Override
