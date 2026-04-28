@@ -22,10 +22,10 @@ public class Player extends Entity implements IPlayer {
     private static final float MOVE_IMPULSE = 1.0f;
     private static final float VELOCITY_THRESHOLD = 0.1f;
 
-    private float COYOTE_TIMER = 0f;
+    private float coyoteTimer = 0f;
     private static final float COYOTE_TIME_MAX = 0.15f;
 
-    private float JUMP_BUFFER_TIMER = 0f;
+    private float jumpBufferTimer = 0f;
     private static final float JUMP_BUFFER_MAX = 0.10f;
 
     private final PlayerController controller;
@@ -37,7 +37,7 @@ public class Player extends Entity implements IPlayer {
     private int hp;
     private final int maxHp;
     private float hitTimer;
-    private static final float invulnerabilityCooldown = 1.0f;
+    private static final float INVULNERABILITY_COOLDOWN = 1.0f;
     private boolean isDead = false;
     private boolean inGoal = false;
     private final Rectangle bounds = new Rectangle();
@@ -114,14 +114,14 @@ public class Player extends Entity implements IPlayer {
 
     private void updateJumpMechanics(float dt) {
         if (isGrounded()) {
-            COYOTE_TIMER = COYOTE_TIME_MAX;
+            coyoteTimer = COYOTE_TIME_MAX;
         } else {
-            COYOTE_TIMER -= dt;
+            coyoteTimer -= dt;
         }
 
-        if (JUMP_BUFFER_TIMER > 0) JUMP_BUFFER_TIMER -= dt;
+        if (jumpBufferTimer > 0) jumpBufferTimer -= dt;
 
-        if (JUMP_BUFFER_TIMER > 0 && COYOTE_TIMER > 0) {
+        if (jumpBufferTimer > 0 && coyoteTimer > 0) {
             executeJump();
         }
     }
@@ -218,14 +218,14 @@ public class Player extends Entity implements IPlayer {
      * Makes the player jump if grounded and posts a jump event.
      */
     public void jump() {
-        JUMP_BUFFER_TIMER = JUMP_BUFFER_MAX;
+        jumpBufferTimer = JUMP_BUFFER_MAX;
     }
 
     private void executeJump() {
         physics.applyImpulse(new Vector2(0, JUMP_IMPULSE));
 
-        JUMP_BUFFER_TIMER = 0;
-        COYOTE_TIMER = 0;
+        jumpBufferTimer = 0;
+        coyoteTimer = 0;
 
         GameEventBus.post(GameEvent.PLAYER_JUMP);
     }
@@ -296,7 +296,7 @@ public class Player extends Entity implements IPlayer {
 
         if (hitTimer <= 0) {
             this.hp -= amount;
-            hitTimer = invulnerabilityCooldown;
+            hitTimer = INVULNERABILITY_COOLDOWN;
         }
 
         if (this.hp <= 0) {
