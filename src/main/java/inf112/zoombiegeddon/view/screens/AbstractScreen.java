@@ -1,12 +1,8 @@
 package inf112.zoombiegeddon.view.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -14,15 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.audio.MusicTrack;
-import inf112.zoombiegeddon.controller.LevelController;
-import inf112.zoombiegeddon.controller.PlayerController;
-import inf112.zoombiegeddon.events.GameEvent;
-import inf112.zoombiegeddon.events.GameEventBus;
-import inf112.zoombiegeddon.events.IEventListener;
-import inf112.zoombiegeddon.model.levels.LevelModel;
-import inf112.zoombiegeddon.view.renderer.EntityRenderer;
-import inf112.zoombiegeddon.view.renderer.LevelRenderer;
 
 /**
  * Abstract base class for UI-based screens in the game.
@@ -46,7 +33,6 @@ public abstract class AbstractScreen implements IScreen {
      * @param app The game application instance.
      */
     AbstractScreen(final GameApp app) {
-
         this.app = app;
 
         this.skin = app.getAssets().getSkin();

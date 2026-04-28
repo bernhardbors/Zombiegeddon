@@ -8,7 +8,6 @@ import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
-import inf112.zoombiegeddon.model.entity.enemies.Enemy;
 import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 

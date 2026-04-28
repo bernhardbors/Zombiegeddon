@@ -7,9 +7,6 @@ import com.badlogic.gdx.audio.Sound;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.events.IEventListener;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 /**
