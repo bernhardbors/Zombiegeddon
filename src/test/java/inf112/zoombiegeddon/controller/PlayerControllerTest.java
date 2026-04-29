@@ -52,6 +52,29 @@ public class PlayerControllerTest extends AbstractLibGDXTest {
 
     }
 
+    @Test
+    void testKeyUpSpace(){
+        boolean keyUpWasPressed = controller.keyUp(Input.Keys.SPACE);
+        assertTrue(keyUpWasPressed);
+    }
+
+    @Test
+    void keyUpW() {
+        boolean keyUpWasPressed = controller.keyUp(Input.Keys.W);
+        assertTrue(keyUpWasPressed);
+    }
+
+    @Test
+    void keyUpUp() {
+        boolean keyUpWasPressed = controller.keyUp(Input.Keys.UP);
+        assertTrue(keyUpWasPressed);
+    }
+
+    @Test
+    void keyUpInvalidKey() {
+        boolean keyUpWasPressed = controller.keyUp(Input.Keys.U);
+        assertFalse(keyUpWasPressed);
+    }
 
 
 
