@@ -23,6 +23,7 @@ leaderboard.json
 target
 .idea
 *.iml
+.temp/
 .vscode
 
 # Eclipse stuff
