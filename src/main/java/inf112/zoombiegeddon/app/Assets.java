@@ -44,6 +44,8 @@ public class Assets {
         manager.load(AssetConstants.ZOMBIE_SHEET, Texture.class);
         manager.load(AssetConstants.CHONKER_SHEET, Texture.class);
         manager.load(AssetConstants.HEALTHBAR, Texture.class);
+        manager.load(AssetConstants.PICKUP_SPEED, Texture.class);
+        manager.load(AssetConstants.PICKUP_HEAL, Texture.class);
 
         // Loading of backgrounds
         manager.load(AssetConstants.BG_SKY, Texture.class);

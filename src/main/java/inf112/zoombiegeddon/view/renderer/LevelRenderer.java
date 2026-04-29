@@ -125,18 +125,22 @@ public class LevelRenderer {
         List<IPickup> pickups = model.getPhysics().getPickups();
         if (pickups.isEmpty()) return;
 
-        app.getShapeRenderer().setProjectionMatrix(camera.combined);
-        app.getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
+        Batch batch = app.getBatch();
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+
+        Texture speedTex = app.getAssets().getManager().get(AssetConstants.PICKUP_SPEED, Texture.class);
+        Texture healTex  = app.getAssets().getManager().get(AssetConstants.PICKUP_HEAL,  Texture.class);
+
         for (IPickup pickup : pickups) {
             if (pickup.isCollected()) continue;
-
-            float size = pickup.getRenderSize();
-            float x = pickup.getPosition().x - size / 2f;
-            float y = pickup.getPosition().y - size / 2f;
-            app.getShapeRenderer().setColor(pickup.getPickupColor());
-            app.getShapeRenderer().rect(x, y, size, size);
+            float s = pickup.getRenderSize();
+            float x = pickup.getPosition().x - s / 2f;
+            float y = pickup.getPosition().y - s / 2f;
+            Texture tex = "speed".equals(pickup.getPickupType()) ? speedTex : healTex;
+            batch.draw(tex, x, y, s, s);
         }
-        app.getShapeRenderer().end();
+        batch.end();
     }
 
     private void renderTriggerText() {
