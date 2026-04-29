@@ -8,6 +8,7 @@ import inf112.zoombiegeddon.audio.IAudioService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -38,6 +39,12 @@ public class SettingsControllerTest extends AbstractLibGDXTest {
     }
 
     @Test
+    void testApplyResolutionWithInvalidResolution(){
+        controller.applyResolution("invalid resolution");
+        verify(preferences, never()).putInteger(anyString(), anyInt());
+    }
+
+    @Test
     void testToggleFullScreenTrue() {
         controller.toggleFullscreen(true);
         verify(preferences).putBoolean(AssetConstants.PREF_FULLSCREEN, true);
@@ -51,5 +58,19 @@ public class SettingsControllerTest extends AbstractLibGDXTest {
         verify(preferences).getInteger(AssetConstants.PREF_WIDTH, 1280);
         verify(preferences).getInteger(AssetConstants.PREF_HEIGHT, 720);
 
+    }
+
+    @Test
+    void testUpdateMusicVolume() {
+        when(app.getAudio()).thenReturn(audio);
+        controller.updateMusicVolume(2f);
+        verify(audio).setMusicVolume(2f);
+    }
+
+    @Test
+    void testUpdateSfxVolume() {
+        when(app.getAudio()).thenReturn(audio);
+        controller.updateSfxVolume(2f);
+        verify(audio).setSfxVolume(2f);
     }
 }
