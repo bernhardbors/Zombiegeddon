@@ -26,4 +26,40 @@ class StoryManagerTest {
         assertFalse(session.isActive());
         assertFalse(session.isTimerRunning());
     }
+
+    @Test
+    void testDefaultStateBeforeStart() {
+        StoryManager manager = new StoryManager();
+
+        assertFalse(manager.isActive());
+        assertTrue(manager.hasNextLevel());
+        assertEquals(3, manager.getTotalLevels());
+        assertEquals("Player", manager.getCurrentPlayerName());
+        assertEquals("tilemaps/level1.tmx", manager.getCurrentMapPath());
+        assertEquals("level1", manager.getCurrentLevelId());
+        assertEquals("tilemaps/level1.tmx", manager.getMapPathForLevel(0));
+        assertEquals("level1", manager.getIdForLevel(0));
+    }
+
+    @Test
+    void testAdvanceLevel() {
+        StoryManager manager = new StoryManager();
+
+        manager.advanceLevel();
+        assertEquals("level2", manager.getCurrentLevelId());
+    }
+
+    @Test
+    void testReturnsWhenInvalidInput() {
+        StoryManager manager = new StoryManager();
+        StorySession session = new StorySession(null);
+
+        assertNull(manager.getMapPathForLevel(5));
+        assertNull(manager.getIdForLevel(5));
+
+        assertEquals(2, manager.getElapsedSeconds(2));
+
+
+    }
+
 }
