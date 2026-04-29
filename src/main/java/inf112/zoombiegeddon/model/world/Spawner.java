@@ -34,8 +34,8 @@ public class Spawner {
     public Vector2 getSpawnPoint(String spawnID) {
         MapObjects objects = map.getLayers().get("SpawnPoints").getObjects();
         for (MapObject object : objects) {
-            if (spawnID.equals(object.getName()) && object instanceof RectangleMapObject) {
-                Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            if (spawnID.equals(object.getName()) && object instanceof RectangleMapObject rectangleMapObject) {
+                Rectangle rect = rectangleMapObject.getRectangle();
 
                 return new Vector2(rect.x * unitScale,
                         rect.y * unitScale);

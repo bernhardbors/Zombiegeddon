@@ -12,6 +12,8 @@ public class GameEventBus {
 
     private static final List<IEventListener> listeners = new ArrayList<>();
 
+    private GameEventBus(){}
+
     /**
      * Registers a listener if it is not already registered.
      *

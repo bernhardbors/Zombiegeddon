@@ -41,11 +41,11 @@ public class HowToScreen extends AbstractScreen {
 
         // --- Controls Section ---
         formatText("CONTROLS", Color.ORANGE, 1.5f);
-        formatText(
-                "Move: W, A, S, D / Arrows\n" +
-                        "Jump: Space / Up\n" +
-                        "Sprint: Left Shift\n" +
-                        "Pause: P  |  Quit: ESC",
+        formatText("""
+                Move: W, A, S, D / Arrows
+                Jump: Space / Up
+                Sprint: Left Shift
+                Pause: P  |  Quit: ESC""",
                 Color.WHITE, 1.2f);
 
         table.row().padTop(10);
@@ -69,8 +69,8 @@ public class HowToScreen extends AbstractScreen {
 
         // --- Back Button ---
         table.row().padTop(40f);
-        UIUtils.addButton("Back", skin, table, buttonWidth, buttonHeight,
-                () -> app.setScreen(new MainMenuScreen(app))).row();
+        UIUtils.button("Back", skin).size(buttonWidth, buttonHeight)
+                .action(() -> app.setScreen(new MainMenuScreen(app))).addTo(table).row();
 
         table.row().padBottom(-10);
     }

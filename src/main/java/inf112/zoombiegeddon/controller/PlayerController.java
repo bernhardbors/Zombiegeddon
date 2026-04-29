@@ -18,7 +18,6 @@ public class PlayerController extends InputAdapter {
     private static final float WALKING_SPEED = 4f;
     private static final float RUNNING_SPEED = 8f;
     private static final float FRICTION_COEFFICIENT = 0.9f;
-    private boolean jumpKeyHeld = false;
 
     /**
      * Constructs a new PlayerController for the specified player.
@@ -50,10 +49,7 @@ public class PlayerController extends InputAdapter {
     @Override
     public boolean keyDown(int keycode) {
         if ((keycode == Input.Keys.SPACE || keycode == Input.Keys.W || keycode == Input.Keys.UP)) {
-            if (!jumpKeyHeld) {
-                player.jump();
-                jumpKeyHeld = true;
-            }
+            player.jump();
             return true;
         }
         return false;
@@ -66,13 +62,7 @@ public class PlayerController extends InputAdapter {
      */
     @Override
     public boolean keyUp(int keycode) {
-        if (keycode == Input.Keys.SPACE || keycode == Input.Keys.W || keycode == Input.Keys.UP) {
-            if(!isJumpPressed()) {
-                jumpKeyHeld = false;
-            }
-            return true;
-        }
-        return false;
+        return (keycode == Input.Keys.SPACE || keycode == Input.Keys.W || keycode == Input.Keys.UP);
     }
 
     /**
@@ -96,10 +86,7 @@ public class PlayerController extends InputAdapter {
             player.applyHorizontalImpulse(false, true);
         }
 
-        if (!left && !right) {
-            player.getPhysics().getBody().setLinearVelocity(vel.x * FRICTION_COEFFICIENT, vel.y);
-        } else if (Math.abs(vel.x) > targetMax) {
-            // Gradual slowdown to targetMax if Shift is released while moving fast
+        if (!left && !right || Math.abs(vel.x) > targetMax) {
             player.getPhysics().getBody().setLinearVelocity(vel.x * FRICTION_COEFFICIENT, vel.y);
         }
     }

@@ -19,9 +19,9 @@ import inf112.zoombiegeddon.model.story.StorySlide;
 
 public class StoryScreen extends AbstractScreen {
 
-    private static final float fadeInDuration = 1.5f;
-    private static final float fadeOutDuration = 1.5f;
-    private static final float delayDuration = 2f;
+    private static final float FADE_IN_DURATION = 1.5f;
+    private static final float FADE_OUT_DURATION = 1.5f;
+    private static final float DELAY_DURATION = 2f;
 
     private static final StorySlide[] SLIDES = {
             new StorySlide(AssetConstants.STORY_IMAGE_01, MusicTrack.STORY_CHILL_BACKGROUND, null, false),
@@ -92,9 +92,9 @@ public class StoryScreen extends AbstractScreen {
         storyImage.clearActions();
         storyImage.getColor().a = 0f;
         storyImage.addAction(Actions.sequence(
-                Actions.fadeIn(fadeInDuration),
-                Actions.delay(delayDuration),
-                Actions.fadeOut(fadeOutDuration),
+                Actions.fadeIn(FADE_IN_DURATION),
+                Actions.delay(DELAY_DURATION),
+                Actions.fadeOut(FADE_OUT_DURATION),
                 Actions.run(this::advanceStory)));
     }
 
@@ -152,7 +152,10 @@ public class StoryScreen extends AbstractScreen {
             storyImage.clearActions();
         }
         app.getStoryManager().startTimer();
-        app.setScreen(new PlayableLevel(app, "tilemaps/level1.tmx", "level1"));
+        app.setScreen(new PlayableLevel(
+                app,
+                app.getStoryManager().getCurrentMapPath()
+        ));
     }
 
     @Override

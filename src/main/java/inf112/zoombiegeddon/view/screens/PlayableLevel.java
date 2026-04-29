@@ -15,7 +15,6 @@ import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.events.IEventListener;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 import inf112.zoombiegeddon.view.renderer.LevelRenderer;
-import inf112.zoombiegeddon.view.screens.*;
 
 public class PlayableLevel extends ScreenAdapter implements IEventListener {
 
@@ -24,12 +23,10 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
     private final LevelRenderer renderer;
     private final PlayerController playerController;
     private final LevelController levelController;
-    private final String levelId;
     private final TiledMap map;
 
-    public PlayableLevel(GameApp app, String mapPath, String levelId) {
+    public PlayableLevel(GameApp app, String mapPath) {
         this.app = app;
-        this.levelId = levelId;
 
         this.map = new TmxMapLoader().load(mapPath);
         this.model = new LevelModel(app, map);
@@ -79,8 +76,7 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
                 if (app.getStoryManager().hasNextLevel()) {
                     app.setScreen(new PlayableLevel(
                             app,
-                            app.getStoryManager().getCurrentMapPath(),
-                            app.getStoryManager().getCurrentLevelId()
+                            app.getStoryManager().getCurrentMapPath()
                     ));
                 } else {
                     app.getLeaderboardController().registerLevelCompletion(

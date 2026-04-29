@@ -68,12 +68,10 @@ public class WorldContactListener implements ContactListener {
         Fixture fa = contact.getFixtureA();
         Fixture fb = contact.getFixtureB();
 
-        if ("feet".equals(fa.getUserData())) {
-            Object data = fa.getBody().getUserData();
-            if (data instanceof IEntity) ((IEntity) data).setGrounded(grounded);
-        } else if ("feet".equals(fb.getUserData())) {
-            Object data = fb.getBody().getUserData();
-            if (data instanceof IEntity) ((IEntity) data).setGrounded(grounded);
+        if ("feet".equals(fa.getUserData()) && fa.getBody().getUserData() instanceof IEntity ientity) {
+            ientity.setGrounded(grounded);
+        } else if ("feet".equals(fb.getUserData()) && fb.getBody().getUserData() instanceof IEntity ientity) {
+            ientity.setGrounded(grounded);
         }
     }
 
@@ -143,10 +141,8 @@ public class WorldContactListener implements ContactListener {
 
         if (bodyAData instanceof Player && bodyBData instanceof ILuckyBlock luckyBlock) {
             breakLuckyBlock(luckyBlock);
-            System.out.println("Lucky block collision.");
         } else if (bodyBData instanceof Player && bodyAData instanceof ILuckyBlock luckyBlock) {
             breakLuckyBlock(luckyBlock);
-            System.out.println("Lucky block collision.");
         }
     }
 

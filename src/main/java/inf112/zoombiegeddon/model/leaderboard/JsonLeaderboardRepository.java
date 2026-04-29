@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
 public record JsonLeaderboardRepository(String filePath) implements ILeaderboardRepository {
 
     @Override
@@ -24,8 +23,8 @@ public record JsonLeaderboardRepository(String filePath) implements ILeaderboard
 
         try (FileWriter writer = new FileWriter(filePath)) {
             writer.write(jsonString);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to save leaderboard data.", e);
+        } catch (IOException exception) {
+            throw new LeaderboardPersistenceException("Failed to save leaderboard data.", exception);
         }
     }
 
@@ -46,7 +45,7 @@ public record JsonLeaderboardRepository(String filePath) implements ILeaderboard
             }
 
             return leaderboardManager;
-        } catch (IOException e) {
+        } catch (IOException _) {
             return new LeaderboardManager();
         }
     }

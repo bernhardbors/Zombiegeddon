@@ -34,10 +34,22 @@ public class NextLevelScreen extends AbstractScreen{
         }
 
         formatText("PICK NEXT LEVEL", Color.WHITE, 6f);
-        UIUtils.addButton("Level 1", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new PlayableLevel(app, "tilemaps/level1.tmx", "level1")));
-        UIUtils.addButton("Level 2", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new PlayableLevel(app, "tilemaps/level3.tmx", "level2")));
-        UIUtils.addButton("Level 3", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new PlayableLevel(app, "tilemaps/level5.tmx", "level2")));
-        UIUtils.addButton("Main menu", skin, table, buttonWidth, buttonHeight, () -> app.setScreen(new MainMenuScreen(app)));
+
+        int totalLevels = app.getStoryManager().getTotalLevels();
+
+        for (int i = 0; i < totalLevels; i++) {
+            final String mapPath = app.getStoryManager().getMapPathForLevel(i);
+            final int levelNumber = i + 1;
+
+            UIUtils.button("Level " + levelNumber, skin).size(buttonWidth, buttonHeight)
+                    .action(() -> {
+                        app.getStoryManager().finishRun();
+                        app.setScreen(new PlayableLevel(app, mapPath));
+                    }).addTo(table);
+        }
+
+        UIUtils.button("Main menu", skin).size(buttonWidth, buttonHeight)
+                .action(() -> app.setScreen(new MainMenuScreen(app))).addTo(table);
 
     }
 }

@@ -52,6 +52,27 @@ public class StoryManager implements IStoryManager{
     }
 
     @Override
+    public int getTotalLevels() {
+        return storyMapPaths.length;
+    }
+
+    @Override
+    public String getMapPathForLevel(int index) {
+        if (index >= 0 && index < storyMapPaths.length) {
+            return storyMapPaths[index];
+        }
+        return null;
+    }
+
+    @Override
+    public String getIdForLevel(int index) {
+        if (index >= 0 && index < storyLevelIds.length) {
+            return storyLevelIds[index];
+        }
+        return null;
+    }
+
+    @Override
     public String getCurrentMapPath() {
         return storyMapPaths[currentLevelIndex];
     }

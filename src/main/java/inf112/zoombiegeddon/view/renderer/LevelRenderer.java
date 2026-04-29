@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.model.entity.Entity;
 import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
 import inf112.zoombiegeddon.model.levels.LevelModel;
@@ -33,15 +32,15 @@ public class LevelRenderer {
     private Viewport viewport;
     private WorldRenderer worldRenderer;
     private EntityRenderer entityRenderer;
-    private UIRenderer UIrenderer;
+    private UIRenderer uiRenderer;
     private Box2DDebugRenderer debugRenderer;
     private LuckyBlockRenderer luckyBlockRenderer;
 
     private Texture healthbar;
     private boolean showDebug;
 
-    public static final float viewportWidth = 50.0f;
-    public static final float viewportHeight = 30.0f;
+    public static final float VIEWPORT_WIDTH = 50.0f;
+    public static final float VIEWPORT_HEIGHT = 30.0f;
 
     private static final float SIGN_BOX_WIDTH = 0.6F;
     private static final float SIGN_PADDING = 0.02f;
@@ -54,13 +53,13 @@ public class LevelRenderer {
 
         this.camera = new OrthographicCamera();
         app.getBackground().setCamera(camera);
-        this.viewport = new ExtendViewport(viewportWidth, viewportHeight, camera);
+        this.viewport = new ExtendViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, camera);
 
         this.worldRenderer = new WorldRenderer(camera);
         this.worldRenderer.setMap(map, LevelModel.UNIT_SCALE);
 
         this.entityRenderer = new EntityRenderer(app);
-        this.UIrenderer = new UIRenderer(camera, model.getPlayer());
+        this.uiRenderer = new UIRenderer(camera, model.getPlayer());
         this.debugRenderer = new Box2DDebugRenderer();
         this.healthbar = app.getAssets().getManager().get(AssetConstants.HEALTHBAR, Texture.class);
 
@@ -99,11 +98,11 @@ public class LevelRenderer {
 
         worldRenderer.renderForeground();
 
-        if (UIrenderer != null) {
-            UIrenderer.drawHearts(batch, healthbar);
+        if (uiRenderer != null) {
+            uiRenderer.drawHearts(batch, healthbar);
             if (app.getStoryManager().isActive()) {
                 float timeUsed = app.getStoryManager().getElapsedSeconds(model.getLevelTime());
-                UIrenderer.drawStoryTime(batch, app.getAssets().getFont(), timeUsed);
+                uiRenderer.drawStoryTime(batch, app.getAssets().getFont(), timeUsed);
             }
         }
 

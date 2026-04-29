@@ -65,19 +65,14 @@ public class LeaderboardScreen extends AbstractScreen {
         table.row().padTop(25);
 
         if (nextScreenType == ScreenType.NEXT_LEVEL) {
-            UIUtils.addButton("Continue", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
-                    () -> app.setScreen(new NextLevelScreen(app)));
+            UIUtils.button("Continue", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
+                    .action(() -> app.setScreen(new NextLevelScreen(app))).addTo(table);
         }
 
-        UIUtils.addButton("Main Menu", app.getAssets().getSkin(), table, buttonWidth, buttonHeight,
-                () -> {
+        UIUtils.button("Main Menu", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
+                .action(() -> {
                     app.getStoryManager().finishRun();
                     app.setScreen(new MainMenuScreen(app));
-                });
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
+                }).addTo(table);
     }
 }

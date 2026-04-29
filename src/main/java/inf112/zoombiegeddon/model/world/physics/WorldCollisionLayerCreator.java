@@ -3,6 +3,8 @@ package inf112.zoombiegeddon.model.world.physics;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.physics.box2d.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
@@ -20,6 +22,8 @@ public class WorldCollisionLayerCreator {
      */
     private record CellCord(int x, int y) {
     }
+
+    private static final Logger logger = LoggerFactory.getLogger(WorldCollisionLayerCreator.class);
 
     private final World world;
     private final BodyDef bodyDef;
@@ -47,7 +51,7 @@ public class WorldCollisionLayerCreator {
 
         TiledMapTileLayer tileMapLayer = (TiledMapTileLayer) tilemap.getLayers().get(layer);
         if (tileMapLayer == null) {
-            System.err.println("Error: Layer '" + layer + "' not found in map.");
+            logger.error("Unable to load tilemap layer for {}", layer);
             return;
         }
         createHitboxes(tileMapLayer, tileMapLayer.getTileWidth(), pixelsPerTile);
@@ -72,16 +76,10 @@ public class WorldCollisionLayerCreator {
 
                 if (cell != null && cell.getTile() != null) {
                     cellArray.add(new CellCord(x, y));
-                }
-
-                if (cell == null || cell.getTile() == null || x == tileMapLayer.getWidth() - 1) {
-
-                    if (!cellArray.isEmpty()) {
-
-                        createStaticBody(world, cellArray, tileSize, pixelsPerTile
-                                , bodyDef, fixtureDef, tileShape);
-                        cellArray.clear();
-                    }
+                } else if (!cellArray.isEmpty() || x == tileMapLayer.getWidth() - 1 && !cellArray.isEmpty()) {
+                    createStaticBody(world, cellArray, tileSize, pixelsPerTile,
+                            bodyDef, fixtureDef, tileShape);
+                    cellArray.clear();
                 }
             }
         }
