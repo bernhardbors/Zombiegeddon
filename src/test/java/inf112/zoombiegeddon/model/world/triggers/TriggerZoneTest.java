@@ -96,5 +96,24 @@ public class TriggerZoneTest extends AbstractEntityTest {
         playerBounds = new Rectangle(100 * scale, 100 * scale, 1 * scale, 1 * scale);
         assertNull(triggerZone.update(playerBounds, player));
     }
+
+    @Test
+    void testBuildActionReturnsNullWhenNoActionMatches() {
+        TiledMap map = mock(TiledMap.class);
+        MapLayers layers = new MapLayers();
+        MapLayer layer = new MapLayer();
+
+        RectangleMapObject unknownType = new RectangleMapObject(0, 0, 10, 10);
+        unknownType.getProperties().put("type", "unknown");
+
+        layer.getObjects().add(unknownType);
+        layers.add(layer);
+        when(map.getLayers()).thenReturn(layers);
+
+        TriggerZone zone = new TriggerZone(map, layer.getName(), scale);
+        Rectangle bounds = new Rectangle(0, 0, 5, 5);
+
+        assertNull(zone.update(bounds, player), "Should return null when no action matches");
+    }
 }
 
