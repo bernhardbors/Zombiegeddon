@@ -110,4 +110,4 @@ public class AnimationHandler {
     public Map<EntityState, Animation<TextureRegion>> getAnimations() {
         return animations;
     }
-}
+ }
