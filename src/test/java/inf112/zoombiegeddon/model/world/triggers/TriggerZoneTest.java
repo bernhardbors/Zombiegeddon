@@ -10,8 +10,7 @@ import inf112.zoombiegeddon.model.entity.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class TriggerZoneTest extends AbstractEntityTest {
@@ -68,7 +67,7 @@ public class TriggerZoneTest extends AbstractEntityTest {
     void testTriggerZoneActivatesSigns() {
         playerBounds = new Rectangle(0,0, 1 * scale, 1 * scale);
         String result = triggerZone.update(playerBounds, player);
-        assertTrue(testText.equals(result), "Signs should return text");
+        assertEquals(testText,result, "Signs should return text");
     }
 
     @Test
