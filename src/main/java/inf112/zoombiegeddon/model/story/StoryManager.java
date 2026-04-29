@@ -1,5 +1,9 @@
 package inf112.zoombiegeddon.model.story;
 
+/**
+ * Default implementation of {@link IStoryManager}.
+ * Manages story progression through a fixed sequence of levels.
+ */
 public class StoryManager implements IStoryManager{
     private StorySession storySession;
 

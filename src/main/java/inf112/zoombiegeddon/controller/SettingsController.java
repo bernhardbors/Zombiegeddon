@@ -7,6 +7,10 @@ import inf112.zoombiegeddon.app.GameApp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Controller responsible for applying and persisting game settings,
+ * including resolution, fullscreen mode, and audio volumes.
+ */
 public class SettingsController {
     private final GameApp app;
     private final Preferences prefs;
@@ -42,6 +46,12 @@ public class SettingsController {
         }
     }
 
+    /**
+     * Toggles fullscreen mode and persists the setting.
+     * Switches to windowed mode using stored resolution if disabled.
+     *
+     * @param enabled True to enable fullscreen, false for windowed mode.
+     */
     public void toggleFullscreen(boolean enabled) {
         prefs.putBoolean(AssetConstants.PREF_FULLSCREEN, enabled);
         prefs.flush();
@@ -55,10 +65,18 @@ public class SettingsController {
         }
     }
 
+    /**
+     * Updates the background music volume.
+     * @param volume The desired volume level.
+     */
     public void updateMusicVolume(float volume) {
         app.getAudio().setMusicVolume(volume);
     }
 
+    /**
+     * Updates the sound effects volume.
+     * @param volume The desired volume level.
+     */
     public void updateSfxVolume(float volume) {
         app.getAudio().setSfxVolume(volume);
     }

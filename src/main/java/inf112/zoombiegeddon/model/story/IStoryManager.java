@@ -1,34 +1,66 @@
 package inf112.zoombiegeddon.model.story;
-
+/**
+ * Manages the story progression and run state for a game session.
+ */
 public interface IStoryManager {
 
-    public void startRun(String playerName);
+    /**
+     * Starts a new run with the given player name.
+     * @param playerName The name of the player.
+     */
+    void startRun(String playerName);
 
-    public void startTimer();
+    /** Starts the timer for the current level. */
+    void startTimer();
 
-    public void carryTime(float elapsedSeconds);
+    /**
+     * Carries over elapsed time from a previous level.
+     * @param elapsedSeconds Seconds to add to the total.
+     */
+    void carryTime(float elapsedSeconds);
 
-    public float getElapsedSeconds(float currentLevelTime);
+    /**
+     * Returns total elapsed seconds including current level time.
+     * @param currentLevelTime The time elapsed in the current level.
+     */
+    float getElapsedSeconds(float currentLevelTime);
 
-    public void finishRun();
+    /** Marks the current run as finished. */
+    void finishRun();
 
-    public boolean isActive();
+    /** @return true if a run is currently active. */
+    boolean isActive();
 
-    public boolean hasNextLevel();
+    /** @return true if there is another level after the current one. */
+    boolean hasNextLevel();
 
-    public void advanceLevel();
+    /** Advances to the next level in the story. */
+    void advanceLevel();
 
-    public String getCurrentMapPath();
+    /** @return The file path of the current level's map. */
+    String getCurrentMapPath();
 
-    public String getCurrentLevelId();
+    /** @return The ID of the current level. */
+    String getCurrentLevelId();
 
-    public StorySession getSession();
+    /** @return The current story session. */
+    StorySession getSession();
 
-    public String getCurrentPlayerName();
+    /** @return The name of the current player. */
+    String getCurrentPlayerName();
 
-    public int getTotalLevels();
+    /** @return The total number of levels in the story. */
+    int getTotalLevels();
 
-    public String getMapPathForLevel(int index);
+    /**
+     * @param index The level index.
+     * @return The map file path for the given level.
+     */
+    String getMapPathForLevel(int index);
 
-    public String getIdForLevel(int index);
+    /**
+     * @param index The level index.
+     * @return The ID for the given level.
+     */
+    String getIdForLevel(int index);
 }

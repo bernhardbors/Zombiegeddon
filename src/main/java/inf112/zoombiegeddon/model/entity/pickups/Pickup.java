@@ -9,6 +9,11 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import inf112.zoombiegeddon.model.entity.IPlayer;
 
+/**
+ * Abstract base class for all pickups in the game world.
+ * Handles Box2D body creation, collection state, and delegates
+ * the effect logic to subclasses via {@link #applyEffect(IPlayer)}.
+ */
 public abstract class Pickup implements IPickup {
 
     private final Body body;
@@ -17,6 +22,15 @@ public abstract class Pickup implements IPickup {
     private final Color pickupColor;
     private boolean collected;
 
+    /**
+     * Constructs a pickup and creates its physics body.
+     *
+     * @param world         The Box2D world.
+     * @param spawnPosition The position to spawn the pickup.
+     * @param renderSize    The size used for both rendering and the physics hitbox.
+     * @param pickupType    A string identifier for the pickup type.
+     * @param pickupColor   The color associated with this pickup's visual effect.
+     */
     protected Pickup(World world, Vector2 spawnPosition, float renderSize, String pickupType, Color pickupColor) {
         this.renderSize = renderSize;
         this.pickupType = pickupType;
