@@ -14,6 +14,8 @@ public class AssetConstants {
     public static final String ZOMBIE_SHEET = "assets/sprites/entity/enemies/zombie/Zombie-sheet.png";
     public static final String CHONKER_SHEET = "assets/sprites/entity/enemies/chonker/chonker_run.png";
     public static final String HEALTHBAR = "assets/sprites/Sprites/HealthBar.png";
+    public static final String PICKUP_SPEED = "assets/sprites/entity/pickups/pickup_speed.png";
+    public static final String PICKUP_HEAL  = "assets/sprites/entity/pickups/pickup_heal.png";
     // Bakgrunner
     public static final String BG_SKY = "assets/backgrounds/CityBackgroundSky.png";
     public static final String BG_CITY = "assets/backgrounds/CityBackground.png";
