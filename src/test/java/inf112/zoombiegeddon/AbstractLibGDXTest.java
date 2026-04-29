@@ -22,5 +22,6 @@ public abstract class AbstractLibGDXTest {
         ApplicationListener listener = new ApplicationAdapter() {
         };
         new HeadlessApplication(listener, config);
+        com.badlogic.gdx.physics.box2d.Box2D.init();
     }
 }
