@@ -102,15 +102,6 @@ public class PlayerController extends InputAdapter {
     }
 
     /**
-     * Checks if a hit/attack action is requested.
-     *
-     * @return True if the hit key (K) is currently pressed.
-     */
-    public boolean hitPressed() {
-        return Gdx.input.isKeyPressed(Input.Keys.K);
-    }
-
-    /**
      * Checks whether the player is moving left.
      *
      * @return True if A or Left Arrow is pressed, false otherwise.
