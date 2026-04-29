@@ -1,12 +1,15 @@
 package inf112.zoombiegeddon.model.entity;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import inf112.zoombiegeddon.model.entity.enemies.Enemy;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class PlayerTest extends AbstractEntityTest {
 
@@ -205,6 +208,40 @@ public class PlayerTest extends AbstractEntityTest {
         player.update(1.2f);
         assertEquals(0.0f, player.getPickupFxIntensity());
 
+    }
+
+    @Test
+    void testGetBounds() {
+        when(mockedBody.getPosition()).thenReturn(new Vector2(10, 10));
+
+        Rectangle bounds = player.getBounds();
+
+        assertEquals(10 - player.getWidth()/2f, bounds.x);
+        assertEquals(10 - player.getHeight()/2f, bounds.y);
+        assertEquals(player.getWidth(), bounds.width);
+        assertEquals(player.getHeight(), bounds.height);
+    }
+
+    @Test
+    void testApplyHorizontalImpulseLeft() {
+        when(mockedBody.getWorldCenter()).thenReturn(new Vector2(0,0));
+        player.applyHorizontalImpulse(true, false);
+        verify(mockedBody).applyLinearImpulse(argThat(argument -> argument.x < 0 && argument.y == 0), any(Vector2.class), anyBoolean());
+    }
+
+
+    @Test
+    void testApplyHorizontalImpulseRight() {
+        when(mockedBody.getWorldCenter()).thenReturn(new Vector2(0,0));
+        player.applyHorizontalImpulse(false, true);
+        verify(mockedBody).applyLinearImpulse(argThat(argument -> argument.x > 0 && argument.y == 0), any(Vector2.class), anyBoolean());
+
+    }
+
+    @Test
+    void testNotApplyHorizontalImpulse() {
+        player.applyHorizontalImpulse(false, false);
+        verify(mockedBody, never()).applyLinearImpulse(any(), any(), anyBoolean());
     }
 
 
