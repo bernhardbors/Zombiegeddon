@@ -27,8 +27,7 @@ public class GameOverScreen extends AbstractScreen {
     private final String retryBoardId;
 
     public GameOverScreen(GameApp app) {
-        this(app, RetryMode.NONE, null, null);
-    }
+        this(app, RetryMode.NONE, null, null);}
 
     public GameOverScreen(GameApp app, RetryMode retryMode, String retryMapPath, String retryBoardId) {
         super(app);
@@ -40,6 +39,8 @@ public class GameOverScreen extends AbstractScreen {
     @Override
     public void buildScreen() {
         clearTable();
+
+        GameEventBus.post(GameEvent.PLAYER_DEATH);
 
         formatText("GAME OVER", Color.RED, 6f);
         table.row().padTop(25);
