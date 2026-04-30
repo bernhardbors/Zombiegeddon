@@ -136,18 +136,20 @@
 			<plugin>
 				<groupId>org.pitest</groupId>
 				<artifactId>pitest-maven</artifactId>
-				<version>1.16.1</version>
+				<version>1.23.1</version>
 				<configuration>
 					<targetClasses>
 						<param>inf112.zoombiegeddon.*</param>
 					</targetClasses>
 					<targetTests>
-						<param>inf112.zoombiegeddon.*</param>
+						<param>**.*Test</param>
 					</targetTests>
-					<threads>4</threads>
+					<excludedClasses>
+						<param>inf112.zoombiegeddon.view.*</param>
+						<param>inf112.zoombiegeddon.app.Main</param>
+					</excludedClasses>
 				</configuration>
 				<dependencies>
-					<!-- CRITICAL: This allows PIT to "see" your JUnit 5 tests -->
 					<dependency>
 						<groupId>org.pitest</groupId>
 						<artifactId>pitest-junit5-plugin</artifactId>
