@@ -7,9 +7,9 @@ import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.IPlayer;
 import inf112.zoombiegeddon.model.entity.Player;
-import inf112.zoombiegeddon.model.entity.enemies.EnemyFactory;
+import inf112.zoombiegeddon.model.entity.enemies.AbstractEnemyFactory;
 import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
-import inf112.zoombiegeddon.model.entity.enemies.IEnemyFactory;
+import inf112.zoombiegeddon.model.entity.enemies.IAbstractEnemyFactory;
 import inf112.zoombiegeddon.model.entity.pickups.HealPickup;
 import inf112.zoombiegeddon.model.entity.pickups.SpeedBoostPickup;
 import inf112.zoombiegeddon.model.world.Spawner;
@@ -50,7 +50,7 @@ public class LevelModel {
         this.player = new Player(physics.getWorld(), spawner.getSpawnPoint("player_spawn"), app.getAssets().getPlayerMaleAnimations(), 3);
 
         this.triggerZone = new TriggerZone(map, "Triggers", UNIT_SCALE);
-        IEnemyFactory enemyFactory = new EnemyFactory(physics.getWorld());
+        IAbstractEnemyFactory enemyFactory = new AbstractEnemyFactory(physics.getWorld());
         this.enemies = enemyFactory.createEnemiesFromLayer(
                 map.getLayers().get("SpawnPoints"),
                 app.getAssets().getZombieAnimations(),

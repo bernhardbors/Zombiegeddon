@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Defines a factory for creating enemies in the game world.
  */
-public interface IEnemyFactory {
+public interface IAbstractEnemyFactory {
 
     /**
      * Creates a single enemy of the given type at the specified position.
