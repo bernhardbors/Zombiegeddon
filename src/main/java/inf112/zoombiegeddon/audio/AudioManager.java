@@ -246,7 +246,7 @@ public class AudioManager implements IAudioService, IEventListener {
 
     @Override
     public void setMusicVolume(float volume01) {
-        this.musicVolume = Math.max(0f, Math.min(0.3f, musicVolume));
+        this.musicVolume = Math.max(0f, Math.min(0.3f, volume01));
         if (currentMusic != null) {
             currentMusic.setVolume(muted ? 0f : musicVolume);
         }
