@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.utils.UIUtils;
+import inf112.zoombiegeddon.view.utils.UIUtils;
 
 public class StoryNameScreen extends AbstractScreen {
 

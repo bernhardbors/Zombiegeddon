@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import inf112.zoombiegeddon.AbstractLibGDXTest;
 import inf112.zoombiegeddon.model.entity.IEntity;
+import inf112.zoombiegeddon.view.utils.CameraUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package inf112.zoombiegeddon.utils;
+package inf112.zoombiegeddon.view.utils;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import inf112.zoombiegeddon.model.entity.IEntity;
