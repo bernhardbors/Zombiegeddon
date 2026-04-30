@@ -8,7 +8,6 @@ import inf112.zoombiegeddon.app.Main;
 import org.junit.jupiter.api.Test;
 import org.lwjgl.system.Configuration;
 import org.mockito.MockedConstruction;
-import org.mockito.MockedStatic;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;

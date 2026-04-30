@@ -36,7 +36,6 @@ public enum MusicTrack {
      *
      * @param manager The asset manager used to load music assets.
      */
-
     public static void queueAssets(AssetManager manager) {
         for (MusicTrack t : MusicTrack.values()) {
             manager.load(t.path(), Music.class);

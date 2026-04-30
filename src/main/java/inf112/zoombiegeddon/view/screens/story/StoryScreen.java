@@ -19,6 +19,11 @@ import inf112.zoombiegeddon.model.story.StorySlide;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 import inf112.zoombiegeddon.view.screens.level.PlayableLevel;
 
+/**
+ * Plays through a sequence of story slides with fade animations before
+ * starting the first level. Any key or mouse click advances to the next
+ * slide; Escape or right-click skips directly to the level.
+ */
 public class StoryScreen extends AbstractScreen {
 
     private static final float FADE_IN_DURATION = 1.5f;
@@ -144,6 +149,10 @@ public class StoryScreen extends AbstractScreen {
         });
     }
 
+    /**
+     * Transitions to the first story level, stopping any active audio.
+     * Guards against being called more than once via the {@code finished} flag.
+     */
     private void goToLevel1() {
         if (finished) {
             return;
@@ -153,13 +162,19 @@ public class StoryScreen extends AbstractScreen {
         if (storyImage != null) {
             storyImage.clearActions();
         }
+
         app.getStoryManager().startTimer();
         app.setScreen(new PlayableLevel(
                 app,
-                app.getStoryManager().getCurrentMapPath()
+                app.getStoryManager().getCurrentMapPath(),
+                GameApp.STORY_LEADERBOARD_ID
         ));
     }
 
+    /**
+     * Stops music and war sound effects when the screen is hidden,
+     * since they should not carry over to the next screen.
+     */
     @Override
     public void hide() {
         super.hide();

@@ -1,44 +1,47 @@
 package inf112.zoombiegeddon.view.screens.menus;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.model.leaderboard.Leaderboard;
 import inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry;
-import inf112.zoombiegeddon.view.utils.UIUtils;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
-import inf112.zoombiegeddon.view.screens.level.NextLevelScreen;
+import inf112.zoombiegeddon.view.screens.story.StoryNameScreen;
+import inf112.zoombiegeddon.view.utils.UIUtils;
 
 import java.util.List;
 
+/**
+ * Displays leaderboard entries for story mode or individual levels.
+ */
 public class LeaderboardScreen extends AbstractScreen {
 
     private final String levelId;
-    private final ScreenType nextScreenType;
 
+    /**
+     * Defines where the screen navigates after the leaderboard is dismissed.
+     */
     public enum ScreenType {
         NEXT_LEVEL,
         MAIN_MENU
     }
 
+    /**
+     * Constructs the Leaderboard screen.
+     *
+     * @param app            the application context
+     * @param levelId        the leaderboard to display scores from
+     * @param nextScreenType where to navigate when the player continues
+     */
     public LeaderboardScreen(GameApp app, String levelId, ScreenType nextScreenType) {
         super(app);
         this.levelId = levelId;
-        this.nextScreenType = nextScreenType;
     }
 
     @Override
     public void buildScreen() {
         clearTable();
 
-        if (app.getAssets().getManager().isLoaded(AssetConstants.BG_SKY)) {
-            Texture background = app.getAssets().getManager().get(AssetConstants.BG_SKY, Texture.class);
-            table.setBackground(new TextureRegionDrawable(background));
-        }
-
-        formatText("Leaderboard", Color.WHITE, 4f);
+        formatText(getLeaderboardTitle(), Color.WHITE, 4f);
         table.row().padTop(10);
 
         Leaderboard leaderboard = app.getLeaderboardManager().getLeaderboard(levelId);
@@ -50,7 +53,6 @@ public class LeaderboardScreen extends AbstractScreen {
         } else {
             for (int i = 0; i < entries.size(); i++) {
                 LeaderboardEntry entry = entries.get(i);
-
                 float roundedTime = Math.round(entry.getTimeUsed() * 10f) / 10f;
 
                 String line = (i + 1) + ". "
@@ -58,31 +60,49 @@ public class LeaderboardScreen extends AbstractScreen {
                         + " - Score: " + entry.getScore()
                         + " - Time: " + roundedTime + "s";
 
-                Color color = Color.WHITE;
-                if (i == 0) {
-                    color = Color.GOLD;
-                } else if (i == 1) {
-                    color = Color.LIGHT_GRAY;
-                } else if (i == 2) {
-                    color = new Color(0.8f, 0.6f, 0.3f, 1f);
-                }
-
-                formatText(line, color, 1.5f);
+                formatText(line, getRankColor(i), 1.5f);
                 table.row().padTop(12);
             }
         }
 
         table.row().padTop(25);
 
-        if (nextScreenType == ScreenType.NEXT_LEVEL) {
-            UIUtils.button("Continue", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
-                    .action(() -> app.setScreen(new NextLevelScreen(app))).addTo(table);
-        }
+        UIUtils.button("PICK LEVEL", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
+                .action(() -> app.setScreen(new PickLevelScreen(app)))
+                .addTo(table);
 
-        UIUtils.button("Main Menu", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
+        table.row().padTop(10);
+
+        UIUtils.button("STORY MODE", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
+                .action(() -> app.setScreen(new StoryNameScreen(app)))
+                .addTo(table);
+
+        table.row().padTop(10);
+
+        UIUtils.button("MAIN MENU", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
                 .action(() -> {
                     app.getStoryManager().finishRun();
                     app.setScreen(new MainMenuScreen(app));
-                }).addTo(table);
+                })
+                .addTo(table);
+    }
+
+    private String getLeaderboardTitle() {
+        return switch (levelId) {
+            case GameApp.STORY_LEADERBOARD_ID -> "Story Mode Leaderboard";
+            case "level1" -> "Level 1 Leaderboard";
+            case "level2" -> "Level 2 Leaderboard";
+            case "level3" -> "Level 3 Leaderboard";
+            default -> "Leaderboard";
+        };
+    }
+
+    private Color getRankColor(int index) {
+        return switch (index) {
+            case 0 -> Color.GOLD;
+            case 1 -> Color.LIGHT_GRAY;
+            case 2 -> new Color(0.8f, 0.6f, 0.3f, 1f);
+            default -> Color.WHITE;
+        };
     }
 }

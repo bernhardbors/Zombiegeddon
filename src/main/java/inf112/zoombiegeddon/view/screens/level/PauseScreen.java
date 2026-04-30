@@ -5,15 +5,28 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import inf112.zoombiegeddon.app.GameApp;
+import inf112.zoombiegeddon.view.screens.AbstractScreen;
+import inf112.zoombiegeddon.view.screens.menus.SettingsScreen;
+import inf112.zoombiegeddon.view.screens.menus.MainMenuScreen;
 import inf112.zoombiegeddon.view.utils.UIUtils;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 import inf112.zoombiegeddon.view.screens.menus.MainMenuScreen;
 import inf112.zoombiegeddon.view.screens.menus.SettingsScreen;
 
+/**
+ * Pause screen rendered on top of the active level.
+ *
+ * <p>The underlying level is kept alive and rendered as a blurred background
+ * behind a semi-transparent overlay.</p>
+ */
 public class PauseScreen extends AbstractScreen {
 
     private final PlayableLevel previousLevel;
 
+    /**
+     * @param app           the application context
+     * @param previousLevel the level to return to when the player continues
+     */
     public PauseScreen(final GameApp app, PlayableLevel previousLevel) {
         super(app);
         this.previousLevel = previousLevel;
@@ -39,6 +52,10 @@ public class PauseScreen extends AbstractScreen {
                 }).addTo(table);
     }
 
+    /**
+     * Renders the underlying level, then draws a semi-transparent black overlay
+     * before drawing the pause menu UI on top.
+     */
     @Override
     public void render(float delta) {
         previousLevel.renderVisuals();

@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
+import inf112.zoombiegeddon.view.screens.AbstractScreen;
+import inf112.zoombiegeddon.view.screens.level.PlayableLevel;
+import inf112.zoombiegeddon.view.screens.menus.MainMenuScreen;
 import inf112.zoombiegeddon.view.utils.UIUtils;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 import inf112.zoombiegeddon.view.screens.menus.MainMenuScreen;
@@ -41,11 +44,12 @@ public class NextLevelScreen extends AbstractScreen {
         for (int i = 0; i < totalLevels; i++) {
             final String mapPath = app.getStoryManager().getMapPathForLevel(i);
             final int levelNumber = i + 1;
+            final String boardId = "level" + levelNumber;
 
             UIUtils.button("Level " + levelNumber, skin).size(buttonWidth, buttonHeight)
                     .action(() -> {
                         app.getStoryManager().finishRun();
-                        app.setScreen(new PlayableLevel(app, mapPath));
+                        app.setScreen(new PlayableLevel(app, mapPath, boardId));
                     }).addTo(table);
         }
 

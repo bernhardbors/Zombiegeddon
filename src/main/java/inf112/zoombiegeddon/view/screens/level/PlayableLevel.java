@@ -7,7 +7,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.ScreenUtils;
 import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.controller.LevelController;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.events.GameEvent;
@@ -17,6 +16,11 @@ import inf112.zoombiegeddon.model.levels.LevelModel;
 import inf112.zoombiegeddon.view.renderer.LevelRenderer;
 import inf112.zoombiegeddon.view.screens.menus.LeaderboardScreen;
 
+/**
+ * Represents a running game level, wiring together the model, renderer,
+ * and controllers. Also listens for game events to handle pause, death,
+ * and level completion.
+ */
 public class PlayableLevel extends ScreenAdapter implements IEventListener {
 
     private final GameApp app;
@@ -25,9 +29,13 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
     private final PlayerController playerController;
     private final LevelController levelController;
     private final TiledMap map;
+    private final String mapPath;
+    private final String boardId;
 
-    public PlayableLevel(GameApp app, String mapPath) {
+    public PlayableLevel(GameApp app, String mapPath, String boardId) {
         this.app = app;
+        this.mapPath = mapPath;
+        this.boardId = boardId;
 
         this.map = new TmxMapLoader().load(mapPath);
         this.model = new LevelModel(app, map);
@@ -36,10 +44,13 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
         this.levelController = new LevelController();
     }
 
+    /**
+     * Registers this level as an event listener and starts gameplay music.
+     */
     @Override
     public void show() {
         GameEventBus.register(this);
-        app.getAudio().playMusic(MusicTrack.GAMEPLAY, true);
+        GameEventBus.post(GameEvent.GAMEPLAY_STARTED);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(levelController);
@@ -56,46 +67,96 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
         renderer.render();
     }
 
+    /**
+     * Handles pause, player death, and level completion events.
+     * On completion, advances story mode or shows the next level screen.
+     */
     @Override
     public void onEvent(GameEvent event) {
         if (event == GameEvent.TOGGLE_PAUSE) {
             app.setScreen(new PauseScreen(app, this));
-        }
-
-        else if (event == GameEvent.PLAYER_DEATH) {
-            if (app.getStoryManager().isActive()) {
-                app.getStoryManager().finishRun();
-            }
-            app.setScreen(new GameOverScreen(app));
-        }
-
-        else if (event == GameEvent.LEVEL_FINISHED) {
-            if (app.getStoryManager().isActive()) {
-                app.getStoryManager().carryTime(model.getLevelTime());
-                app.getStoryManager().advanceLevel();
-
-                if (app.getStoryManager().hasNextLevel()) {
-                    app.setScreen(new PlayableLevel(
-                            app,
-                            app.getStoryManager().getCurrentMapPath()
-                    ));
-                } else {
-                    app.getLeaderboardController().registerLevelCompletion(
-                            GameApp.STORY_LEADERBOARD_ID,
-                            app.getStoryManager().getCurrentPlayerName(),
-                            0,
-                            model.getPlayer().getHealth(),
-                            app.getStoryManager().getElapsedSeconds(0)
-                    );
-                    app.getStoryManager().finishRun();
-                    app.setScreen(new LeaderboardScreen(app, GameApp.STORY_LEADERBOARD_ID, LeaderboardScreen.ScreenType.MAIN_MENU));
-                }
-            } else {
-                app.setScreen(new NextLevelScreen(app));
-            }
+        } else if (event == GameEvent.PLAYER_DEATH) {
+            handlePlayerDeath();
+        } else if (event == GameEvent.LEVEL_FINISHED) {
+            handleLevelFinished();
         }
     }
 
+    private void handlePlayerDeath() {
+        if (app.getStoryManager().isActive()) {
+            app.getStoryManager().finishRun();
+            app.setScreen(new GameOverScreen(
+                    app,
+                    GameOverScreen.RetryMode.STORY,
+                    null,
+                    null
+            ));
+        } else {
+            app.setScreen(new GameOverScreen(
+                    app,
+                    GameOverScreen.RetryMode.LEVEL,
+                    mapPath,
+                    boardId
+            ));
+        }
+    }
+
+    private void handleLevelFinished() {
+        if (app.getStoryManager().isActive()) {
+            handleStoryLevelFinished();
+        } else {
+            handleSingleLevelFinished();
+        }
+    }
+
+    private void handleStoryLevelFinished() {
+        app.getStoryManager().carryTime(model.getLevelTime());
+        app.getStoryManager().advanceLevel();
+
+        if (app.getStoryManager().hasNextLevel()) {
+            app.setScreen(new PlayableLevel(
+                    app,
+                    app.getStoryManager().getCurrentMapPath(),
+                    GameApp.STORY_LEADERBOARD_ID
+            ));
+            return;
+        }
+
+        app.getLeaderboardController().registerLevelCompletion(
+                GameApp.STORY_LEADERBOARD_ID,
+                app.getStoryManager().getCurrentPlayerName(),
+                0,
+                model.getPlayer().getHealth(),
+                app.getStoryManager().getElapsedSeconds(0)
+        );
+
+        app.getStoryManager().finishRun();
+        app.setScreen(new LeaderboardScreen(
+                app,
+                GameApp.STORY_LEADERBOARD_ID,
+                LeaderboardScreen.ScreenType.MAIN_MENU
+        ));
+    }
+
+    private void handleSingleLevelFinished() {
+        app.getLeaderboardController().registerLevelCompletion(
+                boardId,
+                app.getCurrentPlayerName(),
+                0,
+                model.getPlayer().getHealth(),
+                model.getLevelTime()
+        );
+
+        app.setScreen(new LeaderboardScreen(
+                app,
+                boardId,
+                LeaderboardScreen.ScreenType.MAIN_MENU
+        ));
+    }
+
+    /**
+     * Unregisters this level as an event listener and clears the input processor.
+     */
     @Override
     public void hide() {
         GameEventBus.unregister(this);

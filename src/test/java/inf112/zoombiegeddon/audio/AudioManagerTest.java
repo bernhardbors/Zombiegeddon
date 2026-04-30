@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyFloat;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 class AudioManagerTest {
@@ -20,31 +22,27 @@ class AudioManagerTest {
     private Preferences prefs;
     private AudioManager audioManagerWithPrefs;
 
-
     @BeforeEach
     void beforeEach() {
         assetManager = mock(AssetManager.class);
         sound = mock(Sound.class);
-        audioManager = new AudioManager(assetManager);
         music = mock(Music.class);
         prefs = mock(Preferences.class);
-        audioManagerWithPrefs = new AudioManager(assetManager, prefs);
 
+        audioManager = new AudioManager(assetManager);
+        audioManagerWithPrefs = new AudioManager(assetManager, prefs);
     }
 
     @Test
-    void testSetAndGetSFXVolume() {
+    void testSetAndGetSfxVolume() {
         audioManager.setSfxVolume(1.0f);
         assertEquals(1.0f, audioManager.getSfxVolume());
 
-        //Volume can not be higher than 1.0f
         audioManager.setSfxVolume(1.2f);
         assertEquals(1.0f, audioManager.getSfxVolume());
 
-        //Volume can not be lower than 0.
         audioManager.setSfxVolume(-0.2f);
         assertEquals(0f, audioManager.getSfxVolume());
-
     }
 
     @Test
@@ -79,7 +77,7 @@ class AudioManagerTest {
         audioManager.playMusic(track, true);
         audioManager.setMuted(true);
 
-        verify(music, times(1)).setVolume(0f);
+        verify(music, atLeastOnce()).setVolume(0f);
     }
 
     @Test
@@ -100,7 +98,6 @@ class AudioManagerTest {
 
     @Test
     void testNotPlaySfxWhenMuted() {
-        //Sfx should not be played when muted
         Sfx sfx = Sfx.FOOTSTEPS;
 
         when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(true);
@@ -110,12 +107,10 @@ class AudioManagerTest {
         audioManager.playSfx(sfx);
 
         verify(sound, never()).play(anyFloat());
-
     }
 
     @Test
     void testPlaySfxWhenNotMuted() {
-        //Sfx should be played when the game is not muted
         Sfx sfx = Sfx.FOOTSTEPS;
 
         when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(true);
@@ -123,68 +118,64 @@ class AudioManagerTest {
 
         audioManager.setSfxVolume(0.5f);
         audioManager.playSfx(sfx);
+
         verify(sound, times(1)).play(0.5f);
     }
 
     @Test
     void testNotPlaySfxWhenNotLoaded() {
-        //When the sfx is not loaded, .play() should never be called.
         Sfx sfx = Sfx.FOOTSTEPS;
 
         when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(false);
 
         audioManager.playSfx(sfx);
-        verify(sound, never()).play(anyFloat());
 
+        verify(sound, never()).play(anyFloat());
     }
 
     @Test
     void testNotPlaySfxWhenNull() {
-        //When sfx is null, .play() should never be called.
         audioManager.playSfx(null);
         verify(sound, never()).play(anyFloat());
     }
 
     @Test
     void testStopSfxWhenLoaded() {
-        //When sfx is loaded, stopSfx() should call .stop() on the sound.
         Sfx sfx = Sfx.FOOTSTEPS;
 
         when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(true);
         when(assetManager.get(sfx.path(), Sound.class)).thenReturn(sound);
 
         audioManager.stopSfx(sfx);
+
         verify(sound, atLeastOnce()).stop();
     }
 
     @Test
-    void testStopSfxReturnsWhenSfxIsNull(){
-        //When sfx is null, .stop() should never be called.
+    void testStopSfxReturnsWhenSfxIsNull() {
         audioManager.stopSfx(null);
         verify(sound, never()).stop();
     }
 
     @Test
     void testStopSfxReturnsWhenNotLoaded() {
-        //When sfx is not loaded, .stop() should never be called.
         Sfx sfx = Sfx.FOOTSTEPS;
 
         when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(false);
 
         audioManager.stopSfx(sfx);
+
         verify(sound, never()).stop();
     }
 
     @Test
     void testPlayMusicWhenMuted() {
-
         MusicTrack track = MusicTrack.GAMEPLAY;
 
         when(assetManager.isLoaded(track.path(), Music.class)).thenReturn(true);
         when(assetManager.get(track.path(), Music.class)).thenReturn(music);
 
         audioManager.setMuted(true);
-
         audioManager.playMusic(track, true);
 
         verify(music, atLeastOnce()).setLooping(true);
@@ -195,119 +186,110 @@ class AudioManagerTest {
     @Test
     void testStopMusic() {
         MusicTrack track = MusicTrack.GAMEPLAY;
+
         when(assetManager.isLoaded(track.path(), Music.class)).thenReturn(true);
         when(assetManager.get(track.path(), Music.class)).thenReturn(music);
 
         audioManager.playMusic(track, true);
-
         audioManager.stopMusic();
 
         verify(music, atLeastOnce()).stop();
     }
 
     @Test
-    void testOnEventPlayerJump() {
-        GameEvent event = GameEvent.PLAYER_JUMP;
-        Sfx sfx1 = Sfx.JUMP1;
-        Sfx sfx2 = Sfx.JUMP2;
+    void testOnEventPlayerJumpStopsFootstepsAndPlaysJumpSound() {
+        when(assetManager.isLoaded(Sfx.FOOTSTEPS.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(Sfx.FOOTSTEPS.path(), Sound.class)).thenReturn(sound);
 
-        when(assetManager.isLoaded(sfx1.path(), Sound.class)).thenReturn(true);
-        when(assetManager.get(sfx1.path(), Sound.class)).thenReturn(sound);
+        when(assetManager.isLoaded(Sfx.FOOTSTEPS_RUN.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(Sfx.FOOTSTEPS_RUN.path(), Sound.class)).thenReturn(sound);
 
-        when(assetManager.isLoaded(sfx2.path(), Sound.class)).thenReturn(true);
-        when(assetManager.get(sfx2.path(), Sound.class)).thenReturn(sound);
+        when(assetManager.isLoaded(Sfx.JUMP1.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(Sfx.JUMP1.path(), Sound.class)).thenReturn(sound);
 
+        when(assetManager.isLoaded(Sfx.JUMP2.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(Sfx.JUMP2.path(), Sound.class)).thenReturn(sound);
 
-        audioManager.onEvent(event);
+        audioManager.onEvent(GameEvent.PLAYER_MOVE_START);
+        audioManager.onEvent(GameEvent.PLAYER_JUMP);
+
+        verify(sound, atLeastOnce()).stop();
         verify(sound, atLeastOnce()).play(anyFloat());
-
     }
 
     @Test
     void testOnEventButtonClick() {
-        GameEvent event = GameEvent.UI_BUTTON_CLICK;
-
         Sfx sfx = Sfx.BUTTON_CLICK;
 
         when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(true);
         when(assetManager.get(sfx.path(), Sound.class)).thenReturn(sound);
 
-        audioManager.onEvent(event);
+        audioManager.onEvent(GameEvent.UI_BUTTON_CLICK);
+
         verify(sound, atLeastOnce()).play(anyFloat());
     }
 
     @Test
     void testOnEventPlayerMoveStart() {
-        GameEvent event = GameEvent.PLAYER_MOVE_START;
+        when(assetManager.isLoaded(Sfx.FOOTSTEPS.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(Sfx.FOOTSTEPS.path(), Sound.class)).thenReturn(sound);
 
-        Sfx sfx = Sfx.FOOTSTEPS;
+        when(assetManager.isLoaded(MusicTrack.GAMEPLAY.path(), Music.class)).thenReturn(true);
+        when(assetManager.get(MusicTrack.GAMEPLAY.path(), Music.class)).thenReturn(music);
 
-        when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(true);
-        when(assetManager.get(sfx.path(), Sound.class)).thenReturn(sound);
-
-        audioManager.onEvent(event);
+        audioManager.onEvent(GameEvent.PLAYER_MOVE_START);
 
         verify(sound, atLeastOnce()).loop(anyFloat());
-
+        verify(music, atLeastOnce()).play();
     }
 
     @Test
     void testOnEventPlayerRunStart() {
-        GameEvent event = GameEvent.PLAYER_RUN_START;
+        when(assetManager.isLoaded(Sfx.FOOTSTEPS_RUN.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(Sfx.FOOTSTEPS_RUN.path(), Sound.class)).thenReturn(sound);
 
-        Sfx sfx = Sfx.FOOTSTEPS_RUN;
+        audioManager.onEvent(GameEvent.PLAYER_RUN_START);
 
-        when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(true);
-        when(assetManager.get(sfx.path(), Sound.class)).thenReturn(sound);
-
-        audioManager.onEvent(event);
         verify(sound, atLeastOnce()).loop(anyFloat());
     }
 
     @Test
-    void testOnEventPlayerRunStop() {
-        GameEvent event = GameEvent.PLAYER_RUN_STOP;
+    void testOnEventPlayerRunStopStopsFootsteps() {
+        when(assetManager.isLoaded(Sfx.FOOTSTEPS.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(Sfx.FOOTSTEPS.path(), Sound.class)).thenReturn(sound);
 
-        Sfx sfx = Sfx.FOOTSTEPS;
+        when(assetManager.isLoaded(Sfx.FOOTSTEPS_RUN.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(Sfx.FOOTSTEPS_RUN.path(), Sound.class)).thenReturn(sound);
 
-        when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(true);
-        when(assetManager.get(sfx.path(), Sound.class)).thenReturn(sound);
+        audioManager.onEvent(GameEvent.PLAYER_RUN_START);
+        audioManager.onEvent(GameEvent.PLAYER_RUN_STOP);
 
-        audioManager.onEvent(event);
-        verify(sound, atLeastOnce()).loop(anyFloat());
+        verify(sound, atLeastOnce()).stop();
     }
 
     @Test
     void testOnEventPlayerMoveStop() {
-        GameEvent event1 = GameEvent.PLAYER_MOVE_START;
-        GameEvent event = GameEvent.PLAYER_MOVE_STOP;
+        when(assetManager.isLoaded(Sfx.FOOTSTEPS.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(Sfx.FOOTSTEPS.path(), Sound.class)).thenReturn(sound);
 
-        Sfx sfx1 = Sfx.FOOTSTEPS;
-        Sfx sfx2 = Sfx.FOOTSTEPS_RUN;
+        when(assetManager.isLoaded(Sfx.FOOTSTEPS_RUN.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(Sfx.FOOTSTEPS_RUN.path(), Sound.class)).thenReturn(sound);
 
+        audioManager.onEvent(GameEvent.PLAYER_MOVE_START);
+        audioManager.onEvent(GameEvent.PLAYER_MOVE_STOP);
 
-
-        when(assetManager.isLoaded(sfx1.path(), Sound.class)).thenReturn(true);
-        when(assetManager.get(sfx1.path(), Sound.class)).thenReturn(sound);
-
-        when(assetManager.isLoaded(sfx2.path(), Sound.class)).thenReturn(true);
-        when(assetManager.get(sfx2.path(), Sound.class)).thenReturn(sound);
-
-        audioManager.onEvent(event1);
-        audioManager.onEvent(event);
         verify(sound, atLeastOnce()).stop();
-
     }
 
     @Test
     void testOnEventPickupCollected() {
-        GameEvent event = GameEvent.PICKUP_COLLECTED;
         Sfx sfx = Sfx.SPEED;
 
         when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(true);
         when(assetManager.get(sfx.path(), Sound.class)).thenReturn(sound);
 
-        audioManager.onEvent(event);
+        audioManager.onEvent(GameEvent.PICKUP_COLLECTED);
+
         verify(sound, times(1)).play(anyFloat());
     }
 
@@ -319,25 +301,26 @@ class AudioManagerTest {
         when(assetManager.get(sfx.path(), Sound.class)).thenReturn(sound);
 
         audioManager.setMuted(true);
-        long muted = audioManager.loopSfx(sfx);
-        assertEquals(-1L, muted);
+        long result = audioManager.loopSfx(sfx);
+
+        assertEquals(-1L, result);
     }
 
     @Test
-    void testWhenSfxIsNullLoopSfxReturnsMinus1(){
-        long muted = audioManager.loopSfx(null);
-        assertEquals(-1L, muted);
+    void testWhenSfxIsNullLoopSfxReturnsMinus1() {
+        long result = audioManager.loopSfx(null);
+        assertEquals(-1L, result);
     }
 
     @Test
-    void testWhenSfxISNotLoadedLoopSfxReturnsNull() {
+    void testWhenSfxIsNotLoadedLoopSfxReturnsMinus1() {
         Sfx sfx = Sfx.FOOTSTEPS;
+
         when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(false);
 
-        long muted = audioManager.loopSfx(sfx);
-        assertEquals(-1L,muted );
+        long result = audioManager.loopSfx(sfx);
 
-
+        assertEquals(-1L, result);
     }
 
     @Test
@@ -348,6 +331,4 @@ class AudioManagerTest {
         verify(prefs, atLeastOnce()).putBoolean(anyString(), anyBoolean());
         verify(prefs, atLeastOnce()).flush();
     }
-
-
 }

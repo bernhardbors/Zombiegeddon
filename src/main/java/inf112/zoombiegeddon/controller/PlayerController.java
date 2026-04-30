@@ -35,8 +35,8 @@ public class PlayerController extends InputAdapter {
      * @param dt The time in seconds since the last update.
      */
     public void update(float dt) {
+        player.setJumpHeld(isJumpPressed());
         handlePlayerMovement();
-
     }
 
     /**

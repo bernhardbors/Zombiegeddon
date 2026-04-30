@@ -12,6 +12,7 @@ public enum GameEvent {
     UI_BUTTON_CLICK,
     PICKUP_COLLECTED,
     ENEMY_HIT,
+    ENEMY_KILLED,
     PLAYER_MOVE_START,
     PLAYER_RUN_START,
     PLAYER_RUN_STOP,
@@ -21,4 +22,6 @@ public enum GameEvent {
     TOGGLE_PAUSE,
     PICKUP_HEALTH,
     PICKUP_SPEED,
+    MENU_STARTED,
+    GAMEPLAY_STARTED
 }

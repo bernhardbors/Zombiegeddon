@@ -29,7 +29,8 @@ public class SpeedBoostPickup extends Pickup {
     @Override
     public void applyEffect(IPlayer player) {
         player.applySpeedBoost(SPEED_MULTIPLIER, BOOST_DURATION_SECONDS);
-        player.triggerPickupVisualEffect(FX_DURATION_SECONDS, getPickupColor());
+        Color c = getPickupColor();
+        player.triggerPickupVisualEffect(FX_DURATION_SECONDS, c.r, c.g, c.b);
         GameEventBus.post(GameEvent.PICKUP_SPEED);
     }
 }
