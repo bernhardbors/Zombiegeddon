@@ -7,12 +7,9 @@ import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.audio.IAudioService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class SettingsControllerTest extends AbstractLibGDXTest {
+class SettingsControllerTest extends AbstractLibGDXTest {
 
     private GameApp app;
     private Preferences preferences;
