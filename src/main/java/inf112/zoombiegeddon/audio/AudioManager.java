@@ -181,6 +181,7 @@ public class AudioManager implements IAudioService, IEventListener {
                 break;
             case PLAYER_MOVE_START:
                 startFootstepsLoop();
+                playMusic(MusicTrack.GAMEPLAY, true);
                 break;
             case PLAYER_RUN_START:
                 startRunningFootstepsLoop();
@@ -198,6 +199,7 @@ public class AudioManager implements IAudioService, IEventListener {
             case LEVEL_FINISHED:
                 stopFootstepsLoop();
                 playSfx(Sfx.VICTORY);
+                stopMusic();
                 break;
             case TOGGLE_PAUSE:
                 stopFootstepsLoop();
