@@ -114,5 +114,35 @@ class TriggerZoneTest extends AbstractEntityTest {
 
         assertNull(zone.update(bounds, player), "Should return null when no action matches");
     }
+
+    @Test
+    void getZoneIsNullInitially() {
+        assertNull(triggerZone.getZone());
+    }
+
+    @Test
+    void getZoneReturnsNonNullAfterPlayerOverlapsAZone() {
+        playerBounds = new Rectangle(0, 0, 1, 1); // overlaps sign zone at (0,0,10,10)
+        triggerZone.update(playerBounds, player);
+        assertNotNull(triggerZone.getZone());
+    }
+
+    @Test
+    void getZoneReturnsNullWhenPlayerIsNotInAnyZone() {
+        playerBounds = new Rectangle(999, 999, 1, 1);
+        triggerZone.update(playerBounds, player);
+        assertNull(triggerZone.getZone());
+    }
+
+    @Test
+    void getZoneIsNullAfterPlayerLeavesAllZones() {
+        playerBounds = new Rectangle(0, 0, 1, 1); // in sign zone
+        triggerZone.update(playerBounds, player);
+        assertNotNull(triggerZone.getZone());
+
+        playerBounds = new Rectangle(999, 999, 1, 1); // outside all zones
+        triggerZone.update(playerBounds, player);
+        assertNull(triggerZone.getZone());
+    }
 }
 
