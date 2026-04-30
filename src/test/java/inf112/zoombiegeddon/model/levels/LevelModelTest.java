@@ -56,7 +56,7 @@ class LevelModelTest extends AbstractLibGDXTest {
 
     @Test
     void testUnitScale() {
-        assertEquals(1f / LevelModel.PIXELS_PER_TILE, LevelModel.UNIT_SCALE, 0.0001f);
+        assertEquals(LevelModel.UNIT_SCALE,1f / LevelModel.PIXELS_PER_TILE, 0.0001f);
     }
 
     // --- Initialization ---

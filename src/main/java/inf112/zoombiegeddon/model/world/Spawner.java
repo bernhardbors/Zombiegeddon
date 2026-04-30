@@ -18,6 +18,7 @@ public class Spawner {
      * Constructs a new spawner for the given tiled map.
      *
      * @param map The tiled map containing spawn point objects.
+     * @param unitScale conversion factor from pixel coordinates to world units
      */
     public Spawner (TiledMap map, float unitScale) {
         this.map = map;

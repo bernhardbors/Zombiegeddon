@@ -17,6 +17,11 @@ import inf112.zoombiegeddon.model.levels.LevelModel;
 import inf112.zoombiegeddon.view.renderer.LevelRenderer;
 import inf112.zoombiegeddon.view.screens.menus.LeaderboardScreen;
 
+/**
+ * Represents a running game level, wiring together the model, renderer,
+ * and controllers. Also listens for game events to handle pause, death,
+ * and level completion.
+ */
 public class PlayableLevel extends ScreenAdapter implements IEventListener {
 
     private final GameApp app;
@@ -40,6 +45,9 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
         this.levelController = new LevelController();
     }
 
+    /**
+     * Registers this level as an event listener and starts gameplay music.
+     */
     @Override
     public void show() {
         GameEventBus.register(this);
@@ -60,6 +68,10 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
         renderer.render();
     }
 
+    /**
+     * Handles pause, player death, and level completion events.
+     * On completion, advances story mode or shows the next level screen.
+     */
     @Override
     public void onEvent(GameEvent event) {
         if (event == GameEvent.TOGGLE_PAUSE) {
@@ -143,6 +155,9 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
         ));
     }
 
+    /**
+     * Unregisters this level as an event listener and clears the input processor.
+     */
     @Override
     public void hide() {
         GameEventBus.unregister(this);

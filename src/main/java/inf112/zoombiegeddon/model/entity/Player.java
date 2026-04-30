@@ -1,10 +1,8 @@
 package inf112.zoombiegeddon.model.entity;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
@@ -28,7 +26,7 @@ public class Player extends Entity implements IPlayer {
     private float jumpBufferTimer = 0f;
     private static final float JUMP_BUFFER_MAX = 0.10f;
 
-    private final PlayerController controller;
+    private boolean jumpHeld = false;
     private final AnimationHandler animationHandler;
     private boolean isRunning = false;
     private boolean wasMovingHorizontally = false;
@@ -47,7 +45,7 @@ public class Player extends Entity implements IPlayer {
     private float speedMultiplier = 1.0f;
     private float speedBoostRemaining = 0f;
     private float pickupVisualEffectRemaining = 0f;
-    private final Color pickupVisualEffectColor = new Color(Color.YELLOW);
+    private float pickupFxR = 1f, pickupFxG = 1f, pickupFxB = 0f;
 
     /**
      * Constructs a new player.
@@ -72,8 +70,6 @@ public class Player extends Entity implements IPlayer {
 
         this.width = actualW;
         this.height = actualH;
-
-        this.controller = new PlayerController(this);
     }
 
     /**
@@ -88,7 +84,6 @@ public class Player extends Entity implements IPlayer {
             if (hitTimer > 0) hitTimer -= dt;
             return;
         }
-        controller.update(dt);
         postHorizontalMoveStateEvents();
         updateAnimationState(dt, VELOCITY_THRESHOLD);
         updateTimers(dt);
@@ -129,7 +124,7 @@ public class Player extends Entity implements IPlayer {
     private void updateGravityScale() {
         Vector2 vel = physics.getVelocity();
         if (vel.y > 0.1f) {
-            physics.getBody().setGravityScale(controller.isJumpPressed() ? 1.5f : 5.0f);
+            physics.getBody().setGravityScale(jumpHeld ? 1.5f : 5.0f);
         } else {
             physics.getBody().setGravityScale(2.0f);
         }
@@ -144,11 +139,16 @@ public class Player extends Entity implements IPlayer {
         return speedMultiplier;
     }
 
-    public void triggerPickupVisualEffect(float durationSeconds, Color effectColor) {
+    @Override
+    public void setJumpHeld(boolean held) {
+        this.jumpHeld = held;
+    }
+
+    public void triggerPickupVisualEffect(float durationSeconds, float r, float g, float b) {
         pickupVisualEffectRemaining = Math.max(0f, durationSeconds);
-        if (effectColor != null) {
-            pickupVisualEffectColor.set(effectColor);
-        }
+        pickupFxR = r;
+        pickupFxG = g;
+        pickupFxB = b;
     }
 
     public boolean hasPickupVisualEffect() {
@@ -163,15 +163,15 @@ public class Player extends Entity implements IPlayer {
     }
 
     public float getPickupFxColorR() {
-        return pickupVisualEffectColor.r;
+        return pickupFxR;
     }
 
     public float getPickupFxColorG() {
-        return pickupVisualEffectColor.g;
+        return pickupFxG;
     }
 
     public float getPickupFxColorB() {
-        return pickupVisualEffectColor.b;
+        return pickupFxB;
     }
 
     /**
@@ -272,24 +272,21 @@ public class Player extends Entity implements IPlayer {
         if (right) physics.applyImpulse(new Vector2(MOVE_IMPULSE, 0));
     }
 
-    /**
-     * Sets the running state of the player.
-     *
-     * @param running True to enable running speed/animations, false for walking.
-     */
     public void setRunning(boolean running) {
         this.isRunning = running;
     }
 
-    /**
-     * Checks if the player is currently in the running state.
-     *
-     * @return True if running, false otherwise.
-     */
     public boolean isRunning() {
         return isRunning;
     }
 
+    /**
+     * Reduces the player's health by the given amount, subject to an invulnerability
+     * cooldown between hits. Marks the player as dead and posts {@link GameEvent#PLAYER_DEATH}
+     * when health reaches zero.
+     *
+     * @param amount the amount of damage to deal
+     */
     @Override
     public void takeDamage(int amount) {
         if (isDead) return;
@@ -321,24 +318,24 @@ public class Player extends Entity implements IPlayer {
         return isDead;
     }
 
+    /**
+     * Restores health, capped at max HP.
+     *
+     * @param amount the amount of health to restore
+     */
     @Override
     public void heal(int amount) {
         this.hp = Math.min(this.hp + amount, maxHp);
     }
 
-    /**
-     * Returns whether the player has reached the goal.
-     *
-     * @return True if the player is in the goal area, false otherwise.
-     */
     public boolean inGoal() {
         return inGoal;
     }
 
     /**
-     * Sets whether the player is in the goal area.
+     * Posts {@link GameEvent#LEVEL_FINISHED} the first time the player enters the goal.
      *
-     * @param bool True if the player is in the goal, false otherwise.
+     * @param bool true if the player is in the goal area
      */
     public void setInGoal(boolean bool) {
         if (!this.inGoal && bool) {
@@ -347,11 +344,6 @@ public class Player extends Entity implements IPlayer {
         this.inGoal = bool;
     }
 
-    /**
-     * Returns the player's bounding rectangle based on its current physics position.
-     *
-     * @return The player's bounds.
-     */
     public Rectangle getBounds() {
         Vector2 p = physics.getPosition();
         bounds.set(p.x - width / 2f, p.y - height / 2f, width, height);
@@ -376,6 +368,12 @@ public class Player extends Entity implements IPlayer {
         }
     }
 
+    /**
+     * Teleports the player to the given position and resets velocity to zero.
+     *
+     * @param x the target x position in world units
+     * @param y the target y position in world units
+     */
     @Override
     public void setPosition(float x, float y) {
         physics.getBody().setTransform(x, y, physics.getBody().getAngle());
@@ -417,11 +415,7 @@ public class Player extends Entity implements IPlayer {
         return animationHandler;
     }
 
-    /**
-     * Returns the speed of the entity as the magnitude of its velocity vector.
-     *
-     * @return float speed of entity
-     */
+    /** @return the magnitude of the player's current velocity vector */
     @Override
     public float getSpeed() {
         return physics.getBody().getLinearVelocity().len();

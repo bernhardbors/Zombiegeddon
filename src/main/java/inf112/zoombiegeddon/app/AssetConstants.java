@@ -1,5 +1,8 @@
 package inf112.zoombiegeddon.app;
 
+/**
+ * Central registry of asset file paths used throughout the application.
+ */
 public class AssetConstants {
 
     private AssetConstants() {

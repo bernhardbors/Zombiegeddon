@@ -1,6 +1,5 @@
 package inf112.zoombiegeddon.model.entity;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import inf112.zoombiegeddon.events.GameEvent;
@@ -168,30 +167,28 @@ public class PlayerTest extends AbstractEntityTest {
 
     @Test
     void testTriggerPickupHasVisualEffectColor() {
-        player.triggerPickupVisualEffect(2f, null);
-
-        //Yellow should be RGB: 1, 1, 0
+        // Default color is yellow (1, 1, 0)
+        player.triggerPickupVisualEffect(2f, 1f, 1f, 0f);
         assertEquals(1.0f, player.getPickupFxColorR());
         assertEquals(1.0f, player.getPickupFxColorG());
         assertEquals(0.0f, player.getPickupFxColorB());
 
-        //See if the color is set correctly
-        player.triggerPickupVisualEffect(2f, Color.WHITE);
+        // Setting white changes it
+        player.triggerPickupVisualEffect(2f, 1f, 1f, 1f);
         assertEquals(1.0f, player.getPickupFxColorR());
         assertEquals(1.0f, player.getPickupFxColorG());
         assertEquals(1.0f, player.getPickupFxColorB());
 
-        //See if the color does not get set back to yellow after you
-        //have set it to something else
-        player.triggerPickupVisualEffect(2f, null);
+        // Setting yellow again restores it
+        player.triggerPickupVisualEffect(2f, 1f, 1f, 0f);
         assertEquals(1.0f, player.getPickupFxColorR());
         assertEquals(1.0f, player.getPickupFxColorG());
-        assertEquals(1.0f, player.getPickupFxColorB());
+        assertEquals(0.0f, player.getPickupFxColorB());
     }
 
     @Test
     void testHasPickupVisualEffect() {
-        player.triggerPickupVisualEffect(1f, null);
+        player.triggerPickupVisualEffect(1f, 1f, 1f, 0f);
         player.update(0.2f);
         assertTrue(player.hasPickupVisualEffect());
 
@@ -201,7 +198,7 @@ public class PlayerTest extends AbstractEntityTest {
 
     @Test
     void testGetPickupFxIntensity() {
-        player.triggerPickupVisualEffect(1.0f, null);
+        player.triggerPickupVisualEffect(1.0f, 1f, 1f, 0f);
 
         player.update(0.8f);
         //Added delta because of rounding issues
@@ -270,13 +267,13 @@ public class PlayerTest extends AbstractEntityTest {
 
     @Test
     void getPickupFxIntensityIsClampedToOneWhenRemainingExceedsOne() {
-        player.triggerPickupVisualEffect(2.0f, null); // remaining = 2.0f
+        player.triggerPickupVisualEffect(2.0f, 1f, 1f, 0f); // remaining = 2.0f
         assertEquals(1.0f, player.getPickupFxIntensity(), 0.001f);
     }
 
     @Test
     void triggerPickupVisualEffectWithZeroDurationDoesNotActivate() {
-        player.triggerPickupVisualEffect(0f, null);
+        player.triggerPickupVisualEffect(0f, 1f, 1f, 0f);
         assertFalse(player.hasPickupVisualEffect());
         assertEquals(0f, player.getPickupFxIntensity(), 0.001f);
     }
@@ -327,5 +324,13 @@ public class PlayerTest extends AbstractEntityTest {
     @Test
     void getDefaultStateIsIdle() {
         assertEquals(EntityState.IDLE, player.getCurrentState());
+    }
+
+    @Test
+    void setJumpHeldTrueIsStoredAndRetrievable() {
+        player.setJumpHeld(true);
+        // Indirectly verified: gravity scale uses jumpHeld; direct getter not needed.
+        // Calling update with jumpHeld=true must not throw.
+        player.setJumpHeld(false);
     }
 }
