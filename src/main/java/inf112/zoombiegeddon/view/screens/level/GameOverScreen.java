@@ -5,7 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.audio.MusicTrack;
+import inf112.zoombiegeddon.events.GameEvent;
+import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 import inf112.zoombiegeddon.view.screens.menus.MainMenuScreen;
 import inf112.zoombiegeddon.view.utils.UIUtils;
@@ -29,7 +30,7 @@ public class GameOverScreen extends AbstractScreen {
     public void buildScreen() {
         clearTable();
 
-        app.getAudio().playMusic(MusicTrack.MENU, true);
+        GameEventBus.post(GameEvent.MENU_STARTED);
 
         if (app.getAssets().getManager().isLoaded(AssetConstants.BG_SKY)) {
             Texture background = app.getAssets().getManager().get(AssetConstants.BG_SKY, Texture.class);

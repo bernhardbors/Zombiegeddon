@@ -7,7 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.audio.MusicTrack;
+import inf112.zoombiegeddon.events.GameEvent;
+import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 import inf112.zoombiegeddon.view.screens.menus.MainMenuScreen;
 
@@ -39,7 +40,7 @@ public class SplashScreen extends AbstractScreen {
     public void buildScreen() {
         clearTable();
 
-        app.getAudio().playMusic(MusicTrack.MENU, true);
+        GameEventBus.post(GameEvent.MENU_STARTED);
 
         Runnable toMainMenu = () -> app.setScreen(new MainMenuScreen(app));
 

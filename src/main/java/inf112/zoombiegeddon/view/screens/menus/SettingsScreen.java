@@ -9,8 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.controller.SettingsController;
+import inf112.zoombiegeddon.events.GameEvent;
+import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.view.utils.UIUtils;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 
@@ -44,7 +45,7 @@ public class SettingsScreen extends AbstractScreen {
         clearTable();
         table.top();
 
-        app.getAudio().playMusic(MusicTrack.MENU, true);
+        GameEventBus.post(GameEvent.MENU_STARTED);
 
         formatText("SETTINGS", Color.GOLD, 3.0f);
 

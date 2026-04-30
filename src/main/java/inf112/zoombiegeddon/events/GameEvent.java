@@ -21,4 +21,6 @@ public enum GameEvent {
     TOGGLE_PAUSE,
     PICKUP_HEALTH,
     PICKUP_SPEED,
+    MENU_STARTED,
+    GAMEPLAY_STARTED
 }
