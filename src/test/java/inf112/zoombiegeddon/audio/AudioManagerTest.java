@@ -22,7 +22,7 @@ class AudioManagerTest {
 
 
     @BeforeEach
-    void setUp() {
+    void beforeEach() {
         assetManager = mock(AssetManager.class);
         sound = mock(Sound.class);
         audioManager = new AudioManager(assetManager);
@@ -79,7 +79,7 @@ class AudioManagerTest {
         audioManager.playMusic(track, true);
         audioManager.setMuted(true);
 
-        verify(music, atLeastOnce()).setVolume(0f);
+        verify(music, times(1)).setVolume(0f);
     }
 
     @Test
@@ -123,7 +123,7 @@ class AudioManagerTest {
 
         audioManager.setSfxVolume(0.5f);
         audioManager.playSfx(sfx);
-        verify(sound, atLeastOnce()).play(0.5f);
+        verify(sound, times(1)).play(0.5f);
     }
 
     @Test
@@ -296,6 +296,47 @@ class AudioManagerTest {
         audioManager.onEvent(event1);
         audioManager.onEvent(event);
         verify(sound, atLeastOnce()).stop();
+
+    }
+
+    @Test
+    void testOnEventPickupCollected() {
+        GameEvent event = GameEvent.PICKUP_COLLECTED;
+        Sfx sfx = Sfx.SPEED;
+
+        when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(sfx.path(), Sound.class)).thenReturn(sound);
+
+        audioManager.onEvent(event);
+        verify(sound, times(1)).play(anyFloat());
+    }
+
+    @Test
+    void testLoopSfxReturnsMinus1LWhenMuted() {
+        Sfx sfx = Sfx.FOOTSTEPS;
+
+        when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(sfx.path(), Sound.class)).thenReturn(sound);
+
+        audioManager.setMuted(true);
+        long muted = audioManager.loopSfx(sfx);
+        assertEquals(-1L, muted);
+    }
+
+    @Test
+    void testWhenSfxIsNullLoopSfxReturnsMinus1(){
+        long muted = audioManager.loopSfx(null);
+        assertEquals(-1L, muted);
+    }
+
+    @Test
+    void testWhenSfxISNotLoadedLoopSfxReturnsNull() {
+        Sfx sfx = Sfx.FOOTSTEPS;
+        when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(false);
+
+        long muted = audioManager.loopSfx(sfx);
+        assertEquals(-1L,muted );
+
 
     }
 
