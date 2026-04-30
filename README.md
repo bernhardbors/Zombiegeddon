@@ -26,7 +26,6 @@ stop an evil professor’s experiment.
 * `inf112.zoombiegeddon.controller` – handles user input
 * `inf112.zoombiegeddon.audio` – sound and music handling
 * `inf112.zoombiegeddon.events` – event handling system
-* `inf112.zoombiegeddon.utils` – utility classes for camera and UI handling
 
 	
     
