@@ -6,6 +6,16 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * A JSON-backed implementation of {@link ILeaderboardRepository} that reads and
+ * writes leaderboard data to a local file.
+ *
+ * <p>Serialization is handled by libGDX's {@link Json} utility. The file is
+ * created or overwritten on every {@link #save} call.</p>
+ *
+ * @param filePath path to the JSON file used for persistence; must be a valid,
+ *                 writable file-system path
+ */
 public record JsonLeaderboardRepository(String filePath) implements ILeaderboardRepository {
 
     @Override

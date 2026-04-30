@@ -9,14 +9,11 @@ import inf112.zoombiegeddon.model.entity.EntityState;
 import inf112.zoombiegeddon.model.entity.PhysicsComponent;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 
-
-
 /**
  * Represents an enemy entity in the game.
  * Handles simple patrol behavior, health, and physics-based interactions.
  */
 public class Enemy extends Entity implements IEnemy {
-
 
     private static final float VELOCITY_THRESHOLD = 0.1f;
 
@@ -60,11 +57,6 @@ public class Enemy extends Entity implements IEnemy {
         this.height = actualH;
     }
 
-    /**
-     * Updates the enemy's movement and animation state.
-     *
-     * @param dt The time in seconds since the last update.
-     */
     @Override
     public void update(float dt) {
         Vector2 vel = physics.getVelocity();
@@ -89,10 +81,9 @@ public class Enemy extends Entity implements IEnemy {
     }
 
     /**
-     * Reduces the enemy's health by the given amount.
      * Marks the enemy as dead when health reaches zero or below.
      *
-     * @param amount The amount of damage to deal.
+     * @param amount the amount of damage to deal
      */
     @Override
     public void takeDamage(int amount) {
@@ -154,127 +145,76 @@ public class Enemy extends Entity implements IEnemy {
         return hitWall[0] || !hasGround[0];
     }
 
-    /**
-     * @return The current health value of the entity.
-     */
     @Override
     public int getHealth() {
         return this.hp;
     }
 
-    /**
-     * @return The maximum health capacity of the entity.
-     */
     @Override
     public int getMaxHealth() {
         return this.maxHp;
     }
 
-    /**
-     * @return True if the entity's health is zero or below.
-     */
     @Override
     public boolean isDead() {
         return isDead;
     }
 
     /**
-     * Resets or increases health.
+     * Restores health, capped at max HP.
      *
-     * @param amount The amount of health to restore.
+     * @param amount the amount of health to restore
      */
     @Override
     public void heal(int amount) {
         this.hp = Math.min(this.hp + amount, maxHp);
     }
 
-    /**
-     * Sets the entity position
-     *
-     * @param x pos on the x-axis
-     * @param y pos on the y-axis
-     */
     @Override
     public void setPosition(float x, float y) {
         physics.getBody().getPosition().set(x, y);
     }
 
-    /**
-     * Gets the current position of the entity from the physics component.
-     *
-     * @return A Vector2 representing the world coordinates.
-     */
     @Override
     public Vector2 getPosition() {
         return physics.getBody().getPosition();
     }
 
-    /**
-     * Sets the movement direction of the enemy.
-     * @param direction 1 for right, -1 for left.
-     */
+    @Override
     public void setDirection(int direction) {
         this.direction = direction;
     }
 
-    /**
-     * Provides access to the entity's physics component.
-     *
-     * @return The PhysicsComponent instance.
-     */
     @Override
     public PhysicsComponent getPhysics() {
         return physics;
     }
 
-    /**
-     *
-     * @return boolean true if on ground false if not.
-     */
     @Override
     public boolean isGrounded() {
         return isGrounded;
     }
 
-    /**
-     * @return entity Width
-     */
     @Override
     public float getWidth() {
         return width;
     }
 
-    /**
-     * @return entity Height
-     */
     @Override
     public float getHeight() {
         return height;
     }
 
-    /**
-     * @return scaled Sprite Dimensions (sprite dim * worldScale)
-     */
     @Override
     public float getScaledSpriteDimensions() {
         return spriteDim;
     }
 
-    /**
-     * Returns the animation handler used by the enemy.
-     *
-     * @return The animation handler.
-     */
     @Override
     public AnimationHandler getAnimationHandler() {
         return animationHandler;
     }
 
-    /**
-     * returns the speed of the entity
-     *
-     * @return float speed of entity
-     */
     @Override
     public float getSpeed() {
         return patrolSpeed;

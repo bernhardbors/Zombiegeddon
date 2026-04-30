@@ -81,12 +81,6 @@ public class SplashScreen extends AbstractScreen {
         });
     }
 
-    /**
-     * Renders the screen every frame.
-     * Clears the screen with black and updates the stage actions.
-     *
-     * @param delta Time in seconds since the last frame.
-     */
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.BLACK);

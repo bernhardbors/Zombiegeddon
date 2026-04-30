@@ -272,24 +272,21 @@ public class Player extends Entity implements IPlayer {
         if (right) physics.applyImpulse(new Vector2(MOVE_IMPULSE, 0));
     }
 
-    /**
-     * Sets the running state of the player.
-     *
-     * @param running True to enable running speed/animations, false for walking.
-     */
     public void setRunning(boolean running) {
         this.isRunning = running;
     }
 
-    /**
-     * Checks if the player is currently in the running state.
-     *
-     * @return True if running, false otherwise.
-     */
     public boolean isRunning() {
         return isRunning;
     }
 
+    /**
+     * Reduces the player's health by the given amount, subject to an invulnerability
+     * cooldown between hits. Marks the player as dead and posts {@link GameEvent#PLAYER_DEATH}
+     * when health reaches zero.
+     *
+     * @param amount the amount of damage to deal
+     */
     @Override
     public void takeDamage(int amount) {
         if (isDead) return;
@@ -321,24 +318,24 @@ public class Player extends Entity implements IPlayer {
         return isDead;
     }
 
+    /**
+     * Restores health, capped at max HP.
+     *
+     * @param amount the amount of health to restore
+     */
     @Override
     public void heal(int amount) {
         this.hp = Math.min(this.hp + amount, maxHp);
     }
 
-    /**
-     * Returns whether the player has reached the goal.
-     *
-     * @return True if the player is in the goal area, false otherwise.
-     */
     public boolean inGoal() {
         return inGoal;
     }
 
     /**
-     * Sets whether the player is in the goal area.
+     * Posts {@link GameEvent#LEVEL_FINISHED} the first time the player enters the goal.
      *
-     * @param bool True if the player is in the goal, false otherwise.
+     * @param bool true if the player is in the goal area
      */
     public void setInGoal(boolean bool) {
         if (!this.inGoal && bool) {
@@ -347,11 +344,6 @@ public class Player extends Entity implements IPlayer {
         this.inGoal = bool;
     }
 
-    /**
-     * Returns the player's bounding rectangle based on its current physics position.
-     *
-     * @return The player's bounds.
-     */
     public Rectangle getBounds() {
         Vector2 p = physics.getPosition();
         bounds.set(p.x - width / 2f, p.y - height / 2f, width, height);
@@ -376,6 +368,12 @@ public class Player extends Entity implements IPlayer {
         }
     }
 
+    /**
+     * Teleports the player to the given position and resets velocity to zero.
+     *
+     * @param x the target x position in world units
+     * @param y the target y position in world units
+     */
     @Override
     public void setPosition(float x, float y) {
         physics.getBody().setTransform(x, y, physics.getBody().getAngle());
@@ -417,11 +415,7 @@ public class Player extends Entity implements IPlayer {
         return animationHandler;
     }
 
-    /**
-     * Returns the speed of the entity as the magnitude of its velocity vector.
-     *
-     * @return float speed of entity
-     */
+    /** @return the magnitude of the player's current velocity vector */
     @Override
     public float getSpeed() {
         return physics.getBody().getLinearVelocity().len();

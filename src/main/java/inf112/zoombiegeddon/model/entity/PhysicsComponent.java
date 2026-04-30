@@ -74,38 +74,18 @@ public class PhysicsComponent {
         body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
     }
 
-    /**
-     * Gets the current linear velocity of the body.
-     *
-     * @return A Vector2 representing the velocity in m/s.
-     */
     public Vector2 getVelocity() {
         return body.getLinearVelocity();
     }
 
-    /**
-     * Gets the current world position of the body.
-     *
-     * @return A Vector2 representing the position.
-     */
     public Vector2 getPosition() {
         return body.getPosition();
     }
 
-    /**
-     * Provides access to the underlying Box2D Body object.
-     *
-     * @return The Body instance.
-     */
     public Body getBody() {
         return body;
     }
 
-    /**
-     * Sets the physics body of this component.
-     *
-     * @param body The object to assign as the body. Must be a {@link Body}.
-     */
     public void setBody(Body body) {
         this.body = body;
     }

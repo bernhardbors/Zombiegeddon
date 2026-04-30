@@ -10,6 +10,9 @@ import inf112.zoombiegeddon.view.utils.UIUtils;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 import inf112.zoombiegeddon.view.screens.menus.MainMenuScreen;
 
+/**
+ * Screen where the player enters their name before starting story mode.
+ */
 public class StoryNameScreen extends AbstractScreen {
 
     public StoryNameScreen(GameApp app) {
