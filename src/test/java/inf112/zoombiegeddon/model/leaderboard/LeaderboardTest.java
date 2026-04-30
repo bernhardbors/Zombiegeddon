@@ -7,7 +7,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class LeaderboardTest {
+class LeaderboardTest {
     @Test
     void newLeaderboardIsEmpty() {
         Leaderboard leaderboard = new Leaderboard();

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.nio.file.Path;
 
-public class JsonLeaderboardRepositoryTest {
+class JsonLeaderboardRepositoryTest {
 
     @Test
     void testSaveAndLoad() {
