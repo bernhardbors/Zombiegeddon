@@ -1,4 +1,4 @@
-package inf112.zoombiegeddon.view.screens;
+package inf112.zoombiegeddon.view.screens.loading;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.audio.MusicTrack;
+import inf112.zoombiegeddon.view.screens.AbstractScreen;
+import inf112.zoombiegeddon.view.screens.menus.MainMenuScreen;
 
 /**
  * The SplashScreen is the first screen shown when the game starts.

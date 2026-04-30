@@ -1,4 +1,4 @@
-package inf112.zoombiegeddon.view.screens;
+package inf112.zoombiegeddon.view.screens.level;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -6,13 +6,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
+import inf112.zoombiegeddon.view.screens.AbstractScreen;
+import inf112.zoombiegeddon.view.screens.menus.MainMenuScreen;
 
 
 /**
  * Displays the screen shown when the player reaches the goal.
  * Allows the player to choose the next level or return to the main menu.
  */
-public class NextLevelScreen extends AbstractScreen{
+public class NextLevelScreen extends AbstractScreen {
 
 
     /**
