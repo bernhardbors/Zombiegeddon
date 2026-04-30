@@ -1,6 +1,5 @@
 package inf112.zoombiegeddon.model.entity;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
 
@@ -38,9 +37,14 @@ public interface IPlayer extends IEntity, IDamageable {
     /**
      * Triggers a visual pickup effect on the player.
      * @param durationSeconds How long the effect lasts.
-     * @param effectColor     The color of the effect.
+     * @param r Red component of the effect color (0–1).
+     * @param g Green component of the effect color (0–1).
+     * @param b Blue component of the effect color (0–1).
      */
-    void triggerPickupVisualEffect(float durationSeconds, Color effectColor);
+    void triggerPickupVisualEffect(float durationSeconds, float r, float g, float b);
+
+    /** Notifies the player whether the jump key is currently held. */
+    void setJumpHeld(boolean held);
 
     /** @return True if a pickup visual effect is currently active. */
     boolean hasPickupVisualEffect();

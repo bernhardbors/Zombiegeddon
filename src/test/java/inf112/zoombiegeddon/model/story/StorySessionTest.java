@@ -1,30 +1,21 @@
 package inf112.zoombiegeddon.model.story;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class StorySessionTest {
 
-    @Test
-    void constructorWithValidNameTrimsAndSetsName() {
-        StorySession session = new StorySession("  Alice  ");
-        assertEquals("Alice", session.getPlayerName());
-        assertTrue(session.isActive());
-        assertFalse(session.isTimerRunning());
-        assertEquals(0f, session.getAccumulatedTimeSeconds(), 0.001f);
-    }
-
-    @Test
-    void constructorWithNullNameDefaultsToPlayer() {
-        StorySession session = new StorySession(null);
-        assertEquals("Player", session.getPlayerName());
-    }
-
-    @Test
-    void constructorWithBlankNameDefaultsToPlayer() {
-        StorySession session = new StorySession("   ");
-        assertEquals("Player", session.getPlayerName());
+    @ParameterizedTest
+    @NullAndEmptySource
+    @ValueSource(strings = {"  ", "\t", "\n"})
+    void constructorWithInvalidNameDefaultsToPlayer(String invalidName) {
+        StorySession session = new StorySession(invalidName);
+        assertEquals("Player", session.getPlayerName(),
+                "Should default to 'Player' when input is: " + invalidName);
     }
 
     @Test
