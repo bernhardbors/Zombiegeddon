@@ -56,4 +56,19 @@ class EnemyFactoryTest extends AbstractEntityTest {
         IEnemy fast = factory.createEnemy(EnemyType.FAST_ZOMBIE, spawnPos, normalAnims, tankAnims);
         assertEquals(1, fast.getMaxHealth());
     }
+
+    @Test
+    void testEnemyFactoryDefaultType() {
+        AnimationHandler tankAnims = mock(AnimationHandler.class);
+        AnimationHandler normalAnims = mock(AnimationHandler.class);
+
+        IEnemy enemy = factory.createEnemy(EnemyType.ZOMBIE, spawnPos, normalAnims, tankAnims);
+
+        assertEquals(1, enemy.getHealth());
+        assertEquals(3.0f, enemy.getSpeed());
+        assertEquals(normalAnims, enemy.getAnimationHandler());
+
+
+
+    }
 }
