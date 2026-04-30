@@ -17,11 +17,11 @@ import static org.mockito.Mockito.when;
 
 class EnemyFactoryTest extends AbstractEntityTest {
 
-    private EnemyFactory factory;
+    private AbstractEnemyFactory factory;
 
     @BeforeEach
     void setUpFactory() {
-        factory = new EnemyFactory(mockedWorld);
+        factory = new AbstractEnemyFactory(mockedWorld);
     }
 
     @Test
