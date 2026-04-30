@@ -6,7 +6,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LeaderboardManagerTest {
+class LeaderboardManagerTest {
     @Test
     void getLeaderboardCreatesNewLeaderboardWhenItDoesNotExist() {
         LeaderboardManager manager = new LeaderboardManager();

@@ -18,14 +18,30 @@ public class AnimationHandler {
     private final Map<EntityState, Animation<TextureRegion>> animations = new EnumMap<>(EntityState.class);
 
     /**
-     * Constructs a new AnimationHandler using a provided spritesheet.
-     * Automatically triggers the creation of the animation map.
+     * Constructs a new AnimationHandler using a standard LibGDX Texture.
+     * This is the primary constructor used during normal gameplay.
      *
      * @param characterSpriteSheet The texture containing all character animation frames.
+     * @param frameWidth           The width of each individual frame in pixels.
+     * @param frameHeight          The height of each individual frame in pixels.
      */
     public AnimationHandler(Texture characterSpriteSheet, int frameWidth, int frameHeight) {
         this.characterSpriteSheet = characterSpriteSheet;
-        createAnimationMap(frameWidth, frameHeight);
+        createAnimationMap((w, h) -> TextureRegion.split(characterSpriteSheet, w, h), frameWidth, frameHeight);
+    }
+
+    /**
+     * Constructs a new AnimationHandler using a custom loader.
+     * This constructor is primarily used for testing purposes to inject mock frames
+     * without requiring a full LibGDX graphics context.
+     *
+     * @param loader      An implementation of {@link IAnimationLoader} to provide animation frames.
+     * @param frameWidth  The width of each individual frame in pixels.
+     * @param frameHeight The height of each individual frame in pixels.
+     */
+    public AnimationHandler(IAnimationLoader loader, int frameWidth, int frameHeight) {
+        this.characterSpriteSheet = null;
+        createAnimationMap(loader, frameWidth, frameHeight);
     }
 
     /**
@@ -59,8 +75,8 @@ public class AnimationHandler {
      * Splits the spritesheet and populates the animation map with sequences
      * for all entity states.
      */
-    private void createAnimationMap(int frameWidth, int frameHeight) {
-        TextureRegion[][] characterFrames = TextureRegion.split(characterSpriteSheet, frameWidth, frameHeight);
+    private void createAnimationMap(IAnimationLoader loader, int frameWidth, int frameHeight) {
+        TextureRegion[][] characterFrames = loader.loadFrames(frameWidth, frameHeight);
 
         int rows = characterFrames.length;
 
@@ -94,4 +110,4 @@ public class AnimationHandler {
     public Map<EntityState, Animation<TextureRegion>> getAnimations() {
         return animations;
     }
-}
+ }

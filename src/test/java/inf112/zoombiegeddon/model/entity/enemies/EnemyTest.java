@@ -121,4 +121,18 @@ class EnemyTest extends AbstractEntityTest {
 
         verify(mockedBody).setLinearVelocity(eq(2.0f), anyFloat());
     }
+
+    @Test
+    void testSetAndGetPosition() {
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 3, 2.0f);
+
+        Vector2 position = new Vector2(2f, 5f);
+        when(mockedBody.getPosition()).thenReturn(position);
+
+        enemy.setPosition(10f, 20f);
+
+        assertEquals(10f, enemy.getPosition().x);
+        assertEquals(20F, enemy.getPosition().y);
+
+    }
 }

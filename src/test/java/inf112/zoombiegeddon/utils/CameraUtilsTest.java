@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class CameraUtilsTest extends AbstractLibGDXTest {
+class CameraUtilsTest extends AbstractLibGDXTest {
 
     private IEntity entity;
     private OrthographicCamera camera;

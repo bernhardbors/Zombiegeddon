@@ -4,12 +4,13 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SpawnerTest {
+class SpawnerTest {
 
     private TiledMap map;
     private MapLayer layer;
@@ -24,6 +25,11 @@ public class SpawnerTest {
 
         spawner = new Spawner(map, 1.0f);
 
+    }
+
+    @AfterEach
+    void afterEach() {
+        map.dispose();
     }
 
     @Test
