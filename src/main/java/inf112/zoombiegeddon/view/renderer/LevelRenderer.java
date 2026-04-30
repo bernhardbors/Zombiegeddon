@@ -67,7 +67,7 @@ public class LevelRenderer {
 
     public void render() {
         if (model.getPlayer() != null) {
-            CameraUtils.updateCamera(model.getPlayer(), camera);
+            CameraUtils.updateCamera(model.getPlayer().getPosition(), camera);
         }
 
         viewport.apply();
