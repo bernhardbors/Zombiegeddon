@@ -7,7 +7,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.ScreenUtils;
 import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.controller.LevelController;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.events.GameEvent;
@@ -51,7 +50,7 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
     @Override
     public void show() {
         GameEventBus.register(this);
-        app.getAudio().playMusic(MusicTrack.GAMEPLAY, true);
+        GameEventBus.post(GameEvent.GAMEPLAY_STARTED);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(levelController);

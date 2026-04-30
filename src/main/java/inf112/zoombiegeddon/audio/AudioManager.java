@@ -213,6 +213,12 @@ public class AudioManager implements IAudioService, IEventListener {
             case ENEMY_KILLED:
                 playSfx(Sfx.ENEMY_KILLED);
                 break;
+            case MENU_STARTED:
+                playMusic(MusicTrack.MENU, true);
+                break;
+            case GAMEPLAY_STARTED:
+                playMusic(MusicTrack.GAMEPLAY, true);
+                break;
             default:
                 break;
         }

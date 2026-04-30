@@ -2,6 +2,8 @@ package inf112.zoombiegeddon.view.screens.level;
 
 import com.badlogic.gdx.graphics.Color;
 import inf112.zoombiegeddon.app.GameApp;
+import inf112.zoombiegeddon.events.GameEvent;
+import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 import inf112.zoombiegeddon.view.screens.menus.MainMenuScreen;
 import inf112.zoombiegeddon.view.screens.menus.PickLevelScreen;
@@ -46,6 +48,7 @@ public class GameOverScreen extends AbstractScreen {
             UIUtils.button("TRY STORYMODE AGAIN", skin).size(buttonWidth, buttonHeight)
                     .action(() -> app.setScreen(new StoryNameScreen(app)))
                     .addTo(table);
+        GameEventBus.post(GameEvent.MENU_STARTED);
 
             table.row().padTop(10);
         }
