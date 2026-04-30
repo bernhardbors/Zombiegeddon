@@ -89,6 +89,15 @@ leaderboards: {
 	level2: [
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: 67
+			boardId: level2
+			score: 4143
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 35.70017
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: Pogba
 			boardId: level2
 			score: 3593
