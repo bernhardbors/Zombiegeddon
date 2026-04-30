@@ -1,4 +1,4 @@
-package inf112.zoombiegeddon.view.screens;
+package inf112.zoombiegeddon.view.screens.level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -15,6 +15,7 @@ import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.events.IEventListener;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 import inf112.zoombiegeddon.view.renderer.LevelRenderer;
+import inf112.zoombiegeddon.view.screens.menus.LeaderboardScreen;
 
 public class PlayableLevel extends ScreenAdapter implements IEventListener {
 

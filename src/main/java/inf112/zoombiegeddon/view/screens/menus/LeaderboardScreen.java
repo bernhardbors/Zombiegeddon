@@ -1,10 +1,15 @@
-package inf112.zoombiegeddon.view.screens;
+package inf112.zoombiegeddon.view.screens.menus;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.model.leaderboard.Leaderboard;
 import inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry;
 import inf112.zoombiegeddon.view.utils.UIUtils;
+import inf112.zoombiegeddon.view.screens.AbstractScreen;
+import inf112.zoombiegeddon.view.screens.level.NextLevelScreen;
 
 import java.util.List;
 
@@ -27,6 +32,11 @@ public class LeaderboardScreen extends AbstractScreen {
     @Override
     public void buildScreen() {
         clearTable();
+
+        if (app.getAssets().getManager().isLoaded(AssetConstants.BG_SKY)) {
+            Texture background = app.getAssets().getManager().get(AssetConstants.BG_SKY, Texture.class);
+            table.setBackground(new TextureRegionDrawable(background));
+        }
 
         formatText("Leaderboard", Color.WHITE, 4f);
         table.row().padTop(10);

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
 
-public class ContactListenerTest {
+class ContactListenerTest {
 
     private WorldContactListener listener;
     private WorldPhysics mockWorldPhysics;

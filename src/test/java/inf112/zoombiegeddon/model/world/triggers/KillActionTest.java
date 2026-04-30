@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class KillActionTest extends AbstractEntityTest {
+class KillActionTest extends AbstractEntityTest {
 
     private KillAction killAction;
     private Player player;

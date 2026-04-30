@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class GoalActionTest extends AbstractEntityTest {
+class GoalActionTest extends AbstractEntityTest {
 
     private GoalAction goalAction;
     private Player player;

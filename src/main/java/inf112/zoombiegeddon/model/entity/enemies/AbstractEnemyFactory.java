@@ -15,7 +15,7 @@ import java.util.List;
  * Factory for creating enemies in the game world.
  * Supports both direct enemy creation and creation from map layer spawn objects.
  */
-public class EnemyFactory implements IEnemyFactory{
+public class AbstractEnemyFactory implements IAbstractEnemyFactory {
     private final World world;
 
     /**
@@ -23,7 +23,7 @@ public class EnemyFactory implements IEnemyFactory{
      *
      * @param world The Box2D world where enemies will be created.
      */
-    public EnemyFactory(World world) {
+    public AbstractEnemyFactory(World world) {
         this.world = world;
     }
 

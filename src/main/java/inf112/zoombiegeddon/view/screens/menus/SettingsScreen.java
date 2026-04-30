@@ -1,4 +1,4 @@
-package inf112.zoombiegeddon.view.screens;
+package inf112.zoombiegeddon.view.screens.menus;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -12,6 +12,7 @@ import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.controller.SettingsController;
 import inf112.zoombiegeddon.view.utils.UIUtils;
+import inf112.zoombiegeddon.view.screens.AbstractScreen;
 
 /**
  * Displays the settings screen where the player can adjust game configuration.

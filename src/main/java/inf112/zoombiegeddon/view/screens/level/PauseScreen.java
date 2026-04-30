@@ -1,4 +1,4 @@
-package inf112.zoombiegeddon.view.screens;
+package inf112.zoombiegeddon.view.screens.level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.view.utils.UIUtils;
+import inf112.zoombiegeddon.view.screens.AbstractScreen;
+import inf112.zoombiegeddon.view.screens.menus.MainMenuScreen;
+import inf112.zoombiegeddon.view.screens.menus.SettingsScreen;
 
 public class PauseScreen extends AbstractScreen {
 

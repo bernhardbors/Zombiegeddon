@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SpawnerTest {
+class SpawnerTest {
 
     private TiledMap map;
     private MapLayer layer;

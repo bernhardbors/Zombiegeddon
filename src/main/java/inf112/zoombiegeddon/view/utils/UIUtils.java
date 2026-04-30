@@ -94,6 +94,7 @@ public class UIUtils {
         public TextButton addTo(Table table) {
             TextButton button = new TextButton(name, skin);
             button.getLabelCell().padBottom(height / 2);
+            button.getLabelCell().size(width, height);
             button.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SpeedBoostPickupTest extends AbstractEntityTest {
+class SpeedBoostPickupTest extends AbstractEntityTest {
 
     @Test
     void testApplyEffect() {
