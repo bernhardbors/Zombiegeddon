@@ -5,8 +5,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

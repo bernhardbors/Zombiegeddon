@@ -2,7 +2,6 @@ package inf112.zoombiegeddon.view.utils;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import inf112.zoombiegeddon.model.entity.IEntity;
 
 /**
  * Utility class for camera manipulation and behavior.

@@ -52,7 +52,6 @@ class StoryManagerTest {
     @Test
     void testReturnsWhenInvalidInput() {
         StoryManager manager = new StoryManager();
-        StorySession session = new StorySession(null);
 
         assertNull(manager.getMapPathForLevel(5));
         assertNull(manager.getIdForLevel(5));
