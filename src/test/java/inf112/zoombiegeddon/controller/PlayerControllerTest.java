@@ -152,6 +152,32 @@ class PlayerControllerTest extends AbstractLibGDXTest {
 
     }
 
+    @Test
+    void testPlayerJumpOnlyGetsCalledOnce() {
+        controller.keyDown(Input.Keys.UP);
+        controller.keyDown(Input.Keys.SPACE);
+        verify(player, times(1)).jump();
+    }
+
+    @Test
+    void testPlayerCanJumpAgainAfterKeyUp(){
+        when(Gdx.input.isKeyPressed(Input.Keys.SPACE)).thenReturn(false);
+        controller.keyDown(Input.Keys.UP);
+        controller.keyUp(Input.Keys.UP);
+
+        controller.keyDown(Input.Keys.UP);
+        verify(player, times(2)).jump();
+    }
+
+    @Test
+    void testPlayerCanNotJumpAgainAfterWhenKeyIsPressed(){
+        when(Gdx.input.isKeyPressed(Input.Keys.SPACE)).thenReturn(true);
+        controller.keyDown(Input.Keys.UP);
+        controller.keyUp(Input.Keys.UP);
+        controller.keyDown(Input.Keys.UP);
+        verify(player, times(1)).jump();
+    }
+
 
 
 }
