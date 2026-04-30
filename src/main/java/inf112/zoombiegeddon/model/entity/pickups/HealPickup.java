@@ -32,8 +32,8 @@ public class HealPickup extends Pickup {
             player.heal(HEALTH_AMOUNT);
             GameEventBus.post(GameEvent.PICKUP_HEALTH);
         }
-        player.triggerPickupVisualEffect(FX_DURATION_SECONDS, getPickupColor());
-
+        Color c = getPickupColor();
+        player.triggerPickupVisualEffect(FX_DURATION_SECONDS, c.r, c.g, c.b);
     }
 
 }
