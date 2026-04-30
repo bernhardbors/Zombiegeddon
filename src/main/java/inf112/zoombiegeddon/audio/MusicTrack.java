@@ -8,7 +8,7 @@ import com.badlogic.gdx.audio.Music;
  */
 public enum MusicTrack {
     MENU("assets/audio/Dario Durbé/song-2---african-theme-mp3-mjE9Xqj0vWI2rz2o.mp3"),
-    GAMEPLAY("assets/audio/music/On & On NCS.mp3"),
+    GAMEPLAY("assets/audio/music/13 - Decisive Battle 1 - Don't Be Afraid.mp3"),
     STORY_CHILL_BACKGROUND("assets/audio/music/StoryB01.mp3");
 
     private final String path;

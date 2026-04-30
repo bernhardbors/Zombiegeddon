@@ -14,10 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class LuckyBlockPickupTest extends AbstractLibGDXTest {
 
@@ -106,5 +103,33 @@ class LuckyBlockPickupTest extends AbstractLibGDXTest {
         LuckyBlock block = new LuckyBlock(world, new Vector2(1f, 1f), 1f, 1f, "speed");
 
         assertEquals("speed", block.getRewardType());
+    }
+
+    @Test
+    void testSpawnRewardWhenNullOrEmpty() {
+        World world = mock(World.class);
+        Body body = mock(Body.class);
+        Fixture fixture = mock(Fixture.class);
+
+        when(world.createBody(any(BodyDef.class))).thenReturn(body);
+        when(body.createFixture(any(FixtureDef.class))).thenReturn(fixture);
+        when(body.getPosition()).thenReturn(new Vector2(1f, 1f));
+
+
+
+        LuckyBlock blockNull = new LuckyBlock(world, new Vector2(1f, 1f), 1f, 1f, null);
+        blockNull.spawnReward(null); //Should not crash
+
+        //When rewardType is null, spawnReward should return
+        WorldPhysics worldPhysicsNull = mock(WorldPhysics.class);
+        blockNull.spawnReward(worldPhysicsNull);
+        verify(worldPhysicsNull, never()).spawnPickup(any(), any());
+
+        //When rewardType is empty, spawnReward should return
+        LuckyBlock blockEmpty = new LuckyBlock(world, new Vector2(1f, 1f), 1f, 1f, "");
+        WorldPhysics worldPhysicsEmpty = mock(WorldPhysics.class);
+        blockEmpty.spawnReward(worldPhysicsEmpty);
+
+        verify(worldPhysicsEmpty, never()).spawnPickup(any(), any());
     }
 }

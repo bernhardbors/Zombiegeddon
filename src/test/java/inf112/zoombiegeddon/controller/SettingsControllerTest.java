@@ -1,5 +1,7 @@
 package inf112.zoombiegeddon.controller;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Preferences;
 import inf112.zoombiegeddon.AbstractLibGDXTest;
 import inf112.zoombiegeddon.app.AssetConstants;
@@ -70,4 +72,24 @@ class SettingsControllerTest extends AbstractLibGDXTest {
         controller.updateSfxVolume(2f);
         verify(audio).setSfxVolume(2f);
     }
+
+    @Test
+    void testFullScreenFalse() {
+        Gdx.graphics = mock(Graphics.class);
+        when(preferences.getBoolean(AssetConstants.PREF_FULLSCREEN, false)).thenReturn(false);
+        controller.applyResolution("1920 x 1080");
+        verify(Gdx.graphics).setWindowedMode(1920, 1080);
+
+    }
+
+    @Test
+    void testFullScreenTrue() {
+        Gdx.graphics = mock(Graphics.class);
+        when(preferences.getBoolean(AssetConstants.PREF_FULLSCREEN, false)).thenReturn(true);
+        controller.applyResolution("1920 x 1080");
+        verify(Gdx.graphics, never()).setWindowedMode(anyInt(), anyInt());
+
+    }
+
+
 }
