@@ -69,7 +69,7 @@ public class SettingsScreen extends AbstractScreen {
         addSectionTitle(audioSection, "AUDIO SETTINGS", Color.ORANGE);
 
         UIUtils.slider("Music Volume", app.getAssets().getSkin()).value(app.getAudio().getMusicVolume())
-                .range(0f, 1f, 0.01f).action(controller::updateMusicVolume).addTo(audioSection);
+                .range(0f, 0.3f, 0.01f).action(controller::updateMusicVolume).addTo(audioSection);
 
         UIUtils.slider("SFX Volume", app.getAssets().getSkin()).value(app.getAudio().getSfxVolume())
                 .range(0f, 1f, 0.01f).action(controller::updateSfxVolume).addTo(audioSection);
