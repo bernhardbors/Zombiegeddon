@@ -125,5 +125,35 @@ class TriggerZoneTest extends AbstractEntityTest {
     void testNullTypeIsIgnored() {
         assertNull(createZoneWithSingleObject(new RectangleMapObject(0, 0, 10, 10)).update(new Rectangle(0, 0, 5, 5), player));
     }
+
+    @Test
+    void getZoneIsNullInitially() {
+        assertNull(triggerZone.getZone());
+    }
+
+    @Test
+    void getZoneReturnsNonNullAfterPlayerOverlapsAZone() {
+        playerBounds = new Rectangle(0, 0, 1, 1); // overlaps sign zone at (0,0,10,10)
+        triggerZone.update(playerBounds, player);
+        assertNotNull(triggerZone.getZone());
+    }
+
+    @Test
+    void getZoneReturnsNullWhenPlayerIsNotInAnyZone() {
+        playerBounds = new Rectangle(999, 999, 1, 1);
+        triggerZone.update(playerBounds, player);
+        assertNull(triggerZone.getZone());
+    }
+
+    @Test
+    void getZoneIsNullAfterPlayerLeavesAllZones() {
+        playerBounds = new Rectangle(0, 0, 1, 1); // in sign zone
+        triggerZone.update(playerBounds, player);
+        assertNotNull(triggerZone.getZone());
+
+        playerBounds = new Rectangle(999, 999, 1, 1); // outside all zones
+        triggerZone.update(playerBounds, player);
+        assertNull(triggerZone.getZone());
+    }
 }
 

@@ -133,6 +133,20 @@ class EnemyTest extends AbstractEntityTest {
 
         assertEquals(10f, enemy.getPosition().x);
         assertEquals(20F, enemy.getPosition().y);
+    }
 
+    @Test
+    void testEnemyHealCannotExceedMaxHp() {
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 5, 1.0f);
+        enemy.takeDamage(2); // hp = 3
+        enemy.heal(100);     // should clamp to maxHp = 5
+        assertEquals(5, enemy.getHealth());
+    }
+
+    @Test
+    void testEnemyHealAtMaxHpDoesNotChange() {
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 5, 1.0f);
+        enemy.heal(3); // already at max
+        assertEquals(5, enemy.getHealth());
     }
 }

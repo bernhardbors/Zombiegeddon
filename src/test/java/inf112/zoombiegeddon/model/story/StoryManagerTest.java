@@ -58,8 +58,39 @@ class StoryManagerTest {
         assertNull(manager.getIdForLevel(5));
 
         assertEquals(2, manager.getElapsedSeconds(2));
-
-
     }
 
+    @Test
+    void hasNextLevelReturnsFalseAfterAdvancingPastAllLevels() {
+        StoryManager manager = new StoryManager();
+        manager.advanceLevel();
+        manager.advanceLevel();
+        manager.advanceLevel(); // currentLevelIndex = 3 = storyMapPaths.length
+        assertFalse(manager.hasNextLevel());
+    }
+
+    @Test
+    void getMapPathForLevelWithNegativeIndexReturnsNull() {
+        StoryManager manager = new StoryManager();
+        assertNull(manager.getMapPathForLevel(-1));
+    }
+
+    @Test
+    void getIdForLevelWithNegativeIndexReturnsNull() {
+        StoryManager manager = new StoryManager();
+        assertNull(manager.getIdForLevel(-1));
+    }
+
+    @Test
+    void getMapPathForLevelAtExactUpperBoundaryReturnsNull() {
+        StoryManager manager = new StoryManager();
+        // index 3 == storyMapPaths.length: out of bounds
+        assertNull(manager.getMapPathForLevel(3));
+    }
+
+    @Test
+    void getIdForLevelAtExactUpperBoundaryReturnsNull() {
+        StoryManager manager = new StoryManager();
+        assertNull(manager.getIdForLevel(3));
+    }
 }

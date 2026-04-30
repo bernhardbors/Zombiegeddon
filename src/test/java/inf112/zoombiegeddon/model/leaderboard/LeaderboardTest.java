@@ -78,4 +78,48 @@ class LeaderboardTest {
 
         assertEquals(1, leaderboard.getEntries().size());
     }
+
+    @Test
+    void getTopEntriesWithLimitZeroReturnsEmptyList() {
+        Leaderboard leaderboard = new Leaderboard();
+        leaderboard.addEntry(new LeaderboardEntry("Player1", "level1", 100, 1, 2, 30f));
+
+        assertTrue(leaderboard.getTopEntries(0).isEmpty());
+    }
+
+    @Test
+    void getTopEntriesWithLimitExceedingSizeReturnsAllEntries() {
+        Leaderboard leaderboard = new Leaderboard();
+        leaderboard.addEntry(new LeaderboardEntry("Player1", "level1", 100, 1, 2, 30f));
+        leaderboard.addEntry(new LeaderboardEntry("Player2", "level1", 200, 2, 1, 20f));
+
+        assertEquals(2, leaderboard.getTopEntries(10).size());
+    }
+
+    @Test
+    void getTopEntriesReturnsCopyNotOriginalList() {
+        Leaderboard leaderboard = new Leaderboard();
+        leaderboard.addEntry(new LeaderboardEntry("Player1", "level1", 100, 1, 2, 30f));
+
+        List<LeaderboardEntry> topEntries = leaderboard.getTopEntries(5);
+        topEntries.clear();
+
+        assertEquals(1, leaderboard.getTopEntries(5).size());
+    }
+
+    @Test
+    void addEntryKeepsEntriesSortedAfterEachInsertion() {
+        Leaderboard leaderboard = new Leaderboard();
+
+        leaderboard.addEntry(new LeaderboardEntry("Third", "level1", 100, 0, 1, 10f));
+        assertEquals("Third", leaderboard.getEntries().get(0).getPlayerName());
+
+        leaderboard.addEntry(new LeaderboardEntry("First", "level1", 300, 0, 1, 10f));
+        assertEquals("First", leaderboard.getEntries().get(0).getPlayerName());
+
+        leaderboard.addEntry(new LeaderboardEntry("Second", "level1", 200, 0, 1, 10f));
+        assertEquals("First", leaderboard.getEntries().get(0).getPlayerName());
+        assertEquals("Second", leaderboard.getEntries().get(1).getPlayerName());
+        assertEquals("Third", leaderboard.getEntries().get(2).getPlayerName());
+    }
 }
