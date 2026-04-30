@@ -42,6 +42,15 @@ leaderboards: {
 		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Synne
+			boardId: level1
+			score: 4299
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 20.166994
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: MOSALAH
 			boardId: level1
 			score: 4298
@@ -104,6 +113,15 @@ leaderboards: {
 			collectedItems: 0
 			livesLeft: 3
 			timeUsed: 35.70017
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Synne
+			boardId: level2
+			score: 4062
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 43.869675
 		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
