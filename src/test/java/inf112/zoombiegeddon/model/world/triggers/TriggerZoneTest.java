@@ -2,6 +2,7 @@ package inf112.zoombiegeddon.model.world.triggers;
 
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
@@ -96,23 +97,33 @@ class TriggerZoneTest extends AbstractEntityTest {
         assertNull(triggerZone.update(playerBounds, player));
     }
 
-    @Test
-    void testBuildActionReturnsNullWhenNoActionMatches() {
+    private TriggerZone createZoneWithSingleObject(MapObject object) {
         TiledMap map = mock(TiledMap.class);
         MapLayers layers = new MapLayers();
         MapLayer layer = new MapLayer();
-
-        RectangleMapObject unknownType = new RectangleMapObject(0, 0, 10, 10);
-        unknownType.getProperties().put("type", "unknown");
-
-        layer.getObjects().add(unknownType);
+        if (object != null) layer.getObjects().add(object);
         layers.add(layer);
         when(map.getLayers()).thenReturn(layers);
+        return new TriggerZone(map, layer.getName(), scale);
+    }
 
-        TriggerZone zone = new TriggerZone(map, layer.getName(), scale);
-        Rectangle bounds = new Rectangle(0, 0, 5, 5);
+    @Test
+    void testBuildActionReturnsNullWhenNoActionMatches() {
+        RectangleMapObject unknownType = new RectangleMapObject(0, 0, 10, 10);
+        unknownType.getProperties().put("type", "unknown");
+        assertNull(createZoneWithSingleObject(unknownType).update(new Rectangle(0, 0, 5, 5), player));
+    }
 
-        assertNull(zone.update(bounds, player), "Should return null when no action matches");
+    @Test
+    void testNonRectangleMapObjectIsIgnored() {
+        MapObject nonRectangle = new MapObject();
+        nonRectangle.getProperties().put("type", "killzone");
+        assertNull(createZoneWithSingleObject(nonRectangle).update(new Rectangle(0, 0, 5, 5), player));
+    }
+
+    @Test
+    void testNullTypeIsIgnored() {
+        assertNull(createZoneWithSingleObject(new RectangleMapObject(0, 0, 10, 10)).update(new Rectangle(0, 0, 5, 5), player));
     }
 }
 
