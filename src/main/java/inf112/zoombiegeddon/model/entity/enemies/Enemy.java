@@ -3,6 +3,8 @@ package inf112.zoombiegeddon.model.entity.enemies;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
+import inf112.zoombiegeddon.events.GameEvent;
+import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
 import inf112.zoombiegeddon.model.entity.Entity;
 import inf112.zoombiegeddon.model.entity.EntityState;
@@ -96,9 +98,20 @@ public class Enemy extends Entity implements IEnemy {
      */
     @Override
     public void takeDamage(int amount) {
+        if (isDead) {
+
+            return;
+
+        }
+
         this.hp -= amount;
+
         if (this.hp <= 0) {
+
             isDead = true;
+
+            GameEventBus.post(GameEvent.ENEMY_KILLED);
+
         }
     }
 
