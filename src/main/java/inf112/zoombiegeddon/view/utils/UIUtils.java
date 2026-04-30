@@ -1,4 +1,4 @@
-package inf112.zoombiegeddon.utils;
+package inf112.zoombiegeddon.view.utils;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;

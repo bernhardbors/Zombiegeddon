@@ -11,7 +11,7 @@ import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.controller.SettingsController;
-import inf112.zoombiegeddon.utils.UIUtils;
+import inf112.zoombiegeddon.view.utils.UIUtils;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 
 /**

@@ -1,6 +1,7 @@
-package inf112.zoombiegeddon.utils;
+package inf112.zoombiegeddon.view.utils;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
 import inf112.zoombiegeddon.model.entity.IEntity;
 
 /**
@@ -25,21 +26,21 @@ public final class CameraUtils {
      * @param entity The entity instance whose position the camera should track.
      * @param camera The {@link OrthographicCamera} to be updated.
      */
-    public static void updateCamera(IEntity entity, OrthographicCamera camera) {
+    public static void updateCamera(Vector2 position, OrthographicCamera camera) {
 
-        float playerX = entity.getPosition().x;
-        float playerY = entity.getPosition().y + VERTICAL_OFFSET;
+        float positionX = position.x;
+        float positionY = position.y + VERTICAL_OFFSET;
 
-        if (playerX < camera.position.x - DEADZONE_WIDTH / 2) {
-            camera.position.x = playerX + DEADZONE_WIDTH / 2;
-        } else if (playerX > camera.position.x + DEADZONE_WIDTH / 2) {
-            camera.position.x = playerX - DEADZONE_WIDTH / 2;
+        if (positionX < camera.position.x - DEADZONE_WIDTH / 2) {
+            camera.position.x = positionX + DEADZONE_WIDTH / 2;
+        } else if (positionX > camera.position.x + DEADZONE_WIDTH / 2) {
+            camera.position.x = positionX - DEADZONE_WIDTH / 2;
         }
 
-        if (playerY < camera.position.y - DEADZONE_HEIGHT / 2) {
-            camera.position.y = playerY + DEADZONE_HEIGHT / 2;
-        } else if (playerY > camera.position.y + DEADZONE_HEIGHT / 2) {
-            camera.position.y = playerY - DEADZONE_HEIGHT / 2;
+        if (positionY < camera.position.y - DEADZONE_HEIGHT / 2) {
+            camera.position.y = positionY + DEADZONE_HEIGHT / 2;
+        } else if (positionY > camera.position.y + DEADZONE_HEIGHT / 2) {
+            camera.position.y = positionY - DEADZONE_HEIGHT / 2;
         }
 
         camera.update();

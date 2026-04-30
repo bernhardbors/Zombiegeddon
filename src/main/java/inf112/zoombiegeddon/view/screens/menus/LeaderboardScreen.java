@@ -7,7 +7,7 @@ import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.model.leaderboard.Leaderboard;
 import inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry;
-import inf112.zoombiegeddon.utils.UIUtils;
+import inf112.zoombiegeddon.view.utils.UIUtils;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 import inf112.zoombiegeddon.view.screens.level.NextLevelScreen;
 
