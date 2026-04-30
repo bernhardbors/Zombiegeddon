@@ -9,9 +9,6 @@ import inf112.zoombiegeddon.view.screens.AbstractScreen;
 import inf112.zoombiegeddon.view.screens.menus.SettingsScreen;
 import inf112.zoombiegeddon.view.screens.menus.MainMenuScreen;
 import inf112.zoombiegeddon.view.utils.UIUtils;
-import inf112.zoombiegeddon.view.screens.AbstractScreen;
-import inf112.zoombiegeddon.view.screens.menus.MainMenuScreen;
-import inf112.zoombiegeddon.view.screens.menus.SettingsScreen;
 
 /**
  * Pause screen rendered on top of the active level.
@@ -63,10 +60,14 @@ public class PauseScreen extends AbstractScreen {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-        app.getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
-        app.getShapeRenderer().setColor(new Color(0f, 0f, 0f, 0.6f));
-        app.getShapeRenderer().rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        app.getShapeRenderer().end();
+        ShapeRenderer sr = app.getShapeRenderer();
+        sr.setProjectionMatrix(new com.badlogic.gdx.math.Matrix4()
+                .setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+
+        sr.begin(ShapeRenderer.ShapeType.Filled);
+        sr.setColor(new Color(0f, 0f, 0f, 0.6f));
+        sr.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        sr.end();
 
         Gdx.gl.glDisable(GL20.GL_BLEND);
 

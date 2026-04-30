@@ -70,7 +70,7 @@ public class MainMenuScreen extends AbstractScreen {
 
         Table rightColumn = new Table();
         UIUtils.button("LEVELS", skin).size(bw, bh)
-                .action(() -> app.setScreen(new PickLevelScreen(app))).addTo(rightColumn);
+                .action(() -> app.setScreen(new LevelNameScreen(app))).addTo(rightColumn);
         UIUtils.button("SETTINGS", skin).size(bw, bh)
                 .action(() -> app.setScreen(new SettingsScreen(app, this))).addTo(rightColumn);
         UIUtils.button("EXIT", skin).size(bw, bh)
