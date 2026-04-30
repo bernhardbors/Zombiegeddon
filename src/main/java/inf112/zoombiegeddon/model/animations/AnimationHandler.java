@@ -110,4 +110,8 @@ public class AnimationHandler {
     public Map<EntityState, Animation<TextureRegion>> getAnimations() {
         return animations;
     }
- }
+
+    public Texture getCharacterSpriteSheet() {
+        return characterSpriteSheet;
+    }
+}

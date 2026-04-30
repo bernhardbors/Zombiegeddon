@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-public class PlayerControllerTest extends AbstractLibGDXTest {
+class PlayerControllerTest extends AbstractLibGDXTest {
 
     private IPlayer player;
     private PlayerController controller;
