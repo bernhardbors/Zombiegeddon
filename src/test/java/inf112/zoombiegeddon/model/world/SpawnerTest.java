@@ -1,6 +1,7 @@
 package inf112.zoombiegeddon.model.world;
 
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
@@ -46,9 +47,22 @@ class SpawnerTest {
     }
 
     @Test
-    void getSpawnPointsThatDoesNotExist() {
+    void testGetSpawnPointsThatDoesNotExist() {
         Vector2 vector = spawner.getSpawnPoint("dontExists");
 
+        assertEquals(5, vector.x);
+        assertEquals(5, vector.y);
+    }
+
+    @Test
+    void testGetSpawnPointsWhereObjectTypeIsNotRectangleObject() {
+        MapObject object = new MapObject();
+        object.setName("spawn");
+        layer.getObjects().add(object);
+
+        Vector2 vector = spawner.getSpawnPoint("spawn");
+
+        //Should return default
         assertEquals(5, vector.x);
         assertEquals(5, vector.y);
     }
