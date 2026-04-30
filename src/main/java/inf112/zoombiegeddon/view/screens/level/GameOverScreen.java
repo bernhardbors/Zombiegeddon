@@ -1,4 +1,4 @@
-package inf112.zoombiegeddon.view.screens;
+package inf112.zoombiegeddon.view.screens.level;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,6 +7,8 @@ import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.utils.UIUtils;
+import inf112.zoombiegeddon.view.screens.AbstractScreen;
+import inf112.zoombiegeddon.view.screens.menus.MainMenuScreen;
 
 /**
  * Displays the game over screen when the player dies.

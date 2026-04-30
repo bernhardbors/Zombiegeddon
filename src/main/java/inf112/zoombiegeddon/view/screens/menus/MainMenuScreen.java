@@ -1,4 +1,4 @@
-package inf112.zoombiegeddon.view.screens;
+package inf112.zoombiegeddon.view.screens.menus;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -9,6 +9,8 @@ import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.utils.UIUtils;
 
 import inf112.zoombiegeddon.audio.MusicTrack;
+import inf112.zoombiegeddon.view.screens.AbstractScreen;
+import inf112.zoombiegeddon.view.screens.story.StoryNameScreen;
 
 /**
  * Represents the main menu screen of the game.

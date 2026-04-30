@@ -1,4 +1,4 @@
-package inf112.zoombiegeddon.view.screens;
+package inf112.zoombiegeddon.view.screens.story;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -16,6 +16,8 @@ import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.audio.Sfx;
 import inf112.zoombiegeddon.model.story.StorySlide;
+import inf112.zoombiegeddon.view.screens.AbstractScreen;
+import inf112.zoombiegeddon.view.screens.level.PlayableLevel;
 
 public class StoryScreen extends AbstractScreen {
 

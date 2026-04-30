@@ -32,7 +32,7 @@ public abstract class AbstractScreen implements IScreen {
      *
      * @param app The game application instance.
      */
-    AbstractScreen(final GameApp app) {
+    protected AbstractScreen(final GameApp app) {
         this.app = app;
 
         this.skin = app.getAssets().getSkin();

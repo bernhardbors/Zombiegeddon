@@ -1,4 +1,4 @@
-package inf112.zoombiegeddon.view.screens;
+package inf112.zoombiegeddon.view.screens.loading;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,6 +10,7 @@ import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.audio.Sfx;
+import inf112.zoombiegeddon.view.screens.AbstractScreen;
 
 /**
  * Displays a loading screen while game assets are being loaded.

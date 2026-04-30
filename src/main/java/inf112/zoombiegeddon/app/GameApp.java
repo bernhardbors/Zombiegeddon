@@ -15,7 +15,7 @@ import inf112.zoombiegeddon.model.leaderboard.ScoreCalculator;
 import inf112.zoombiegeddon.model.story.IStoryManager;
 import inf112.zoombiegeddon.model.story.StoryManager;
 import inf112.zoombiegeddon.view.background.ParallaxBackground;
-import inf112.zoombiegeddon.view.screens.LoadingScreen;
+import inf112.zoombiegeddon.view.screens.loading.LoadingScreen;
 
 /**
  * The main entry point and orchestrator for the Zoombiegeddon application.
