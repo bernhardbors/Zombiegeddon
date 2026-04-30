@@ -42,7 +42,7 @@ public class AudioManager implements IAudioService, IEventListener {
     public AudioManager(AssetManager assets, Preferences prefs) {
         this.assets = assets;
         this.prefs = prefs;
-        this.musicVolume = clamp01(prefs.getFloat(PREF_MUSIC_VOL, 1.0f));
+        this.musicVolume = clamp01(prefs.getFloat(PREF_MUSIC_VOL, 0.3f));
 
         this.sfxVolume = clamp01(prefs.getFloat(PREF_SFX_VOL, 1.0f));
         this.muted = prefs.getBoolean(PREF_MUTED, false);
@@ -58,7 +58,7 @@ public class AudioManager implements IAudioService, IEventListener {
         this.assets = assets;
         this.prefs = null;
         this.sfxVolume = 1.0f;
-        this.musicVolume = 1.0f;
+        this.musicVolume = 0.3f;
         this.muted = false;
 
         GameEventBus.register(this);
@@ -251,7 +251,7 @@ public class AudioManager implements IAudioService, IEventListener {
 
     @Override
     public void setMusicVolume(float volume01) {
-        this.musicVolume = clamp01(volume01);
+        this.musicVolume = Math.max(0f, Math.min(0.3f, volume01));
         if (currentMusic != null) {
             currentMusic.setVolume(muted ? 0f : musicVolume);
         }
