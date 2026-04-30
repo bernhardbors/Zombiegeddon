@@ -1,5 +1,6 @@
 package inf112.zoombiegeddon.view.utils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -157,7 +158,7 @@ public class UIUtils {
                     action.accept(selectBox.getSelected());
                 }
             });
-            table.add(label).width(150f).left();
+            table.add(label).width(Gdx.graphics.getWidth() * 0.1f).left();
             table.add(selectBox).size(width, height).growX().row();
             return selectBox;
         }
@@ -208,7 +209,7 @@ public class UIUtils {
                     action.accept(checkBox.isChecked());
                 }
             });
-            table.add(label).width(150f).left();
+            table.add(label).width(Gdx.graphics.getWidth() * 0.1f).left();
             table.add(checkBox).left().row();
             return checkBox;
         }
@@ -276,7 +277,8 @@ public class UIUtils {
                 }
             });
             table.add(label).left().row();
-            table.add(slider).growX().height(30f).padBottom(12f).row();
+            float sliderHeight = Gdx.graphics.getHeight() * 0.028f;
+            table.add(slider).growX().height(sliderHeight).padBottom(sliderHeight * 0.4f).row();
             return slider;
         }
     }

@@ -50,9 +50,10 @@ public class SettingsScreen extends AbstractScreen {
         formatText("SETTINGS", Color.GOLD, 3.0f);
 
         float contentWidth = Math.max(buttonWidth * 1.5f, Gdx.graphics.getWidth() * 0.45f);
+        float screenScale = Gdx.graphics.getHeight() / 1080f;
 
         Table contentTable = new Table();
-        contentTable.defaults().left().pad(4f);
+        contentTable.defaults().left().pad(4f * screenScale);
 
         Table displaySection = createSectionTable();
         addSectionTitle(displaySection, "VIDEO SETTINGS", Color.CYAN);
@@ -85,8 +86,9 @@ public class SettingsScreen extends AbstractScreen {
     }
 
     private Table createSectionTable() {
+        float screenScale = Gdx.graphics.getHeight() / 1080f;
         Table section = new Table();
-        section.defaults().pad(2f);
+        section.defaults().pad(2f * screenScale);
         return section;
     }
 
@@ -94,9 +96,9 @@ public class SettingsScreen extends AbstractScreen {
         Label.LabelStyle style = new Label.LabelStyle(app.getAssets().getFont(), color);
         Label sectionTitle = new Label(title, style);
 
-        float fontScale = 1.6f * (Gdx.graphics.getHeight() / 1080f);
-        sectionTitle.setFontScale(fontScale);
+        float screenScale = Gdx.graphics.getHeight() / 1080f;
+        sectionTitle.setFontScale(1.6f * screenScale);
 
-        section.add(sectionTitle).colspan(2).left().padTop(5f).padBottom(15f).row();
+        section.add(sectionTitle).colspan(2).left().padTop(5f * screenScale).padBottom(15f * screenScale).row();
     }
 }
