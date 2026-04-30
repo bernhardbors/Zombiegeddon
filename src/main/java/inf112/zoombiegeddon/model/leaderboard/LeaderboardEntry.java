@@ -1,6 +1,12 @@
 package inf112.zoombiegeddon.model.leaderboard;
 
-// Har med mer enn bare score for å senere kunne vise tid, antall liv osv på leaderboard skjermen
+
+/**
+ * Represents a single leaderboard entry capturing a player's end-of-game stats.
+ *
+ * <p>Stores extra fields beyond score (items, lives, time) so the leaderboard
+ * screen can display a richer summary per player.</p>
+ */
 public class LeaderboardEntry {
     private String playerName;
     private String boardId;
@@ -9,9 +15,20 @@ public class LeaderboardEntry {
     private int livesLeft;
     private float timeUsed;
 
+    /** No-arg constructor required for JSON deserialization. */
     public LeaderboardEntry() {
     }
 
+    /**
+     * Creates a fully populated leaderboard entry.
+     *
+     * @param playerName     the player's display name
+     * @param boardId        identifier of the leaderboard this entry belongs to
+     * @param score          the player's final score
+     * @param collectedItems number of items collected during the run
+     * @param livesLeft      number of lives remaining at game end
+     * @param timeUsed       total time spent in seconds
+     */
     public LeaderboardEntry(String playerName, String boardId, int score,
                             int collectedItems, int livesLeft, float timeUsed) {
         this.playerName = playerName;

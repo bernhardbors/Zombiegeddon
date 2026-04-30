@@ -1,6 +1,7 @@
 package inf112.zoombiegeddon.model.entity;
 
 import com.badlogic.gdx.math.Rectangle;
+import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
 
 /**
@@ -18,10 +19,8 @@ public interface IPlayer extends IEntity, IDamageable {
      */
     void applyHorizontalImpulse(boolean left, boolean right);
 
-    /** @param running True if the player is running. */
     void setRunning(boolean running);
 
-    /** @return True if the player is currently running. */
     boolean isRunning();
 
     /** @return The current speed multiplier including any active boosts. */
@@ -46,28 +45,32 @@ public interface IPlayer extends IEntity, IDamageable {
     /** Notifies the player whether the jump key is currently held. */
     void setJumpHeld(boolean held);
 
-    /** @return True if a pickup visual effect is currently active. */
+    /** @return true if a pickup visual effect is currently active */
     boolean hasPickupVisualEffect();
 
-    /** @return The intensity of the active pickup visual effect. */
+    /** @return intensity of the active pickup effect, between 0 and 1 */
     float getPickupFxIntensity();
 
-    /** @return The red component of the pickup effect color. */
+    /** @return red component of the pickup effect color */
     float getPickupFxColorR();
 
-    /** @return The green component of the pickup effect color. */
+    /** @return green component of the pickup effect color */
     float getPickupFxColorG();
 
-    /** @return The blue component of the pickup effect color. */
+    /** @return blue component of the pickup effect color */
     float getPickupFxColorB();
 
-    /** @return True if the player is currently in a goal zone. */
+    /** @return true if the player is currently in the goal zone */
     boolean inGoal();
 
-    /** @param bool True if the player is in a goal zone. */
+    /**
+     * Posts {@link GameEvent#LEVEL_FINISHED} the first time the player enters the goal.
+     *
+     * @param bool true if the player is in the goal area
+     */
     void setInGoal(boolean bool);
 
-    /** @return The player's bounding rectangle in world units. */
+    /** @return the player's bounding rectangle in world coordinates */
     Rectangle getBounds();
 
     /**

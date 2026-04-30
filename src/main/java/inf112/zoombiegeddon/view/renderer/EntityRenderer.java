@@ -7,7 +7,6 @@ import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.Player;
 
-
 /**
  * Renders entities using their current animation frame.
  */

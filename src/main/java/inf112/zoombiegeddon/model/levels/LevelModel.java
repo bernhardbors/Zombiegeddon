@@ -22,6 +22,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * The model for a single game level, owning all runtime state: physics,
+ * player, enemies, trigger zones, and pickups.
+ */
 public class LevelModel {
 
     private WorldPhysics physics;
@@ -37,6 +41,12 @@ public class LevelModel {
     public static final float PIXELS_PER_TILE = 8.0f;
     public static final float UNIT_SCALE = 1 / PIXELS_PER_TILE;
 
+    /**
+     * Constructs and initialises the level from the given Tiled map.
+     *
+     * @param app the application context, used to access shared assets
+     * @param map the Tiled map describing the level layout and spawn points
+     */
     public LevelModel(GameApp app, TiledMap map) {
         this.physics = new WorldPhysics(new Vector2(0, -15.0f));
 
@@ -58,6 +68,12 @@ public class LevelModel {
         );
     }
 
+    /**
+     * Advances the level by one frame: steps physics, updates the player and
+     * trigger zones, and removes dead enemies from the world.
+     *
+     * @param delta time in seconds since the last frame
+     */
     public void update(float delta) {
         physics.update(delta);
         levelTime += delta;
@@ -88,6 +104,12 @@ public class LevelModel {
         }
     }
 
+    /**
+     * Returns all active entities (player + enemies) as a single list,
+     * suitable for rendering.
+     *
+     * @return a new list of all active entities
+     */
     public List<IEntity> getAllEntities() {
         List<IEntity> all = new ArrayList<>();
         if (player != null) all.add(player);

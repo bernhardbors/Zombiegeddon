@@ -3,8 +3,6 @@ package inf112.zoombiegeddon.model.entity;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
-
-
 /**
  * Base class for all game entities that have physical representation and animations.
  * Extends the LibGDX {@link Sprite} class to handle visual rendering while
@@ -33,29 +31,14 @@ public abstract class Entity implements IEntity {
         this.physics = physics;
     }
 
-    /**
-     * Returns the current animation state of the entity.
-     *
-     * @return The current entity state.
-     */
     public EntityState getCurrentState() {
         return currentState;
     }
 
-    /**
-     * Returns the time spent in the current state.
-     *
-     * @return The state time in seconds.
-     */
     public float getStateTime() {
         return stateTime;
     }
 
-    /**
-     * Returns whether the entity is facing right.
-     *
-     * @return True if the entity is facing right, false otherwise.
-     */
     public boolean isFacingRight() {
         return facingRight;
     }

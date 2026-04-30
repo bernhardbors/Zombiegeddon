@@ -123,7 +123,6 @@ public class AudioManager implements IAudioService, IEventListener {
         assets.get(sfx.path(), Sound.class).stop();
     }
 
-
     /**
      * Starts looping the normal footsteps sound effect.
      * Does nothing if that loop is already active.

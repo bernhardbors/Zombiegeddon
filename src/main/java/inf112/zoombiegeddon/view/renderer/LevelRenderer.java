@@ -22,6 +22,10 @@ import inf112.zoombiegeddon.view.utils.CameraUtils;
 
 import java.util.List;
 
+/**
+ * Renders a complete game level, including background, world tiles, entities,
+ * pickups, UI, and trigger text.
+ */
 public class LevelRenderer {
 
     private GameApp app;
@@ -46,6 +50,11 @@ public class LevelRenderer {
     private static final float SIGN_FONT_SCALE = 2.0f;
     private static final float SIGN_Y_POSITION = 0.75f;
 
+    /**
+     * @param app   the application context, used to access assets and batch
+     * @param model the level model to render
+     * @param map   the Tiled map used to set up the world renderer
+     */
     public LevelRenderer(GameApp app, LevelModel model, TiledMap map) {
         this.app = app;
         this.model = model;
@@ -65,6 +74,7 @@ public class LevelRenderer {
         this.luckyBlockRenderer = new LuckyBlockRenderer(model.getLuckyBlockFactory());
     }
 
+    /** Renders one frame of the level in draw order. */
     public void render() {
         if (model.getPlayer() != null) {
             CameraUtils.updateCamera(model.getPlayer().getPosition(), camera);
@@ -172,10 +182,12 @@ public class LevelRenderer {
         app.getAssets().getFont().getData().setScale(1f);
     }
 
+    /** Updates the viewport when the screen is resized. */
     public void resize(int width, int height) {
         viewport.update(width, height);
     }
 
+    /** Releases native resources held by the world and debug renderers. */
     public void dispose() {
         worldRenderer.dispose();
         debugRenderer.dispose();

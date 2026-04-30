@@ -19,8 +19,6 @@ import java.util.function.Function;
  * This class implements a fixed timestep to ensure deterministic physics
  * simulation regardless of the frame rate.
  * </p>
- *
- * @version 1.0
  */
 public class WorldPhysics {
 
@@ -38,7 +36,7 @@ public class WorldPhysics {
 
     /**
      * Initializes a new physics world with the specified gravity.
-     * * @param gravity a {@link Vector2} representing the gravity vector (e.g., 0, -9.81f).
+     * @param gravity a {@link Vector2} representing the gravity vector (e.g., 0, -9.81f).
      */
     public WorldPhysics(Vector2 gravity) {
         this.world = new World(gravity, true);
@@ -50,6 +48,13 @@ public class WorldPhysics {
         this.world.setContactListener(contactListener);
     }
 
+    /**
+     * Registers a factory function for creating pickups of the given type.
+     * Does nothing if either argument is {@code null}.
+     *
+     * @param rewardType the pickup type identifier (case-insensitive)
+     * @param factory    a function that creates a pickup at a given position
+     */
     public void registerPickupFactory(String rewardType, Function<Vector2, IPickup> factory) {
         if (rewardType == null || factory == null) {
             return;
@@ -57,6 +62,15 @@ public class WorldPhysics {
         pickupFactories.put(rewardType.trim().toLowerCase(), factory);
     }
 
+    /**
+     * Spawns a pickup of the given type at the given position.
+     * If the physics world is currently locked (mid-step), the spawn is queued
+     * and executed at the end of the current step.
+     *
+     * @param rewardType    the pickup type identifier; must not be {@code null}
+     * @param spawnPosition the world position to spawn at; must not be {@code null}
+     * @return true if the spawn was created or queued, false if a required argument was null
+     */
     public boolean spawnPickup(String rewardType, Vector2 spawnPosition) {
         if (rewardType == null || spawnPosition == null) {
             return false;
