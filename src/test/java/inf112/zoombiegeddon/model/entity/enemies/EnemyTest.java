@@ -5,8 +5,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -133,6 +131,20 @@ class EnemyTest extends AbstractEntityTest {
 
         assertEquals(10f, enemy.getPosition().x);
         assertEquals(20F, enemy.getPosition().y);
+    }
 
+    @Test
+    void testEnemyHealCannotExceedMaxHp() {
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 5, 1.0f);
+        enemy.takeDamage(2); // hp = 3
+        enemy.heal(100);     // should clamp to maxHp = 5
+        assertEquals(5, enemy.getHealth());
+    }
+
+    @Test
+    void testEnemyHealAtMaxHpDoesNotChange() {
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 5, 1.0f);
+        enemy.heal(3); // already at max
+        assertEquals(5, enemy.getHealth());
     }
 }

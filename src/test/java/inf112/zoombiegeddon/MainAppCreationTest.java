@@ -8,7 +8,6 @@ import inf112.zoombiegeddon.app.Main;
 import org.junit.jupiter.api.Test;
 import org.lwjgl.system.Configuration;
 import org.mockito.MockedConstruction;
-import org.mockito.MockedStatic;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,7 +17,7 @@ class MainAppCreationTest {
     @Test
     void testMainLaunchSequence() {
 
-        try (MockedStatic<SharedLibraryLoader> _ = mockStatic(SharedLibraryLoader.class);
+        try (var _ = mockStatic(SharedLibraryLoader.class);
              MockedConstruction<Lwjgl3Application> appMock = mockConstruction(Lwjgl3Application.class);
              MockedConstruction<Lwjgl3ApplicationConfiguration> cfgMock = mockConstruction(Lwjgl3ApplicationConfiguration.class)) {
 
@@ -38,9 +37,9 @@ class MainAppCreationTest {
 
     @Test
     void testMacSpecificWorkaround() {
-        try (MockedStatic<SharedLibraryLoader> _ = mockStatic(SharedLibraryLoader.class);
-             MockedStatic<Configuration> _ = mockStatic(Configuration.class);
-             MockedConstruction<Lwjgl3Application> _ = mockConstruction(Lwjgl3Application.class)) {
+        try (var _ = mockStatic(SharedLibraryLoader.class);
+             var _ = mockStatic(Configuration.class);
+             var _ = mockConstruction(Lwjgl3Application.class)) {
 
             SharedLibraryLoader.os = Os.MacOsX;
 

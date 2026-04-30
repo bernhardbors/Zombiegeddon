@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import inf112.zoombiegeddon.model.world.luckyblock.LuckyBlockLayerFactory;
+
 /**
  * Class for handling rendering of Lucky Blocks.
  * This is a pure View-class collecting data from {@link LuckyBlockLayerFactory}.

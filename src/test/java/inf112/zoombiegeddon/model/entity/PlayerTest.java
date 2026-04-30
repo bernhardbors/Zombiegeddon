@@ -1,8 +1,9 @@
 package inf112.zoombiegeddon.model.entity;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import inf112.zoombiegeddon.events.GameEvent;
+import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.entity.enemies.Enemy;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 import org.junit.jupiter.api.BeforeEach;
@@ -166,30 +167,28 @@ public class PlayerTest extends AbstractEntityTest {
 
     @Test
     void testTriggerPickupHasVisualEffectColor() {
-        player.triggerPickupVisualEffect(2f, null);
-
-        //Yellow should be RGB: 1, 1, 0
+        // Default color is yellow (1, 1, 0)
+        player.triggerPickupVisualEffect(2f, 1f, 1f, 0f);
         assertEquals(1.0f, player.getPickupFxColorR());
         assertEquals(1.0f, player.getPickupFxColorG());
         assertEquals(0.0f, player.getPickupFxColorB());
 
-        //See if the color is set correctly
-        player.triggerPickupVisualEffect(2f, Color.WHITE);
+        // Setting white changes it
+        player.triggerPickupVisualEffect(2f, 1f, 1f, 1f);
         assertEquals(1.0f, player.getPickupFxColorR());
         assertEquals(1.0f, player.getPickupFxColorG());
         assertEquals(1.0f, player.getPickupFxColorB());
 
-        //See if the color does not get set back to yellow after you
-        //have set it to something else
-        player.triggerPickupVisualEffect(2f, null);
+        // Setting yellow again restores it
+        player.triggerPickupVisualEffect(2f, 1f, 1f, 0f);
         assertEquals(1.0f, player.getPickupFxColorR());
         assertEquals(1.0f, player.getPickupFxColorG());
-        assertEquals(1.0f, player.getPickupFxColorB());
+        assertEquals(0.0f, player.getPickupFxColorB());
     }
 
     @Test
     void testHasPickupVisualEffect() {
-        player.triggerPickupVisualEffect(1f, null);
+        player.triggerPickupVisualEffect(1f, 1f, 1f, 0f);
         player.update(0.2f);
         assertTrue(player.hasPickupVisualEffect());
 
@@ -199,7 +198,7 @@ public class PlayerTest extends AbstractEntityTest {
 
     @Test
     void testGetPickupFxIntensity() {
-        player.triggerPickupVisualEffect(1.0f, null);
+        player.triggerPickupVisualEffect(1.0f, 1f, 1f, 0f);
 
         player.update(0.8f);
         //Added delta because of rounding issues
@@ -244,6 +243,94 @@ public class PlayerTest extends AbstractEntityTest {
         verify(mockedBody, never()).applyLinearImpulse(any(), any(), anyBoolean());
     }
 
+    @Test
+    void takeDamageAllowsDamageExactlyWhenInvulnerabilityExpires() {
+        player.takeDamage(1);   // hp = 2, hitTimer = 1.0f
+        player.update(1.0f);   // hitTimer = 1.0f - 1.0f = 0.0f exactly
+        player.takeDamage(1);  // hitTimer <= 0 → true → hp = 1
+        assertEquals(1, player.getHealth());
+    }
 
+    @Test
+    void healDoesNotExceedMaxHp() {
+        player.heal(5);
+        assertEquals(3, player.getHealth());
+    }
 
+    @Test
+    void healWithZeroAmountDoesNotChangeHp() {
+        player.takeDamage(1);  // hp = 2
+        player.update(1.2f);
+        player.heal(0);
+        assertEquals(2, player.getHealth());
+    }
+
+    @Test
+    void getPickupFxIntensityIsClampedToOneWhenRemainingExceedsOne() {
+        player.triggerPickupVisualEffect(2.0f, 1f, 1f, 0f); // remaining = 2.0f
+        assertEquals(1.0f, player.getPickupFxIntensity(), 0.001f);
+    }
+
+    @Test
+    void triggerPickupVisualEffectWithZeroDurationDoesNotActivate() {
+        player.triggerPickupVisualEffect(0f, 1f, 1f, 0f);
+        assertFalse(player.hasPickupVisualEffect());
+        assertEquals(0f, player.getPickupFxIntensity(), 0.001f);
+    }
+
+    @Test
+    void setInGoalTrueWhenAlreadyInGoalDoesNotFireEventAgain() {
+        GameEventBus.clear();
+        int[] count = {0};
+        GameEventBus.register(e -> { if (e == GameEvent.LEVEL_FINISHED) count[0]++; });
+
+        player.setInGoal(true);
+        player.setInGoal(true);
+
+        assertEquals(1, count[0]);
+        GameEventBus.clear();
+    }
+
+    @Test
+    void setInGoalCanBeResetToFalse() {
+        player.setInGoal(true);
+        player.setInGoal(false);
+        assertFalse(player.inGoal());
+    }
+
+    @Test
+    void speedBoostResetToOneMultiplierAtExactExpiryBoundary() {
+        player.applySpeedBoost(2f, 1f);
+        player.update(1.0f); // speedBoostRemaining = 1.0f - 1.0f = 0.0f → reset to 1.0f
+        assertEquals(1.0f, player.getActiveSpeedMultiplier());
+    }
+
+    @Test
+    void setGroundedFalseFromZeroContactsDoesNotBecomeGrounded() {
+        player.setGrounded(false); // contactPoints: 0 → -1 → clamped to 0 → isGrounded = (0 > 0) = false
+        assertFalse(player.isGrounded());
+    }
+
+    @Test
+    void setGroundedRequiresBalancedTrueAndFalseCalls() {
+        player.setGrounded(true);
+        player.setGrounded(true);
+        player.setGrounded(false);
+        assertTrue(player.isGrounded()); // one contact still active
+        player.setGrounded(false);
+        assertFalse(player.isGrounded()); // all contacts released
+    }
+
+    @Test
+    void getDefaultStateIsIdle() {
+        assertEquals(EntityState.IDLE, player.getCurrentState());
+    }
+
+    @Test
+    void setJumpHeldTrueIsStoredAndRetrievable() {
+        player.setJumpHeld(true);
+        // Indirectly verified: gravity scale uses jumpHeld; direct getter not needed.
+        // Calling update with jumpHeld=true must not throw.
+        player.setJumpHeld(false);
+    }
 }

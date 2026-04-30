@@ -6,10 +6,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
+import inf112.zoombiegeddon.view.screens.AbstractScreen;
+import inf112.zoombiegeddon.view.screens.menus.MainMenuScreen;
+import inf112.zoombiegeddon.view.screens.story.StoryScreen;
 import inf112.zoombiegeddon.view.utils.UIUtils;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 import inf112.zoombiegeddon.view.screens.menus.MainMenuScreen;
 
+/**
+ * Screen where the player enters their name before starting story mode.
+ */
 public class StoryNameScreen extends AbstractScreen {
 
     public StoryNameScreen(GameApp app) {

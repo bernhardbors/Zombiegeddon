@@ -123,7 +123,6 @@ public class AudioManager implements IAudioService, IEventListener {
         assets.get(sfx.path(), Sound.class).stop();
     }
 
-
     /**
      * Starts looping the normal footsteps sound effect.
      * Does nothing if that loop is already active.
@@ -172,6 +171,7 @@ public class AudioManager implements IAudioService, IEventListener {
         switch (event) {
             case PLAYER_JUMP:
                 playRandom(Sfx.JUMP1, Sfx.JUMP2);
+                stopFootstepsLoop();
                 break;
             case UI_BUTTON_CLICK:
                 playSfx(Sfx.BUTTON_CLICK);
@@ -181,12 +181,13 @@ public class AudioManager implements IAudioService, IEventListener {
                 break;
             case PLAYER_MOVE_START:
                 startFootstepsLoop();
+                playMusic(MusicTrack.GAMEPLAY, true);
                 break;
             case PLAYER_RUN_START:
                 startRunningFootstepsLoop();
                 break;
             case PLAYER_RUN_STOP:
-                startFootstepsLoop();
+                stopFootstepsLoop();
                 break;
             case PLAYER_MOVE_STOP:
                stopFootstepsLoop();
@@ -198,6 +199,7 @@ public class AudioManager implements IAudioService, IEventListener {
             case LEVEL_FINISHED:
                 stopFootstepsLoop();
                 playSfx(Sfx.VICTORY);
+                stopMusic();
                 break;
             case TOGGLE_PAUSE:
                 stopFootstepsLoop();
@@ -207,6 +209,9 @@ public class AudioManager implements IAudioService, IEventListener {
                 break;
             case PICKUP_SPEED:
                 playSfx(Sfx.SPEED);
+                break;
+            case ENEMY_KILLED:
+                playSfx(Sfx.ENEMY_KILLED);
                 break;
             case MENU_STARTED:
                 playMusic(MusicTrack.MENU, true);
