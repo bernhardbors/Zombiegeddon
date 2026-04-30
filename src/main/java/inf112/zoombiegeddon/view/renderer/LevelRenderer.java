@@ -109,10 +109,7 @@ public class LevelRenderer {
 
         if (uiRenderer != null) {
             uiRenderer.drawHearts(batch, healthbar);
-            if (app.getStoryManager().isActive()) {
-                float timeUsed = app.getStoryManager().getElapsedSeconds(model.getLevelTime());
-                uiRenderer.drawStoryTime(batch, app.getAssets().getFont(), timeUsed);
-            }
+            uiRenderer.drawStoryTime(batch, app.getAssets().getFont(), getDisplayedTime());
         }
 
         renderTriggerText();
@@ -182,7 +179,14 @@ public class LevelRenderer {
         app.getAssets().getFont().getData().setScale(1f);
     }
 
-    /** Updates the viewport when the screen is resized. */
+    private float getDisplayedTime() {
+        if (app.getStoryManager().isActive()) {
+            return app.getStoryManager().getElapsedSeconds(model.getLevelTime());
+        }
+
+        return model.getLevelTime();
+    }
+
     public void resize(int width, int height) {
         viewport.update(width, height);
     }

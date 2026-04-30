@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.view.utils.UIUtils;
-
 import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
+import inf112.zoombiegeddon.view.screens.level.LevelNameScreen;
 import inf112.zoombiegeddon.view.screens.story.StoryNameScreen;
+import inf112.zoombiegeddon.view.utils.UIUtils;
 
 /**
  * Represents the main menu screen of the game.
@@ -29,10 +29,9 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     @Override
-
     public void buildScreen() {
-
         clearTable();
+
         app.getStoryManager().finishRun();
         app.getAudio().playMusic(MusicTrack.MENU, true);
 
@@ -45,23 +44,32 @@ public class MainMenuScreen extends AbstractScreen {
         table.getCell(table.getChildren().peek()).expandY().top().padTop(-70);
         table.row().padTop(5);
 
-
         UIUtils.button("STORY MODE", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
-                .action(() -> app.setScreen(new StoryNameScreen(app))).addTo(table);
+                .action(() -> app.setScreen(new StoryNameScreen(app)))
+                .addTo(table);
 
         UIUtils.button("LEVELS", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
-                .action(() -> app.setScreen(new PickLevelScreen(app))).addTo(table);
+                .action(() -> app.setScreen(new LevelNameScreen(app)))
+                .addTo(table);
 
         UIUtils.button("HOW TO PLAY", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
-                .action(() -> app.setScreen(new HowToScreen(app))).addTo(table);
+                .action(() -> app.setScreen(new HowToScreen(app)))
+                .addTo(table);
 
         UIUtils.button("SETTINGS", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
-                .action(() -> app.setScreen(new SettingsScreen(app, this))).addTo(table);
+                .action(() -> app.setScreen(new SettingsScreen(app, this)))
+                .addTo(table);
 
         UIUtils.button("SCOREBOARD", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
-                .action(() -> app.setScreen(new LeaderboardScreen(app, GameApp.STORY_LEADERBOARD_ID, LeaderboardScreen.ScreenType.MAIN_MENU))).addTo(table);
+                .action(() -> app.setScreen(new LeaderboardScreen(
+                        app,
+                        GameApp.STORY_LEADERBOARD_ID,
+                        LeaderboardScreen.ScreenType.MAIN_MENU
+                )))
+                .addTo(table);
 
         UIUtils.button("EXIT", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
-                .action(Gdx.app::exit).addTo(table);
+                .action(Gdx.app::exit)
+                .addTo(table);
     }
 }
