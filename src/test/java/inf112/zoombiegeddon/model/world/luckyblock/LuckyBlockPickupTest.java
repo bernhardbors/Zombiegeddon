@@ -12,10 +12,10 @@ import inf112.zoombiegeddon.model.entity.pickups.IPickup;
 import inf112.zoombiegeddon.model.world.physics.WorldPhysics;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -58,5 +58,53 @@ class LuckyBlockPickupTest extends AbstractLibGDXTest {
                 org.mockito.ArgumentMatchers.eq("heal"),
                 org.mockito.ArgumentMatchers.argThat(position -> position.epsilonEquals(new Vector2(12f, 7.9f), 0.0001f))
         );
+    }
+
+    @Test
+    void isBrokenReturnsFalseBeforeBreaking() {
+        World world = mock(World.class);
+        Body body = mock(Body.class);
+        Fixture fixture = mock(Fixture.class);
+        when(world.createBody(any(BodyDef.class))).thenReturn(body);
+        when(body.createFixture(any(FixtureDef.class))).thenReturn(fixture);
+        when(body.getPosition()).thenReturn(new Vector2(1f, 1f));
+
+        LuckyBlock block = new LuckyBlock(world, new Vector2(1f, 1f), 1f, 1f, "heal");
+
+        assertFalse(block.isBroken());
+    }
+
+    @Test
+    void breakBlockIsIdempotentAndSpawnsRewardOnlyOnce() {
+        World world = mock(World.class);
+        Body body = mock(Body.class);
+        Fixture fixture = mock(Fixture.class);
+        when(world.createBody(any(BodyDef.class))).thenReturn(body);
+        when(body.createFixture(any(FixtureDef.class))).thenReturn(fixture);
+        when(body.getPosition()).thenReturn(new Vector2(1f, 1f));
+
+        LuckyBlock block = new LuckyBlock(world, new Vector2(1f, 1f), 1f, 1f, "heal");
+        WorldPhysics worldPhysics = mock(WorldPhysics.class);
+
+        block.breakBlock(worldPhysics);
+        assertTrue(block.isBroken());
+
+        block.breakBlock(worldPhysics); // second call: no-op due to broken guard
+
+        verify(worldPhysics, times(1)).spawnPickup(any(), any());
+    }
+
+    @Test
+    void getRewardTypeReturnsExpectedType() {
+        World world = mock(World.class);
+        Body body = mock(Body.class);
+        Fixture fixture = mock(Fixture.class);
+        when(world.createBody(any(BodyDef.class))).thenReturn(body);
+        when(body.createFixture(any(FixtureDef.class))).thenReturn(fixture);
+        when(body.getPosition()).thenReturn(new Vector2(1f, 1f));
+
+        LuckyBlock block = new LuckyBlock(world, new Vector2(1f, 1f), 1f, 1f, "speed");
+
+        assertEquals("speed", block.getRewardType());
     }
 }
