@@ -35,7 +35,7 @@ stop an evil professor’s experiment.
 * https://pixbob.itch.io/pixbob-mini-lite Font 
 * https://kenney-assets.itch.io/pixel-platformer Tiles
 * https://fartfish.itch.io/zombie-game-asset-pack Zombies 
-* The games cover photo is AI generated
+* The games cover photo and story mode video is AI generated
 
 # How to run
 
