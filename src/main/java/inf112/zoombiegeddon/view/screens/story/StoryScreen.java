@@ -156,7 +156,7 @@ public class StoryScreen extends AbstractScreen {
         app.getStoryManager().startTimer();
         app.setScreen(new PlayableLevel(
                 app,
-                app.getStoryManager().getCurrentMapPath()
+                app.getStoryManager().getCurrentMapPath(), GameApp.STORY_LEADERBOARD_ID
         ));
     }
 

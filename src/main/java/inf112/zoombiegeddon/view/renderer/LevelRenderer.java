@@ -99,10 +99,16 @@ public class LevelRenderer {
 
         if (uiRenderer != null) {
             uiRenderer.drawHearts(batch, healthbar);
+
+            float timeUsed;
+
             if (app.getStoryManager().isActive()) {
-                float timeUsed = app.getStoryManager().getElapsedSeconds(model.getLevelTime());
-                uiRenderer.drawStoryTime(batch, app.getAssets().getFont(), timeUsed);
+                timeUsed = app.getStoryManager().getElapsedSeconds(model.getLevelTime());
+            } else {
+                timeUsed = model.getLevelTime();
             }
+
+            uiRenderer.drawStoryTime(batch, app.getAssets().getFont(), timeUsed);
         }
 
         renderTriggerText();

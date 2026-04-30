@@ -50,7 +50,7 @@ public class MainMenuScreen extends AbstractScreen {
                 .action(() -> app.setScreen(new StoryNameScreen(app))).addTo(table);
 
         UIUtils.button("LEVELS", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
-                .action(() -> app.setScreen(new PickLevelScreen(app))).addTo(table);
+                .action(() -> app.setScreen(new LevelNameScreen(app))).addTo(table);
 
         UIUtils.button("HOW TO PLAY", app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
                 .action(() -> app.setScreen(new HowToScreen(app))).addTo(table);

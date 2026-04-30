@@ -25,9 +25,13 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
     private final PlayerController playerController;
     private final LevelController levelController;
     private final TiledMap map;
+    private final String mapPath;
+    private final String boardId;
 
-    public PlayableLevel(GameApp app, String mapPath) {
+    public PlayableLevel(GameApp app, String mapPath, String boardId) {
         this.app = app;
+        this.boardId = boardId;
+        this.mapPath = mapPath;
 
         this.map = new TmxMapLoader().load(mapPath);
         this.model = new LevelModel(app, map);
@@ -65,8 +69,10 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
         else if (event == GameEvent.PLAYER_DEATH) {
             if (app.getStoryManager().isActive()) {
                 app.getStoryManager().finishRun();
+                app.setScreen(new GameOverScreen(app, GameOverScreen.RetryMode.STORY, null, null));
+            } else {
+                app.setScreen(new GameOverScreen(app, GameOverScreen.RetryMode.LEVEL, mapPath, boardId));
             }
-            app.setScreen(new GameOverScreen(app));
         }
 
         else if (event == GameEvent.LEVEL_FINISHED) {
@@ -77,7 +83,7 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
                 if (app.getStoryManager().hasNextLevel()) {
                     app.setScreen(new PlayableLevel(
                             app,
-                            app.getStoryManager().getCurrentMapPath()
+                            app.getStoryManager().getCurrentMapPath(),GameApp.STORY_LEADERBOARD_ID
                     ));
                 } else {
                     app.getLeaderboardController().registerLevelCompletion(
@@ -91,7 +97,15 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
                     app.setScreen(new LeaderboardScreen(app, GameApp.STORY_LEADERBOARD_ID, LeaderboardScreen.ScreenType.MAIN_MENU));
                 }
             } else {
-                app.setScreen(new NextLevelScreen(app));
+                app.getLeaderboardController().registerLevelCompletion(
+                        boardId,
+                        app.getCurrentPlayerName(),
+                        0,
+                        model.getPlayer().getHealth(),
+                        model.getLevelTime()
+                );
+
+                app.setScreen(new LeaderboardScreen(app, boardId, LeaderboardScreen.ScreenType.MAIN_MENU));
             }
         }
     }

@@ -1,48 +1,74 @@
 package inf112.zoombiegeddon.view.screens.level;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 import inf112.zoombiegeddon.view.screens.menus.MainMenuScreen;
+import inf112.zoombiegeddon.view.screens.menus.PickLevelScreen;
+import inf112.zoombiegeddon.view.screens.story.StoryNameScreen;
 import inf112.zoombiegeddon.view.utils.UIUtils;
 
 /**
  * Displays the game over screen when the player dies.
- * Allows the player to respawn or return to the main menu.
+ * Allows the player to retry, pick a new level, or return to the main menu.
  */
 public class GameOverScreen extends AbstractScreen {
 
-    /**
-     * Constructs the game over screen.
-     *
-     * @param app The game application instance.
-     */
+    public enum RetryMode {
+        NONE,
+        STORY,
+        LEVEL
+    }
+
+    private final RetryMode retryMode;
+    private final String retryMapPath;
+    private final String retryBoardId;
+
     public GameOverScreen(GameApp app) {
+        this(app, RetryMode.NONE, null, null);
+    }
+
+    public GameOverScreen(GameApp app, RetryMode retryMode, String retryMapPath, String retryBoardId) {
         super(app);
+        this.retryMode = retryMode;
+        this.retryMapPath = retryMapPath;
+        this.retryBoardId = retryBoardId;
     }
 
     @Override
     public void buildScreen() {
         clearTable();
 
-        app.getAudio().playMusic(MusicTrack.MENU, true);
+        formatText("GAME OVER", Color.RED, 6f);
+        table.row().padTop(25);
 
-        if (app.getAssets().getManager().isLoaded(AssetConstants.BG_SKY)) {
-            Texture background = app.getAssets().getManager().get(AssetConstants.BG_SKY, Texture.class);
-            table.setBackground(new TextureRegionDrawable(background));
+        if (retryMode == RetryMode.STORY) {
+            UIUtils.button("TRY STORYMODE AGAIN", skin).size(buttonWidth, buttonHeight)
+                    .action(() -> app.setScreen(new StoryNameScreen(app)))
+                    .addTo(table);
+
+            table.row().padTop(10);
         }
 
-        formatText("GAME OVER", Color.WHITE, 6f);
+        if (retryMode == RetryMode.LEVEL) {
+            UIUtils.button("TRY LEVEL AGAIN", skin).size(buttonWidth, buttonHeight)
+                    .action(() -> app.setScreen(new PlayableLevel(app, retryMapPath, retryBoardId)))
+                    .addTo(table);
 
-        UIUtils.button("MainScreen", skin).size(buttonWidth, buttonHeight)
+            table.row().padTop(10);
+
+            UIUtils.button("PICK NEW LEVEL", skin).size(buttonWidth, buttonHeight)
+                    .action(() -> app.setScreen(new PickLevelScreen(app)))
+                    .addTo(table);
+
+            table.row().padTop(10);
+        }
+
+        UIUtils.button("MAIN MENU", skin).size(buttonWidth, buttonHeight)
                 .action(() -> {
                     app.getStoryManager().finishRun();
                     app.setScreen(new MainMenuScreen(app));
-                }).addTo(table);
+                })
+                .addTo(table);
     }
 }
-
