@@ -7,7 +7,7 @@ package inf112.zoombiegeddon.model.story;
 public class StoryManager implements IStoryManager{
     private StorySession storySession;
 
-    private final String[] storyMapPaths = {"tilemaps/level1.tmx", "tilemaps/level3.tmx", "tilemaps/level5.tmx"};
+    private final String[] storyMapPaths = {"tilemaps/level1.tmx", "tilemaps/level2.tmx", "tilemaps/level3.tmx"};
     private final String[] storyLevelIds = {"level1", "level2", "level3"};
     private int currentLevelIndex = 0;
 
