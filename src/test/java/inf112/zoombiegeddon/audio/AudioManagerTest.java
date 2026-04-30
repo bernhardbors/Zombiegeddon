@@ -8,7 +8,10 @@ import inf112.zoombiegeddon.events.GameEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -17,10 +20,10 @@ class AudioManagerTest {
 
     private AssetManager assetManager;
     private AudioManager audioManager;
+    private AudioManager audioManagerWithPrefs;
     private Sound sound;
     private Music music;
     private Preferences prefs;
-    private AudioManager audioManagerWithPrefs;
 
     @BeforeEach
     void beforeEach() {
@@ -29,32 +32,46 @@ class AudioManagerTest {
         music = mock(Music.class);
         prefs = mock(Preferences.class);
 
+        when(prefs.getFloat("audio_music_volume", 0.3f)).thenReturn(0.3f);
+        when(prefs.getFloat("audio_sfx_volume", 1.0f)).thenReturn(1.0f);
+        when(prefs.getBoolean("audio_muted", false)).thenReturn(false);
+
         audioManager = new AudioManager(assetManager);
         audioManagerWithPrefs = new AudioManager(assetManager, prefs);
     }
 
     @Test
-    void testSetAndGetSfxVolume() {
-        audioManager.setSfxVolume(1.0f);
-        assertEquals(1.0f, audioManager.getSfxVolume());
-
-        audioManager.setSfxVolume(1.2f);
-        assertEquals(1.0f, audioManager.getSfxVolume());
-
-        audioManager.setSfxVolume(-0.2f);
-        assertEquals(0f, audioManager.getSfxVolume());
+    void testDefaultMusicVolumeWithoutPrefsIsPointThree() {
+        assertEquals(0.3f, audioManager.getMusicVolume(), 0.0001f);
     }
 
     @Test
-    void testSetAndGetMusicVolume() {
-        audioManager.setMusicVolume(1.0f);
-        assertEquals(1.0f, audioManager.getMusicVolume());
+    void testMusicVolumeLoadedFromPrefsDefaultsToPointThree() {
+        assertEquals(0.3f, audioManagerWithPrefs.getMusicVolume(), 0.0001f);
+    }
 
-        audioManager.setMusicVolume(1.2f);
-        assertEquals(1.0f, audioManager.getMusicVolume());
+    @Test
+    void testSetAndGetSfxVolume() {
+        audioManager.setSfxVolume(1.0f);
+        assertEquals(1.0f, audioManager.getSfxVolume(), 0.0001f);
+
+        audioManager.setSfxVolume(1.2f);
+        assertEquals(1.0f, audioManager.getSfxVolume(), 0.0001f);
+
+        audioManager.setSfxVolume(-0.2f);
+        assertEquals(0f, audioManager.getSfxVolume(), 0.0001f);
+    }
+
+    @Test
+    void testSetAndGetMusicVolumeCapsAtPointThree() {
+        audioManager.setMusicVolume(0.2f);
+        assertEquals(0.2f, audioManager.getMusicVolume(), 0.0001f);
+
+        audioManager.setMusicVolume(1.0f);
+        assertEquals(0.3f, audioManager.getMusicVolume(), 0.0001f);
 
         audioManager.setMusicVolume(-0.2f);
-        assertEquals(0f, audioManager.getMusicVolume());
+        assertEquals(0f, audioManager.getMusicVolume(), 0.0001f);
     }
 
     @Test
@@ -73,7 +90,7 @@ class AudioManagerTest {
         when(assetManager.isLoaded(track.path(), Music.class)).thenReturn(true);
         when(assetManager.get(track.path(), Music.class)).thenReturn(music);
 
-        audioManager.setMusicVolume(0.5f);
+        audioManager.setMusicVolume(0.3f);
         audioManager.playMusic(track, true);
         audioManager.setMuted(true);
 
@@ -87,13 +104,12 @@ class AudioManagerTest {
         when(assetManager.isLoaded(track.path(), Music.class)).thenReturn(true);
         when(assetManager.get(track.path(), Music.class)).thenReturn(music);
 
-        audioManager.setMusicVolume(0.5f);
+        audioManager.setMusicVolume(0.3f);
         audioManager.playMusic(track, true);
         audioManager.setMuted(true);
-
         audioManager.setMuted(false);
 
-        verify(music, atLeastOnce()).setVolume(0.5f);
+        verify(music, atLeastOnce()).setVolume(0.3f);
     }
 
     @Test
@@ -181,6 +197,50 @@ class AudioManagerTest {
         verify(music, atLeastOnce()).setLooping(true);
         verify(music, atLeastOnce()).setVolume(0f);
         verify(music, atLeastOnce()).play();
+    }
+
+    @Test
+    void testPlayMusicWhenNotMutedUsesPointThreeVolume() {
+        MusicTrack track = MusicTrack.GAMEPLAY;
+
+        when(assetManager.isLoaded(track.path(), Music.class)).thenReturn(true);
+        when(assetManager.get(track.path(), Music.class)).thenReturn(music);
+
+        audioManager.playMusic(track, true);
+
+        verify(music).setLooping(true);
+        verify(music).setVolume(0.3f);
+        verify(music).play();
+    }
+
+    @Test
+    void testPlayMusicReturnsWhenTrackIsNull() {
+        audioManager.playMusic(null, true);
+        verifyNoInteractions(music);
+    }
+
+    @Test
+    void testPlayMusicReturnsWhenTrackNotLoaded() {
+        MusicTrack track = MusicTrack.GAMEPLAY;
+        when(assetManager.isLoaded(track.path(), Music.class)).thenReturn(false);
+
+        audioManager.playMusic(track, true);
+
+        verify(assetManager, never()).get(track.path(), Music.class);
+        verifyNoInteractions(music);
+    }
+
+    @Test
+    void testPlayMusicSameTrackDoesNotRestart() {
+        MusicTrack track = MusicTrack.GAMEPLAY;
+
+        when(assetManager.isLoaded(track.path(), Music.class)).thenReturn(true);
+        when(assetManager.get(track.path(), Music.class)).thenReturn(music);
+
+        audioManager.playMusic(track, true);
+        audioManager.playMusic(track, true);
+
+        verify(music, times(1)).play();
     }
 
     @Test
@@ -294,6 +354,96 @@ class AudioManagerTest {
     }
 
     @Test
+    void testOnEventPickupHealth() {
+        Sfx sfx = Sfx.HEAL_PICKUP;
+
+        when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(sfx.path(), Sound.class)).thenReturn(sound);
+
+        audioManager.onEvent(GameEvent.PICKUP_HEALTH);
+
+        verify(sound, times(1)).play(anyFloat());
+    }
+
+    @Test
+    void testOnEventPickupSpeed() {
+        Sfx sfx = Sfx.SPEED;
+
+        when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(sfx.path(), Sound.class)).thenReturn(sound);
+
+        audioManager.onEvent(GameEvent.PICKUP_SPEED);
+
+        verify(sound, times(1)).play(anyFloat());
+    }
+
+    @Test
+    void testOnEventEnemyKilled() {
+        Sfx sfx = Sfx.ENEMY_KILLED;
+
+        when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(sfx.path(), Sound.class)).thenReturn(sound);
+
+        audioManager.onEvent(GameEvent.ENEMY_KILLED);
+
+        verify(sound, times(1)).play(anyFloat());
+    }
+
+    @Test
+    void testOnEventPlayerDeathStopsFootstepsAndPlaysDeathSound() {
+        when(assetManager.isLoaded(Sfx.FOOTSTEPS.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(Sfx.FOOTSTEPS.path(), Sound.class)).thenReturn(sound);
+
+        when(assetManager.isLoaded(Sfx.FOOTSTEPS_RUN.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(Sfx.FOOTSTEPS_RUN.path(), Sound.class)).thenReturn(sound);
+
+        when(assetManager.isLoaded(Sfx.PLAYER_DEATH.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(Sfx.PLAYER_DEATH.path(), Sound.class)).thenReturn(sound);
+
+        audioManager.onEvent(GameEvent.PLAYER_MOVE_START);
+        audioManager.onEvent(GameEvent.PLAYER_DEATH);
+
+        verify(sound, atLeastOnce()).stop();
+        verify(sound, atLeastOnce()).play(anyFloat());
+    }
+
+    @Test
+    void testOnEventLevelFinishedStopsFootstepsStopsMusicAndPlaysVictorySound() {
+        when(assetManager.isLoaded(Sfx.FOOTSTEPS.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(Sfx.FOOTSTEPS.path(), Sound.class)).thenReturn(sound);
+
+        when(assetManager.isLoaded(Sfx.FOOTSTEPS_RUN.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(Sfx.FOOTSTEPS_RUN.path(), Sound.class)).thenReturn(sound);
+
+        when(assetManager.isLoaded(Sfx.VICTORY.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(Sfx.VICTORY.path(), Sound.class)).thenReturn(sound);
+
+        when(assetManager.isLoaded(MusicTrack.GAMEPLAY.path(), Music.class)).thenReturn(true);
+        when(assetManager.get(MusicTrack.GAMEPLAY.path(), Music.class)).thenReturn(music);
+
+        audioManager.onEvent(GameEvent.PLAYER_MOVE_START);
+        audioManager.onEvent(GameEvent.LEVEL_FINISHED);
+
+        verify(sound, atLeastOnce()).stop();
+        verify(sound, atLeastOnce()).play(anyFloat());
+        verify(music, atLeastOnce()).stop();
+    }
+
+    @Test
+    void testOnEventTogglePauseStopsFootsteps() {
+        when(assetManager.isLoaded(Sfx.FOOTSTEPS.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(Sfx.FOOTSTEPS.path(), Sound.class)).thenReturn(sound);
+
+        when(assetManager.isLoaded(Sfx.FOOTSTEPS_RUN.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(Sfx.FOOTSTEPS_RUN.path(), Sound.class)).thenReturn(sound);
+
+        audioManager.onEvent(GameEvent.PLAYER_MOVE_START);
+        audioManager.onEvent(GameEvent.TOGGLE_PAUSE);
+
+        verify(sound, atLeastOnce()).stop();
+    }
+
+    @Test
     void testLoopSfxReturnsMinus1LWhenMuted() {
         Sfx sfx = Sfx.FOOTSTEPS;
 
@@ -321,6 +471,19 @@ class AudioManagerTest {
         long result = audioManager.loopSfx(sfx);
 
         assertEquals(-1L, result);
+    }
+
+    @Test
+    void testLoopSfxReturnsLoopIdWhenLoadedAndNotMuted() {
+        Sfx sfx = Sfx.FOOTSTEPS;
+
+        when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(sfx.path(), Sound.class)).thenReturn(sound);
+        when(sound.loop(1.0f)).thenReturn(42L);
+
+        long result = audioManager.loopSfx(sfx);
+
+        assertEquals(42L, result);
     }
 
     @Test
