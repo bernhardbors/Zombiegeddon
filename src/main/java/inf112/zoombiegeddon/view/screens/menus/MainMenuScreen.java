@@ -8,7 +8,6 @@ import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.audio.MusicTrack;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
-import inf112.zoombiegeddon.view.screens.HowToScreen;
 import inf112.zoombiegeddon.view.screens.level.LevelNameScreen;
 import inf112.zoombiegeddon.view.screens.story.StoryNameScreen;
 import inf112.zoombiegeddon.view.utils.UIUtils;
