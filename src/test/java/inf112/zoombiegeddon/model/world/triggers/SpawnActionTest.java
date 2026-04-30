@@ -4,7 +4,7 @@ import inf112.zoombiegeddon.model.entity.Player;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.verify;
 
-public class SpawnActionTest extends AbstractEntityTest {
+class SpawnActionTest extends AbstractEntityTest {
 
     private SpawnAction spawnAction;
     private Player player;

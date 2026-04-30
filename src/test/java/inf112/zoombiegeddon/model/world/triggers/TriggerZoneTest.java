@@ -9,11 +9,10 @@ import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
 import inf112.zoombiegeddon.model.entity.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class TriggerZoneTest extends AbstractEntityTest {
+class TriggerZoneTest extends AbstractEntityTest {
     private float scale = 1.0f;
     private Rectangle playerBounds;
     private TriggerZone triggerZone;
