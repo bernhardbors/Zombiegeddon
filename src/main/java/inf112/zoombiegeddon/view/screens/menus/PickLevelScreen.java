@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
+import inf112.zoombiegeddon.view.screens.AbstractScreen;
+import inf112.zoombiegeddon.view.screens.level.PlayableLevel;
 import inf112.zoombiegeddon.view.utils.UIUtils;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 import inf112.zoombiegeddon.view.screens.level.PlayableLevel;
@@ -47,13 +49,15 @@ public class PickLevelScreen extends AbstractScreen {
                     .action(() -> {
                         app.getStoryManager().finishRun();
                         app.setScreen(new PlayableLevel(app, mapPath, boardId));
-                    }).addTo(table);
+                    })
+                    .addTo(table);
         }
 
         UIUtils.button("BACK", skin).size(buttonWidth, buttonHeight)
                 .action(() -> {
                     app.getStoryManager().finishRun();
                     app.setScreen(new MainMenuScreen(app));
-                }).addTo(table);
+                })
+                .addTo(table);
     }
 }

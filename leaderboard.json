@@ -33,6 +33,15 @@ leaderboards: {
 		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: good
+			boardId: level1
+			score: 4315
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 18.516994
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: MOSALAH
 			boardId: level1
 			score: 4298

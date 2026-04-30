@@ -30,8 +30,8 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
 
     public PlayableLevel(GameApp app, String mapPath, String boardId) {
         this.app = app;
-        this.boardId = boardId;
         this.mapPath = mapPath;
+        this.boardId = boardId;
 
         this.map = new TmxMapLoader().load(mapPath);
         this.model = new LevelModel(app, map);
@@ -64,50 +64,83 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
     public void onEvent(GameEvent event) {
         if (event == GameEvent.TOGGLE_PAUSE) {
             app.setScreen(new PauseScreen(app, this));
+        } else if (event == GameEvent.PLAYER_DEATH) {
+            handlePlayerDeath();
+        } else if (event == GameEvent.LEVEL_FINISHED) {
+            handleLevelFinished();
+        }
+    }
+
+    private void handlePlayerDeath() {
+        if (app.getStoryManager().isActive()) {
+            app.getStoryManager().finishRun();
+            app.setScreen(new GameOverScreen(
+                    app,
+                    GameOverScreen.RetryMode.STORY,
+                    null,
+                    null
+            ));
+        } else {
+            app.setScreen(new GameOverScreen(
+                    app,
+                    GameOverScreen.RetryMode.LEVEL,
+                    mapPath,
+                    boardId
+            ));
+        }
+    }
+
+    private void handleLevelFinished() {
+        if (app.getStoryManager().isActive()) {
+            handleStoryLevelFinished();
+        } else {
+            handleSingleLevelFinished();
+        }
+    }
+
+    private void handleStoryLevelFinished() {
+        app.getStoryManager().carryTime(model.getLevelTime());
+        app.getStoryManager().advanceLevel();
+
+        if (app.getStoryManager().hasNextLevel()) {
+            app.setScreen(new PlayableLevel(
+                    app,
+                    app.getStoryManager().getCurrentMapPath(),
+                    GameApp.STORY_LEADERBOARD_ID
+            ));
+            return;
         }
 
-        else if (event == GameEvent.PLAYER_DEATH) {
-            if (app.getStoryManager().isActive()) {
-                app.getStoryManager().finishRun();
-                app.setScreen(new GameOverScreen(app, GameOverScreen.RetryMode.STORY, null, null));
-            } else {
-                app.setScreen(new GameOverScreen(app, GameOverScreen.RetryMode.LEVEL, mapPath, boardId));
-            }
-        }
+        app.getLeaderboardController().registerLevelCompletion(
+                GameApp.STORY_LEADERBOARD_ID,
+                app.getStoryManager().getCurrentPlayerName(),
+                0,
+                model.getPlayer().getHealth(),
+                app.getStoryManager().getElapsedSeconds(0)
+        );
 
-        else if (event == GameEvent.LEVEL_FINISHED) {
-            if (app.getStoryManager().isActive()) {
-                app.getStoryManager().carryTime(model.getLevelTime());
-                app.getStoryManager().advanceLevel();
+        app.getStoryManager().finishRun();
+        app.setScreen(new LeaderboardScreen(
+                app,
+                GameApp.STORY_LEADERBOARD_ID,
+                LeaderboardScreen.ScreenType.MAIN_MENU
+        ));
+    }
 
-                if (app.getStoryManager().hasNextLevel()) {
-                    app.setScreen(new PlayableLevel(
-                            app,
-                            app.getStoryManager().getCurrentMapPath(),GameApp.STORY_LEADERBOARD_ID
-                    ));
-                } else {
-                    app.getLeaderboardController().registerLevelCompletion(
-                            GameApp.STORY_LEADERBOARD_ID,
-                            app.getStoryManager().getCurrentPlayerName(),
-                            0,
-                            model.getPlayer().getHealth(),
-                            app.getStoryManager().getElapsedSeconds(0)
-                    );
-                    app.getStoryManager().finishRun();
-                    app.setScreen(new LeaderboardScreen(app, GameApp.STORY_LEADERBOARD_ID, LeaderboardScreen.ScreenType.MAIN_MENU));
-                }
-            } else {
-                app.getLeaderboardController().registerLevelCompletion(
-                        boardId,
-                        app.getCurrentPlayerName(),
-                        0,
-                        model.getPlayer().getHealth(),
-                        model.getLevelTime()
-                );
+    private void handleSingleLevelFinished() {
+        app.getLeaderboardController().registerLevelCompletion(
+                boardId,
+                app.getCurrentPlayerName(),
+                0,
+                model.getPlayer().getHealth(),
+                model.getLevelTime()
+        );
 
-                app.setScreen(new LeaderboardScreen(app, boardId, LeaderboardScreen.ScreenType.MAIN_MENU));
-            }
-        }
+        app.setScreen(new LeaderboardScreen(
+                app,
+                boardId,
+                LeaderboardScreen.ScreenType.MAIN_MENU
+        ));
     }
 
     @Override

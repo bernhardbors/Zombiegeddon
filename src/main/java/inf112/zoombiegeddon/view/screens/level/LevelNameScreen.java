@@ -16,6 +16,11 @@ import inf112.zoombiegeddon.view.utils.UIUtils;
  */
 public class LevelNameScreen extends AbstractScreen {
 
+    /**
+     * Constructs the level name screen.
+     *
+     * @param app The game application instance.
+     */
     public LevelNameScreen(GameApp app) {
         super(app);
     }
@@ -34,16 +39,22 @@ public class LevelNameScreen extends AbstractScreen {
 
         TextField nameField = new TextField("", skin);
         nameField.setMessageText("Player name");
-        table.add(nameField).width(buttonWidth).height(buttonHeight).padBottom(20);
+        table.add(nameField)
+                .width(buttonWidth)
+                .height(buttonHeight)
+                .padBottom(20);
+
         table.row();
 
         UIUtils.button("CONTINUE", skin).size(buttonWidth, buttonHeight)
                 .action(() -> {
                     app.setCurrentPlayerName(nameField.getText());
                     app.setScreen(new PickLevelScreen(app));
-                }).addTo(table);
+                })
+                .addTo(table);
 
         UIUtils.button("BACK", skin).size(buttonWidth, buttonHeight)
-                .action(() -> app.setScreen(new MainMenuScreen(app))).addTo(table);
+                .action(() -> app.setScreen(new MainMenuScreen(app)))
+                .addTo(table);
     }
 }

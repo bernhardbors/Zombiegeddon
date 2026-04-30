@@ -99,16 +99,7 @@ public class LevelRenderer {
 
         if (uiRenderer != null) {
             uiRenderer.drawHearts(batch, healthbar);
-
-            float timeUsed;
-
-            if (app.getStoryManager().isActive()) {
-                timeUsed = app.getStoryManager().getElapsedSeconds(model.getLevelTime());
-            } else {
-                timeUsed = model.getLevelTime();
-            }
-
-            uiRenderer.drawStoryTime(batch, app.getAssets().getFont(), timeUsed);
+            uiRenderer.drawStoryTime(batch, app.getAssets().getFont(), getDisplayedTime());
         }
 
         renderTriggerText();
@@ -176,6 +167,14 @@ public class LevelRenderer {
         app.getBatch().end();
 
         app.getAssets().getFont().getData().setScale(1f);
+    }
+
+    private float getDisplayedTime() {
+        if (app.getStoryManager().isActive()) {
+            return app.getStoryManager().getElapsedSeconds(model.getLevelTime());
+        }
+
+        return model.getLevelTime();
     }
 
     public void resize(int width, int height) {
