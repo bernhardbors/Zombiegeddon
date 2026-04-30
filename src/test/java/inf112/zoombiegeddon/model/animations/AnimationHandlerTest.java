@@ -2,87 +2,89 @@ package inf112.zoombiegeddon.model.animations;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import inf112.zoombiegeddon.model.entity.EntityState;
+import inf112.zoombiegeddon.AbstractLibGDXTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-class AnimationHandlerTest {
+class AnimationHandlerTest extends AbstractLibGDXTest {
+
     private AnimationHandler animationHandler;
-    private IAnimationLoader mockLoader;
-    private TextureRegion[][] frames;
+
+    private IAnimationLoader fullLoader() {
+        return (w, h) -> {
+            TextureRegion[][] frames = new TextureRegion[5][3];
+            for (int r = 0; r < 5; r++)
+                for (int c = 0; c < 3; c++)
+                    frames[r][c] = new TextureRegion();
+            return frames;
+        };
+    }
+
+    private IAnimationLoader limitedLoader(int rows) {
+        return (w, h) -> {
+            TextureRegion[][] frames = new TextureRegion[rows][3];
+            for (int r = 0; r < rows; r++)
+                for (int c = 0; c < 3; c++)
+                    frames[r][c] = mock(TextureRegion.class);
+            return frames;
+        };
+    }
 
     @BeforeEach
     void setUp() {
-        this.mockLoader = (width, height) -> {
-        this.frames = new TextureRegion[5][3];
-        for (int r = 0; r < 5; r++) {
-            for (int c = 0; c < 3; c++) {
-                frames[r][c] = new TextureRegion();
-            }
-        }
-        return frames;
-    };
-        this.animationHandler = new AnimationHandler(mockLoader, 32, 32);
-}
-
-    @Test
-    void testGetFrameReturnsIdleAsFallback() {
-        TextureRegion frame = animationHandler.getFrame(EntityState.PUNCHING, 0.1f, true);
-        assertNotNull(frame, "Should return frame even if state animation is missing");
+        animationHandler = new AnimationHandler(fullLoader(), 32, 32);
     }
 
     @Test
-    void testGetFrameFlipping() {
+    void testAllStatesExist() {
+        assertNotNull(animationHandler.getAnimations().get(EntityState.IDLE));
+        assertNotNull(animationHandler.getAnimations().get(EntityState.WALKING));
+        assertNotNull(animationHandler.getAnimations().get(EntityState.RUNNING));
+        assertNotNull(animationHandler.getAnimations().get(EntityState.JUMPING));
+        assertNotNull(animationHandler.getAnimations().get(EntityState.FALLING));
+        assertNotNull(animationHandler.getAnimations().get(EntityState.PUNCHING));
+    }
+
+    @Test
+    void testIdleAnimationHasThreeFrames() {
+        assertEquals(3, animationHandler.getAnimations().get(EntityState.IDLE).getKeyFrames().length);
+    }
+
+    @Test
+    void testGetFrameReturnsPunchingFrame() {
+        assertNotNull(animationHandler.getFrame(EntityState.PUNCHING, 0.1f, true));
+    }
+
+    @Test
+    void testMissingStateReturnsFallbackToIdle() {
+        AnimationHandler handler = new AnimationHandler(limitedLoader(1), 32, 32);
+        assertNull(handler.getAnimations().get(EntityState.PUNCHING));
+
+        TextureRegion result = handler.getFrame(EntityState.PUNCHING, 0.1f, true);
+        TextureRegion expectedIdle = handler.getAnimations().get(EntityState.IDLE).getKeyFrame(0.1f, true);
+        assertEquals(expectedIdle, result);
+    }
+
+    @Test
+    void testFacingRightIsNotFlipped() {
         TextureRegion frame = animationHandler.getFrame(EntityState.IDLE, 0.1f, true);
-        assertFalse(frame.isFlipX(), "Should not be flipped when facingRight is true");
+        assertFalse(frame.isFlipX());
+    }
+
+    @Test
+    void testJumpingDoesNotLoop() {
+        AnimationHandler handler = new AnimationHandler(fullLoader(), 32, 32);
+        TextureRegion lastFrame = handler.getAnimations()
+                .get(EntityState.JUMPING).getKeyFrame(10.0f, false);
+        assertEquals(lastFrame, handler.getFrame(EntityState.JUMPING, 10.0f, true));
     }
     @Test
-    void testAnimationHandlerStates(){
-         assertNotNull(animationHandler.getAnimations().get(EntityState.IDLE), "Idle animation should exist");
-         assertNotNull(animationHandler.getAnimations().get(EntityState.WALKING), "Walking animation should exist");
-         assertNotNull(animationHandler.getAnimations().get(EntityState.RUNNING), "Running animation should exist");
-        assertNotNull(animationHandler.getAnimations().get(EntityState.FALLING), "Falling animation should exist");
-         assertNotNull(animationHandler.getAnimations().get(EntityState.PUNCHING), "Punching animation should exist");
-         assertEquals(3, animationHandler.getAnimations().get(EntityState.IDLE).getKeyFrames().length);
-     }
-
-     @Test
-     void testLoopingLogic() {
-         IAnimationLoader jumpLoader = (w, h) -> {
-             TextureRegion[][] frames = new TextureRegion[3][3];
-             for (int r = 0; r < 3; r++) {
-                 for (int c = 0; c < 3; c++) {
-                     frames[r][c] = new TextureRegion();
-                 }
-             }
-             return frames;
-         };
-
-         AnimationHandler jumpHandler = new AnimationHandler(jumpLoader, 32, 32);
-         assertDoesNotThrow(() -> jumpHandler.getFrame(EntityState.JUMPING, 10.0f, true));
-     }
-
-     @Test
-    void testAnimationNullReturnsIdleState(){
-         IAnimationLoader limitedLoader = (w, h) -> {
-             TextureRegion[][] frames = new TextureRegion[1][3];
-             frames[0][0] = mock(TextureRegion.class);
-             frames[0][1] = mock(TextureRegion.class);
-             frames[0][2] = mock(TextureRegion.class);
-             return frames;
-         };
-
-         AnimationHandler handler = new AnimationHandler(limitedLoader, 32, 32);
-         EntityState missingState = EntityState.PUNCHING;
-
-         assertNull(handler.getAnimations().get(missingState));
-
-         TextureRegion result = handler.getFrame(missingState, 0.1f, true);
-
-         TextureRegion expectedIdle = handler.getAnimations().get(EntityState.IDLE).getKeyFrame(0.1f);
-         assertEquals(expectedIdle, result, "Should return IDLE when Punching state is missing");
-
+    void testFallingDoesNotLoop() {
+        TextureRegion lastFrame = animationHandler.getAnimations()
+                .get(EntityState.FALLING).getKeyFrame(10.0f, false);
+        assertEquals(lastFrame, animationHandler.getFrame(EntityState.FALLING, 10.0f, true));
     }
 }
