@@ -172,6 +172,7 @@ public class AudioManager implements IAudioService, IEventListener {
         switch (event) {
             case PLAYER_JUMP:
                 playRandom(Sfx.JUMP1, Sfx.JUMP2);
+                stopFootstepsLoop();
                 break;
             case UI_BUTTON_CLICK:
                 playSfx(Sfx.BUTTON_CLICK);
@@ -187,7 +188,7 @@ public class AudioManager implements IAudioService, IEventListener {
                 startRunningFootstepsLoop();
                 break;
             case PLAYER_RUN_STOP:
-                startFootstepsLoop();
+                stopFootstepsLoop();
                 break;
             case PLAYER_MOVE_STOP:
                stopFootstepsLoop();
