@@ -11,7 +11,7 @@ import inf112.zoombiegeddon.model.entity.IPlayer;
  * Extends {@link InputAdapter} to handle discrete inf112.zoombiegeddon.events like jumping,
  * while providing an update loop for continuous movement and friction.
  */
-public class PlayerController extends InputAdapter {
+public class PlayerController extends InputAdapter implements IPlayerController {
 
     private final IPlayer player;
 

@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector2;
  * Retrieves spawn positions from a tiled map.
  * Looks up named spawn points in the {@code SpawnPoints} layer.
  */
-public class Spawner {
+public class Spawner implements ISpawner {
     private final TiledMap map;
     private final float unitScale;
     /**

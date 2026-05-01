@@ -1,6 +1,7 @@
 package inf112.zoombiegeddon.controller;
 
 import inf112.zoombiegeddon.app.GameApp;
+import inf112.zoombiegeddon.model.leaderboard.ILeaderboardManager;
 import inf112.zoombiegeddon.model.leaderboard.ILeaderboardRepository;
 import inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry;
 import inf112.zoombiegeddon.model.leaderboard.LeaderboardManager;
@@ -34,15 +35,15 @@ class LeaderboardControllerStoryTest {
 
     private static final class InMemoryRepository implements ILeaderboardRepository {
 
-        private LeaderboardManager savedManager = new LeaderboardManager();
+        private ILeaderboardManager savedManager = new LeaderboardManager();
 
         @Override
-        public void save(LeaderboardManager leaderboardManager) {
+        public void save(ILeaderboardManager leaderboardManager) {
             this.savedManager = leaderboardManager;
         }
 
         @Override
-        public LeaderboardManager load() {
+        public ILeaderboardManager load() {
             return savedManager;
         }
     }

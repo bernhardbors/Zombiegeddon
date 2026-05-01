@@ -1,27 +1,23 @@
 package inf112.zoombiegeddon.controller;
 
-import inf112.zoombiegeddon.model.leaderboard.ILeaderboardRepository;
-import inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry;
-import inf112.zoombiegeddon.model.leaderboard.LeaderboardManager;
-import inf112.zoombiegeddon.model.leaderboard.ScoreCalculator;
-import inf112.zoombiegeddon.model.leaderboard.ScoreData;
+import inf112.zoombiegeddon.model.leaderboard.*;
 
 /**
  * Controller responsible for handling leaderboard interactions,
  * including registering level completions and persisting results.
  */
-public class LeaderboardController {
+public class LeaderboardController implements ILeaderboardController {
 
-    private final LeaderboardManager leaderboardManager;
+    private final ILeaderboardManager leaderboardManager;
     private final ILeaderboardRepository leaderboardRepository;
-    private final ScoreCalculator scoreCalculator;
+    private final IScoreCalculator scoreCalculator;
 
     /**
      * @param leaderboardManager    Manages in-memory leaderboard entries.
      * @param leaderboardRepository Handles persistence of leaderboard data.
      * @param scoreCalculator       Calculates scores based on level performance.
      */
-    public LeaderboardController(LeaderboardManager leaderboardManager, ILeaderboardRepository leaderboardRepository, ScoreCalculator scoreCalculator) {
+    public LeaderboardController(ILeaderboardManager leaderboardManager, ILeaderboardRepository leaderboardRepository, IScoreCalculator scoreCalculator) {
         this.leaderboardManager = leaderboardManager;
         this.leaderboardRepository = leaderboardRepository;
         this.scoreCalculator = scoreCalculator;
@@ -55,7 +51,8 @@ public class LeaderboardController {
     }
 
     /** @return The current leaderboard manager instance. */
-    public LeaderboardManager getLeaderboardManager() {
+    @Override
+    public ILeaderboardManager getLeaderboardManager() {
         return leaderboardManager;
     }
 }

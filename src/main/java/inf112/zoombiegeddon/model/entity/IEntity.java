@@ -1,7 +1,7 @@
 package inf112.zoombiegeddon.model.entity;
 
 import com.badlogic.gdx.math.Vector2;
-import inf112.zoombiegeddon.model.animations.AnimationHandler;
+import inf112.zoombiegeddon.model.animations.IAnimationHandler;
 
 /**
  * Defines the common behavior for game entities.
@@ -67,7 +67,7 @@ public interface IEntity {
      *
      * @return The animation handler.
      */
-    AnimationHandler getAnimationHandler();
+    IAnimationHandler getAnimationHandler();
 
     /**
      * returns the speed of the entity

@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.animations.AnimationHandler;
+import inf112.zoombiegeddon.model.animations.IAnimationHandler;
 import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 
@@ -411,7 +412,7 @@ public class Player extends Entity implements IPlayer {
     }
 
     @Override
-    public AnimationHandler getAnimationHandler() {
+    public IAnimationHandler getAnimationHandler() {
         return animationHandler;
     }
 
