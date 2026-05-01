@@ -48,10 +48,11 @@ stop an evil professor’s experiment.
     
 ## Credits
 * https://gafferongames.com/post/fix_your_timestep/ used in the class WorldPhysics
-* https://libgdxinfo.wordpress.com/basic-label/ used in FontGenerator 
-* https://pixbob.itch.io/pixbob-mini-lite Font 
-* https://kenney-assets.itch.io/pixel-platformer Tiles
-* https://fartfish.itch.io/zombie-game-asset-pack Zombies 
+* https://emhuo.itch.io/peaberry-pixel-font Font in the game
+* https://kenney-assets.itch.io/pixel-platformer Tiles for the levels
+* https://fartfish.itch.io/zombie-game-asset-pack Zombies and background 
+* https://gandalfhardcore.itch.io/free-pixel-art-sidescroller-asset-pack-32x32-city Background
+* https://reedster123.itch.io/pixel-heart-healthbar-sprite-sheet Health bar 
 * The games cover photo and story mode video is AI generated
 
 # How to run
