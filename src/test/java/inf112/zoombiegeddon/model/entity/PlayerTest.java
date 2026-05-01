@@ -333,4 +333,27 @@ public class PlayerTest extends AbstractEntityTest {
         // Calling update with jumpHeld=true must not throw.
         player.setJumpHeld(false);
     }
+
+    @Test
+    void testPlayerCanJumpWhenCoyoteTime() {
+        player.setGrounded(true);
+        player.update(0.01f);
+        player.setGrounded(false);
+        player.jump();
+        player.update(0.05f);
+
+        verify(mockedBody).applyLinearImpulse(any(), any(), anyBoolean());
+    }
+
+    @Test
+    void testPlayerCanNotJumpWhenCoyoteTimerHasRanOut(){
+        player.setGrounded(true);
+        player.update(0.01f);
+        player.setGrounded(false);
+        player.update(0.2f);
+        player.jump();
+        verify(mockedBody, never()).applyLinearImpulse(any(), any(), anyBoolean());
+    }
+
+
 }
