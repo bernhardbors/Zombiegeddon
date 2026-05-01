@@ -20,7 +20,7 @@ import java.util.function.Function;
  * simulation regardless of the frame rate.
  * </p>
  */
-public class WorldPhysics {
+public class WorldPhysics implements IWorldPhysics {
 
     private record PendingPickupSpawn(String rewardType, Vector2 spawnPosition) {
     }

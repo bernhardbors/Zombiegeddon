@@ -28,7 +28,7 @@ class MainAppCreationTest {
 
 
             Lwjgl3ApplicationConfiguration usedCfg = cfgMock.constructed().get(0);
-            verify(usedCfg).setTitle("Zoombiegeddon: Army of the Undead");
+            verify(usedCfg).setTitle("Zoombiegeddon");
             verify(usedCfg).setWindowedMode(1280, 768);
 
             assertEquals(1, appMock.constructed().size(), "Lwjgl3Application should be initialized");

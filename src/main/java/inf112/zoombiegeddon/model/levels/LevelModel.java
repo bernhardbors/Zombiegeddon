@@ -12,8 +12,10 @@ import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
 import inf112.zoombiegeddon.model.entity.enemies.IAbstractEnemyFactory;
 import inf112.zoombiegeddon.model.entity.pickups.HealPickup;
 import inf112.zoombiegeddon.model.entity.pickups.SpeedBoostPickup;
+import inf112.zoombiegeddon.model.world.ISpawner;
 import inf112.zoombiegeddon.model.world.Spawner;
 import inf112.zoombiegeddon.model.world.luckyblock.LuckyBlockLayerFactory;
+import inf112.zoombiegeddon.model.world.physics.IWorldPhysics;
 import inf112.zoombiegeddon.model.world.physics.WorldCollisionLayerCreator;
 import inf112.zoombiegeddon.model.world.physics.WorldPhysics;
 import inf112.zoombiegeddon.model.world.triggers.TriggerZone;
@@ -26,13 +28,13 @@ import java.util.List;
  * The model for a single game level, owning all runtime state: physics,
  * player, enemies, trigger zones, and pickups.
  */
-public class LevelModel {
+public class LevelModel implements ILevelModel {
 
     private WorldPhysics physics;
     private IPlayer player;
     private List<IEnemy> enemies;
     private TriggerZone triggerZone;
-    private Spawner spawner;
+    private ISpawner spawner;
     private LuckyBlockLayerFactory luckyBlockLayerFactory;
 
     private float levelTime = 0f;
@@ -117,11 +119,18 @@ public class LevelModel {
         return all;
     }
 
+    @Override
     public IPlayer getPlayer() { return player; }
+    @Override
     public List<IEnemy> getEnemies() { return enemies; }
-    public WorldPhysics getPhysics() { return physics; }
+    @Override
+    public IWorldPhysics getPhysics() { return physics; }
+    @Override
     public String getCurrentText() { return currentText; }
+    @Override
     public float getLevelTime() { return levelTime; }
+    @Override
     public TriggerZone getTriggerZone() { return triggerZone; }
+    @Override
     public LuckyBlockLayerFactory getLuckyBlockFactory() { return luckyBlockLayerFactory; }
 }

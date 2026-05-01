@@ -17,6 +17,7 @@ import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
+import inf112.zoombiegeddon.model.levels.ILevelModel;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 import inf112.zoombiegeddon.view.utils.CameraUtils;
 
@@ -29,7 +30,7 @@ import java.util.List;
 public class LevelRenderer {
 
     private GameApp app;
-    private LevelModel model;
+    private ILevelModel model;
 
     private OrthographicCamera camera;
     private Viewport viewport;
@@ -55,7 +56,7 @@ public class LevelRenderer {
      * @param model the level model to render
      * @param map   the Tiled map used to set up the world renderer
      */
-    public LevelRenderer(GameApp app, LevelModel model, TiledMap map) {
+    public LevelRenderer(GameApp app, ILevelModel model, TiledMap map) {
         this.app = app;
         this.model = model;
 
@@ -69,7 +70,7 @@ public class LevelRenderer {
         this.entityRenderer = new EntityRenderer(app);
         this.uiRenderer = new UIRenderer(camera, model.getPlayer());
         this.debugRenderer = new Box2DDebugRenderer();
-        this.healthbar = app.getAssets().getManager().get(AssetConstants.HEALTHBAR, Texture.class);
+        this.healthbar = app.getAssets().getManager().get(AssetConstants.HEALTH_BAR, Texture.class);
 
         this.luckyBlockRenderer = new LuckyBlockRenderer(model.getLuckyBlockFactory());
     }

@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Disposable;
-import inf112.zoombiegeddon.model.world.physics.WorldPhysics;
+import inf112.zoombiegeddon.model.world.physics.IWorldPhysics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,7 +98,7 @@ public class WorldRenderer implements Disposable {
      * @param worldPhysics The physics world to render.
      * @param debugMode True to render debug output, false otherwise.
      */
-    public void renderDebug(WorldPhysics worldPhysics, boolean debugMode) {
+    public void renderDebug(IWorldPhysics worldPhysics, boolean debugMode) {
         if (debugMode && worldPhysics != null) {
             debugRenderer.render(worldPhysics.getWorld(), camera.combined);
         }

@@ -19,7 +19,7 @@ import java.io.IOException;
 public record JsonLeaderboardRepository(String filePath) implements ILeaderboardRepository {
 
     @Override
-    public void save(LeaderboardManager leaderboardManager) {
+    public void save(ILeaderboardManager leaderboardManager) {
         LeaderboardData data = new LeaderboardData();
 
         for (String boardId : leaderboardManager.getLeaderboards().keySet()) {
@@ -39,7 +39,7 @@ public record JsonLeaderboardRepository(String filePath) implements ILeaderboard
     }
 
     @Override
-    public LeaderboardManager load() {
+    public ILeaderboardManager load() {
         Json json = new Json();
 
         try (FileReader reader = new FileReader(filePath)) {
