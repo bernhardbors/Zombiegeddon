@@ -53,6 +53,7 @@ stop an evil professor’s experiment.
 * https://fartfish.itch.io/zombie-game-asset-pack Zombies and background 
 * https://gandalfhardcore.itch.io/free-pixel-art-sidescroller-asset-pack-32x32-city Background
 * https://reedster123.itch.io/pixel-heart-healthbar-sprite-sheet Health bar 
+* The icons for powerups has been drawn by Bernhard Bors
 * The games cover photo and story mode video is AI generated
 
 # How to run
