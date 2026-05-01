@@ -108,10 +108,12 @@ public class PlayerTest extends AbstractEntityTest {
 
         //When the player does not hit enemy from above, the player should take damage
         player.hitEnemy(enemy, false);
+        assertEquals(3, enemy.getHealth()); //Enemy should not take damage
         assertEquals(2, player.getHealth());
 
         //When the player hits the enemy from above, the player should not take damage
         player.hitEnemy(enemy, true);
+        assertEquals(2, enemy.getHealth()); //Enemy should take damage
         assertEquals(2, player.getHealth());
 
     }
@@ -354,6 +356,41 @@ public class PlayerTest extends AbstractEntityTest {
         player.jump();
         verify(mockedBody, never()).applyLinearImpulse(any(), any(), anyBoolean());
     }
+
+    @Test
+    void testUpdateGravityScaleWhenJumpHeld() {
+        player.setJumpHeld(true);
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(0f, 2f));
+        player.update(0.01f);
+        verify(mockedBody).setGravityScale(1.5f);
+    }
+
+    @Test
+    void testUpdateGravityScaleWhenJumpNotHeld() {
+        player.setJumpHeld(false);
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(0f, 2f));
+        player.update(0.01f);
+        verify(mockedBody).setGravityScale(5.0f);
+    }
+
+    @Test
+    void testUpdateAnimationState() {
+        player.setGrounded(true);
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(2f, 0f));
+        player.setRunning(false);
+        player.update(0.01f);
+        EntityState state = player.getCurrentState();
+        assertEquals(EntityState.WALKING, state);
+    }
+
+    @Test
+    void testUpdateAnimationStateWhenVelocityXIsLessThenVelocityThreshold() {
+        player.setGrounded(true);
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(-5f, 0f));
+        player.update(0.01f);
+        assertFalse(player.isFacingRight());
+    }
+
 
 
 }
