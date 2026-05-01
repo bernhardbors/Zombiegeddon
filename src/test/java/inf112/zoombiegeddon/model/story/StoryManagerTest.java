@@ -12,6 +12,7 @@ class StoryManagerTest {
         manager.startRun("  Alice  ");
         StorySession session = manager.getSession();
 
+        assertTrue(manager.isActive());
         assertTrue(session.isActive());
         assertFalse(session.isTimerRunning());
         assertEquals("Alice", session.getPlayerName());
@@ -23,6 +24,7 @@ class StoryManagerTest {
 
         manager.finishRun();
 
+        assertFalse(manager.isActive());
         assertFalse(session.isActive());
         assertFalse(session.isTimerRunning());
     }
@@ -91,5 +93,28 @@ class StoryManagerTest {
     void getIdForLevelAtExactUpperBoundaryReturnsNull() {
         StoryManager manager = new StoryManager();
         assertNull(manager.getIdForLevel(3));
+    }
+
+
+    @Test
+    void testMethodsWhenStorySessionIsNull() {
+        StoryManager manager = new StoryManager();
+
+        //Test what happens when you dont startSession
+        //Should not crash even if storySession == null
+        manager.startTimer();
+        manager.carryTime(0.5f);
+        manager.finishRun();
+
+        assertNull(manager.getSession());
+        assertFalse(manager.isActive());
+    }
+
+    @Test
+    void testGetCurrenPlayerNameAfterStartRun() {
+        StoryManager manager = new StoryManager();
+        manager.startRun("Test");
+        assertEquals("Test", manager.getCurrentPlayerName());
+
     }
 }
