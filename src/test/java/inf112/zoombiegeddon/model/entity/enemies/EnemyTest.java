@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import inf112.zoombiegeddon.model.entity.EntityState;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -147,4 +148,37 @@ class EnemyTest extends AbstractEntityTest {
         enemy.heal(3); // already at max
         assertEquals(5, enemy.getHealth());
     }
+
+    @Test
+    void testUpdateAnimationStateWhenNotGroundedJumping() {
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 5, 1.0f);
+        enemy.setGrounded(false);
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(0f, 2f));
+        enemy.update(0.02f);
+        EntityState state = enemy.getCurrentState();
+        assertEquals(EntityState.JUMPING, state);
+    }
+
+    @Test
+    void testUpdateAnimationStateWhenNotGroundedFalling() {
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 5, 1.0f);
+        enemy.setGrounded(false);
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(2f, -1f));
+        enemy.update(0.02f);
+        EntityState state = enemy.getCurrentState();
+        assertEquals(EntityState.FALLING, state);
+    }
+
+    @Test
+    void testUpdateAnimationStateWhenGrounded() {
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 5, 1.0f);
+        enemy.setGrounded(true);
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(2f, 0f));
+        enemy.update(0.02f);
+        EntityState state = enemy.getCurrentState();
+        assertEquals(EntityState.WALKING, state);
+
+    }
+
+
 }

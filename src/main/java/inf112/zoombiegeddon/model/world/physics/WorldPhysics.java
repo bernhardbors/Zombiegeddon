@@ -138,7 +138,7 @@ public class WorldPhysics implements IWorldPhysics {
      * </p>
      * * @param delta the time in seconds since the last render frame.
      *
-     * @see <a href="https://gafferongames.com/post/fix_your_timestep/">Fix Your Timestep!</a>
+     * @see <a href="https://gafferongames.com/post/fix_your_timestep/"> Fix Your Timestep! </a>
      */
     public void update(float delta) {
         float timeStep = 1 / 60f;
