@@ -2,6 +2,7 @@ package inf112.zoombiegeddon.model.leaderboard;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import inf112.zoombiegeddon.model.leaderboard.ILeaderboardManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,7 +18,7 @@ class JsonLeaderboardRepositoryTest {
         JsonLeaderboardRepository repository = new JsonLeaderboardRepository("leaderboard.json");
         repository.save(manager);
 
-        LeaderboardManager loadedManager = repository.load();
+        ILeaderboardManager loadedManager = repository.load();
 
         assertEquals(1, loadedManager.getLeaderboard("level1").getEntries().size());
     }
@@ -32,7 +33,7 @@ class JsonLeaderboardRepositoryTest {
         JsonLeaderboardRepository repository = new JsonLeaderboardRepository(leaderboardFile.toString());
         repository.save(manager);
 
-        LeaderboardManager loadedManager = repository.load();
+        ILeaderboardManager loadedManager = repository.load();
 
         assertEquals(1, loadedManager.getLeaderboard("storymode").getEntries().size());
     }

@@ -7,15 +7,15 @@ public interface ILeaderboardRepository {
      *
      * @param leaderboardManager the manager whose state to save; must not be {@code null}
      */
-    void save(LeaderboardManager leaderboardManager);
+    void save(ILeaderboardManager leaderboardManager);
 
     /**
-     * Loads and returns a {@link LeaderboardManager} from the underlying storage.
+     * Loads and returns an {@link ILeaderboardManager} from the underlying storage.
      *
      * <p>If no previously saved state exists, implementations should return
-     * a default/empty {@link LeaderboardManager} rather than {@code null}.</p>
+     * a default/empty implementation rather than {@code null}.</p>
      *
-     * @return the restored {@link LeaderboardManager}, never {@code null}
+     * @return the restored manager, never {@code null}
      */
-    LeaderboardManager load();
+    ILeaderboardManager load();
 }
