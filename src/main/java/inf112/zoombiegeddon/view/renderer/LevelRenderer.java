@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -18,6 +17,7 @@ import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
 import inf112.zoombiegeddon.model.levels.LevelModel;
+import inf112.zoombiegeddon.view.animations.AnimationHandler;
 import inf112.zoombiegeddon.view.utils.CameraUtils;
 
 import java.util.List;
@@ -28,34 +28,37 @@ import java.util.List;
  */
 public class LevelRenderer {
 
-    private GameApp app;
-    private LevelModel model;
+    private final GameApp app;
+    private final LevelModel model;
 
-    private OrthographicCamera camera;
-    private Viewport viewport;
-    private WorldRenderer worldRenderer;
-    private EntityRenderer entityRenderer;
-    private UIRenderer uiRenderer;
-    private Box2DDebugRenderer debugRenderer;
-    private LuckyBlockRenderer luckyBlockRenderer;
+    private final OrthographicCamera camera;
+    private final Viewport viewport;
+    private final WorldRenderer worldRenderer;
+    private final EntityRenderer entityRenderer;
+    private final UIRenderer uiRenderer;
+    private final Box2DDebugRenderer debugRenderer;
+    private final LuckyBlockRenderer luckyBlockRenderer;
 
-    private Texture healthbar;
+    private final Texture healthbar;
     private boolean showDebug;
 
     public static final float VIEWPORT_WIDTH = 50.0f;
     public static final float VIEWPORT_HEIGHT = 30.0f;
 
-    private static final float SIGN_BOX_WIDTH = 0.6F;
+    private static final float SIGN_BOX_WIDTH = 0.6f;
     private static final float SIGN_PADDING = 0.02f;
     private static final float SIGN_FONT_SCALE = 2.0f;
     private static final float SIGN_Y_POSITION = 0.75f;
 
+    private static final float SPRITE_DIM = 32 * LevelModel.UNIT_SCALE;
+
     /**
-     * @param app   the application context, used to access assets and batch
-     * @param model the level model to render
-     * @param map   the Tiled map used to set up the world renderer
+     * @param app              the application context, used to access assets and batch
+     * @param model            the level model to render
+     * @param map              the Tiled map used to set up the world renderer
+     * @param playerAnims      the animation handler for the player
      */
-    public LevelRenderer(GameApp app, LevelModel model, TiledMap map) {
+    public LevelRenderer(GameApp app, LevelModel model, TiledMap map, AnimationHandler playerAnims) {
         this.app = app;
         this.model = model;
 
@@ -70,12 +73,40 @@ public class LevelRenderer {
         this.uiRenderer = new UIRenderer(camera, model.getPlayer());
         this.debugRenderer = new Box2DDebugRenderer();
         this.healthbar = app.getAssets().getManager().get(AssetConstants.HEALTHBAR, Texture.class);
-
         this.luckyBlockRenderer = new LuckyBlockRenderer(model.getLuckyBlockFactory());
+
+        entityRenderer.register(model.getPlayer(), playerAnims, SPRITE_DIM);
+    }
+
+    /**
+     * Registers enemies with the entity renderer after they have been created by the factory.
+     * Each enemy type maps to its own animation handler.
+     *
+     * @param normalAnims  Animation handler for standard enemy types.
+     * @param chonkerAnims Animation handler for tank-type enemies.
+     */
+    public void registerEnemies(AnimationHandler normalAnims, AnimationHandler chonkerAnims) {
+        for (IEntity entity : model.getAllEntities()) {
+            if (entity instanceof inf112.zoombiegeddon.model.entity.enemies.IEnemy enemy) {
+                AnimationHandler anims = enemy.getSpeed() <= 1.5f ? chonkerAnims : normalAnims;
+                entityRenderer.register(entity, anims, SPRITE_DIM);
+            }
+        }
+    }
+
+    /**
+     * Notifies the entity renderer which pickup effect color to use for the player.
+     * Call this when the player collects a pickup.
+     *
+     * @param pickupType The type string of the collected pickup, e.g. "speed" or "heal".
+     */
+    public void onPickupCollected(String pickupType) {
+        entityRenderer.setPickupEffectColor(model.getPlayer(), pickupType);
     }
 
     /** Renders one frame of the level in draw order. */
     public void render() {
+        entityRenderer.syncWithModel(model.getAllEntities());
         if (model.getPlayer() != null) {
             CameraUtils.updateCamera(model.getPlayer().getPosition(), camera);
         }
@@ -99,9 +130,10 @@ public class LevelRenderer {
 
         worldRenderer.renderDebug(model.getPhysics(), showDebug);
 
-        for (IEntity entity : model.getAllEntities()) {
-            drawEntities(entity);
-        }
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        entityRenderer.renderAll((com.badlogic.gdx.graphics.g2d.SpriteBatch) batch);
+        batch.end();
 
         drawPickups();
 
@@ -113,18 +145,10 @@ public class LevelRenderer {
         }
 
         renderTriggerText();
+
         if (showDebug) {
             debugRenderer.render(model.getPhysics().getWorld(), camera.combined);
         }
-    }
-
-    private void drawEntities(IEntity entity) {
-        if (entity.getAnimationHandler() == null) return;
-        TextureRegion playerFrame = entity.getAnimationHandler().getFrame(entity.getCurrentState(), entity.getStateTime(), entity.isFacingRight());
-        app.getBatch().setProjectionMatrix(camera.combined);
-        app.getBatch().begin();
-        entityRenderer.render(app.getBatch(), entity, playerFrame);
-        app.getBatch().end();
     }
 
     private void drawPickups() {
@@ -151,7 +175,8 @@ public class LevelRenderer {
 
     private void renderTriggerText() {
         String text = model.getCurrentText();
-        if (text != null && model.getTriggerZone() != null && model.getTriggerZone().getZone() != null) {
+        if (text != null && model.getTriggerZone() != null
+                && model.getTriggerZone().getZone() != null) {
             drawSignText(text);
         }
     }
@@ -166,7 +191,8 @@ public class LevelRenderer {
 
         app.getAssets().getFont().getData().setScale(SIGN_FONT_SCALE);
         GlyphLayout layout = new GlyphLayout();
-        layout.setText(app.getAssets().getFont(), text, Color.WHITE, boxW - padding * 2, Align.center, true);
+        layout.setText(app.getAssets().getFont(), text, Color.WHITE,
+                boxW - padding * 2, Align.center, true);
 
         float boxX = (screenW - boxW) / 2f;
         float boxY = screenH * SIGN_Y_POSITION;
@@ -183,7 +209,6 @@ public class LevelRenderer {
         if (app.getStoryManager().isActive()) {
             return app.getStoryManager().getElapsedSeconds(model.getLevelTime());
         }
-
         return model.getLevelTime();
     }
 

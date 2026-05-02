@@ -1,7 +1,9 @@
-package inf112.zoombiegeddon.model.entity;
+package inf112.zoombiegeddon.model.entity.player;
 
 import com.badlogic.gdx.math.Rectangle;
 import inf112.zoombiegeddon.events.GameEvent;
+import inf112.zoombiegeddon.model.entity.IDamageable;
+import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
 
 /**
@@ -36,29 +38,11 @@ public interface IPlayer extends IEntity, IDamageable {
     /**
      * Triggers a visual pickup effect on the player.
      * @param durationSeconds How long the effect lasts.
-     * @param r Red component of the effect color (0–1).
-     * @param g Green component of the effect color (0–1).
-     * @param b Blue component of the effect color (0–1).
      */
-    void triggerPickupVisualEffect(float durationSeconds, float r, float g, float b);
+    void triggerPickupEffect(float durationSeconds);
 
     /** Notifies the player whether the jump key is currently held. */
     void setJumpHeld(boolean held);
-
-    /** @return true if a pickup visual effect is currently active */
-    boolean hasPickupVisualEffect();
-
-    /** @return intensity of the active pickup effect, between 0 and 1 */
-    float getPickupFxIntensity();
-
-    /** @return red component of the pickup effect color */
-    float getPickupFxColorR();
-
-    /** @return green component of the pickup effect color */
-    float getPickupFxColorG();
-
-    /** @return blue component of the pickup effect color */
-    float getPickupFxColorB();
 
     /** @return true if the player is currently in the goal zone */
     boolean inGoal();

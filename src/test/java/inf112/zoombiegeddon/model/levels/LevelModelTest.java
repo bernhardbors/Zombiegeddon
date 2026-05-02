@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import inf112.zoombiegeddon.AbstractLibGDXTest;
 import inf112.zoombiegeddon.app.Assets;
 import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.model.animations.AnimationHandler;
+import inf112.zoombiegeddon.view.animations.AnimationHandler;
 import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
 import org.junit.jupiter.api.AfterEach;

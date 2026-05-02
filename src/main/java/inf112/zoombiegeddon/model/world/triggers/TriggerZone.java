@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
-import inf112.zoombiegeddon.model.entity.IPlayer;
+import inf112.zoombiegeddon.model.entity.player.IPlayer;
 
 import java.util.ArrayList;
 import java.util.List;

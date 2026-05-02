@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.entity.enemies.Enemy;
+import inf112.zoombiegeddon.model.entity.player.Player;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

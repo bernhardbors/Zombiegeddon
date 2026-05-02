@@ -1,11 +1,10 @@
 package inf112.zoombiegeddon.model.entity.pickups;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
-import inf112.zoombiegeddon.model.entity.IPlayer;
+import inf112.zoombiegeddon.model.entity.player.IPlayer;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 
 /**
@@ -23,7 +22,7 @@ public class HealPickup extends Pickup {
      * @param spawnPosition The position to spawn the pickup.
      */
     public HealPickup(World world, Vector2 spawnPosition) {
-        super(world, spawnPosition, 8f * LevelModel.UNIT_SCALE, "heal", Color.RED);
+        super(world, spawnPosition, 8f * LevelModel.UNIT_SCALE, "heal");
     }
 
     @Override
@@ -32,8 +31,7 @@ public class HealPickup extends Pickup {
             player.heal(HEALTH_AMOUNT);
             GameEventBus.post(GameEvent.PICKUP_HEALTH);
         }
-        Color c = getPickupColor();
-        player.triggerPickupVisualEffect(FX_DURATION_SECONDS, c.r, c.g, c.b);
+        player.triggerPickupEffect(FX_DURATION_SECONDS);
     }
 
 }

@@ -1,7 +1,7 @@
 package inf112.zoombiegeddon.model.world.physics;
 
 import com.badlogic.gdx.physics.box2d.*;
-import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.player.Player;
 import inf112.zoombiegeddon.model.entity.enemies.Enemy;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
 import inf112.zoombiegeddon.model.world.luckyblock.ILuckyBlock;

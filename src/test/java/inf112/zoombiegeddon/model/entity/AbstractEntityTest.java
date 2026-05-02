@@ -3,7 +3,7 @@ package inf112.zoombiegeddon.model.entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import inf112.zoombiegeddon.AbstractLibGDXTest;
-import inf112.zoombiegeddon.model.animations.AnimationHandler;
+import inf112.zoombiegeddon.view.animations.AnimationHandler;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.mockito.ArgumentMatchers.any;

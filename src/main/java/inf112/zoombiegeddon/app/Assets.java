@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import inf112.zoombiegeddon.model.animations.AnimationHandler;
+import inf112.zoombiegeddon.view.animations.AnimationHandler;
 
 /**
  * Class for handling all game resources.

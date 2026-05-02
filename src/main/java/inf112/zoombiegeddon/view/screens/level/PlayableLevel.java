@@ -13,13 +13,14 @@ import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.events.IEventListener;
 import inf112.zoombiegeddon.model.levels.LevelModel;
+import inf112.zoombiegeddon.view.animations.AnimationHandler;
 import inf112.zoombiegeddon.view.renderer.LevelRenderer;
 import inf112.zoombiegeddon.view.screens.menus.LeaderboardScreen;
 
 /**
  * Represents a running game level, wiring together the model, renderer,
- * and controllers. Also listens for game events to handle pause, death,
- * and level completion.
+ * and controllers. Owns animation resources and routes pickup events to
+ * the renderer for visual feedback.
  */
 public class PlayableLevel extends ScreenAdapter implements IEventListener {
 
@@ -38,8 +39,15 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
         this.boardId = boardId;
 
         this.map = new TmxMapLoader().load(mapPath);
-        this.model = new LevelModel(app, map);
-        this.renderer = new LevelRenderer(app, model, map);
+        this.model = new LevelModel(map);
+
+        AnimationHandler playerAnims   = app.getAssets().getPlayerMaleAnimations();
+        AnimationHandler zombieAnims   = app.getAssets().getZombieAnimations();
+        AnimationHandler chonkerAnims  = app.getAssets().getChonkerAnimations();
+
+        this.renderer = new LevelRenderer(app, model, map, playerAnims);
+        this.renderer.registerEnemies(zombieAnims, chonkerAnims);
+
         this.playerController = new PlayerController(model.getPlayer());
         this.levelController = new LevelController();
     }
@@ -61,24 +69,23 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
-
         playerController.update(delta);
         model.update(delta);
         renderer.render();
     }
 
     /**
-     * Handles pause, player death, and level completion events.
-     * On completion, advances story mode or shows the next level screen.
+     * Handles pause, player death, level completion, and pickup events.
      */
     @Override
     public void onEvent(GameEvent event) {
-        if (event == GameEvent.TOGGLE_PAUSE) {
-            app.setScreen(new PauseScreen(app, this));
-        } else if (event == GameEvent.PLAYER_DEATH) {
-            handlePlayerDeath();
-        } else if (event == GameEvent.LEVEL_FINISHED) {
-            handleLevelFinished();
+        switch (event) {
+            case TOGGLE_PAUSE    -> app.setScreen(new PauseScreen(app, this));
+            case PLAYER_DEATH    -> handlePlayerDeath();
+            case LEVEL_FINISHED  -> handleLevelFinished();
+            case PICKUP_SPEED    -> renderer.onPickupCollected("speed");
+            case PICKUP_HEALTH   -> renderer.onPickupCollected("heal");
+            default              -> {}
         }
     }
 
@@ -86,18 +93,10 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
         if (app.getStoryManager().isActive()) {
             app.getStoryManager().finishRun();
             app.setScreen(new GameOverScreen(
-                    app,
-                    GameOverScreen.RetryMode.STORY,
-                    null,
-                    null
-            ));
+                    app, GameOverScreen.RetryMode.STORY, null, null));
         } else {
             app.setScreen(new GameOverScreen(
-                    app,
-                    GameOverScreen.RetryMode.LEVEL,
-                    mapPath,
-                    boardId
-            ));
+                    app, GameOverScreen.RetryMode.LEVEL, mapPath, boardId));
         }
     }
 
@@ -117,8 +116,7 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
             app.setScreen(new PlayableLevel(
                     app,
                     app.getStoryManager().getCurrentMapPath(),
-                    GameApp.STORY_LEADERBOARD_ID
-            ));
+                    GameApp.STORY_LEADERBOARD_ID));
             return;
         }
 
@@ -127,15 +125,13 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
                 app.getStoryManager().getCurrentPlayerName(),
                 0,
                 model.getPlayer().getHealth(),
-                app.getStoryManager().getElapsedSeconds(0)
-        );
+                app.getStoryManager().getElapsedSeconds(0));
 
         app.getStoryManager().finishRun();
         app.setScreen(new LeaderboardScreen(
                 app,
                 GameApp.STORY_LEADERBOARD_ID,
-                LeaderboardScreen.ScreenType.MAIN_MENU
-        ));
+                LeaderboardScreen.ScreenType.MAIN_MENU));
     }
 
     private void handleSingleLevelFinished() {
@@ -144,14 +140,10 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
                 app.getCurrentPlayerName(),
                 0,
                 model.getPlayer().getHealth(),
-                model.getLevelTime()
-        );
+                model.getLevelTime());
 
         app.setScreen(new LeaderboardScreen(
-                app,
-                boardId,
-                LeaderboardScreen.ScreenType.MAIN_MENU
-        ));
+                app, boardId, LeaderboardScreen.ScreenType.MAIN_MENU));
     }
 
     /**
@@ -176,7 +168,7 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
 
     /**
      * Draws the game without updating physics or logic.
-     * Used in PauseScreen to display a frozen game in the background.
+     * Used by PauseScreen to display a frozen game in the background.
      */
     public void renderVisuals() {
         ScreenUtils.clear(0, 0, 0, 1);

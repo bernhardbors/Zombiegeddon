@@ -1,6 +1,6 @@
 package inf112.zoombiegeddon.model.world.triggers;
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
-import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.player.Player;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.verify;
 

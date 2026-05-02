@@ -1,12 +1,12 @@
 package inf112.zoombiegeddon.model.entity;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * Base class for all game entities that have physical representation and animations.
- * Extends the LibGDX {@link Sprite} class to handle visual rendering while
- * maintaining a reference to a {@link PhysicsComponent} for movement and collision.
+ * Base class for all game entities that have a physical presence in the game world.
+ * Manages shared state such as physics, movement direction, grounded status,
+ * and animation state transitions. Subclasses are responsible for implementing
+ * entity-specific update logic and determining the correct moving state.
  */
 public abstract class Entity implements IEntity {
     protected PhysicsComponent physics;
@@ -70,7 +70,7 @@ public abstract class Entity implements IEntity {
 
         if (!isGrounded) {
             currentState = (velocity.y > velocityThreshold) ? EntityState.JUMPING : EntityState.FALLING;
-        } else if (Math.abs(velocity.x) > 0.1f ) {
+        } else if (Math.abs(velocity.x) > velocityThreshold ) {
             currentState = determineMovingState();
         } else {
             currentState = EntityState.IDLE;

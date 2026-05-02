@@ -3,7 +3,7 @@ package inf112.zoombiegeddon.model.entity.pickups;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
-import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

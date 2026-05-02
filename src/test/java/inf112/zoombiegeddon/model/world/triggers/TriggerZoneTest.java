@@ -7,7 +7,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
-import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

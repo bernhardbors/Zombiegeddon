@@ -65,13 +65,58 @@ public class PhysicsComponent {
     }
 
     /**
+     * Returns the Box2D world this body belongs to.
+     *
+     * @return The physics world.
+     */
+    public World getWorld() {
+        return body.getWorld();
+    }
+
+    /**
      * Applies a linear impulse to the body's center.
-     * Used for immediate movement changes like jumping or walking starts.
      *
      * @param impulse The impulse vector to apply.
      */
     public void applyImpulse(Vector2 impulse) {
         body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
+    }
+
+    /**
+     * Sets the gravity scale of the body.
+     *
+     * @param scale The gravity scale to apply.
+     */
+    public void setGravityScale(float scale) {
+        body.setGravityScale(scale);
+    }
+
+    /**
+     * Sets the linear velocity of the body directly.
+     *
+     * @param velocity The new velocity vector.
+     */
+    public void setLinearVelocity(Vector2 velocity) {
+        body.setLinearVelocity(velocity);
+    }
+
+    /**
+     * Teleports the body to the given position, preserving its current angle.
+     *
+     * @param x target x position in world units
+     * @param y target y position in world units
+     */
+    public void setTransform(float x, float y) {
+        body.setTransform(x, y, body.getAngle());
+    }
+
+    /**
+     * Sets the user data on the body, used for collision identification.
+     *
+     * @param userData the object to associate with this body
+     */
+    public void setUserData(Object userData) {
+        body.setUserData(userData);
     }
 
     public Vector2 getVelocity() {
@@ -86,7 +131,4 @@ public class PhysicsComponent {
         return body;
     }
 
-    public void setBody(Body body) {
-        this.body = body;
-    }
 }

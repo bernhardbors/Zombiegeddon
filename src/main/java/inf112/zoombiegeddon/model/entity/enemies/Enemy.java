@@ -4,59 +4,45 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import inf112.zoombiegeddon.events.GameEvent;
-import inf112.zoombiegeddon.events.GameEventBus;
-import inf112.zoombiegeddon.model.animations.AnimationHandler;
 import inf112.zoombiegeddon.model.entity.Entity;
 import inf112.zoombiegeddon.model.entity.EntityState;
+import inf112.zoombiegeddon.model.entity.HealthComponent;
 import inf112.zoombiegeddon.model.entity.PhysicsComponent;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 
 /**
  * Represents an enemy entity in the game.
- * Handles simple patrol behavior, health, and physics-based interactions.
+ * Handles patrol behavior and physics-based interactions.
+ * Health management is delegated to {@link HealthComponent}.
+ * Animation resources are managed by the View layer via EntityRenderer.
  */
 public class Enemy extends Entity implements IEnemy {
 
     private static final float VELOCITY_THRESHOLD = 0.1f;
 
-    AnimationHandler animationHandler;
-
-    private float spriteDim;
-
-    private float patrolSpeed;
+    private final HealthComponent health;
+    private final float patrolSpeed;
     private int direction = Math.random() < 0.5 ? 1 : -1;
 
-    private boolean isDead = false;
-    private int hp;
-    private final int maxHp;
-
     /**
-     * Constructs a new enemy with the given spawn position, animation handler,
-     * health, and patrol speed.
+     * Constructs a new enemy.
      *
-     * @param world The Box2D world the enemy belongs to.
+     * @param world    The Box2D world the enemy belongs to.
      * @param spawnPos The spawn position of the enemy.
-     * @param animationHandler The animation handler used for this enemy.
-     * @param hp The starting and maximum health of the enemy.
-     * @param speed The patrol speed of the enemy.
+     * @param hp       The starting and maximum health of the enemy.
+     * @param speed    The patrol speed of the enemy.
      */
-    public Enemy(World world, Vector2 spawnPos, AnimationHandler animationHandler, int hp, float speed) {
+    public Enemy(World world, Vector2 spawnPos, int hp, float speed) {
+        super(new PhysicsComponent(world, spawnPos,
+                11 * LevelModel.UNIT_SCALE,
+                20 * LevelModel.UNIT_SCALE,
+                "enemy"));
 
-        this.spriteDim = 32 * LevelModel.UNIT_SCALE;
-        float actualW = 11 * LevelModel.UNIT_SCALE;
-        float actualH = 20 * LevelModel.UNIT_SCALE;
-
-        super(new PhysicsComponent(world, spawnPos, actualW, actualH, "enemy"));
-
-        this.physics.getBody().setUserData(this);
-        this.animationHandler = animationHandler;
-        this.hp = hp;
-        this.maxHp = hp;
-
+        this.physics.setUserData(this);
+        this.width = 11 * LevelModel.UNIT_SCALE;
+        this.height = 20 * LevelModel.UNIT_SCALE;
+        this.health = new HealthComponent(hp, GameEvent.ENEMY_KILLED);
         this.patrolSpeed = speed;
-
-        this.width = actualW;
-        this.height = actualH;
     }
 
     @Override
@@ -67,54 +53,30 @@ public class Enemy extends Entity implements IEnemy {
             direction *= -1;
         }
 
-        physics.getBody().setLinearVelocity(direction * patrolSpeed, vel.y);
-
+        physics.setLinearVelocity(new Vector2(direction * patrolSpeed, vel.y));
+        health.update(dt);
         updateAnimationState(dt, VELOCITY_THRESHOLD);
     }
 
     /**
      * Determines the animation state used while the enemy is moving on the ground.
      *
-     * @return The movement state for this enemy.
+     * @return {@link EntityState#WALKING} for all enemy types.
      */
     @Override
     public EntityState determineMovingState() {
-        return  EntityState.WALKING;
-    }
-
-    /**
-     * Marks the enemy as dead when health reaches zero or below.
-     *
-     * @param amount the amount of damage to deal
-     */
-    @Override
-    public void takeDamage(int amount) {
-        if (isDead) {
-
-            return;
-
-        }
-
-        this.hp -= amount;
-
-        if (this.hp <= 0) {
-
-            isDead = true;
-
-            GameEventBus.post(GameEvent.ENEMY_KILLED);
-
-        }
+        return EntityState.WALKING;
     }
 
     /**
      * Checks whether the enemy should turn around due to a wall ahead
      * or missing ground in front of it.
      *
-     * @param dir The current horizontal direction, where 1 is right and -1 is left.
-     * @return True if the enemy should turn around, false otherwise.
+     * @param dir The current horizontal direction: 1 for right, -1 for left.
+     * @return True if the enemy should turn around.
      */
     private boolean shouldTurnAround(int dir) {
-        World world = physics.getBody().getWorld();
+        World world = physics.getWorld();
         Vector2 pos = physics.getPosition();
 
         float lookAheadX = pos.x + (this.width / 2f + 0.5f) * dir;
@@ -122,7 +84,6 @@ public class Enemy extends Entity implements IEnemy {
 
         Vector2 wallStart = new Vector2(pos.x, scanY);
         Vector2 wallEnd = new Vector2(lookAheadX, scanY);
-
         Vector2 ledgeStart = new Vector2(lookAheadX, pos.y);
         Vector2 ledgeEnd = new Vector2(lookAheadX, pos.y - (this.height / 2f + 1.0f));
 
@@ -130,16 +91,9 @@ public class Enemy extends Entity implements IEnemy {
         final boolean[] hasGround = {false};
 
         RayCastCallback wallCallback = (fixture, point, normal, fraction) -> {
-            if (fixture.isSensor()) {
-                return 1;
-            }
-            if (fixture.getBody() == physics.getBody()) {
-                return 1;
-            }
-            if ("player".equals(fixture.getUserData())) {
-                return 1;
-            }
-
+            if (fixture.isSensor()) return 1;
+            if (fixture.getBody() == physics.getBody()) return 1;
+            if ("player".equals(fixture.getUserData())) return 1;
             hitWall[0] = true;
             return 0;
         };
@@ -159,77 +113,41 @@ public class Enemy extends Entity implements IEnemy {
     }
 
     @Override
-    public int getHealth() {
-        return this.hp;
-    }
+    public void takeDamage(int amount) { health.takeDamage(amount); }
 
     @Override
-    public int getMaxHealth() {
-        return this.maxHp;
-    }
+    public void heal(int amount) { health.heal(amount); }
 
     @Override
-    public boolean isDead() {
-        return isDead;
-    }
-
-    /**
-     * Restores health, capped at max HP.
-     *
-     * @param amount the amount of health to restore
-     */
-    @Override
-    public void heal(int amount) {
-        this.hp = Math.min(this.hp + amount, maxHp);
-    }
+    public int getHealth() { return health.getHealth(); }
 
     @Override
-    public void setPosition(float x, float y) {
-        physics.getBody().getPosition().set(x, y);
-    }
+    public int getMaxHealth() { return health.getMaxHealth(); }
 
     @Override
-    public Vector2 getPosition() {
-        return physics.getBody().getPosition();
-    }
+    public boolean isDead() { return health.isDead(); }
 
     @Override
-    public void setDirection(int direction) {
-        this.direction = direction;
-    }
+    public void setPosition(float x, float y) { physics.setTransform(x, y); }
 
     @Override
-    public PhysicsComponent getPhysics() {
-        return physics;
-    }
+    public Vector2 getPosition() { return physics.getPosition(); }
 
     @Override
-    public boolean isGrounded() {
-        return isGrounded;
-    }
+    public void setDirection(int direction) { this.direction = direction; }
 
     @Override
-    public float getWidth() {
-        return width;
-    }
+    public PhysicsComponent getPhysics() { return physics; }
 
     @Override
-    public float getHeight() {
-        return height;
-    }
+    public boolean isGrounded() { return isGrounded; }
 
     @Override
-    public float getScaledSpriteDimensions() {
-        return spriteDim;
-    }
+    public float getWidth() { return width; }
 
     @Override
-    public AnimationHandler getAnimationHandler() {
-        return animationHandler;
-    }
+    public float getHeight() { return height; }
 
     @Override
-    public float getSpeed() {
-        return patrolSpeed;
-    }
+    public float getSpeed() { return patrolSpeed; }
 }
