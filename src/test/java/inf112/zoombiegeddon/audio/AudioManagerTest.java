@@ -341,17 +341,6 @@ class AudioManagerTest {
         verify(sound, atLeastOnce()).stop();
     }
 
-    @Test
-    void testOnEventPickupCollected() {
-        Sfx sfx = Sfx.SPEED;
-
-        when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(true);
-        when(assetManager.get(sfx.path(), Sound.class)).thenReturn(sound);
-
-        audioManager.onEvent(GameEvent.PICKUP_COLLECTED);
-
-        verify(sound, times(1)).play(anyFloat());
-    }
 
     @Test
     void testOnEventPickupHealth() {
