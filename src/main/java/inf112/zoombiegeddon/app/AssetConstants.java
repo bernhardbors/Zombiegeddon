@@ -20,11 +20,20 @@ public class AssetConstants {
     public static final String PICKUP_SPEED = "assets/sprites/entity/pickups/pickup_speed.png";
     public static final String PICKUP_HEAL  = "assets/sprites/entity/pickups/pickup_heal.png";
     // Bakgrunner
-    public static final String BG_SKY = "assets/backgrounds/CityBackgroundSky.png";
-    public static final String BG_CITY = "assets/backgrounds/CityBackground.png";
-    public static final String BG_L1 = "assets/backgrounds/CityBackgroundLayer1.png";
-    public static final String BG_L2 = "assets/backgrounds/CityBackgroundLayer2.png";
-    public static final String BG_GAME = "assets/backgrounds/bg.png";
+   public static final String BG_SKY = "assets/backgrounds/CityBackgroundSky.png";
+   public static final String BG_CITY = "assets/backgrounds/CityBackground.png";
+   public static final String BG_L1 = "assets/backgrounds/CityBackgroundLayer1.png";
+   public static final String BG_L2 = "assets/backgrounds/CityBackgroundLayer2.png";
+   public static final String BG_GAME = "assets/backgrounds/bg.png";
+
+    public static final String BG_SNOW_1 = "assets/backgrounds/snow_plan2.png";
+    public static final String BG_SNOW_2   = "assets/backgrounds/snow_plan3.png";
+    public static final String BG_SNOW_3   = "assets/backgrounds/snow_plan4.png";
+
+    public static final String BG_NATURE_1   = "assets/backgrounds/forest_plan1.png";
+    public static final String BG_NATURE_2   = "assets/backgrounds/forest_plan2.png";
+    public static final String BG_NATURE_3   = "assets/backgrounds/forest_plan3.png";
+
     // Shaders
     public static final String SHADER_VERTEX = "assets/shaders/vertex.glsl";
     public static final String SHADER_FRAGMENT_PICKUP = "assets/shaders/pickup_effect_fragment.glsl";

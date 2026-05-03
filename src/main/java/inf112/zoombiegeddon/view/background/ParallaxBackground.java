@@ -70,7 +70,7 @@ public class ParallaxBackground {
 
             batch.draw(layer.texture,
                     camera.position.x - camera.viewportWidth / 2,
-                    camera.position.y - camera.viewportHeight / 2,
+                    camera.position.y - camera.viewportHeight /2,
                     camera.viewportWidth,
                     camera.viewportHeight,
                     (int) (xOffset * layer.texture.getWidth()),
@@ -79,5 +79,9 @@ public class ParallaxBackground {
                     layer.texture.getHeight(),
                     false, false);
         }
+    }
+
+    public void clearLayers() {
+        layers.clear();
     }
 }
