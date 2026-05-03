@@ -53,6 +53,11 @@ stop an evil professor’s experiment.
 * https://fartfish.itch.io/zombie-game-asset-pack Zombies and background 
 * https://gandalfhardcore.itch.io/free-pixel-art-sidescroller-asset-pack-32x32-city Background
 * https://reedster123.itch.io/pixel-heart-healthbar-sprite-sheet Health bar 
+* https://xdeviruchi.itch.io/16-bit-fantasy-adventure-music-pack In-Game Music
+* https://phoenix1291.itch.io/sound-effects-pack-2 Health, Speed Pick Up, and Game Over/Death Sound Effects
+* https://the-sound-guild.itch.io/footsteps-sounds-02 footsteps and running sound
+* https://noahkuehne.itch.io/free-menu-sound-pack-ui-sounds-v2 Button sounds for menu.
+* https://jacob-creates.itch.io/game-sound-effects zombie death
 * The icons for powerups has been drawn by Bernhard Bors
 * The games cover photo and story mode video is AI generated
 
