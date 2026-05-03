@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx",
+    "activeFile": "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level2.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -77,11 +77,11 @@
             }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level2.tmx": {
-            "scale": 1.5,
-            "selectedLayer": 3,
+            "scale": 1,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 1176.6666666666665,
-                "y": 534.3333333333333
+                "x": 876,
+                "y": 375.5
             }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level3.tmx": {
@@ -206,15 +206,15 @@
     "openFiles": [
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level3.tmx",
-        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level5.tmx"
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level2.tmx"
     ],
     "project": "TiledProjectFile.tiled-project",
     "property.type": "string",
     "recentFiles": [
-        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level5.tmx",
-        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level3.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx",
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level3.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level2.tmx",
+        "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level5.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level4.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/MyLevel.tmx",
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/map01.tmx",
