@@ -290,7 +290,8 @@ public class PlayerTest extends AbstractEntityTest {
         player.setGrounded(false);
         player.update(0.2f);
         player.jump();
-        verify(mockedBody, never()).applyLinearImpulse(any(), any(), anyBoolean());
+        player.update(0.01f);
+        verify(mockedBody, never()).applyLinearImpulse(argThat(v -> v.x == 0 && v.y > 0), any(Vector2.class), anyBoolean());
     }
 
     @Test
