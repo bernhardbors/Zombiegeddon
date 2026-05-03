@@ -22,7 +22,6 @@ public class Assets {
     private Skin skin;
 
     private AnimationHandler playerMaleAnimations;
-    private AnimationHandler playerFemaleAnimations;
     private AnimationHandler zombieAnimations;
     private AnimationHandler chonkerAnimations;
 
@@ -69,7 +68,6 @@ public class Assets {
         font = manager.get(AssetConstants.FONT_PATH, BitmapFont.class);
 
         playerMaleAnimations = new AnimationHandler(manager.get(AssetConstants.CHARACTER_MALE_SHEET, Texture.class), 32, 32);
-        playerFemaleAnimations = new AnimationHandler(manager.get(AssetConstants.CHARACTER_FEMALE_SHEET, Texture.class), 32, 32);
         zombieAnimations = new AnimationHandler(manager.get(AssetConstants.ZOMBIE_SHEET, Texture.class), 32, 32);
         chonkerAnimations = new AnimationHandler(manager.get(AssetConstants.CHONKER_SHEET, Texture.class), 32, 32);
 

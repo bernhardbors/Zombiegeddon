@@ -143,8 +143,8 @@ public class LevelRenderer {
         worldRenderer.renderForeground();
 
         if (uiRenderer != null) {
-            uiRenderer.drawHearts(batch, healthbar);
-            uiRenderer.drawStoryTime(batch, app.getAssets().getFont(), getDisplayedTime());
+            uiRenderer.drawHearts(batch, healthbar, 5);
+            uiRenderer.drawTime(batch, app.getAssets().getFont(), getDisplayedTime());
         }
 
         renderTriggerText();
