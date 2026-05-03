@@ -89,7 +89,7 @@ public class LoadingScreen extends AbstractScreen {
     private void finalizeLoading() {
         app.getAssets().finishLoading();
 
-        app.getBackground().addLayer(app.getAssets().getManager().get(AssetConstants.HEALTHBAR, Texture.class), 0.1f);
+        app.getBackground().addLayer(app.getAssets().getManager().get(AssetConstants.HEALTH_BAR, Texture.class), 0.1f);
         app.getBackground().addLayer(app.getAssets().getManager().get(AssetConstants.BG_GAME, Texture.class), 0.1f);
         app.getBackground().addLayer(app.getAssets().getManager().get(AssetConstants.BG_SKY, Texture.class), 0.1f);
         app.getBackground().addLayer(app.getAssets().getManager().get(AssetConstants.BG_CITY, Texture.class), 0.4f);

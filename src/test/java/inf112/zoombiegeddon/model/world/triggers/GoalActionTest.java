@@ -14,7 +14,7 @@ class GoalActionTest extends AbstractEntityTest {
     @Test
     void testGoalActionSetsPlayerInGoalToTrue() {
         goalAction = new GoalAction();
-        player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        player = new Player(mockedWorld, spawnPos, 3);
 
         assertFalse(player.inGoal(), "Player should not be in goal");
 

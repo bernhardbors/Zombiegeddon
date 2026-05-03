@@ -7,11 +7,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import inf112.zoombiegeddon.audio.AudioManager;
 import inf112.zoombiegeddon.audio.IAudioService;
+import inf112.zoombiegeddon.controller.ILeaderboardController;
 import inf112.zoombiegeddon.controller.LeaderboardController;
-import inf112.zoombiegeddon.model.leaderboard.ILeaderboardRepository;
-import inf112.zoombiegeddon.model.leaderboard.JsonLeaderboardRepository;
-import inf112.zoombiegeddon.model.leaderboard.LeaderboardManager;
-import inf112.zoombiegeddon.model.leaderboard.ScoreCalculator;
+import inf112.zoombiegeddon.model.leaderboard.*;
 import inf112.zoombiegeddon.model.story.IStoryManager;
 import inf112.zoombiegeddon.model.story.StoryManager;
 import inf112.zoombiegeddon.view.background.ParallaxBackground;
@@ -31,10 +29,10 @@ public class GameApp extends Game {
     private IAudioService audio;
     private Preferences prefs;
     private ShapeRenderer shapeRenderer;
-    private LeaderboardController leaderboardController;
+    private ILeaderboardController leaderboardController;
     private ParallaxBackground background;
 
-    private LeaderboardManager leaderboardManager;
+    private ILeaderboardManager leaderboardManager;
     private String currentPlayerName;
 
     private IStoryManager storyManager;
@@ -66,7 +64,7 @@ public class GameApp extends Game {
     private void initializeLeaderboardSystem() {
         ILeaderboardRepository leaderboardRepository = new JsonLeaderboardRepository("leaderboard.json");
         leaderboardManager = leaderboardRepository.load();
-        ScoreCalculator scoreCalculator = new ScoreCalculator();
+        IScoreCalculator scoreCalculator = new ScoreCalculator();
         leaderboardController = new LeaderboardController(
                 leaderboardManager,
                 leaderboardRepository,
@@ -102,8 +100,8 @@ public class GameApp extends Game {
     public Assets getAssets() { return assets; }
     public IAudioService getAudio() { return audio; }
     public IStoryManager getStoryManager() { return storyManager; }
-    public LeaderboardController getLeaderboardController() { return leaderboardController; }
-    public LeaderboardManager getLeaderboardManager() { return leaderboardManager; }
+    public ILeaderboardController getLeaderboardController() { return leaderboardController; }
+    public ILeaderboardManager getLeaderboardManager() { return leaderboardManager; }
     public ParallaxBackground getBackground() { return background; }
     public String getCurrentPlayerName() { return currentPlayerName; }
     public Preferences getPrefs() { return prefs; }

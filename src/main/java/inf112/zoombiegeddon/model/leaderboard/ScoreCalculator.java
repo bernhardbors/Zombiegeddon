@@ -3,7 +3,7 @@ package inf112.zoombiegeddon.model.leaderboard;
 /**
  * Calculates the final score for a completed level.
  */
-public class ScoreCalculator {
+public class ScoreCalculator implements IScoreCalculator {
 
     /**
      * Calculates the final score for a completed level.

@@ -19,7 +19,7 @@ class HealPickupTest extends AbstractEntityTest {
     @Test
     void testApplyEffect(){
         HealPickup pickup = new HealPickup(mockedWorld, spawnPos);
-        Player player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        Player player = new Player(mockedWorld, spawnPos, 3);
 
         player.takeDamage(1);
         pickup.applyEffect(player);
@@ -41,7 +41,7 @@ class HealPickupTest extends AbstractEntityTest {
         GameEventBus.register(e -> { if (e == GameEvent.PICKUP_HEALTH) received[0] = true; });
 
         HealPickup pickup = new HealPickup(mockedWorld, spawnPos);
-        Player player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        Player player = new Player(mockedWorld, spawnPos, 3);
         player.takeDamage(1); // hp = 2 < maxHp = 3
 
         pickup.applyEffect(player);
@@ -55,7 +55,7 @@ class HealPickupTest extends AbstractEntityTest {
         GameEventBus.register(e -> { if (e == GameEvent.PICKUP_HEALTH) received[0] = true; });
 
         HealPickup pickup = new HealPickup(mockedWorld, spawnPos);
-        Player player = new Player(mockedWorld, spawnPos, mockedAnims, 3); // hp = maxHp = 3
+        Player player = new Player(mockedWorld, spawnPos, 3); // hp = maxHp = 3
 
         pickup.applyEffect(player);
 
@@ -65,7 +65,7 @@ class HealPickupTest extends AbstractEntityTest {
     @Test
     void collectAppliesEffectOnce() {
         HealPickup pickup = new HealPickup(mockedWorld, spawnPos);
-        Player player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        Player player = new Player(mockedWorld, spawnPos, 3);
 
         player.takeDamage(2); // hp = 1
         player.update(1.2f);  // reset invulnerability
@@ -78,7 +78,7 @@ class HealPickupTest extends AbstractEntityTest {
     @Test
     void collectIsIdempotentAndDoesNotApplyEffectTwice() {
         HealPickup pickup = new HealPickup(mockedWorld, spawnPos);
-        Player player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        Player player = new Player(mockedWorld, spawnPos, 3);
 
         player.takeDamage(2); // hp = 1
         player.update(1.2f);

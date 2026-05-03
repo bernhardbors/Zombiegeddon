@@ -12,7 +12,7 @@ class SpawnActionTest extends AbstractEntityTest {
     @Test
     void testSpawnActionSetsCorrectPosition() {
         spawnAction = new SpawnAction(10, 10);
-        player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        player = new Player(mockedWorld, spawnPos, 3);
 
         spawnAction.onTrigger(player);
 

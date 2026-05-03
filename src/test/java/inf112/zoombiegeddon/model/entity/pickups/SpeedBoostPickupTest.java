@@ -18,7 +18,7 @@ class SpeedBoostPickupTest extends AbstractEntityTest {
 
     @Test
     void testApplyEffect() {
-        Player player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        Player player = new Player(mockedWorld, spawnPos, 3);
         SpeedBoostPickup pickup = new SpeedBoostPickup(mockedWorld, spawnPos);
 
         pickup.applyEffect(player);
@@ -37,7 +37,7 @@ class SpeedBoostPickupTest extends AbstractEntityTest {
         boolean[] received = {false};
         GameEventBus.register(e -> { if (e == GameEvent.PICKUP_SPEED) received[0] = true; });
 
-        Player player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        Player player = new Player(mockedWorld, spawnPos, 3);
         SpeedBoostPickup pickup = new SpeedBoostPickup(mockedWorld, spawnPos);
         pickup.applyEffect(player);
 
@@ -46,7 +46,7 @@ class SpeedBoostPickupTest extends AbstractEntityTest {
 
     @Test
     void collectAppliesBoostOnce() {
-        Player player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        Player player = new Player(mockedWorld, spawnPos, 3);
         SpeedBoostPickup pickup = new SpeedBoostPickup(mockedWorld, spawnPos);
 
         pickup.collect(player);
@@ -56,7 +56,7 @@ class SpeedBoostPickupTest extends AbstractEntityTest {
 
     @Test
     void collectIsIdempotentAndDoesNotReapplyBoost() {
-        Player player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        Player player = new Player(mockedWorld, spawnPos, 3);
         SpeedBoostPickup pickup = new SpeedBoostPickup(mockedWorld, spawnPos);
 
         pickup.collect(player);

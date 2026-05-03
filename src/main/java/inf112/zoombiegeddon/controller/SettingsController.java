@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * Controller responsible for applying and persisting game settings,
  * including resolution, fullscreen mode, and audio volumes.
  */
-public class SettingsController {
+public class SettingsController implements ISettingsController {
     private final GameApp app;
     private final Preferences prefs;
 

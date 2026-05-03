@@ -12,7 +12,7 @@ import java.util.Map;
  * This class splits a spritesheet into specific animations and maps them to
  * {@link EntityState} keys. It also manages sprite flipping based on movement direction.
  */
-public class AnimationHandler {
+public class AnimationHandler implements IAnimationHandler {
 
     private final Texture characterSpriteSheet;
     private final Map<EntityState, Animation<TextureRegion>> animations = new EnumMap<>(EntityState.class);

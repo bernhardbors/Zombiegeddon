@@ -38,7 +38,7 @@ public class Main {
 		}
 
 		Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
-		cfg.setTitle("Zoombiegeddon: Army of the Undead");
+		cfg.setTitle("Zoombiegeddon");
 		cfg.setWindowedMode(1280, 768);
 
 		ApplicationListener appListener = new GameApp();

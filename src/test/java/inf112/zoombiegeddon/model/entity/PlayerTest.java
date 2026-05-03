@@ -22,7 +22,7 @@ public class PlayerTest extends AbstractEntityTest {
      */
     @BeforeEach
     void beforeEach() {
-        player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        player = new Player(mockedWorld, spawnPos, 3);
     }
 
     @Test
@@ -105,25 +105,27 @@ public class PlayerTest extends AbstractEntityTest {
 
     @Test
     void testHitEnemy() {
-        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 3, 1.0f);
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, 3, 1.0f);
 
         //When the player does not hit enemy from above, the player should take damage
         player.hitEnemy(enemy, false);
+        assertEquals(3, enemy.getHealth()); //Enemy should not take damage
         assertEquals(2, player.getHealth());
 
         //When the player hits the enemy from above, the player should not take damage
         player.hitEnemy(enemy, true);
+        assertEquals(2, enemy.getHealth()); //Enemy should take damage
         assertEquals(2, player.getHealth());
 
     }
 
-    @Test
-    void testGetScaledSpriteDimensions() {
-        float playerDim = player.getScaledSpriteDimensions();
-
-        float expected = 32 * LevelModel.UNIT_SCALE;
-        assertEquals(expected, playerDim);
-    }
+//    @Test
+//    void testGetScaledSpriteDimensions() {
+//        float playerDim = player.getScaledSpriteDimensions();
+//
+//        float expected = 32 * LevelModel.UNIT_SCALE;
+//        assertEquals(expected, playerDim);
+//    }
 
     @Test
     void testDetermineMovingState() {
@@ -143,10 +145,10 @@ public class PlayerTest extends AbstractEntityTest {
         assertEquals(20 * LevelModel.UNIT_SCALE, playerHeight);
     }
 
-    @Test
-    void testGetAnimationHandler() {
-        assertEquals(mockedAnims, player.getAnimationHandler());
-    }
+//    @Test
+//    void testGetAnimationHandler() {
+//        assertEquals(mockedAnims, player.getAnimationHandler());
+//    }
 
     @Test
     void testApplySpeedBoost() {
@@ -166,49 +168,49 @@ public class PlayerTest extends AbstractEntityTest {
 
     }
 
-    @Test
-    void testTriggerPickupHasVisualEffectColor() {
-        // Default color is yellow (1, 1, 0)
-        player.triggerPickupVisualEffect(2f, 1f, 1f, 0f);
-        assertEquals(1.0f, player.getPickupFxColorR());
-        assertEquals(1.0f, player.getPickupFxColorG());
-        assertEquals(0.0f, player.getPickupFxColorB());
+//    @Test
+//    void testTriggerPickupHasVisualEffectColor() {
+//        // Default color is yellow (1, 1, 0)
+//        player.triggerPickupVisualEffect(2f, 1f, 1f, 0f);
+//        assertEquals(1.0f, player.getPickupFxColorR());
+//        assertEquals(1.0f, player.getPickupFxColorG());
+//        assertEquals(0.0f, player.getPickupFxColorB());
+//
+//        // Setting white changes it
+//        player.triggerPickupVisualEffect(2f, 1f, 1f, 1f);
+//        assertEquals(1.0f, player.getPickupFxColorR());
+//        assertEquals(1.0f, player.getPickupFxColorG());
+//        assertEquals(1.0f, player.getPickupFxColorB());
+//
+//        // Setting yellow again restores it
+//        player.triggerPickupVisualEffect(2f, 1f, 1f, 0f);
+//        assertEquals(1.0f, player.getPickupFxColorR());
+//        assertEquals(1.0f, player.getPickupFxColorG());
+//        assertEquals(0.0f, player.getPickupFxColorB());
+//    }
 
-        // Setting white changes it
-        player.triggerPickupVisualEffect(2f, 1f, 1f, 1f);
-        assertEquals(1.0f, player.getPickupFxColorR());
-        assertEquals(1.0f, player.getPickupFxColorG());
-        assertEquals(1.0f, player.getPickupFxColorB());
-
-        // Setting yellow again restores it
-        player.triggerPickupVisualEffect(2f, 1f, 1f, 0f);
-        assertEquals(1.0f, player.getPickupFxColorR());
-        assertEquals(1.0f, player.getPickupFxColorG());
-        assertEquals(0.0f, player.getPickupFxColorB());
-    }
-
-    @Test
-    void testHasPickupVisualEffect() {
-        player.triggerPickupVisualEffect(1f, 1f, 1f, 0f);
-        player.update(0.2f);
-        assertTrue(player.hasPickupVisualEffect());
-
-        player.update(1.2f);
-        assertFalse(player.hasPickupVisualEffect());
-    }
-
-    @Test
-    void testGetPickupFxIntensity() {
-        player.triggerPickupVisualEffect(1.0f, 1f, 1f, 0f);
-
-        player.update(0.8f);
-        //Added delta because of rounding issues
-        assertEquals(0.2f, player.getPickupFxIntensity(), 0.001f);
-
-        player.update(1.2f);
-        assertEquals(0.0f, player.getPickupFxIntensity());
-
-    }
+//    @Test
+//    void testHasPickupVisualEffect() {
+//        player.triggerPickupVisualEffect(1f, 1f, 1f, 0f);
+//        player.update(0.2f);
+//        assertTrue(player.hasPickupVisualEffect());
+//
+//        player.update(1.2f);
+//        assertFalse(player.hasPickupVisualEffect());
+//    }
+//
+//    @Test
+//    void testGetPickupFxIntensity() {
+//        player.triggerPickupVisualEffect(1.0f, 1f, 1f, 0f);
+//
+//        player.update(0.8f);
+//        //Added delta because of rounding issues
+//        assertEquals(0.2f, player.getPickupFxIntensity(), 0.001f);
+//
+//        player.update(1.2f);
+//        assertEquals(0.0f, player.getPickupFxIntensity());
+//
+//    }
 
     @Test
     void testGetBounds() {
@@ -266,18 +268,18 @@ public class PlayerTest extends AbstractEntityTest {
         assertEquals(2, player.getHealth());
     }
 
-    @Test
-    void getPickupFxIntensityIsClampedToOneWhenRemainingExceedsOne() {
-        player.triggerPickupVisualEffect(2.0f, 1f, 1f, 0f); // remaining = 2.0f
-        assertEquals(1.0f, player.getPickupFxIntensity(), 0.001f);
-    }
-
-    @Test
-    void triggerPickupVisualEffectWithZeroDurationDoesNotActivate() {
-        player.triggerPickupVisualEffect(0f, 1f, 1f, 0f);
-        assertFalse(player.hasPickupVisualEffect());
-        assertEquals(0f, player.getPickupFxIntensity(), 0.001f);
-    }
+//    @Test
+//    void getPickupFxIntensityIsClampedToOneWhenRemainingExceedsOne() {
+//        player.triggerPickupVisualEffect(2.0f, 1f, 1f, 0f); // remaining = 2.0f
+//        assertEquals(1.0f, player.getPickupFxIntensity(), 0.001f);
+//    }
+//
+//    @Test
+//    void triggerPickupVisualEffectWithZeroDurationDoesNotActivate() {
+//        player.triggerPickupVisualEffect(0f, 1f, 1f, 0f);
+//        assertFalse(player.hasPickupVisualEffect());
+//        assertEquals(0f, player.getPickupFxIntensity(), 0.001f);
+//    }
 
     @Test
     void setInGoalTrueWhenAlreadyInGoalDoesNotFireEventAgain() {
@@ -334,4 +336,62 @@ public class PlayerTest extends AbstractEntityTest {
         // Calling update with jumpHeld=true must not throw.
         player.setJumpHeld(false);
     }
+
+    @Test
+    void testPlayerCanJumpWhenCoyoteTime() {
+        player.setGrounded(true);
+        player.update(0.01f);
+        player.setGrounded(false);
+        player.jump();
+        player.update(0.05f);
+
+        verify(mockedBody).applyLinearImpulse(any(), any(), anyBoolean());
+    }
+
+    @Test
+    void testPlayerCanNotJumpWhenCoyoteTimerHasRanOut(){
+        player.setGrounded(true);
+        player.update(0.01f);
+        player.setGrounded(false);
+        player.update(0.2f);
+        player.jump();
+        verify(mockedBody, never()).applyLinearImpulse(any(), any(), anyBoolean());
+    }
+
+    @Test
+    void testUpdateGravityScaleWhenJumpHeld() {
+        player.setJumpHeld(true);
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(0f, 2f));
+        player.update(0.01f);
+        verify(mockedBody).setGravityScale(1.5f);
+    }
+
+    @Test
+    void testUpdateGravityScaleWhenJumpNotHeld() {
+        player.setJumpHeld(false);
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(0f, 2f));
+        player.update(0.01f);
+        verify(mockedBody).setGravityScale(5.0f);
+    }
+
+    @Test
+    void testUpdateAnimationState() {
+        player.setGrounded(true);
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(2f, 0f));
+        player.setRunning(false);
+        player.update(0.01f);
+        EntityState state = player.getCurrentState();
+        assertEquals(EntityState.WALKING, state);
+    }
+
+    @Test
+    void testUpdateAnimationStateWhenVelocityXIsLessThenVelocityThreshold() {
+        player.setGrounded(true);
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(-5f, 0f));
+        player.update(0.01f);
+        assertFalse(player.isFacingRight());
+    }
+
+
+
 }

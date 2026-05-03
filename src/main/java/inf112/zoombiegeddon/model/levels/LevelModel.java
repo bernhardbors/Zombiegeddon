@@ -11,8 +11,10 @@ import inf112.zoombiegeddon.model.entity.enemies.IAbstractEnemyFactory;
 import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
 import inf112.zoombiegeddon.model.entity.pickups.HealPickup;
 import inf112.zoombiegeddon.model.entity.pickups.SpeedBoostPickup;
+import inf112.zoombiegeddon.model.world.ISpawner;
 import inf112.zoombiegeddon.model.world.Spawner;
 import inf112.zoombiegeddon.model.world.luckyblock.LuckyBlockLayerFactory;
+import inf112.zoombiegeddon.model.world.physics.IWorldPhysics;
 import inf112.zoombiegeddon.model.world.physics.WorldCollisionLayerCreator;
 import inf112.zoombiegeddon.model.world.physics.WorldPhysics;
 import inf112.zoombiegeddon.model.world.triggers.TriggerZone;
@@ -25,12 +27,13 @@ import java.util.List;
  * The model for a single game level, owning all runtime state: physics,
  * player, enemies, trigger zones, and pickups.
  */
-public class LevelModel {
+public class LevelModel implements ILevelModel {
 
     private final WorldPhysics physics;
     private final IPlayer player;
     private final List<IEnemy> enemies;
     private final TriggerZone triggerZone;
+    private final ISpawner spawner;
     private final LuckyBlockLayerFactory luckyBlockLayerFactory;
 
     private float levelTime = 0f;
@@ -56,7 +59,7 @@ public class LevelModel {
         this.luckyBlockLayerFactory = new LuckyBlockLayerFactory(
                 physics.getWorld(), map, "Luckyblocks", PIXELS_PER_TILE);
 
-        Spawner spawner = new Spawner(map, UNIT_SCALE);
+        this.spawner = new Spawner(map, UNIT_SCALE);
         this.player = new Player(physics.getWorld(), spawner.getSpawnPoint("player_spawn"), 3);
 
         this.triggerZone = new TriggerZone(map, "Triggers", UNIT_SCALE);
@@ -114,11 +117,18 @@ public class LevelModel {
         return all;
     }
 
-    public IPlayer getPlayer()                          { return player; }
-    public List<IEnemy> getEnemies()                   { return enemies; }
-    public WorldPhysics getPhysics()                   { return physics; }
-    public String getCurrentText()                     { return currentText; }
-    public float getLevelTime()                        { return levelTime; }
-    public TriggerZone getTriggerZone()                { return triggerZone; }
+    @Override
+    public IPlayer getPlayer() { return player; }
+    @Override
+    public List<IEnemy> getEnemies() { return enemies; }
+    @Override
+    public IWorldPhysics getPhysics() { return physics; }
+    @Override
+    public String getCurrentText() { return currentText; }
+    @Override
+    public float getLevelTime() { return levelTime; }
+    @Override
+    public TriggerZone getTriggerZone() { return triggerZone; }
+    @Override
     public LuckyBlockLayerFactory getLuckyBlockFactory() { return luckyBlockLayerFactory; }
 }

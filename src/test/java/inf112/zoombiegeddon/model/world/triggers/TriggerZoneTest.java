@@ -59,7 +59,7 @@ class TriggerZoneTest extends AbstractEntityTest {
         when(map.getLayers()).thenReturn(layers);
 
         triggerZone = new TriggerZone(map, "testLayer", scale);
-        player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        player = new Player(mockedWorld, spawnPos, 3);
         mockedPlayer = mock(Player.class);
 
     }

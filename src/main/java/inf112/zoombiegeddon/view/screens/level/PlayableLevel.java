@@ -7,11 +7,13 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.ScreenUtils;
 import inf112.zoombiegeddon.app.GameApp;
+import inf112.zoombiegeddon.controller.IPlayerController;
 import inf112.zoombiegeddon.controller.LevelController;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.events.IEventListener;
+import inf112.zoombiegeddon.model.levels.ILevelModel;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 import inf112.zoombiegeddon.view.animations.AnimationHandler;
 import inf112.zoombiegeddon.view.renderer.LevelRenderer;
@@ -25,9 +27,9 @@ import inf112.zoombiegeddon.view.screens.menus.LeaderboardScreen;
 public class PlayableLevel extends ScreenAdapter implements IEventListener {
 
     private final GameApp app;
-    private final LevelModel model;
+    private final ILevelModel model;
     private final LevelRenderer renderer;
-    private final PlayerController playerController;
+    private final IPlayerController playerController;
     private final LevelController levelController;
     private final TiledMap map;
     private final String mapPath;

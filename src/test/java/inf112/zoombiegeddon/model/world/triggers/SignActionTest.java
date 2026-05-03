@@ -14,7 +14,7 @@ class SignActionTest extends AbstractEntityTest {
     void testSignActionReturnsCorrectText() {
         String testText = "Test123";
         signAction = new SignAction(testText);
-        player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        player = new Player(mockedWorld, spawnPos, 3);
 
         String result = signAction.onTrigger(player);
 

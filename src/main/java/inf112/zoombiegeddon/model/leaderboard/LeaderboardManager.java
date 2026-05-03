@@ -9,7 +9,7 @@ import java.util.Map;
  * <p>Leaderboards are created on demand the first time a given
  * {@code boardId} is referenced.</p>
  */
-public class LeaderboardManager {
+public class LeaderboardManager implements ILeaderboardManager {
     private final Map<String, Leaderboard> leaderboards;
 
 

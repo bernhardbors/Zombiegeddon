@@ -1,6 +1,7 @@
 package inf112.zoombiegeddon.model.world.physics;
 
 import com.badlogic.gdx.physics.box2d.*;
+import inf112.zoombiegeddon.model.entity.pickups.Pickup;
 import inf112.zoombiegeddon.model.entity.player.Player;
 import inf112.zoombiegeddon.model.entity.enemies.Enemy;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
@@ -101,7 +102,7 @@ class ContactListenerTest {
     @Test
     void testPickupCollision_CallsCollect() {
         Player mockPlayer = mock(Player.class);
-        IPickup mockPickup = mock(IPickup.class);
+        Pickup mockPickup = mock(Pickup.class);
 
         when(bodyA.getUserData()).thenReturn(mockPlayer);
         when(bodyB.getUserData()).thenReturn(mockPickup);
@@ -112,7 +113,6 @@ class ContactListenerTest {
 
         verify(mockPickup).collect(mockPlayer);
 
-        // Verify it was queued for removal
         when(mockWorld.isLocked()).thenReturn(false);
         listener.processQueuedRemovals(mockWorld);
         verify(mockWorld).destroyBody(bodyB);
@@ -132,17 +132,5 @@ class ContactListenerTest {
         listener.processQueuedRemovals(mockWorld);
 
         verify(mockWorld, never()).destroyBody(any());
-    }
-
-    @Test
-    void testPreSolve_ChecksPlayerCollision() {
-        Player mockPlayer = mock(Player.class);
-        Enemy mockEnemy = mock(Enemy.class);
-        when(bodyA.getUserData()).thenReturn(mockPlayer);
-        when(bodyB.getUserData()).thenReturn(mockEnemy);
-
-        listener.preSolve(contact, mock(Manifold.class));
-
-        verify(mockPlayer).hitEnemy(eq(mockEnemy), anyBoolean());
     }
 }

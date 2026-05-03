@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -16,6 +17,7 @@ import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
+import inf112.zoombiegeddon.model.levels.ILevelModel;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 import inf112.zoombiegeddon.view.animations.AnimationHandler;
 import inf112.zoombiegeddon.view.utils.CameraUtils;
@@ -29,7 +31,7 @@ import java.util.List;
 public class LevelRenderer {
 
     private final GameApp app;
-    private final LevelModel model;
+    private final ILevelModel model;
 
     private final OrthographicCamera camera;
     private final Viewport viewport;
@@ -58,7 +60,7 @@ public class LevelRenderer {
      * @param map              the Tiled map used to set up the world renderer
      * @param playerAnims      the animation handler for the player
      */
-    public LevelRenderer(GameApp app, LevelModel model, TiledMap map, AnimationHandler playerAnims) {
+    public LevelRenderer(GameApp app, ILevelModel model, TiledMap map, AnimationHandler playerAnims) {
         this.app = app;
         this.model = model;
 
@@ -72,7 +74,8 @@ public class LevelRenderer {
         this.entityRenderer = new EntityRenderer(app);
         this.uiRenderer = new UIRenderer(camera, model.getPlayer());
         this.debugRenderer = new Box2DDebugRenderer();
-        this.healthbar = app.getAssets().getManager().get(AssetConstants.HEALTHBAR, Texture.class);
+        this.healthbar = app.getAssets().getManager().get(AssetConstants.HEALTH_BAR, Texture.class);
+
         this.luckyBlockRenderer = new LuckyBlockRenderer(model.getLuckyBlockFactory());
 
         entityRenderer.register(model.getPlayer(), playerAnims, SPRITE_DIM);
@@ -132,7 +135,7 @@ public class LevelRenderer {
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        entityRenderer.renderAll((com.badlogic.gdx.graphics.g2d.SpriteBatch) batch);
+        entityRenderer.renderAll((SpriteBatch) batch);
         batch.end();
 
         drawPickups();

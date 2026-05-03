@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
+import inf112.zoombiegeddon.controller.ISettingsController;
 import inf112.zoombiegeddon.controller.SettingsController;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
@@ -22,7 +23,7 @@ import inf112.zoombiegeddon.view.screens.AbstractScreen;
 public class SettingsScreen extends AbstractScreen {
 
     private final Screen returnScreen;
-    private final SettingsController controller;
+    private final ISettingsController controller;
 
     /**
      * Constructs the settings screen.

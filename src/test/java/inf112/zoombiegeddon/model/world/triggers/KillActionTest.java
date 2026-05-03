@@ -14,7 +14,7 @@ class KillActionTest extends AbstractEntityTest {
     @Test
     void testKillActionActuallyKillsPlayer() {
         killAction = new KillAction();
-        player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        player = new Player(mockedWorld, spawnPos, 3);
         assertFalse(player.isDead(), "Player should not be dead before entering the killzone");
 
         killAction.onTrigger(player);

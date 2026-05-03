@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import inf112.zoombiegeddon.view.animations.AnimationHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class for handling all game resources.
@@ -16,8 +18,8 @@ import inf112.zoombiegeddon.view.animations.AnimationHandler;
  */
 public class Assets {
     private final AssetManager manager;
-    private Skin skin;
     private BitmapFont font;
+    private Skin skin;
 
     private AnimationHandler playerMaleAnimations;
     private AnimationHandler playerFemaleAnimations;
@@ -25,6 +27,8 @@ public class Assets {
     private AnimationHandler chonkerAnimations;
 
     private ShaderProgram pickupEffectShader;
+
+    private static final Logger logger = LoggerFactory.getLogger(Assets.class);
 
     public Assets() {
         this.manager = new AssetManager();
@@ -43,7 +47,7 @@ public class Assets {
         manager.load(AssetConstants.CHARACTER_FEMALE_SHEET, Texture.class);
         manager.load(AssetConstants.ZOMBIE_SHEET, Texture.class);
         manager.load(AssetConstants.CHONKER_SHEET, Texture.class);
-        manager.load(AssetConstants.HEALTHBAR, Texture.class);
+        manager.load(AssetConstants.HEALTH_BAR, Texture.class);
         manager.load(AssetConstants.PICKUP_SPEED, Texture.class);
         manager.load(AssetConstants.PICKUP_HEAL, Texture.class);
 
@@ -79,7 +83,7 @@ public class Assets {
         pickupEffectShader = new ShaderProgram(vertexShader, fragmentShader);
 
         if (!pickupEffectShader.isCompiled()) {
-            Gdx.app.error("Shader", "Pickup shader compile error: " + pickupEffectShader.getLog());
+            logger.error("Error compiling shader: {}", pickupEffectShader.getLog());
             pickupEffectShader.dispose();
             pickupEffectShader = null;
         }
@@ -96,7 +100,6 @@ public class Assets {
     }
 
     public AnimationHandler getPlayerMaleAnimations() { return playerMaleAnimations; }
-    public AnimationHandler getPlayerFemaleAnimations() { return playerFemaleAnimations; }
     public AnimationHandler getZombieAnimations() { return zombieAnimations; }
     public AnimationHandler getChonkerAnimations() { return chonkerAnimations; }
 }

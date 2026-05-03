@@ -1,22 +1,39 @@
 # INF112 - Zoombiegeddon
-* Team: A-laget
+* Team: A-laget (Gruppe 4)
 * Members: 
-  * Isak Graarud
-  * Bernhard Bors
-  * Synne Berg Hermansen
-  * Tuva Kvamme 
-  * Theodor Flornes
-  * Johannes Moe
+  * Isak Graarud - Team Lead
+  * Bernhard Bors - Report Manager
+  * Synne Berg Hermansen - Structural Manager
+  * Tuva Kvamme - Test Manager
+  * Theodor Flornes - Graphic Designer
+  * Johannes Moe - Sound Manager
   
 # Project resources
 * Git repository:  [Project](https://git.app.uib.no/inf112/26v/proj/a-laget)
 * Trello: [Link](https://trello.com/invite/b/697a6b2f6f393809f801d2e8/ATTIe6db3e071af79154e7d9739a6eda1ab8EE0DA4E4/inf112-a-laget)
 * Meeting notes: [Docs](https://docs.google.com/document/d/1DTBr6Ew_FQDBkRHb4hHOdzjmSTYw7m4FUMoYYwyxgII/edit?usp=sharing)
+* Reports: 
+  * [Report 1](doc/report-1.md)
+  * [Report 2](doc/report-2.md)
+  * [Report 3](doc/report-3.md)
+  * [Report 4](doc/report-4.md)
+
 
 # About Zoombiegeddon: 
 Zoombiegeddon is a 2D-game where the player 
 fights zombie animals across different levels to
 stop an evil professor’s experiment.
+
+# Controls 
+| Key                     | Action     |
+|-------------------------|------------|
+| A/Left                  | Move left  |
+| D/Right                 | Move right |
+| W/Up/Space              | Jump       |
+| P                       | Pause      | 
+| Esc                     | Quit       |
+| Hold Shift while moving | Sprint     |
+
 
 
 ## Code Structure
@@ -31,10 +48,12 @@ stop an evil professor’s experiment.
     
 ## Credits
 * https://gafferongames.com/post/fix_your_timestep/ used in the class WorldPhysics
-* https://libgdxinfo.wordpress.com/basic-label/ used in FontGenerator 
-* https://pixbob.itch.io/pixbob-mini-lite Font 
-* https://kenney-assets.itch.io/pixel-platformer Tiles
-* https://fartfish.itch.io/zombie-game-asset-pack Zombies 
+* https://emhuo.itch.io/peaberry-pixel-font Font in the game
+* https://kenney-assets.itch.io/pixel-platformer Tiles for the levels
+* https://fartfish.itch.io/zombie-game-asset-pack Zombies and background 
+* https://gandalfhardcore.itch.io/free-pixel-art-sidescroller-asset-pack-32x32-city Background
+* https://reedster123.itch.io/pixel-heart-healthbar-sprite-sheet Health bar 
+* The icons for powerups has been drawn by Bernhard Bors
 * The games cover photo and story mode video is AI generated
 
 # How to run
@@ -42,10 +61,7 @@ stop an evil professor’s experiment.
 ### Requirements
 * Requires Java 25 
 
-### Run the game
-* Run the Jar file with `java -jar target/zoombiegeddon.jar`
-
-### Build and run with Maven 
+### Build and run the game
 * `mvn package`
 * `java -jar target/zoombiegeddon.jar`
 
