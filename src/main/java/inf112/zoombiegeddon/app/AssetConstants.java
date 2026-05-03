@@ -28,7 +28,6 @@ public class AssetConstants {
     public static final String BG_SNOW_1 = "assets/backgrounds/snow_plan2.png";
     public static final String BG_SNOW_2   = "assets/backgrounds/snow_plan3.png";
     public static final String BG_SNOW_3   = "assets/backgrounds/snow_plan4.png";
-
     public static final String BG_NATURE_1   = "assets/backgrounds/forest_plan1.png";
     public static final String BG_NATURE_2   = "assets/backgrounds/forest_plan2.png";
     public static final String BG_NATURE_3   = "assets/backgrounds/forest_plan3.png";
