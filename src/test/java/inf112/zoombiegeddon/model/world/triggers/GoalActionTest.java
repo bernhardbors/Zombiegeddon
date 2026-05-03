@@ -1,7 +1,7 @@
 package inf112.zoombiegeddon.model.world.triggers;
 
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
-import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.player.Player;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,7 +14,7 @@ class GoalActionTest extends AbstractEntityTest {
     @Test
     void testGoalActionSetsPlayerInGoalToTrue() {
         goalAction = new GoalAction();
-        player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        player = new Player(mockedWorld, spawnPos, 3);
 
         assertFalse(player.inGoal(), "Player should not be in goal");
 

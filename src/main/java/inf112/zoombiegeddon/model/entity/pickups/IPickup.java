@@ -1,9 +1,7 @@
 package inf112.zoombiegeddon.model.entity.pickups;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import inf112.zoombiegeddon.model.entity.IPlayer;
+import inf112.zoombiegeddon.model.entity.player.IPlayer;
 
 /**
  * Represents a collectible pickup in the game world.
@@ -25,9 +23,6 @@ public interface IPickup {
     /** @return True if this pickup has already been collected. */
     boolean isCollected();
 
-    /** @return The Box2D body of this pickup. */
-    Body getBody();
-
     /** @return The world position of this pickup. */
     Vector2 getPosition();
 
@@ -36,7 +31,4 @@ public interface IPickup {
 
     /** @return A string identifier for the pickup type. */
     String getPickupType();
-
-    /** @return The color associated with this pickup's visual effect. */
-    Color getPickupColor();
 }

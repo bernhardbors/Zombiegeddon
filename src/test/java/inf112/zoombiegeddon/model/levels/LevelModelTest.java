@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import inf112.zoombiegeddon.AbstractLibGDXTest;
 import inf112.zoombiegeddon.app.Assets;
 import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.model.animations.AnimationHandler;
+import inf112.zoombiegeddon.view.animations.AnimationHandler;
 import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
 import org.junit.jupiter.api.AfterEach;
@@ -29,7 +29,7 @@ class LevelModelTest extends AbstractLibGDXTest {
         MapLayer spawnLayer = new MapLayer();
         spawnLayer.setName("SpawnPoints");
         map.getLayers().add(spawnLayer);
-        levelModel = new LevelModel(mockApp(), map);
+        levelModel = new LevelModel(map);
     }
 
     @AfterEach
@@ -175,6 +175,6 @@ class LevelModelTest extends AbstractLibGDXTest {
         enemySpawn.setName("enemy_spawn");
         spawnLayer.getObjects().add(enemySpawn);
         mapWithEnemy.getLayers().add(spawnLayer);
-        return new LevelModel(mockApp(), mapWithEnemy);
+        return new LevelModel(mapWithEnemy);
     }
 }

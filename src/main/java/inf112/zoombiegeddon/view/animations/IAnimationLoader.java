@@ -1,4 +1,4 @@
-package inf112.zoombiegeddon.model.animations;
+package inf112.zoombiegeddon.view.animations;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 

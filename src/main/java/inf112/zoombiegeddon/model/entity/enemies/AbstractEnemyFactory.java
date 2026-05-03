@@ -6,7 +6,6 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import inf112.zoombiegeddon.model.animations.AnimationHandler;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,63 +31,39 @@ public class AbstractEnemyFactory implements IAbstractEnemyFactory {
      *
      * @param type The type of enemy to create.
      * @param position The spawn position of the enemy.
-     * @param normalAnims The animation handler for regular enemy types.
-     * @param chonkerAnims The animation handler for tank-type enemies.
      * @return A newly created enemy.
      */
     @Override
-    public IEnemy createEnemy(EnemyType type, Vector2 position, AnimationHandler normalAnims, AnimationHandler chonkerAnims) {
-        int hp;
-        float speed;
-        AnimationHandler animToUse;
-        switch (type) {
-            case TANK -> {
-                hp = 3;
-                speed = 1.0f;
-                animToUse = chonkerAnims;
-            }
-            case FAST_ZOMBIE -> {
-                hp = 1;
-                speed = 5.0f;
-                animToUse = normalAnims;
-            }
-            default -> {
-                hp = 1;
-                speed = 3.0f;
-                animToUse = normalAnims;
-            }
-        }
-
-        return new Enemy(world, position, animToUse, hp, speed);
+    public IEnemy createEnemy(EnemyType type, Vector2 position) {
+        return switch (type) {
+            case TANK      -> new Enemy(world, position, 2, 1.0f);
+            case FAST_ZOMBIE -> new Enemy(world, position, 1, 5.0f);
+            default        -> new Enemy(world, position, 1, 3.0f);
+        };
     }
-
 
     /**
      * Creates enemies from spawn objects found in a map layer.
-     * Only objects named {@code enemy_spawn} are used.
+     * Only objects named {@code enemy_spawn} are processed.
      *
      * @param layer The map layer containing enemy spawn objects.
-     * @param normalAnims The animation handler for regular enemy types.
-     * @param chonkerAnims The animation handler for tank-type enemies.
      * @return A list of enemies created from the layer.
      */
     @Override
-    public List<IEnemy> createEnemiesFromLayer(MapLayer layer, AnimationHandler normalAnims, AnimationHandler chonkerAnims) {
+    public List<IEnemy> createEnemiesFromLayer(MapLayer layer) {
         List<IEnemy> enemies = new ArrayList<>();
         if (layer == null) return enemies;
 
         for (MapObject object : layer.getObjects()) {
-            if (object instanceof RectangleMapObject rectObj && "enemy_spawn".equals(object.getName())) {
+            if (object instanceof RectangleMapObject rectObj
+                    && "enemy_spawn".equals(object.getName())) {
                 Rectangle rect = rectObj.getRectangle();
                 Vector2 pos = new Vector2(
                         rect.x * LevelModel.UNIT_SCALE,
                         rect.y * LevelModel.UNIT_SCALE
                 );
-
                 String typeStr = object.getProperties().get("type", String.class);
-                EnemyType type = EnemyType.fromString(typeStr);
-
-                enemies.add(createEnemy(type, pos, normalAnims, chonkerAnims));
+                enemies.add(createEnemy(EnemyType.fromString(typeStr), pos));
             }
         }
         return enemies;

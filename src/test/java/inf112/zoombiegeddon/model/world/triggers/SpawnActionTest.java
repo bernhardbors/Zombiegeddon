@@ -1,6 +1,6 @@
 package inf112.zoombiegeddon.model.world.triggers;
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
-import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.player.Player;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.verify;
 
@@ -12,7 +12,7 @@ class SpawnActionTest extends AbstractEntityTest {
     @Test
     void testSpawnActionSetsCorrectPosition() {
         spawnAction = new SpawnAction(10, 10);
-        player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        player = new Player(mockedWorld, spawnPos, 3);
 
         spawnAction.onTrigger(player);
 

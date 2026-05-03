@@ -15,7 +15,7 @@ class EnemyTest extends AbstractEntityTest {
 
     @Test
     void testEnemyTakeDamageAndDie() {
-        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 3, 1.0f);
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, 3, 1.0f);
 
         assertEquals(3, enemy.getHealth());
         assertFalse(enemy.isDead());
@@ -30,7 +30,7 @@ class EnemyTest extends AbstractEntityTest {
 
     @Test
     void testEnemyHeal() {
-        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 5, 1.0f);
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, 5, 1.0f);
 
         enemy.takeDamage(3);
         enemy.heal(2);
@@ -42,17 +42,16 @@ class EnemyTest extends AbstractEntityTest {
 
     @Test
     void testEnemyUpdatesDirectionOnUpdate() {
-        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 1, 2.0f);
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, 1, 2.0f);
 
         float dt = 0.1f;
         enemy.update(dt);
 
-        verify(enemy.getPhysics().getBody(), atLeastOnce()).setLinearVelocity(anyFloat(), anyFloat());
-    }
+        verify(mockedBody, atLeastOnce()).setLinearVelocity(any(Vector2.class));    }
 
     @Test
     void testEnemyTurnsAroundWhenHittingWall() {
-        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 1, 2.0f);
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, 1, 2.0f);
         enemy.setDirection(1);
         enemy.setGrounded(true);
 
@@ -78,12 +77,12 @@ class EnemyTest extends AbstractEntityTest {
 
         enemy.update(0.1f);
 
-        verify(mockedBody).setLinearVelocity(eq(-2.0f), anyFloat());
+        verify(mockedBody).setLinearVelocity(eq(new Vector2(-2.0f, 0f)));
     }
 
     @Test
     void testEnemyTurnsAroundWhenMissingLedge() {
-        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 1, 2.0f);
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, 1, 2.0f);
         enemy.setDirection(1);
         enemy.setGrounded(true);
 
@@ -93,12 +92,12 @@ class EnemyTest extends AbstractEntityTest {
 
         enemy.update(0.1f);
 
-        verify(mockedBody).setLinearVelocity(eq(-2.0f), anyFloat());
+        verify(mockedBody).setLinearVelocity(eq(new Vector2(-2.0f, 0f)));
     }
 
     @Test
     void testEnemyWalksStraightWhenPathIsClear() {
-        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 1, 2.0f);
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, 1, 2.0f);
         enemy.setDirection(1);
         enemy.setGrounded(true);
 
@@ -118,25 +117,26 @@ class EnemyTest extends AbstractEntityTest {
 
         enemy.update(0.1f);
 
-        verify(mockedBody).setLinearVelocity(eq(2.0f), anyFloat());
+        verify(mockedBody).setLinearVelocity(new Vector2(2.0f, 0f));
     }
 
     @Test
     void testSetAndGetPosition() {
-        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 3, 2.0f);
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, 3, 2.0f);
 
-        Vector2 position = new Vector2(2f, 5f);
+        Vector2 position = new Vector2(10f, 20f);
         when(mockedBody.getPosition()).thenReturn(position);
 
         enemy.setPosition(10f, 20f);
 
+        verify(mockedBody).setTransform(10f, 20f, 0f);
         assertEquals(10f, enemy.getPosition().x);
-        assertEquals(20F, enemy.getPosition().y);
+        assertEquals(20f, enemy.getPosition().y);
     }
 
     @Test
     void testEnemyHealCannotExceedMaxHp() {
-        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 5, 1.0f);
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, 5, 1.0f);
         enemy.takeDamage(2); // hp = 3
         enemy.heal(100);     // should clamp to maxHp = 5
         assertEquals(5, enemy.getHealth());
@@ -144,14 +144,14 @@ class EnemyTest extends AbstractEntityTest {
 
     @Test
     void testEnemyHealAtMaxHpDoesNotChange() {
-        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 5, 1.0f);
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, 5, 1.0f);
         enemy.heal(3); // already at max
         assertEquals(5, enemy.getHealth());
     }
 
     @Test
     void testUpdateAnimationStateWhenNotGroundedJumping() {
-        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 5, 1.0f);
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, 5, 1.0f);
         enemy.setGrounded(false);
         when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(0f, 2f));
         enemy.update(0.02f);
@@ -161,7 +161,7 @@ class EnemyTest extends AbstractEntityTest {
 
     @Test
     void testUpdateAnimationStateWhenNotGroundedFalling() {
-        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 5, 1.0f);
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, 5, 1.0f);
         enemy.setGrounded(false);
         when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(2f, -1f));
         enemy.update(0.02f);
@@ -171,7 +171,7 @@ class EnemyTest extends AbstractEntityTest {
 
     @Test
     void testUpdateAnimationStateWhenGrounded() {
-        Enemy enemy = new Enemy(mockedWorld, spawnPos, mockedAnims, 5, 1.0f);
+        Enemy enemy = new Enemy(mockedWorld, spawnPos, 5, 1.0f);
         enemy.setGrounded(true);
         when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(2f, 0f));
         enemy.update(0.02f);

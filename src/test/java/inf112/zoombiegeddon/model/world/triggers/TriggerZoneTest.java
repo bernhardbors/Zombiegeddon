@@ -7,7 +7,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
-import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -59,7 +59,7 @@ class TriggerZoneTest extends AbstractEntityTest {
         when(map.getLayers()).thenReturn(layers);
 
         triggerZone = new TriggerZone(map, "testLayer", scale);
-        player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        player = new Player(mockedWorld, spawnPos, 3);
         mockedPlayer = mock(Player.class);
 
     }

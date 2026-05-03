@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
-import inf112.zoombiegeddon.model.entity.IPlayer;
+import inf112.zoombiegeddon.model.entity.player.IPlayer;
 
 /**
  * Handles user input and translates it into player actions and movement.
@@ -97,8 +97,7 @@ public class PlayerController extends InputAdapter implements IPlayerController 
         }
 
         if (!left && !right || Math.abs(vel.x) > targetMax) {
-            player.getPhysics().getBody().setLinearVelocity(vel.x * FRICTION_COEFFICIENT, vel.y);
-        }
+            player.getPhysics().setLinearVelocity(new Vector2(vel.x * FRICTION_COEFFICIENT, vel.y));        }
     }
 
     /**

@@ -1,7 +1,7 @@
 package inf112.zoombiegeddon.model.levels;
 
 import inf112.zoombiegeddon.model.entity.IEntity;
-import inf112.zoombiegeddon.model.entity.IPlayer;
+import inf112.zoombiegeddon.model.entity.player.IPlayer;
 import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
 import inf112.zoombiegeddon.model.world.luckyblock.LuckyBlockLayerFactory;
 import inf112.zoombiegeddon.model.world.physics.IWorldPhysics;

@@ -3,7 +3,7 @@ package inf112.zoombiegeddon.model.entity.pickups;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
-import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +18,7 @@ class SpeedBoostPickupTest extends AbstractEntityTest {
 
     @Test
     void testApplyEffect() {
-        Player player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        Player player = new Player(mockedWorld, spawnPos, 3);
         SpeedBoostPickup pickup = new SpeedBoostPickup(mockedWorld, spawnPos);
 
         pickup.applyEffect(player);
@@ -37,7 +37,7 @@ class SpeedBoostPickupTest extends AbstractEntityTest {
         boolean[] received = {false};
         GameEventBus.register(e -> { if (e == GameEvent.PICKUP_SPEED) received[0] = true; });
 
-        Player player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        Player player = new Player(mockedWorld, spawnPos, 3);
         SpeedBoostPickup pickup = new SpeedBoostPickup(mockedWorld, spawnPos);
         pickup.applyEffect(player);
 
@@ -46,7 +46,7 @@ class SpeedBoostPickupTest extends AbstractEntityTest {
 
     @Test
     void collectAppliesBoostOnce() {
-        Player player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        Player player = new Player(mockedWorld, spawnPos, 3);
         SpeedBoostPickup pickup = new SpeedBoostPickup(mockedWorld, spawnPos);
 
         pickup.collect(player);
@@ -56,7 +56,7 @@ class SpeedBoostPickupTest extends AbstractEntityTest {
 
     @Test
     void collectIsIdempotentAndDoesNotReapplyBoost() {
-        Player player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        Player player = new Player(mockedWorld, spawnPos, 3);
         SpeedBoostPickup pickup = new SpeedBoostPickup(mockedWorld, spawnPos);
 
         pickup.collect(player);

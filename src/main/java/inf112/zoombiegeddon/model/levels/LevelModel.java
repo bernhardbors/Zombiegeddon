@@ -3,13 +3,12 @@ package inf112.zoombiegeddon.model.levels;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.model.entity.IEntity;
-import inf112.zoombiegeddon.model.entity.IPlayer;
-import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.player.IPlayer;
+import inf112.zoombiegeddon.model.entity.player.Player;
 import inf112.zoombiegeddon.model.entity.enemies.AbstractEnemyFactory;
-import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
 import inf112.zoombiegeddon.model.entity.enemies.IAbstractEnemyFactory;
+import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
 import inf112.zoombiegeddon.model.entity.pickups.HealPickup;
 import inf112.zoombiegeddon.model.entity.pickups.SpeedBoostPickup;
 import inf112.zoombiegeddon.model.world.ISpawner;
@@ -30,12 +29,12 @@ import java.util.List;
  */
 public class LevelModel implements ILevelModel {
 
-    private WorldPhysics physics;
-    private IPlayer player;
-    private List<IEnemy> enemies;
-    private TriggerZone triggerZone;
-    private ISpawner spawner;
-    private LuckyBlockLayerFactory luckyBlockLayerFactory;
+    private final WorldPhysics physics;
+    private final IPlayer player;
+    private final List<IEnemy> enemies;
+    private final TriggerZone triggerZone;
+    private final ISpawner spawner;
+    private final LuckyBlockLayerFactory luckyBlockLayerFactory;
 
     private float levelTime = 0f;
     private String currentText = null;
@@ -46,28 +45,28 @@ public class LevelModel implements ILevelModel {
     /**
      * Constructs and initialises the level from the given Tiled map.
      *
-     * @param app the application context, used to access shared assets
      * @param map the Tiled map describing the level layout and spawn points
      */
-    public LevelModel(GameApp app, TiledMap map) {
+    public LevelModel(TiledMap map) {
         this.physics = new WorldPhysics(new Vector2(0, -15.0f));
 
-        this.physics.registerPickupFactory("speed", spawn -> new SpeedBoostPickup(physics.getWorld(), spawn));
-        this.physics.registerPickupFactory("heal", spawn -> new HealPickup(physics.getWorld(), spawn));
+        this.physics.registerPickupFactory("speed",
+                spawn -> new SpeedBoostPickup(physics.getWorld(), spawn));
+        this.physics.registerPickupFactory("heal",
+                spawn -> new HealPickup(physics.getWorld(), spawn));
 
         new WorldCollisionLayerCreator(physics.getWorld(), map, "Collision", PIXELS_PER_TILE);
-        this.luckyBlockLayerFactory = new LuckyBlockLayerFactory(physics.getWorld(), map, "Luckyblocks", LevelModel.PIXELS_PER_TILE);
+        this.luckyBlockLayerFactory = new LuckyBlockLayerFactory(
+                physics.getWorld(), map, "Luckyblocks", PIXELS_PER_TILE);
 
         this.spawner = new Spawner(map, UNIT_SCALE);
-        this.player = new Player(physics.getWorld(), spawner.getSpawnPoint("player_spawn"), app.getAssets().getPlayerMaleAnimations(), 3);
+        this.player = new Player(physics.getWorld(), spawner.getSpawnPoint("player_spawn"), 3);
 
         this.triggerZone = new TriggerZone(map, "Triggers", UNIT_SCALE);
+
         IAbstractEnemyFactory enemyFactory = new AbstractEnemyFactory(physics.getWorld());
         this.enemies = enemyFactory.createEnemiesFromLayer(
-                map.getLayers().get("SpawnPoints"),
-                app.getAssets().getZombieAnimations(),
-                app.getAssets().getChonkerAnimations()
-        );
+                map.getLayers().get("SpawnPoints"));
     }
 
     /**
@@ -98,9 +97,8 @@ public class LevelModel implements ILevelModel {
         while (iterator.hasNext()) {
             IEnemy enemy = iterator.next();
             enemy.update(delta);
-
             if (enemy.isDead()) {
-                physics.getWorld().destroyBody(enemy.getPhysics().getBody());
+                physics.destroyBody(enemy.getPhysics());
                 iterator.remove();
             }
         }

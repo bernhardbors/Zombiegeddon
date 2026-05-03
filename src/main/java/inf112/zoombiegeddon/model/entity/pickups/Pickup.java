@@ -1,13 +1,8 @@
 package inf112.zoombiegeddon.model.entity.pickups;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
-import inf112.zoombiegeddon.model.entity.IPlayer;
+import com.badlogic.gdx.physics.box2d.*;
+import inf112.zoombiegeddon.model.entity.player.IPlayer;
 
 /**
  * Abstract base class for all pickups in the game world.
@@ -19,7 +14,6 @@ public abstract class Pickup implements IPickup {
     private final Body body;
     private final float renderSize;
     private final String pickupType;
-    private final Color pickupColor;
     private boolean collected;
 
     /**
@@ -29,12 +23,10 @@ public abstract class Pickup implements IPickup {
      * @param spawnPosition The position to spawn the pickup.
      * @param renderSize    The size used for both rendering and the physics hitbox.
      * @param pickupType    A string identifier for the pickup type.
-     * @param pickupColor   The color associated with this pickup's visual effect.
      */
-    protected Pickup(World world, Vector2 spawnPosition, float renderSize, String pickupType, Color pickupColor) {
+    protected Pickup(World world, Vector2 spawnPosition, float renderSize, String pickupType) {
         this.renderSize = renderSize;
         this.pickupType = pickupType;
-        this.pickupColor = pickupColor;
         this.body = createBody(world, spawnPosition, renderSize);
         this.body.setUserData(this);
         this.collected = false;
@@ -66,10 +58,7 @@ public abstract class Pickup implements IPickup {
 
     @Override
     public void collect(IPlayer player) {
-        if (collected) {
-            return;
-        }
-
+        if (collected) return;
         collected = true;
         applyEffect(player);
     }
@@ -79,7 +68,12 @@ public abstract class Pickup implements IPickup {
         return collected;
     }
 
-    @Override
+    /**
+     * Returns the Box2D body of this pickup.
+     * Intended for use by physics/collision systems only.
+     *
+     * @return The raw Box2D body.
+     */
     public Body getBody() {
         return body;
     }
@@ -99,8 +93,4 @@ public abstract class Pickup implements IPickup {
         return pickupType;
     }
 
-    @Override
-    public Color getPickupColor() {
-        return pickupColor;
-    }
 }

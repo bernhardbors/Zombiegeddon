@@ -2,6 +2,7 @@ package inf112.zoombiegeddon.model.world.physics;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import inf112.zoombiegeddon.model.entity.PhysicsComponent;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,6 +104,15 @@ public class WorldPhysics implements IWorldPhysics {
 
         pickups.add(pickup);
         return true;
+    }
+
+    /**
+     * Removes a physics body from the world.
+     *
+     * @param component The physics component whose body should be destroyed.
+     */
+    public void destroyBody(PhysicsComponent component) {
+        world.destroyBody(component.getBody());
     }
 
     private void processPendingPickupSpawns() {

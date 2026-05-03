@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
-import inf112.zoombiegeddon.model.animations.AnimationHandler;
+import inf112.zoombiegeddon.view.animations.AnimationHandler;
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,34 +39,27 @@ class EnemyFactoryTest extends AbstractEntityTest {
         objects.add(spawnPoint);
         when(layer.getObjects()).thenReturn(objects);
 
-        List<IEnemy> enemies = factory.createEnemiesFromLayer(layer, mockedAnims, mockedAnims);
+        List<IEnemy> enemies = factory.createEnemiesFromLayer(layer);
 
         assertEquals(1, enemies.size(), "One enemy should be created.");
-        assertEquals(3, enemies.getFirst().getMaxHealth(), "A TANK should have 3 HP.");
+        assertEquals(2, enemies.getFirst().getMaxHealth(), "A TANK should have 2 HP.");
     }
 
     @Test
     void testEnemyFactoryCreatesCorrectTypes() {
-        AnimationHandler tankAnims = mock(AnimationHandler.class);
-        AnimationHandler normalAnims = mock(AnimationHandler.class);
+        IEnemy tank = factory.createEnemy(EnemyType.TANK, spawnPos);
+        assertEquals(2, tank.getMaxHealth());
 
-        IEnemy tank = factory.createEnemy(EnemyType.TANK, spawnPos, normalAnims, tankAnims);
-        assertEquals(3, tank.getMaxHealth());
-
-        IEnemy fast = factory.createEnemy(EnemyType.FAST_ZOMBIE, spawnPos, normalAnims, tankAnims);
+        IEnemy fast = factory.createEnemy(EnemyType.FAST_ZOMBIE, spawnPos);
         assertEquals(1, fast.getMaxHealth());
     }
 
     @Test
     void testEnemyFactoryDefaultType() {
-        AnimationHandler tankAnims = mock(AnimationHandler.class);
-        AnimationHandler normalAnims = mock(AnimationHandler.class);
-
-        IEnemy enemy = factory.createEnemy(EnemyType.ZOMBIE, spawnPos, normalAnims, tankAnims);
+        IEnemy enemy = factory.createEnemy(EnemyType.ZOMBIE, spawnPos);
 
         assertEquals(1, enemy.getHealth());
         assertEquals(3.0f, enemy.getSpeed());
-        assertEquals(normalAnims, enemy.getAnimationHandler());
 
 
 

@@ -3,6 +3,8 @@ package inf112.zoombiegeddon.model.animations;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import inf112.zoombiegeddon.model.entity.EntityState;
 import inf112.zoombiegeddon.AbstractLibGDXTest;
+import inf112.zoombiegeddon.view.animations.AnimationHandler;
+import inf112.zoombiegeddon.view.animations.IAnimationLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

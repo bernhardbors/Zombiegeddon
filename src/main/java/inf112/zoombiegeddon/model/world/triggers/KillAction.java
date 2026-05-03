@@ -1,5 +1,5 @@
 package inf112.zoombiegeddon.model.world.triggers;
-import inf112.zoombiegeddon.model.entity.IPlayer;
+import inf112.zoombiegeddon.model.entity.player.IPlayer;
 
 /**
  * Trigger action that instantly kills the player upon entering a kill zone.

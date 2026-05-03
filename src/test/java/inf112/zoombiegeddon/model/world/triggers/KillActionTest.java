@@ -1,7 +1,7 @@
 package inf112.zoombiegeddon.model.world.triggers;
 
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
-import inf112.zoombiegeddon.model.entity.Player;
+import inf112.zoombiegeddon.model.entity.player.Player;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,7 +14,7 @@ class KillActionTest extends AbstractEntityTest {
     @Test
     void testKillActionActuallyKillsPlayer() {
         killAction = new KillAction();
-        player = new Player(mockedWorld, spawnPos, mockedAnims, 3);
+        player = new Player(mockedWorld, spawnPos, 3);
         assertFalse(player.isDead(), "Player should not be dead before entering the killzone");
 
         killAction.onTrigger(player);
