@@ -20,12 +20,11 @@ public class AssetConstants {
     public static final String PICKUP_SPEED = "assets/sprites/entity/pickups/pickup_speed.png";
     public static final String PICKUP_HEAL  = "assets/sprites/entity/pickups/pickup_heal.png";
     // Bakgrunner
-   public static final String BG_SKY = "assets/backgrounds/CityBackgroundSky.png";
-   public static final String BG_CITY = "assets/backgrounds/CityBackground.png";
-   public static final String BG_L1 = "assets/backgrounds/CityBackgroundLayer1.png";
-   public static final String BG_L2 = "assets/backgrounds/CityBackgroundLayer2.png";
-   public static final String BG_GAME = "assets/backgrounds/bg.png";
-
+    public static final String BG_SKY = "assets/backgrounds/CityBackgroundSky.png";
+    public static final String BG_CITY = "assets/backgrounds/CityBackground.png";
+    public static final String BG_L1 = "assets/backgrounds/CityBackgroundLayer1.png";
+    public static final String BG_L2 = "assets/backgrounds/CityBackgroundLayer2.png";
+    public static final String BG_GAME = "assets/backgrounds/bg.png";
     public static final String BG_SNOW_1 = "assets/backgrounds/snow_plan2.png";
     public static final String BG_SNOW_2   = "assets/backgrounds/snow_plan3.png";
     public static final String BG_SNOW_3   = "assets/backgrounds/snow_plan4.png";
