@@ -15,7 +15,8 @@ public abstract class AbstractLibGDXTest {
     /**
      * Method that makes it possible to use parts of LibGDX in the tests
      */
-    //Tatt utgangspunkt i expempelkode "FlockingTest.java"
+    //Based on example code "FlockingTest.java"
+    //Link: https://git.app.uib.no/inf112/25v/inf112.25v.lectures/-/blob/main/src/test/java/inf112/skeleton/app/FlockingTest.java?ref_type=heads
     @BeforeAll
     static void beforeAll() {
         HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();

@@ -119,13 +119,6 @@ public class PlayerTest extends AbstractEntityTest {
 
     }
 
-//    @Test
-//    void testGetScaledSpriteDimensions() {
-//        float playerDim = player.getScaledSpriteDimensions();
-//
-//        float expected = 32 * LevelModel.UNIT_SCALE;
-//        assertEquals(expected, playerDim);
-//    }
 
     @Test
     void testDetermineMovingState() {
@@ -145,11 +138,6 @@ public class PlayerTest extends AbstractEntityTest {
         assertEquals(20 * LevelModel.UNIT_SCALE, playerHeight);
     }
 
-//    @Test
-//    void testGetAnimationHandler() {
-//        assertEquals(mockedAnims, player.getAnimationHandler());
-//    }
-
     @Test
     void testApplySpeedBoost() {
         player.applySpeedBoost(2f, 4f);
@@ -167,50 +155,6 @@ public class PlayerTest extends AbstractEntityTest {
 
 
     }
-
-//    @Test
-//    void testTriggerPickupHasVisualEffectColor() {
-//        // Default color is yellow (1, 1, 0)
-//        player.triggerPickupVisualEffect(2f, 1f, 1f, 0f);
-//        assertEquals(1.0f, player.getPickupFxColorR());
-//        assertEquals(1.0f, player.getPickupFxColorG());
-//        assertEquals(0.0f, player.getPickupFxColorB());
-//
-//        // Setting white changes it
-//        player.triggerPickupVisualEffect(2f, 1f, 1f, 1f);
-//        assertEquals(1.0f, player.getPickupFxColorR());
-//        assertEquals(1.0f, player.getPickupFxColorG());
-//        assertEquals(1.0f, player.getPickupFxColorB());
-//
-//        // Setting yellow again restores it
-//        player.triggerPickupVisualEffect(2f, 1f, 1f, 0f);
-//        assertEquals(1.0f, player.getPickupFxColorR());
-//        assertEquals(1.0f, player.getPickupFxColorG());
-//        assertEquals(0.0f, player.getPickupFxColorB());
-//    }
-
-//    @Test
-//    void testHasPickupVisualEffect() {
-//        player.triggerPickupVisualEffect(1f, 1f, 1f, 0f);
-//        player.update(0.2f);
-//        assertTrue(player.hasPickupVisualEffect());
-//
-//        player.update(1.2f);
-//        assertFalse(player.hasPickupVisualEffect());
-//    }
-//
-//    @Test
-//    void testGetPickupFxIntensity() {
-//        player.triggerPickupVisualEffect(1.0f, 1f, 1f, 0f);
-//
-//        player.update(0.8f);
-//        //Added delta because of rounding issues
-//        assertEquals(0.2f, player.getPickupFxIntensity(), 0.001f);
-//
-//        player.update(1.2f);
-//        assertEquals(0.0f, player.getPickupFxIntensity());
-//
-//    }
 
     @Test
     void testGetBounds() {
@@ -267,19 +211,6 @@ public class PlayerTest extends AbstractEntityTest {
         player.heal(0);
         assertEquals(2, player.getHealth());
     }
-
-//    @Test
-//    void getPickupFxIntensityIsClampedToOneWhenRemainingExceedsOne() {
-//        player.triggerPickupVisualEffect(2.0f, 1f, 1f, 0f); // remaining = 2.0f
-//        assertEquals(1.0f, player.getPickupFxIntensity(), 0.001f);
-//    }
-//
-//    @Test
-//    void triggerPickupVisualEffectWithZeroDurationDoesNotActivate() {
-//        player.triggerPickupVisualEffect(0f, 1f, 1f, 0f);
-//        assertFalse(player.hasPickupVisualEffect());
-//        assertEquals(0f, player.getPickupFxIntensity(), 0.001f);
-//    }
 
     @Test
     void setInGoalTrueWhenAlreadyInGoalDoesNotFireEventAgain() {

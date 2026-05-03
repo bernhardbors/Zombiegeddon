@@ -8,13 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GoalActionTest extends AbstractEntityTest {
 
-    private GoalAction goalAction;
-    private Player player;
-
     @Test
     void testGoalActionSetsPlayerInGoalToTrue() {
-        goalAction = new GoalAction();
-        player = new Player(mockedWorld, spawnPos, 3);
+        GoalAction goalAction = new GoalAction();
+        Player player = new Player(mockedWorld, spawnPos, 3);
 
         assertFalse(player.inGoal(), "Player should not be in goal");
 

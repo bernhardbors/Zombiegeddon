@@ -100,7 +100,7 @@ class StoryManagerTest {
     void testMethodsWhenStorySessionIsNull() {
         StoryManager manager = new StoryManager();
 
-        //Test what happens when you dont startSession
+        //Test what happens when you don't startSession
         //Should not crash even if storySession == null
         manager.startTimer();
         manager.carryTime(0.5f);

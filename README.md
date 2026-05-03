@@ -48,6 +48,7 @@ stop an evil professor’s experiment.
     
 ## Credits
 * https://gafferongames.com/post/fix_your_timestep/ used in the class WorldPhysics
+* https://git.app.uib.no/inf112/25v/inf112.25v.lectures/-/blob/main/src/test/java/inf112/skeleton/app/FlockingTest.java?ref_type=heads used in the test class AbstractLibGDXTest 
 * https://emhuo.itch.io/peaberry-pixel-font Font in the game
 * https://kenney-assets.itch.io/pixel-platformer Tiles for the levels
 * https://fartfish.itch.io/zombie-game-asset-pack Zombies and background 

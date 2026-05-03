@@ -8,13 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class KillActionTest extends AbstractEntityTest {
 
-    private KillAction killAction;
-    private Player player;
-
     @Test
     void testKillActionActuallyKillsPlayer() {
-        killAction = new KillAction();
-        player = new Player(mockedWorld, spawnPos, 3);
+        KillAction killAction = new KillAction();
+        Player player = new Player(mockedWorld, spawnPos, 3);
         assertFalse(player.isDead(), "Player should not be dead before entering the killzone");
 
         killAction.onTrigger(player);
