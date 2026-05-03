@@ -137,7 +137,6 @@ public class WorldContactListener implements ContactListener {
     private void collectPickup(IPlayer player, IPickup pickup) {
         if (pickup.isCollected()) return;
         pickup.collect(player);
-        GameEventBus.post(GameEvent.PICKUP_COLLECTED);
         if (pickup instanceof Pickup p) {
             Body body = p.getBody();
             if (!bodiesQueuedForRemoval.contains(body)) {
