@@ -18,15 +18,13 @@ class PlayerControllerTest extends AbstractLibGDXTest {
 
     private IPlayer player;
     private PlayerController controller;
-    private Body body;
-    private PhysicsComponent physics;
 
     @BeforeEach
     void beforeEach() {
         player = mock(IPlayer.class);
         controller = new PlayerController(player);
-        body = mock(Body.class);
-        physics = mock(PhysicsComponent.class);
+        Body body = mock(Body.class);
+        PhysicsComponent physics = mock(PhysicsComponent.class);
         when(player.getPhysics()).thenReturn(physics);
         when(physics.getBody()).thenReturn(body);
         when(physics.getVelocity()).thenReturn(new Vector2(0, 0));

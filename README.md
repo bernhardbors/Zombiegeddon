@@ -27,9 +27,9 @@ stop an evil professor’s experiment.
 # Controls 
 | Key                     | Action     |
 |-------------------------|------------|
-| A/Left                  | Move left  |
-| D/Right                 | Move right |
-| W/Up/Space              | Jump       |
+| A / Left                | Move left  |
+| D / Right               | Move right |
+| W / Up / Space          | Jump       |
 | P                       | Pause      | 
 | Esc                     | Quit       |
 | Hold Shift while moving | Sprint     |
@@ -64,6 +64,9 @@ stop an evil professor’s experiment.
 ### Build and run the game
 * `mvn package`
 * `java -jar target/zoombiegeddon.jar`
+
+### Run without packaging 
+* `mvn exec:java`
 
 ## Testing
 * Run unit tests with `mvn test`
