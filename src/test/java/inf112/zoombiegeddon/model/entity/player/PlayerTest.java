@@ -1,11 +1,12 @@
-package inf112.zoombiegeddon.model.entity;
+package inf112.zoombiegeddon.model.entity.player;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
+import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
+import inf112.zoombiegeddon.model.entity.EntityState;
 import inf112.zoombiegeddon.model.entity.enemies.Enemy;
-import inf112.zoombiegeddon.model.entity.player.Player;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,9 +18,6 @@ public class PlayerTest extends AbstractEntityTest {
 
     private Player player;
 
-    /**
-     * Before each test, a new Player object should be created
-     */
     @BeforeEach
     void beforeEach() {
         player = new Player(mockedWorld, spawnPos, 3);
@@ -104,7 +102,18 @@ public class PlayerTest extends AbstractEntityTest {
     }
 
     @Test
+    void testSetInGoalFalse() {
+        GameEventBus.clear();
+        int[] count = {0};
+        GameEventBus.register(event -> {if (event == GameEvent.LEVEL_FINISHED) count[0]++;});
+        player.setInGoal(false);
+        assertEquals(0, count[0]);
+        GameEventBus.clear();
+    }
+
+    @Test
     void testHitEnemy() {
+        when(mockedBody.getWorldCenter()).thenReturn(new Vector2(0,0));
         Enemy enemy = new Enemy(mockedWorld, spawnPos, 3, 1.0f);
 
         //When the player does not hit enemy from above, the player should take damage
@@ -116,6 +125,9 @@ public class PlayerTest extends AbstractEntityTest {
         player.hitEnemy(enemy, true);
         assertEquals(2, enemy.getHealth()); //Enemy should take damage
         assertEquals(2, player.getHealth());
+
+        //Player should jump when hitting enemy from above
+        verify(mockedBody).applyLinearImpulse(argThat(v -> v.x == 0 && v.y > 0), any(Vector2.class), anyBoolean());
 
     }
 
@@ -144,6 +156,7 @@ public class PlayerTest extends AbstractEntityTest {
         assertEquals(2f, player.getActiveSpeedMultiplier());
 
 
+        //Multiplier < 1 should be clamped to 1.0
         player.applySpeedBoost(0.5f, 4f);
         assertEquals(1.0f, player.getActiveSpeedMultiplier());
 
@@ -152,8 +165,6 @@ public class PlayerTest extends AbstractEntityTest {
         player.applySpeedBoost(2f, 1f);
         player.update(1.2f);
         assertEquals(1.0f, player.getActiveSpeedMultiplier());
-
-
     }
 
     @Test
@@ -260,23 +271,16 @@ public class PlayerTest extends AbstractEntityTest {
         assertEquals(EntityState.IDLE, player.getCurrentState());
     }
 
-    @Test
-    void setJumpHeldTrueIsStoredAndRetrievable() {
-        player.setJumpHeld(true);
-        // Indirectly verified: gravity scale uses jumpHeld; direct getter not needed.
-        // Calling update with jumpHeld=true must not throw.
-        player.setJumpHeld(false);
-    }
 
     @Test
     void testPlayerCanJumpWhenCoyoteTime() {
+        when(mockedBody.getWorldCenter()).thenReturn(new Vector2(0,0));
         player.setGrounded(true);
         player.update(0.01f);
         player.setGrounded(false);
         player.jump();
         player.update(0.05f);
-
-        verify(mockedBody).applyLinearImpulse(any(), any(), anyBoolean());
+        verify(mockedBody).applyLinearImpulse(argThat(v -> v.x == 0 && v.y > 0), any(Vector2.class), anyBoolean());
     }
 
     @Test
@@ -322,6 +326,89 @@ public class PlayerTest extends AbstractEntityTest {
         player.update(0.01f);
         assertFalse(player.isFacingRight());
     }
+
+    @Test
+    void testPostMoveTransitionPlayerMoveStart() {
+        GameEventBus.clear();
+        int[] count = {0};
+        GameEventBus.register(event -> {if (event == GameEvent.PLAYER_MOVE_START) count[0]++;});
+
+        player.setGrounded(true);
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(2f, 0f));
+        player.update(0.01f);
+
+        assertEquals(1, count[0]);
+        GameEventBus.clear();
+    }
+
+    @Test
+    void testPostMoveTransitionPlayerMoveStop() {
+        GameEventBus.clear();
+        int[] count = {0};
+        GameEventBus.register(event -> {if (event == GameEvent.PLAYER_MOVE_STOP) count[0]++;});
+
+        player.setGrounded(true);
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(2f, 0f));
+        player.update(0.01f);
+
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(0f, 0f));
+        player.update(0.01f);
+
+        assertEquals(1, count[0]);
+        GameEventBus.clear();
+    }
+
+    @Test
+    void testPostRunTransitionsPlayerRunStart() {
+        GameEventBus.clear();
+        int[] count = {0};
+        GameEventBus.register(event -> {if (event == GameEvent.PLAYER_RUN_START) count[0]++;});
+
+        player.setGrounded(true);
+        player.setRunning(true);
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(2f, 0f));
+        player.update(0.01f);
+
+        assertEquals(1, count[0]);
+        GameEventBus.clear();
+    }
+
+    @Test
+    void testPostRunTransitionsPlayerRunStop() {
+        GameEventBus.clear();
+        int[] count = {0};
+        GameEventBus.register(event -> {if (event == GameEvent.PLAYER_RUN_STOP) count[0]++;});
+
+        player.setGrounded(true);
+        player.setRunning(true);
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(2f, 0f));
+        player.update(0.01f);
+
+        player.setRunning(false);
+        player.update(0.01f);
+
+        assertEquals(1, count[0]);
+        GameEventBus.clear();
+    }
+
+    @Test
+    void testPostRunTransitionsWhenContinueRunning() {
+        //When wasRunningWhileMoving and runningNow is both true
+        GameEventBus.clear();
+        int[] count = {0};
+        GameEventBus.register(event -> {if (event == GameEvent.PLAYER_RUN_START || event == GameEvent.PLAYER_RUN_STOP) count[0]++;});
+
+        player.setGrounded(true);
+        player.setRunning(true);
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(2f, 0f));
+        player.update(0.01f);
+        player.update(0.01f);
+
+        assertEquals(1, count[0]);
+        GameEventBus.clear();
+
+    }
+
 
 
 
