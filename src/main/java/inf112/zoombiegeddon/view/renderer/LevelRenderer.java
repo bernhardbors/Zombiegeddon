@@ -44,6 +44,7 @@ public class LevelRenderer {
 
     private final Texture healthbar;
     private boolean showDebug;
+    private float victoryElapsed = -1f;
 
     public static final float VIEWPORT_WIDTH = 50.0f;
     public static final float VIEWPORT_HEIGHT = 30.0f;
@@ -108,6 +109,16 @@ public class LevelRenderer {
         entityRenderer.setPickupEffectColor(model.getPlayer(), pickupType);
     }
 
+    /**
+     * Advances the victory celebration timer by delta seconds.
+     * Call this each frame while the level is in its finished state.
+     */
+    public void onVictory(float delta) {
+        if (victoryElapsed < 0) victoryElapsed = 0;
+        victoryElapsed += delta;
+        entityRenderer.setVictoryTime(victoryElapsed);
+    }
+
     /** Renders one frame of the level in draw order. */
     public void render() {
         entityRenderer.syncWithModel(model.getAllEntities());
@@ -150,9 +161,40 @@ public class LevelRenderer {
 
         renderTriggerText();
 
+        if (victoryElapsed >= 0) {
+            renderVictoryOverlay();
+        }
+
         if (showDebug) {
             debugRenderer.render(model.getPhysics().getWorld(), camera.combined);
         }
+    }
+
+    private static final float GOAL_BLINK_INTERVAL = 0.22f;
+    private static final float GOAL_FONT_SCALE     = 7f;
+
+    private void renderVictoryOverlay() {
+        boolean visible = (int)(victoryElapsed / GOAL_BLINK_INTERVAL) % 2 == 0;
+        if (!visible) return;
+
+        int screenW = Gdx.graphics.getWidth();
+        int screenH = Gdx.graphics.getHeight();
+        Matrix4 screenMatrix = new Matrix4().setToOrtho2D(0, 0, screenW, screenH);
+
+        app.getAssets().getFont().getData().setScale(GOAL_FONT_SCALE);
+        GlyphLayout layout = new GlyphLayout(app.getAssets().getFont(), "GOAL!");
+
+        float x = (screenW - layout.width)  / 2f;
+        float y = (screenH + layout.height) / 2f;
+
+        app.getBatch().setProjectionMatrix(screenMatrix);
+        app.getBatch().begin();
+        app.getAssets().getFont().setColor(Color.GOLD);
+        app.getAssets().getFont().draw(app.getBatch(), layout, x, y);
+        app.getAssets().getFont().setColor(Color.WHITE);
+        app.getBatch().end();
+
+        app.getAssets().getFont().getData().setScale(1f);
     }
 
     private void drawPickups() {

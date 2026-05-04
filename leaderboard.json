@@ -34,6 +34,15 @@ leaderboards: {
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: Player
 			boardId: level1
+			score: 4316
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 18.429749
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Player
+			boardId: level1
 			score: 4273
 			collectedItems: 0
 			livesLeft: 3
@@ -74,18 +83,6 @@ leaderboards: {
 			collectedItems: 3
 			livesLeft: 0
 			timeUsed: 72.4
-		}
-	]
-	level3: []
-	level2: [
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Player
-			boardId: level2
-			score: 4099
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 40.133812
 		}
 	]
 }

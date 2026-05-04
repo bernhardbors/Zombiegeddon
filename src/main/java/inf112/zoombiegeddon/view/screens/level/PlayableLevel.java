@@ -96,6 +96,7 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
         ScreenUtils.clear(0, 0, 0, 1);
         if (levelFinished) {
             finishTimer -= delta;
+            renderer.onVictory(delta);
             if (pendingTransition != null && finishTimer <= 0) {
                 pendingTransition.run();
                 return;
