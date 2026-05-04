@@ -4,12 +4,66 @@ leaderboards: {
 	level1: [
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Alice
+			boardId: level1
+			score: 9800
+			collectedItems: 15
+			livesLeft: 3
+			timeUsed: 28.5
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Bob
+			boardId: level1
+			score: 7500
+			collectedItems: 12
+			livesLeft: 2
+			timeUsed: 35.1
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Player
+			boardId: level1
+			score: 4273
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 22.783398
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: Theo
 			boardId: level1
 			score: 4200
 			collectedItems: 8
 			livesLeft: 2
 			timeUsed: 43.2
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Player
+			boardId: level1
+			score: 3924
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 57.62935
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Charlie
+			boardId: level1
+			score: 3100
+			collectedItems: 6
+			livesLeft: 1
+			timeUsed: 57.8
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Dana
+			boardId: level1
+			score: 1500
+			collectedItems: 3
+			livesLeft: 0
+			timeUsed: 72.4
 		}
 	]
 }

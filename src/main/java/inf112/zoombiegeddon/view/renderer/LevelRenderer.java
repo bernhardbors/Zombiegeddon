@@ -143,8 +143,8 @@ public class LevelRenderer {
         worldRenderer.renderForeground();
 
         if (uiRenderer != null) {
-            uiRenderer.drawHearts(batch, healthbar);
-            uiRenderer.drawStoryTime(batch, app.getAssets().getFont(), getDisplayedTime());
+            uiRenderer.drawHearts(batch, healthbar, 5);
+            uiRenderer.drawTime(batch, app.getAssets().getFont(), getDisplayedTime());
         }
 
         renderTriggerText();
@@ -167,7 +167,7 @@ public class LevelRenderer {
 
         for (IPickup pickup : pickups) {
             if (pickup.isCollected()) continue;
-            float s = pickup.getRenderSize();
+            float s = pickup.getRenderSize() * 10f * LevelModel.UNIT_SCALE;
             float x = pickup.getPosition().x - s / 2f;
             float y = pickup.getPosition().y - s / 2f;
             Texture tex = "speed".equals(pickup.getPickupType()) ? speedTex : healTex;

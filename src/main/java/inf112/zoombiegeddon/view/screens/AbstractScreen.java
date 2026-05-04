@@ -2,14 +2,19 @@ package inf112.zoombiegeddon.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
+import inf112.zoombiegeddon.view.background.ParallaxBackground;
 
 /**
  * Abstract base class for UI-based screens in the game.
@@ -27,6 +32,10 @@ public abstract class AbstractScreen implements IScreen {
     protected float buttonWidth;
     protected float buttonHeight;
 
+    protected AssetManager assetmanager;
+
+    protected ParallaxBackground parallaxBg;
+
     /**
      * Constructs a new abstract screen with shared UI setup.
      *
@@ -41,6 +50,7 @@ public abstract class AbstractScreen implements IScreen {
         this.table = new Table();
         this.stage = new Stage(new ScreenViewport());
 
+        this.assetmanager = app.getAssets().getManager();
 
         table.setFillParent(true);
         stage.addActor(table);
@@ -126,5 +136,15 @@ public abstract class AbstractScreen implements IScreen {
         table.add(textBody).row();
 
         return textBody;
+    }
+
+    protected ParallaxBackground addParallaxBg(OrthographicCamera bgCamera) {
+        final ParallaxBackground parallaxBg;
+        parallaxBg = new ParallaxBackground(bgCamera);
+        parallaxBg.addLayer(assetmanager.get(AssetConstants.BG_SKY, Texture.class), 0.3f);
+        parallaxBg.addLayer(assetmanager.get(AssetConstants.BG_CITY, Texture.class), 0.6f);
+        parallaxBg.addLayer(assetmanager.get(AssetConstants.BG_L1, Texture.class), 1.0f);
+        parallaxBg.addLayer(assetmanager.get(AssetConstants.BG_L2, Texture.class), 1.5f);
+        return parallaxBg;
     }
 }

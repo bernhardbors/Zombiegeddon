@@ -35,6 +35,12 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
     private final String mapPath;
     private final String boardId;
 
+    private static final float VICTORY_DURATION = 4.25f;
+
+    private boolean levelFinished = false;
+    private float finishTimer = 0;
+    private Runnable pendingTransition;
+
     public PlayableLevel(GameApp app, String mapPath, String boardId) {
         this.app = app;
         this.mapPath = mapPath;
@@ -71,8 +77,16 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
-        playerController.update(delta);
-        model.update(delta);
+        if (levelFinished) {
+            finishTimer -= delta;
+            if (pendingTransition != null && finishTimer <= 0) {
+                pendingTransition.run();
+                return;
+            }
+        } else {
+            playerController.update(delta);
+            model.update(delta);
+        }
         renderer.render();
     }
 
@@ -103,11 +117,11 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
     }
 
     private void handleLevelFinished() {
-        if (app.getStoryManager().isActive()) {
-            handleStoryLevelFinished();
-        } else {
-            handleSingleLevelFinished();
-        }
+        levelFinished = true;
+        finishTimer = VICTORY_DURATION;
+        pendingTransition = app.getStoryManager().isActive()
+                ? this::handleStoryLevelFinished
+                : this::handleSingleLevelFinished;
     }
 
     private void handleStoryLevelFinished() {
