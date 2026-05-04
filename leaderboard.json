@@ -1,7 +1,17 @@
 {
 leaderboards: {
 	class: java.util.HashMap
+	storymode: []
 	level1: [
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Player
+			boardId: level1
+			score: 4262
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 23.819
+		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: Theo
