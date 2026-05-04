@@ -21,7 +21,9 @@ public interface IStoryManager {
 
     /**
      * Returns total elapsed seconds including current level time.
-     * @param currentLevelTime The time elapsed in the current level.
+     *
+     * @param currentLevelTime the time elapsed in the current level
+     * @return total elapsed seconds for the current run
      */
     float getElapsedSeconds(float currentLevelTime);
 

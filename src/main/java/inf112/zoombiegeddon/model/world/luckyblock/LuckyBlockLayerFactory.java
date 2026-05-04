@@ -19,7 +19,12 @@ import java.util.List;
  */
 public class LuckyBlockLayerFactory {
 
-    //Public so that the Renderer-class kan read what texture belongs to which block.
+    /**
+     * Holds the tile object and matching lucky block used by the renderer.
+     *
+     * @param tileObject the tile object containing the render texture
+     * @param block      the lucky block connected to the tile object
+     */
     public record TileRenderable(TiledMapTileMapObject tileObject, ILuckyBlock block) {
     }
 
@@ -95,8 +100,9 @@ public class LuckyBlockLayerFactory {
     }
 
     /**
-     * Method for letting view-classes reach blocks to be drawn
-     * @return tiles to be drawn
+     * Returns tile render data used by view classes to draw lucky blocks.
+     *
+     * @return an unmodifiable list of tile render data
      */
     public List<TileRenderable> getTileRenderables() {
         return Collections.unmodifiableList(tileRenderables);
