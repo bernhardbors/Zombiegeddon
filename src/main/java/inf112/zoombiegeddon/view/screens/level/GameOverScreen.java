@@ -46,7 +46,7 @@ public class GameOverScreen extends AbstractScreen {
         table.row().padTop(25);
 
         if (retryMode == RetryMode.STORY) {
-            UIUtils.button("TRY STORYMODE AGAIN", skin).size(buttonWidth, buttonHeight)
+            UIUtils.button("TRY AGAIN", skin).size(buttonWidth, buttonHeight)
                     .action(() -> app.setScreen(new StoryNameScreen(app)))
                     .addTo(table);
         GameEventBus.post(GameEvent.MENU_STARTED);
@@ -55,7 +55,7 @@ public class GameOverScreen extends AbstractScreen {
         }
 
         if (retryMode == RetryMode.LEVEL) {
-            UIUtils.button("TRY LEVEL AGAIN", skin).size(buttonWidth, buttonHeight)
+            UIUtils.button("TRY AGAIN", skin).size(buttonWidth, buttonHeight)
                     .action(() -> app.setScreen(new PlayableLevel(app, retryMapPath, retryBoardId)))
                     .addTo(table);
 
