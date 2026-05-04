@@ -31,7 +31,7 @@ public class WorldRenderer implements Disposable {
     /**
      * Constructs a new WorldRenderer.
      *
-     * @param camera    The camera used to view the world.
+     * @param camera The camera used to view the world.
      */
     public WorldRenderer(OrthographicCamera camera) {
         this.camera = camera;

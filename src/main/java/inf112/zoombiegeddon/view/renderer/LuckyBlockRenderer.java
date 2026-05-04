@@ -12,6 +12,11 @@ import inf112.zoombiegeddon.model.world.luckyblock.LuckyBlockLayerFactory;
 public class LuckyBlockRenderer {
     private final LuckyBlockLayerFactory factory;
 
+    /**
+     * Creates a renderer for lucky blocks from the given factory.
+     *
+     * @param factory the lucky block factory containing render data
+     */
     public LuckyBlockRenderer(LuckyBlockLayerFactory factory) {
         this.factory = factory;
     }

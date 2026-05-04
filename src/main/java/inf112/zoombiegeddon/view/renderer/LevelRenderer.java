@@ -55,10 +55,12 @@ public class LevelRenderer {
     private static final float SPRITE_DIM = 32 * LevelModel.UNIT_SCALE;
 
     /**
-     * @param app              the application context, used to access assets and batch
-     * @param model            the level model to render
-     * @param map              the Tiled map used to set up the world renderer
-     * @param playerAnims      the animation handler for the player
+     * Creates a level renderer for the given level model and map.
+     *
+     * @param app         the application context, used to access assets and batch
+     * @param model       the level model to render
+     * @param map         the Tiled map used to set up the world renderer
+     * @param playerAnims the animation handler for the player
      */
     public LevelRenderer(GameApp app, ILevelModel model, TiledMap map, AnimationHandler playerAnims) {
         this.app = app;
@@ -215,6 +217,12 @@ public class LevelRenderer {
         return model.getLevelTime();
     }
 
+    /**
+     * Updates the viewport when the window size changes.
+     *
+     * @param width  the new window width
+     * @param height the new window height
+     */
     public void resize(int width, int height) {
         viewport.update(width, height);
     }

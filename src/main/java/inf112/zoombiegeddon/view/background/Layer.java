@@ -12,7 +12,8 @@ public class Layer {
     /** The texture image used for this background layer. */
     protected final Texture texture;
 
-    /** * The parallax factor.
+    /**
+     * The parallax factor.
      * A value of 0 means the layer is static, while values closer to 1
      * make the layer move almost as fast as the camera.
      */

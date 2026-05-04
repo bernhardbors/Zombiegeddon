@@ -18,7 +18,8 @@ import java.util.Map;
  * Renders entities using their current animation frame.
  * Owns the mapping between entities and their AnimationHandlers,
  * sprite dimensions, and active pickup effect colors.
- * All animation and visual resources are kept in the View layer. */
+ * All animation and visual resources are kept in the View layer.
+ */
 public class EntityRenderer  {
 
     private static final Color PICKUP_COLOR_SPEED = Color.YELLOW;
@@ -30,6 +31,11 @@ public class EntityRenderer  {
     private final Map<IEntity, Float> spriteDimensions = new LinkedHashMap<>();
     private final Map<IEntity, Color> pickupEffectColors = new LinkedHashMap<>();
 
+    /**
+     * Creates an entity renderer using the given game application for shared resources.
+     *
+     * @param app the game application providing assets and shaders
+     */
     public EntityRenderer(GameApp app) {
         this.app = app;
     }
