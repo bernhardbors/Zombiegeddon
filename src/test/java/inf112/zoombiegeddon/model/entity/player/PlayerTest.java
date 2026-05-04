@@ -47,8 +47,13 @@ public class PlayerTest extends AbstractEntityTest {
 
     @Test
     void testPlayerDies() {
+        GameEventBus.clear();
+        int[] count = {0};
+        GameEventBus.register(event -> {if (event == GameEvent.PLAYER_DEATH) count[0]++;});
+
         player.takeDamage(3);
         assertTrue(player.isDead());
+        assertEquals(1, count[0]);
     }
 
     @Test

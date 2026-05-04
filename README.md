@@ -61,7 +61,7 @@ stop an evil professor’s experiment.
 * https://jacob-creates.itch.io/game-sound-effects zombie death
 * https://pixabay.com/users/prettyjohn1-54616349/ Story mode music 
 * The icons for powerups has been drawn by Bernhard Bors
-* The games cover photo and story mode video is AI generated
+* The games cover photo, story mode video and background for GameOverScreen is AI generated
 
 # How to run
 
