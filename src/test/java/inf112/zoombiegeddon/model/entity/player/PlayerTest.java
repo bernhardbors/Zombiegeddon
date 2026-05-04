@@ -440,6 +440,20 @@ public class PlayerTest extends AbstractEntityTest {
     }
 
     @Test
+    void testPlayerJumpPostedWhenExecuteJump() {
+        GameEventBus.clear();
+        int[] count = {0};
+        GameEventBus.register(event -> {if (event == GameEvent.PLAYER_JUMP) count[0]++;});
+
+        player.setGrounded(true);
+        player.jump();
+        player.update(0.01f);
+
+        assertEquals(1, count[0]);
+
+    }
+
+    @Test
     void testSetPosition() {
         player.setPosition(2f, 0f);
         verify(mockedBody).setTransform(2f, 0f, 0f);
