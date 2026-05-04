@@ -3,12 +3,13 @@ package inf112.zoombiegeddon.model.entity.enemies;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
+import inf112.zoombiegeddon.app.GameConstants;
 import inf112.zoombiegeddon.events.GameEvent;
+import inf112.zoombiegeddon.model.entity.*;
 import inf112.zoombiegeddon.model.entity.Entity;
 import inf112.zoombiegeddon.model.entity.EntityState;
 import inf112.zoombiegeddon.model.entity.HealthComponent;
 import inf112.zoombiegeddon.model.entity.PhysicsComponent;
-import inf112.zoombiegeddon.model.levels.LevelModel;
 
 /**
  * Represents an enemy entity in the game.
@@ -34,13 +35,13 @@ public class Enemy extends Entity implements IEnemy {
      */
     public Enemy(World world, Vector2 spawnPos, int hp, float speed) {
         super(new PhysicsComponent(world, spawnPos,
-                11 * LevelModel.UNIT_SCALE,
-                20 * LevelModel.UNIT_SCALE,
+                11 * GameConstants.UNIT_SCALE,
+                20 * GameConstants.UNIT_SCALE,
                 "enemy"));
 
         this.physics.setUserData(this);
-        this.width = 11 * LevelModel.UNIT_SCALE;
-        this.height = 20 * LevelModel.UNIT_SCALE;
+        this.width = 11 * GameConstants.UNIT_SCALE;
+        this.height = 20 * GameConstants.UNIT_SCALE;
         this.health = new HealthComponent(hp, GameEvent.ENEMY_KILLED);
         this.patrolSpeed = speed;
     }
@@ -58,11 +59,6 @@ public class Enemy extends Entity implements IEnemy {
         updateAnimationState(dt, VELOCITY_THRESHOLD);
     }
 
-    /**
-     * Determines the animation state used while the enemy is moving on the ground.
-     *
-     * @return {@link EntityState#WALKING} for all enemy types.
-     */
     @Override
     public EntityState determineMovingState() {
         return EntityState.WALKING;
@@ -137,7 +133,7 @@ public class Enemy extends Entity implements IEnemy {
     public void setDirection(int direction) { this.direction = direction; }
 
     @Override
-    public PhysicsComponent getPhysics() { return physics; }
+    public IPhysicsComponent getPhysics() { return physics; }
 
     @Override
     public boolean isGrounded() { return isGrounded; }

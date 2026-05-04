@@ -3,6 +3,7 @@ package inf112.zoombiegeddon.model.levels;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import inf112.zoombiegeddon.app.GameConstants;
 import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.player.IPlayer;
 import inf112.zoombiegeddon.model.entity.player.Player;
@@ -29,7 +30,7 @@ import java.util.List;
  */
 public class LevelModel implements ILevelModel {
 
-    private final WorldPhysics physics;
+    private final IWorldPhysics physics;
     private final IPlayer player;
     private final List<IEnemy> enemies;
     private final TriggerZone triggerZone;
@@ -39,11 +40,9 @@ public class LevelModel implements ILevelModel {
     private float levelTime = 0f;
     private String currentText = null;
 
-    public static final float PIXELS_PER_TILE = 8.0f;
-    public static final float UNIT_SCALE = 1 / PIXELS_PER_TILE;
 
     /**
-     * Constructs and initialises the level from the given Tiled map.
+     * Constructs and initializes the level from the given Tiled map.
      *
      * @param map the Tiled map describing the level layout and spawn points
      */
@@ -55,26 +54,21 @@ public class LevelModel implements ILevelModel {
         this.physics.registerPickupFactory("heal",
                 spawn -> new HealPickup(physics.getWorld(), spawn));
 
-        new WorldCollisionLayerCreator(physics.getWorld(), map, "Collision", PIXELS_PER_TILE);
+        new WorldCollisionLayerCreator(physics.getWorld(), map, "Collision", GameConstants.PIXELS_PER_TILE);
         this.luckyBlockLayerFactory = new LuckyBlockLayerFactory(
-                physics.getWorld(), map, "Luckyblocks", PIXELS_PER_TILE);
+                physics.getWorld(), map, "Luckyblocks", GameConstants.PIXELS_PER_TILE);
 
-        this.spawner = new Spawner(map, UNIT_SCALE);
+        this.spawner = new Spawner(map, GameConstants.UNIT_SCALE);
         this.player = new Player(physics.getWorld(), spawner.getSpawnPoint("player_spawn"), 3);
 
-        this.triggerZone = new TriggerZone(map, "Triggers", UNIT_SCALE);
+        this.triggerZone = new TriggerZone(map, "Triggers", GameConstants.UNIT_SCALE);
 
         IAbstractEnemyFactory enemyFactory = new AbstractEnemyFactory(physics.getWorld());
         this.enemies = enemyFactory.createEnemiesFromLayer(
                 map.getLayers().get("SpawnPoints"));
     }
 
-    /**
-     * Advances the level by one frame: steps physics, updates the player and
-     * trigger zones, and removes dead enemies from the world.
-     *
-     * @param delta time in seconds since the last frame
-     */
+    @Override
     public void update(float delta) {
         physics.update(delta);
         levelTime += delta;
@@ -104,12 +98,7 @@ public class LevelModel implements ILevelModel {
         }
     }
 
-    /**
-     * Returns all active entities (player + enemies) as a single list,
-     * suitable for rendering.
-     *
-     * @return a new list of all active entities
-     */
+    @Override
     public List<IEntity> getAllEntities() {
         List<IEntity> all = new ArrayList<>();
         if (player != null) all.add(player);

@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.*;
  * This component defines the physical properties, including the main hitbox
  * and a foot sensor for ground detection, and provides methods for movement.
  */
-public class PhysicsComponent {
+public class PhysicsComponent implements IPhysicsComponent{
     private Body body;
 
     /**
@@ -91,11 +91,7 @@ public class PhysicsComponent {
         body.setGravityScale(scale);
     }
 
-    /**
-     * Sets the linear velocity of the body directly.
-     *
-     * @param velocity The new velocity vector.
-     */
+    @Override
     public void setLinearVelocity(Vector2 velocity) {
         body.setLinearVelocity(velocity);
     }
@@ -119,14 +115,17 @@ public class PhysicsComponent {
         body.setUserData(userData);
     }
 
+    @Override
     public Vector2 getVelocity() {
         return body.getLinearVelocity();
     }
 
+    @Override
     public Vector2 getPosition() {
         return body.getPosition();
     }
 
+    @Override
     public Body getBody() {
         return body;
     }

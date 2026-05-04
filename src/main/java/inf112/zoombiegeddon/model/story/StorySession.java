@@ -49,7 +49,6 @@ public class StorySession {
         this.timerRunning = false;
     }
 
-    //Getters for testing
     public boolean isActive() { return active; }
     public boolean isTimerRunning() { return timerRunning; }
     public float getAccumulatedTimeSeconds() { return accumulatedTimeSeconds; }

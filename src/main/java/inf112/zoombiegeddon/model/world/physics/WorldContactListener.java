@@ -1,13 +1,10 @@
 package inf112.zoombiegeddon.model.world.physics;
 
 import com.badlogic.gdx.physics.box2d.*;
-import inf112.zoombiegeddon.events.GameEvent;
-import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.player.IPlayer;
 import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
-import inf112.zoombiegeddon.model.entity.pickups.Pickup;
 import inf112.zoombiegeddon.model.world.luckyblock.ILuckyBlock;
 
 import java.util.ArrayList;
@@ -21,9 +18,9 @@ import java.util.List;
 public class WorldContactListener implements ContactListener {
 
     private final List<Body> bodiesQueuedForRemoval = new ArrayList<>();
-    private final WorldPhysics worldPhysics;
+    private final IWorldPhysics worldPhysics;
 
-    public WorldContactListener(WorldPhysics worldPhysics) {
+    public WorldContactListener(IWorldPhysics worldPhysics) {
         this.worldPhysics = worldPhysics;
     }
 
@@ -137,11 +134,9 @@ public class WorldContactListener implements ContactListener {
     private void collectPickup(IPlayer player, IPickup pickup) {
         if (pickup.isCollected()) return;
         pickup.collect(player);
-        if (pickup instanceof Pickup p) {
-            Body body = p.getBody();
-            if (!bodiesQueuedForRemoval.contains(body)) {
-                bodiesQueuedForRemoval.add(body);
-            }
+        Body body = pickup.getBody();
+        if (!bodiesQueuedForRemoval.contains(body)) {
+            bodiesQueuedForRemoval.add(body);
         }
     }
 }

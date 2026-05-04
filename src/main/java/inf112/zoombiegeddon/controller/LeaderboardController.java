@@ -24,16 +24,7 @@ public class LeaderboardController implements ILeaderboardController {
         this.scoreCalculator = scoreCalculator;
     }
 
-    /**
-     * Calculates and registers a score entry for a completed level,
-     * then persists the updated leaderboard.
-     *
-     * @param levelId        The ID of the completed level.
-     * @param playerName     The name of the player.
-     * @param collectedItems Number of items collected during the level.
-     * @param livesLeft      Number of lives remaining at level completion.
-     * @param timeUsed       Time in seconds used to complete the level.
-     */
+    @Override
     public void registerLevelCompletion(String levelId, String playerName, int collectedItems, int livesLeft, float timeUsed) {
         ScoreData scoreData = new ScoreData(collectedItems, livesLeft, timeUsed);
         int score = scoreCalculator.calculateLevelScore(scoreData);
@@ -51,9 +42,4 @@ public class LeaderboardController implements ILeaderboardController {
         leaderboardRepository.save(leaderboardManager);
     }
 
-    /** @return The current leaderboard manager instance. */
-    @Override
-    public ILeaderboardManager getLeaderboardManager() {
-        return leaderboardManager;
-    }
 }

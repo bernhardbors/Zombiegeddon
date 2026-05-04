@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import inf112.zoombiegeddon.AbstractLibGDXTest;
+import inf112.zoombiegeddon.model.entity.IPhysicsComponent;
 import inf112.zoombiegeddon.model.entity.player.IPlayer;
 import inf112.zoombiegeddon.model.entity.PhysicsComponent;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +23,7 @@ class PlayerControllerTest extends AbstractLibGDXTest {
     void beforeEach() {
         player = mock(IPlayer.class);
         controller = new PlayerController(player);
-        PhysicsComponent physics = mock(PhysicsComponent.class);
+        IPhysicsComponent physics = mock(PhysicsComponent.class);
         when(player.getPhysics()).thenReturn(physics);
         when(physics.getVelocity()).thenReturn(new Vector2(0, 0));
         when(player.getActiveSpeedMultiplier()).thenReturn(1.0f);

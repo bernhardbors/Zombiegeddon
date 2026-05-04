@@ -52,7 +52,9 @@ stop an evil professor’s experiment.
 * https://emhuo.itch.io/peaberry-pixel-font Font in the game
 * https://kenney-assets.itch.io/pixel-platformer Tiles for the levels
 * https://fartfish.itch.io/zombie-game-asset-pack Zombies and background 
-* https://gandalfhardcore.itch.io/free-pixel-art-sidescroller-asset-pack-32x32-city Background
+* https://gandalfhardcore.itch.io/free-pixel-art-sidescroller-asset-pack-32x32-city Background for level 1
+* https://opengameart.org/content/snowy-summits-pixel-art-winter-background Background for level 2
+* https://opengameart.org/content/nature-landscape-pixel-background Background for level 3
 * https://reedster123.itch.io/pixel-heart-healthbar-sprite-sheet Health bar 
 * https://xdeviruchi.itch.io/16-bit-fantasy-adventure-music-pack In-Game Music
 * https://phoenix1291.itch.io/sound-effects-pack-2 Health, Speed Pick Up, and Game Over/Death Sound Effects

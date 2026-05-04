@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import inf112.zoombiegeddon.AbstractLibGDXTest;
+import inf112.zoombiegeddon.app.GameConstants;
 import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
 import org.junit.jupiter.api.AfterEach;
@@ -37,12 +38,12 @@ class LevelModelTest extends AbstractLibGDXTest {
 
     @Test
     void testPixelsPerTile() {
-        assertEquals(8.0f, LevelModel.PIXELS_PER_TILE);
+        assertEquals(8.0f, GameConstants.PIXELS_PER_TILE);
     }
 
     @Test
     void testUnitScale() {
-        assertEquals(LevelModel.UNIT_SCALE,1f / LevelModel.PIXELS_PER_TILE, 0.0001f);
+        assertEquals(GameConstants.UNIT_SCALE,1f / GameConstants.PIXELS_PER_TILE, 0.0001f);
     }
 
     // --- Initialization ---

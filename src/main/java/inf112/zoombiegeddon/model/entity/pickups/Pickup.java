@@ -68,12 +68,7 @@ public abstract class Pickup implements IPickup {
         return collected;
     }
 
-    /**
-     * Returns the Box2D body of this pickup.
-     * Intended for use by physics/collision systems only.
-     *
-     * @return The raw Box2D body.
-     */
+    @Override
     public Body getBody() {
         return body;
     }

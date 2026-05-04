@@ -3,14 +3,11 @@ package inf112.zoombiegeddon.model.entity.player;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import inf112.zoombiegeddon.app.GameConstants;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
-import inf112.zoombiegeddon.model.entity.Entity;
-import inf112.zoombiegeddon.model.entity.EntityState;
-import inf112.zoombiegeddon.model.entity.PhysicsComponent;
+import inf112.zoombiegeddon.model.entity.*;
 import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
-import inf112.zoombiegeddon.model.levels.LevelModel;
-import inf112.zoombiegeddon.model.entity.HealthComponent;
 
 /**
  * Represents the player character in the game.
@@ -50,13 +47,13 @@ public class Player extends Entity implements IPlayer, IPlayerVisuals {
      */
     public Player(World world, Vector2 spawnPos, int hp) {
         super(new PhysicsComponent(world, spawnPos,
-                11 * LevelModel.UNIT_SCALE,
-                20 * LevelModel.UNIT_SCALE,
+                11 * GameConstants.UNIT_SCALE,
+                20 * GameConstants.UNIT_SCALE,
                 "player"));
 
         this.physics.setUserData(this);
-        this.width = 11 * LevelModel.UNIT_SCALE;
-        this.height = 20 * LevelModel.UNIT_SCALE;
+        this.width = 11 * GameConstants.UNIT_SCALE;
+        this.height = 20 * GameConstants.UNIT_SCALE;
         this.health = new HealthComponent(hp, GameEvent.PLAYER_DEATH, 1.0f);
         this.speedBoost = new SpeedBoostComponent();
     }
@@ -249,7 +246,7 @@ public class Player extends Entity implements IPlayer, IPlayerVisuals {
     public Vector2 getPosition() { return physics.getPosition(); }
 
     @Override
-    public PhysicsComponent getPhysics() { return physics; }
+    public IPhysicsComponent getPhysics() { return physics; }
 
     @Override
     public boolean isGrounded() { return isGrounded; }

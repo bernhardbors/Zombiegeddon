@@ -44,15 +44,7 @@ public class AnimationHandler implements IAnimationHandler {
         createAnimationMap(loader, frameWidth, frameHeight);
     }
 
-    /**
-     * Retrieves the correct texture region (frame) based on the current state,
-     * elapsed time, and orientation.
-     *
-     * @param state       The current state of the entity (e.g., IDLE, WALKING).
-     * @param stateTime   The total time spent in the current state.
-     * @param facingRight Whether the entity is currently facing right.
-     * @return The specific TextureRegion for the current animation frame.
-     */
+    @Override
     public TextureRegion getFrame(EntityState state, float stateTime, boolean facingRight) {
         boolean loop = !(state == EntityState.JUMPING || state == EntityState.FALLING);
 
@@ -102,15 +94,12 @@ public class AnimationHandler implements IAnimationHandler {
         return new Animation<>(frameDuration, frames);
     }
 
-    /**
-     * Provides access to the full map of animations.
-     *
-     * @return A map where keys are EntityStates and values are their corresponding animations.
-     */
+    @Override
     public Map<EntityState, Animation<TextureRegion>> getAnimations() {
         return animations;
     }
 
+    @Override
     public Texture getCharacterSpriteSheet() {
         return characterSpriteSheet;
     }
