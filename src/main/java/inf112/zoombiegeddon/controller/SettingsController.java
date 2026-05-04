@@ -17,6 +17,11 @@ public class SettingsController implements ISettingsController {
 
     private static final Logger logger = LoggerFactory.getLogger(SettingsController.class);
 
+    /**
+     * Creates a settings controller for the given game application.
+     *
+     * @param app the game application whose settings should be controlled
+     */
     public SettingsController(GameApp app) {
         this.app = app;
         this.prefs = app.getPrefs();

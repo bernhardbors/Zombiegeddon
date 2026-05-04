@@ -34,6 +34,8 @@ public interface IAnimationHandler {
     /**
      * Returns the underlying spritesheet texture, or {@code null} when constructed
      * with a custom {@link IAnimationLoader}.
+     *
+     * @return the underlying spritesheet texture, or {@code null} if none is used
      */
     Texture getCharacterSpriteSheet();
 }

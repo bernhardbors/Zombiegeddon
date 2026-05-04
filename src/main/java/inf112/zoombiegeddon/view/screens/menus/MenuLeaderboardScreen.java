@@ -5,12 +5,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import inf112.zoombiegeddon.app.GameApp;
@@ -23,6 +21,9 @@ import inf112.zoombiegeddon.view.utils.UIUtils;
 
 import java.util.List;
 
+/**
+ * Displays a menu leaderboard screen with tabs for story mode and individual levels.
+ */
 public class MenuLeaderboardScreen extends AbstractScreen {
 
     private static final float SCROLL_SPEED = 2f;
@@ -39,6 +40,13 @@ public class MenuLeaderboardScreen extends AbstractScreen {
     private final SpriteBatch bgBatch;
     private final OrthographicCamera bgCamera;
     private int selectedBoard = 0;
+
+    /**
+     * Creates a menu leaderboard screen that returns to the given screen.
+     *
+     * @param app          the game application
+     * @param returnScreen the screen to return to when pressing back
+     */
 
     public MenuLeaderboardScreen(GameApp app, Screen returnScreen) {
         super(app);
@@ -61,24 +69,27 @@ public class MenuLeaderboardScreen extends AbstractScreen {
 
         Table tabRow = new Table();
         tabRow.defaults().pad(5f * screenScale);
+
         for (int i = 0; i < BOARDS.length; i++) {
             final int idx = i;
-            TextButton tabBtn = new TextButton(BOARDS[i][1], skin);
+
+            TextButton tabBtn = UIUtils.button(BOARDS[i][1], app.getAssets().getSkin())
+                    .size(buttonWidth, buttonHeight)
+                    .action(() -> {
+                        selectedBoard = idx;
+                        buildScreen();
+                    })
+                    .build();
+
             tabBtn.getLabelCell().padBottom(buttonHeight / 2);
-            tabBtn.getLabelCell().size(buttonWidth, buttonHeight);
+
             if (i == selectedBoard) {
                 tabBtn.setColor(Color.YELLOW);
             }
-            tabBtn.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    GameEventBus.post(GameEvent.UI_BUTTON_CLICK);
-                    selectedBoard = idx;
-                    buildScreen();
-                }
-            });
+
             tabRow.add(tabBtn).size(buttonWidth, buttonHeight);
         }
+
         table.add(tabRow).padTop(10f * screenScale).row();
 
         Table entryTable = new Table();

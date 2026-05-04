@@ -41,6 +41,11 @@ public class StoryScreen extends AbstractScreen {
     private int currentStoryIndex;
     private boolean finished;
 
+    /**
+     * Creates a story screen for the given game application.
+     *
+     * @param app the game application
+     */
     public StoryScreen(GameApp app) {
         super(app);
     }

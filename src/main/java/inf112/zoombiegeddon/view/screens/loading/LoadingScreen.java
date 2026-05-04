@@ -54,6 +54,9 @@ public class LoadingScreen extends AbstractScreen {
         clearTable();
     }
 
+    /**
+     * Queues story images, sound effects, and music tracks for loading.
+     */
     private void queueAssets() {
         app.getAssets().getManager().load(AssetConstants.STORY_IMAGE_01, Texture.class);
         app.getAssets().getManager().load(AssetConstants.STORY_IMAGE_02, Texture.class);
@@ -86,6 +89,9 @@ public class LoadingScreen extends AbstractScreen {
         stage.draw();
     }
 
+    /**
+     * Finalizes asset loading and prepares shared background layers.
+     */
     private void finalizeLoading() {
         app.getAssets().finishLoading();
 

@@ -81,6 +81,9 @@ public class ParallaxBackground {
         }
     }
 
+    /**
+     * Removes all background layers from the parallax system.
+     */
     public void clearLayers() {
         layers.clear();
     }

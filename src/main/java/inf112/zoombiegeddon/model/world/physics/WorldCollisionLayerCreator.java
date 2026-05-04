@@ -10,10 +10,9 @@ import java.util.ArrayList;
 
 /**
  * Responsible for parsing a specific TiledMap layer and generating static Box2D collision bodies.
- * <p>
+ *
  * This class optimizes physics performance by grouping adjacent horizontal tiles into
  * single rectangular hitboxes rather than creating a separate body for every single tile.
- * </p>
  */
 public class WorldCollisionLayerCreator {
 
@@ -119,6 +118,9 @@ public class WorldCollisionLayerCreator {
         body.createFixture(fixtureDef);
     }
 
+    /**
+     * Releases the reusable polygon shape used during hitbox creation.
+     */
     public void dispose() {
         tileShape.dispose();
     }

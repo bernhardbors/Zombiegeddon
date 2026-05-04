@@ -4,17 +4,21 @@ import com.badlogic.gdx.physics.box2d.Body;
 import inf112.zoombiegeddon.model.world.physics.IWorldPhysics;
 
 /**
- * Defines the base behavior for Lucky Blocks
+ * Defines the base behavior for Lucky Blocks.
  */
 public interface ILuckyBlock {
 
     /**
      * Called when a player breaks the block.
+     *
+     * @param worldPhysics the physics system used to update the world
      */
     void breakBlock(IWorldPhysics worldPhysics);
 
     /**
      * Placeholder for spawning a future reward entity.
+     *
+     * @param worldPhysics the physics system used to spawn the reward
      */
     void spawnReward(IWorldPhysics worldPhysics);
 

@@ -16,10 +16,9 @@ import java.util.function.Function;
 
 /**
  * Manages the Box2D physics world and handles the simulation step logic.
- * <p>
+ *
  * This class implements a fixed timestep to ensure deterministic physics
  * simulation regardless of the frame rate.
- * </p>
  */
 public class WorldPhysics implements IWorldPhysics {
 
@@ -37,7 +36,8 @@ public class WorldPhysics implements IWorldPhysics {
 
     /**
      * Initializes a new physics world with the specified gravity.
-     * @param gravity a {@link Vector2} representing the gravity vector (e.g., 0, -9.81f).
+     *
+     * @param gravity a {@link Vector2} representing the gravity vector
      */
     public WorldPhysics(Vector2 gravity) {
         this.world = new World(gravity, true);
@@ -120,7 +120,14 @@ public class WorldPhysics implements IWorldPhysics {
         return world;
     }
 
-    @Override
+    /**
+     * Advances the physics simulation.
+     *
+     * Uses an accumulator pattern to ensure that the physics world steps at
+     * a constant rate, preventing speed changes caused by fluctuating frame rates.
+     *
+     * @param delta the time in seconds since the last render frame
+     */
     public void update(float delta) {
         float timeStep = 1 / 60f;
         accumulatedTime += delta;

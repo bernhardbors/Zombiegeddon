@@ -8,7 +8,7 @@ import inf112.zoombiegeddon.model.entity.player.IPlayer;
 
 /**
  * Handles user input and translates it into player actions and movement.
- * Extends {@link InputAdapter} to handle discrete inf112.zoombiegeddon.events like jumping,
+ * Extends {@link InputAdapter} to handle discrete input events like jumping,
  * while providing an update loop for continuous movement and friction.
  */
 public class PlayerController extends InputAdapter implements IPlayerController {
@@ -40,9 +40,8 @@ public class PlayerController extends InputAdapter implements IPlayerController 
     }
 
     /**
-     * Handles discrete key press inf112.zoombiegeddon.events.
-     * Used for actions that should trigger only once per press, such as jumping
-     * or exiting the application.
+     * Handles discrete key press events.
+     * Used for actions that should trigger only once per press, such as jumping.
      *
      * @param keycode The code of the key that was pressed.
      * @return True if the input was processed.
