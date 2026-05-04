@@ -125,7 +125,8 @@ public class UIUtils {
          */
         public TextButton build() {
             TextButton button = new TextButton(name, skin);
-            button.getLabel().setFontScale(textScale);
+            float screenScale = Gdx.graphics.getHeight() / 900f;
+            button.getLabel().setFontScale(textScale * screenScale);
             button.getLabel().setAlignment(com.badlogic.gdx.utils.Align.center);
             button.getLabelCell().expand().fill();
             button.addListener(new ClickListener() {
