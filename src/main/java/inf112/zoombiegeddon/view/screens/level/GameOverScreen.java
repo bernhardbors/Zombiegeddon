@@ -1,6 +1,9 @@
 package inf112.zoombiegeddon.view.screens.level;
 
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
@@ -15,6 +18,8 @@ import inf112.zoombiegeddon.view.utils.UIUtils;
  * Allows the player to retry, pick a new level, or return to the main menu.
  */
 public class GameOverScreen extends AbstractScreen {
+
+    private Texture background;
 
     /**
      * Defines how the retry button should behave on the game over screen.
@@ -50,6 +55,7 @@ public class GameOverScreen extends AbstractScreen {
         this.retryMode = retryMode;
         this.retryMapPath = retryMapPath;
         this.retryBoardId = retryBoardId;
+        background = app.getAssets().getManager().get(AssetConstants.GAME_OVER, Texture.class);
     }
 
     @Override
@@ -59,37 +65,51 @@ public class GameOverScreen extends AbstractScreen {
         GameEventBus.post(GameEvent.PLAYER_DEATH);
         GameEventBus.post(GameEvent.MENU_STARTED);
 
-        formatText("GAME OVER", Color.RED, 6f);
-        table.row().padTop(25);
+        float bw = buttonWidth * 1.3f;
+        float bh = buttonHeight * 1.3f;
+
+        table.bottom();
+        table.padBottom(80);
 
         if (retryMode == RetryMode.STORY) {
-            UIUtils.button("TRY AGAIN", skin).size(buttonWidth, buttonHeight)
+            UIUtils.button("TRY STORYMODE AGAIN", skin).size(bw,bh)
                     .action(() -> app.setScreen(new StoryNameScreen(app)))
                     .addTo(table);
 
-
-            table.row().padTop(10);
+            table.row().padTop(15);
         }
 
         if (retryMode == RetryMode.LEVEL) {
-            UIUtils.button("TRY AGAIN", skin).size(buttonWidth, buttonHeight)
+            UIUtils.button("TRY LEVEL AGAIN", skin).size(bw,bh)
                     .action(() -> app.setScreen(new PlayableLevel(app, retryMapPath, retryBoardId)))
                     .addTo(table);
 
-            table.row().padTop(10);
+            table.row().padTop(15);
 
-            UIUtils.button("PICK NEW LEVEL", skin).size(buttonWidth, buttonHeight)
+            UIUtils.button("PICK NEW LEVEL", skin).size(bw,bh)
                     .action(() -> app.setScreen(new PickLevelScreen(app)))
                     .addTo(table);
 
-            table.row().padTop(10);
+            table.row().padTop(15);
         }
 
-        UIUtils.button("MAIN MENU", skin).size(buttonWidth, buttonHeight)
+        UIUtils.button("BACK TO MAIN MENU", skin).size(bw,bh)
                 .action(() -> {
                     app.getStoryManager().finishRun();
                     app.setScreen(new MainMenuScreen(app));
                 })
                 .addTo(table);
+    }
+    @Override
+    public void show() {
+        super.show();
+
+        stage.clear();
+
+        Image bg = new Image(new TextureRegionDrawable(background));
+        bg.setFillParent(true);
+
+        stage.addActor(bg);
+        stage.addActor(table);
     }
 }

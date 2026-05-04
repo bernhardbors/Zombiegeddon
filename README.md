@@ -20,9 +20,8 @@
 
 
 # About Zoombiegeddon: 
-Zoombiegeddon is a 2D-game where the player 
-fights zombie animals across different levels to
-stop an evil professor’s experiment.
+Zoombiegeddon is a 2D platformer where the player 
+fights zombie enemies, collect power-ups, and complete levels by reaching the goal. 
 
 # Controls 
 | Key                     | Action     |
@@ -47,22 +46,32 @@ stop an evil professor’s experiment.
 	
     
 ## Credits
-* https://gafferongames.com/post/fix_your_timestep/ used in the class WorldPhysics
-* https://git.app.uib.no/inf112/25v/inf112.25v.lectures/-/blob/main/src/test/java/inf112/skeleton/app/FlockingTest.java?ref_type=heads used in the test class AbstractLibGDXTest 
-* https://emhuo.itch.io/peaberry-pixel-font Font in the game
-* https://kenney-assets.itch.io/pixel-platformer Tiles for the levels
-* https://fartfish.itch.io/zombie-game-asset-pack Zombies and background 
-* https://gandalfhardcore.itch.io/free-pixel-art-sidescroller-asset-pack-32x32-city Background for level 1
-* https://opengameart.org/content/snowy-summits-pixel-art-winter-background Background for level 2
-* https://opengameart.org/content/nature-landscape-pixel-background Background for level 3
-* https://reedster123.itch.io/pixel-heart-healthbar-sprite-sheet Health bar 
-* https://xdeviruchi.itch.io/16-bit-fantasy-adventure-music-pack In-Game Music
-* https://phoenix1291.itch.io/sound-effects-pack-2 Health, Speed Pick Up, and Game Over/Death Sound Effects
-* https://the-sound-guild.itch.io/footsteps-sounds-02 footsteps and running sound
-* https://noahkuehne.itch.io/free-menu-sound-pack-ui-sounds-v2 Button sounds for menu.
-* https://jacob-creates.itch.io/game-sound-effects zombie death
+* Code:
+  * https://gafferongames.com/post/fix_your_timestep/ used in the class WorldPhysics
+  * https://git.app.uib.no/inf112/25v/inf112.25v.lectures/-/blob/main/src/test/java/inf112/skeleton/app/FlockingTest.java?ref_type=heads used in the test class AbstractLibGDXTest 
+
+* Font: 
+  * https://emhuo.itch.io/peaberry-pixel-font Font in the game
+
+* Sprite, tiles and background: 
+  * https://kenney-assets.itch.io/pixel-platformer Tiles for the levels
+  * https://fartfish.itch.io/zombie-game-asset-pack Zombies and background 
+  * https://gandalfhardcore.itch.io/free-pixel-art-sidescroller-asset-pack-32x32-city Background for level 1
+  * https://opengameart.org/content/snowy-summits-pixel-art-winter-background Background for level 2
+  * https://opengameart.org/content/nature-landscape-pixel-background Background for level 3
+  * https://reedster123.itch.io/pixel-heart-healthbar-sprite-sheet Health bar 
+  
+* Sound and music:
+  * https://xdeviruchi.itch.io/16-bit-fantasy-adventure-music-pack In-Game Music
+  * https://phoenix1291.itch.io/sound-effects-pack-2 Health, Speed Pick Up, and Game Over/Death Sound Effects
+  * https://the-sound-guild.itch.io/footsteps-sounds-02 footsteps and running sound
+  * https://noahkuehne.itch.io/free-menu-sound-pack-ui-sounds-v2 Button sounds for menu.
+  * https://jacob-creates.itch.io/game-sound-effects zombie death
+  * https://pixabay.com/users/prettyjohn1-54616349/ Story mode music 
+  * https://opengameart.org/content/jumping-man-sounds Jump sounds
+
 * The icons for powerups has been drawn by Bernhard Bors
-* The games cover photo and story mode video is AI generated
+* The games cover photo, story mode video and background for GameOverScreen is AI generated
 
 # How to run
 

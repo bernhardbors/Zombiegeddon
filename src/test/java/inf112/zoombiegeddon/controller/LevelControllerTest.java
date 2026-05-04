@@ -3,11 +3,12 @@ package inf112.zoombiegeddon.controller;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import inf112.zoombiegeddon.events.GameEvent;
+import inf112.zoombiegeddon.events.GameEventBus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -25,8 +26,14 @@ class LevelControllerTest {
 
     @Test
     void testKeyDownP() {
+        GameEventBus.clear();
+        int[] count = {0};
+        GameEventBus.register(event -> {if (event == GameEvent.TOGGLE_PAUSE) count[0]++;});
+
         boolean pressedP = controller.keyDown(Input.Keys.P);
+
         assertTrue(pressedP);
+        assertEquals(1, count[0]);
     }
 
     @Test

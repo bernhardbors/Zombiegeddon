@@ -67,6 +67,7 @@ public class Assets {
         manager.load(AssetConstants.BG_NATURE_1, Texture.class);
         manager.load(AssetConstants.BG_NATURE_2, Texture.class);
         manager.load(AssetConstants.BG_NATURE_3, Texture.class);
+        manager.load(AssetConstants.GAME_OVER, Texture.class);
     }
 
     /**
