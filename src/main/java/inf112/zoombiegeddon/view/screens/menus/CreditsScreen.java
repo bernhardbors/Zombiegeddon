@@ -15,6 +15,9 @@ import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 import inf112.zoombiegeddon.view.utils.UIUtils;
 
+/**
+ * Displays the credits screen with project contributors and acknowledgements.
+ */
 public class CreditsScreen extends AbstractScreen {
 
     private static final float SCROLL_SPEED = 2f;
@@ -23,7 +26,12 @@ public class CreditsScreen extends AbstractScreen {
     private final SpriteBatch bgBatch;
     private final OrthographicCamera bgCamera;
 
-
+    /**
+     * Creates a credits screen that returns to the given screen.
+     *
+     * @param app          the game application
+     * @param returnScreen the screen to return to when pressing back
+     */
     public CreditsScreen(GameApp app, Screen returnScreen) {
         super(app);
         this.returnScreen = returnScreen;
@@ -50,17 +58,17 @@ public class CreditsScreen extends AbstractScreen {
         creditsTable.defaults().pad(6f * screenScale);
 
         addSection(creditsTable, "PROGRAMMERS", Color.CYAN,
-                "Name Here\nName Here\nName Here", screenScale);
+                "Bernhard Bors\nSynne Hermansen\nTuva Kvamme\nTheodor Flornes\n Johannes Helle Moe \n Isak Graarud", screenScale);
         addSection(creditsTable, "GAME DESIGN", Color.ORANGE,
-                "Name Here\nName Here", screenScale);
+                "Bernhard Bors\nIsak Graarud", screenScale);
         addSection(creditsTable, "ART & GRAPHICS", Color.GREEN,
-                "Name Here\nName Here", screenScale);
+                "Theodor Flornes \nSynne Hermansen", screenScale);
         addSection(creditsTable, "SOUND & MUSIC", Color.PINK,
-                "Name Here", screenScale);
+                "Johannes Helle Moe", screenScale);
         addSection(creditsTable, "TESTING", Color.YELLOW,
-                "Name Here\nName Here", screenScale);
+                "Tuva Kvamme", screenScale);
         addSection(creditsTable, "SPECIAL THANKS", Color.WHITE,
-                "Name Here", screenScale);
+                "Henrik Brogger", screenScale);
 
         ScrollPane scrollPane = new ScrollPane(creditsTable, skin);
         scrollPane.getStyle().background = null;

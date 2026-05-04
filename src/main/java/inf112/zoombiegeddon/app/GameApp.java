@@ -36,6 +36,7 @@ public class GameApp extends Game {
     private String currentPlayerName;
 
     private IStoryManager storyManager;
+
     /**
      * Initializes the core components of the application.
      * Sets up the rendering batch, asset management, user preferences.
@@ -107,6 +108,13 @@ public class GameApp extends Game {
     public Preferences getPrefs() { return prefs; }
     public ShapeRenderer getShapeRenderer() { return shapeRenderer; }
 
+
+    /**
+     * Sets the current player name.
+     * If the given name is null or blank, a default name is used instead.
+     *
+     * @param currentPlayerName the player name to use
+     */
     public void setCurrentPlayerName(String currentPlayerName) {
         if (currentPlayerName == null || currentPlayerName.isBlank()) {
             this.currentPlayerName = "Player";

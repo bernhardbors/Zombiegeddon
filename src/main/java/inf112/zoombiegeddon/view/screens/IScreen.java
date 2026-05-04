@@ -5,9 +5,9 @@ import com.badlogic.gdx.Screen;
 /**
  * Represents a screen in the game.
  *
- * <p>Extends LibGDX {@link Screen} and adds the requirement that all
+ * Extends LibGDX {@link Screen} and adds the requirement that all
  * game screens must be able to build or rebuild their UI/content
- * through {@link #buildScreen()}.</p>
+ * through {@link #buildScreen()}.
  */
 public interface IScreen extends Screen {
 

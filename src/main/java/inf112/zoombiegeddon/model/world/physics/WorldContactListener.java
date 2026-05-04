@@ -20,6 +20,11 @@ public class WorldContactListener implements ContactListener {
     private final List<Body> bodiesQueuedForRemoval = new ArrayList<>();
     private final IWorldPhysics worldPhysics;
 
+    /**
+     * Creates a contact listener connected to the given physics system.
+     *
+     * @param worldPhysics the physics system used for world interactions
+     */
     public WorldContactListener(IWorldPhysics worldPhysics) {
         this.worldPhysics = worldPhysics;
     }
@@ -83,6 +88,11 @@ public class WorldContactListener implements ContactListener {
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {}
 
+    /**
+     * Destroys bodies that were queued for removal during collision handling.
+     *
+     * @param world the Box2D world containing the queued bodies
+     */
     public void processQueuedRemovals(World world) {
         if (bodiesQueuedForRemoval.isEmpty()) return;
 

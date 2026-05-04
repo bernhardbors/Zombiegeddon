@@ -1,5 +1,6 @@
 package inf112.zoombiegeddon.controller;
 
+
 import inf112.zoombiegeddon.model.leaderboard.*;
 
 /**
@@ -13,9 +14,11 @@ public class LeaderboardController implements ILeaderboardController {
     private final IScoreCalculator scoreCalculator;
 
     /**
-     * @param leaderboardManager    Manages in-memory leaderboard entries.
-     * @param leaderboardRepository Handles persistence of leaderboard data.
-     * @param scoreCalculator       Calculates scores based on level performance.
+     * Creates a leaderboard controller with the required manager, repository and score calculator.
+     *
+     * @param leaderboardManager    manages in-memory leaderboard entries
+     * @param leaderboardRepository handles persistence of leaderboard data
+     * @param scoreCalculator       calculates scores based on level performance
      */
     public LeaderboardController(ILeaderboardManager leaderboardManager, ILeaderboardRepository leaderboardRepository, IScoreCalculator scoreCalculator) {
         this.leaderboardManager = leaderboardManager;

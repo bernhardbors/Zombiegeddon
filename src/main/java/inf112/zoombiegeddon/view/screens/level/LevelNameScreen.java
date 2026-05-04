@@ -22,6 +22,11 @@ public class LevelNameScreen extends AbstractScreen {
     private final SpriteBatch bgBatch;
     private final OrthographicCamera bgCamera;
 
+    /**
+     * Creates a level name screen for the given game application.
+     *
+     * @param app the game application
+     */
     public LevelNameScreen(GameApp app) {
         super(app);
         bgBatch = new SpriteBatch();

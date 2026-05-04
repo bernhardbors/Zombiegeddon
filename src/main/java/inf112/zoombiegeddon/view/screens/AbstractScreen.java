@@ -138,6 +138,12 @@ public abstract class AbstractScreen implements IScreen {
         return textBody;
     }
 
+    /**
+     * Creates a default parallax background for menu-style screens.
+     *
+     * @param bgCamera the camera used to render the background
+     * @return a parallax background with the default menu layers
+     */
     protected ParallaxBackground addParallaxBg(OrthographicCamera bgCamera) {
         final ParallaxBackground parallaxBg;
         parallaxBg = new ParallaxBackground(bgCamera);

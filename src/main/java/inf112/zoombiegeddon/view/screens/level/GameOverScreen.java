@@ -16,6 +16,9 @@ import inf112.zoombiegeddon.view.utils.UIUtils;
  */
 public class GameOverScreen extends AbstractScreen {
 
+    /**
+     * Defines how the retry button should behave on the game over screen.
+     */
     public enum RetryMode {
         NONE,
         STORY,
@@ -26,9 +29,22 @@ public class GameOverScreen extends AbstractScreen {
     private final String retryMapPath;
     private final String retryBoardId;
 
+    /**
+     * Creates a game over screen without retry options.
+     *
+     * @param app the game application
+     */
     public GameOverScreen(GameApp app) {
         this(app, RetryMode.NONE, null, null);}
 
+    /**
+     * Creates a game over screen with optional retry behavior.
+     *
+     * @param app          the game application
+     * @param retryMode    the retry mode to use
+     * @param retryMapPath the map path to retry, or {@code null} if not used
+     * @param retryBoardId the leaderboard ID to use when retrying, or {@code null} if not used
+     */
     public GameOverScreen(GameApp app, RetryMode retryMode, String retryMapPath, String retryBoardId) {
         super(app);
         this.retryMode = retryMode;
@@ -39,21 +55,24 @@ public class GameOverScreen extends AbstractScreen {
     @Override
     public void buildScreen() {
         clearTable();
+
+        GameEventBus.post(GameEvent.PLAYER_DEATH);
         GameEventBus.post(GameEvent.MENU_STARTED);
 
         formatText("GAME OVER", Color.RED, 6f);
         table.row().padTop(25);
 
         if (retryMode == RetryMode.STORY) {
-            UIUtils.button("TRY STORYMODE AGAIN", skin).size(buttonWidth, buttonHeight)
+            UIUtils.button("TRY AGAIN", skin).size(buttonWidth, buttonHeight)
                     .action(() -> app.setScreen(new StoryNameScreen(app)))
                     .addTo(table);
+
 
             table.row().padTop(10);
         }
 
         if (retryMode == RetryMode.LEVEL) {
-            UIUtils.button("TRY LEVEL AGAIN", skin).size(buttonWidth, buttonHeight)
+            UIUtils.button("TRY AGAIN", skin).size(buttonWidth, buttonHeight)
                     .action(() -> app.setScreen(new PlayableLevel(app, retryMapPath, retryBoardId)))
                     .addTo(table);
 

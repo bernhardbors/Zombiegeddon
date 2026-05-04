@@ -29,12 +29,17 @@ public class Assets {
 
     private static final Logger logger = LoggerFactory.getLogger(Assets.class);
 
+
     public Assets() {
         this.manager = new AssetManager();
     }
 
     /**
-     * Called to start asynchronous loading of resources.
+     * Starts asynchronous loading of the game's assets.
+     * <p>
+     * This method queues assets for loading, but does not guarantee that they
+     * are ready to use immediately. Call {@link #finishLoading()} before using
+     * assets that must be fully loaded.
      */
     public void load() {
         // Loading of UI and fonts
@@ -65,8 +70,11 @@ public class Assets {
     }
 
     /**
-     * Called when loading is completed (or to force synchronous loading).
-     * Unpacks resources so they are ready to be used.
+     * Finishes asset loading and prepares loaded resources for use.
+     * <p>
+     * This method blocks until all queued assets are loaded. It also creates
+     * animation handlers, applies the loaded font to the UI skin and compiles
+     * the pickup effect shader.
      */
     public void finishLoading() {
         manager.finishLoading();
@@ -105,6 +113,9 @@ public class Assets {
     public AssetManager getManager() { return manager; }
     public ShaderProgram getPickupEffectShader() { return pickupEffectShader; }
 
+    /**
+     * Releases all loaded assets and disposable resources owned by this class.
+     */
     public void dispose() {
         manager.dispose();
         if (pickupEffectShader != null) pickupEffectShader.dispose();

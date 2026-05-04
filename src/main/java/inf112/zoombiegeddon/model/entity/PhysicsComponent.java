@@ -17,11 +17,11 @@ public class PhysicsComponent implements IPhysicsComponent{
      * @param world    The Box2D world to create the body in.
      * @param pos      The initial position of the body.
      * @param hitboxW    The width of the entity.
-     * @param hitboxh   The height of the entity.
+     * @param hitboxH   The height of the entity.
      * @param userData The user data to associate with the main body fixture.
      */
-    public PhysicsComponent(World world, Vector2 pos, float hitboxW, float hitboxh, Object userData) {
-        this.body = defineBody(world, pos, hitboxW, hitboxh, userData);
+    public PhysicsComponent(World world, Vector2 pos, float hitboxW, float hitboxH, Object userData) {
+        this.body = defineBody(world, pos, hitboxW, hitboxH, userData);
     }
 
     /**

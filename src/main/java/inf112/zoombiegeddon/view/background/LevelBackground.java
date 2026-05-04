@@ -5,8 +5,8 @@ import inf112.zoombiegeddon.app.AssetConstants;
 /**
  * Defines the background layers for each game level.
  *
- * <p>Each constant holds an ordered list of texture paths drawn back-to-front,
- * combined with {@link #FACTORS} to produce a parallax scrolling effect.</p>
+ * Each constant holds an ordered list of texture paths drawn back-to-front,
+ * combined with {@link #FACTORS} to produce a parallax scrolling effect.
  */
 public enum LevelBackground {
     /** City skyline background used in level 1. */
