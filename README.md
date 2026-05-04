@@ -20,9 +20,8 @@
 
 
 # About Zoombiegeddon: 
-Zoombiegeddon is a 2D-game where the player 
-fights zombie animals across different levels to
-stop an evil professor’s experiment.
+Zoombiegeddon is a 2D platformer where the player 
+fights zombie enemies, collect power-ups, and complete levels by reaching the goal. 
 
 # Controls 
 | Key                     | Action     |
