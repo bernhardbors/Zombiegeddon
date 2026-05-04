@@ -12,5 +12,36 @@ leaderboards: {
 			timeUsed: 43.2
 		}
 	]
+	level3: [
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: joey
+			boardId: level3
+			score: 3672
+			collectedItems: 0
+			livesLeft: 2
+			timeUsed: 32.810177
+		}
+	]
+	level2: [
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: joey
+			boardId: level2
+			score: 4052
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 44.860737
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: joey
+			boardId: level2
+			score: 3642
+			collectedItems: 0
+			livesLeft: 2
+			timeUsed: 35.893925
+		}
+	]
 }
 }

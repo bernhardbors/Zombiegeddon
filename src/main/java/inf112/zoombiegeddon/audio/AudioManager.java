@@ -249,7 +249,7 @@ public class AudioManager implements IAudioService, IEventListener {
 
     @Override
     public void setMusicVolume(float volume01) {
-        this.musicVolume = Math.clamp(volume01, 0, 1);
+        this.musicVolume = Math.clamp(volume01, 0, 0.3f);
         if (currentMusic != null) {
             currentMusic.setVolume(muted ? 0f : musicVolume);
         }
