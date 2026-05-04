@@ -89,7 +89,7 @@ public class SettingsScreen extends AbstractScreen {
         Table displaySection = createSectionTable();
         addSectionTitle(displaySection, "VIDEO SETTINGS", Color.CYAN);
 
-        String[] resolutions = {"1280 x 720", "1366 x 768", "1600 x 900", "1920 x 1080", "2560 x 1440", "3840 x 2160"};
+        String[] resolutions = {"1280 x 720", "1366 x 768", "1600 x 900", "1920 x 1080"};
 
         UIUtils.selectBox("Resolution", resolutions, app.getAssets().getSkin()).size(buttonWidth, buttonHeight)
                 .action(controller::applyResolution).addTo(displaySection);
