@@ -22,6 +22,15 @@ leaderboards: {
 		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Player
+			boardId: level1
+			score: 4273
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 22.783398
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: Theo
 			boardId: level1
 			score: 4200
