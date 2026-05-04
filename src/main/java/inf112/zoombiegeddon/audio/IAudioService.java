@@ -55,7 +55,7 @@ public interface IAudioService {
      * Starts looping a specific sound effect.
      *
      * @param sfx The sound effect to loop.
-     * @return The id of the looping sound instance.
+     * @return The id of the looping sound instance, or -1 if the sound could not be looped.
      */
     long loopSfx(Sfx sfx);
 

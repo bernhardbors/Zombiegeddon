@@ -123,10 +123,7 @@ public class AudioManager implements IAudioService, IEventListener {
         assets.get(sfx.path(), Sound.class).stop();
     }
 
-    /**
-     * Starts looping the normal footsteps sound effect.
-     * Does nothing if that loop is already active.
-     */
+
     private void startFootstepsLoop() {
         if (footstepsLooping && !runningFootsteps) return;
 
@@ -136,10 +133,7 @@ public class AudioManager implements IAudioService, IEventListener {
         runningFootsteps = false;
     }
 
-    /**
-     * Starts looping the running footsteps sound effect.
-     * Does nothing if that loop is already active.
-     */
+
     private void startRunningFootstepsLoop() {
         if (footstepsLooping && runningFootsteps) return;
 
@@ -149,9 +143,7 @@ public class AudioManager implements IAudioService, IEventListener {
         runningFootsteps = true;
     }
 
-    /**
-     * Stops any currently active footsteps loop.
-     */
+
     private void stopFootstepsLoop() {
         if (!footstepsLooping) return;
 
@@ -262,7 +254,8 @@ public class AudioManager implements IAudioService, IEventListener {
     }
 
     /**
-     * Disposes of the background music. Note: AssetManager handles Sound disposal.
+     * Unregisters this audio manager from the game event bus.
+     * Asset disposal is handled by the {@link AssetManager}.
      */
     public void dispose() {
         GameEventBus.unregister(this);
