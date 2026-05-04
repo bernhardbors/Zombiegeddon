@@ -4,22 +4,46 @@ leaderboards: {
 	level1: [
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Alice
+			playerName: Theo
 			boardId: level1
-			score: 9800
-			collectedItems: 15
+			score: 4200
+			collectedItems: 8
+			livesLeft: 2
+			timeUsed: 43.2
+		}
+	]
+	level3: [
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: joey
+			boardId: level3
+			score: 3672
+			collectedItems: 0
+			livesLeft: 2
+			timeUsed: 32.810177
+		}
+	]
+	level2: [
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: joey
+			boardId: level2
+			score: 4052
+			collectedItems: 0
 			livesLeft: 3
-			timeUsed: 28.5
+			timeUsed: 44.860737
 		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Bob
-			boardId: level1
-			score: 7500
-			collectedItems: 12
+			playerName: joey
+			boardId: level2
+			score: 3642
+			collectedItems: 0
 			livesLeft: 2
-			timeUsed: 35.1
+			timeUsed: 35.893925
 		}
+	]
+	level3: [
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: Player
@@ -38,6 +62,8 @@ leaderboards: {
 			livesLeft: 3
 			timeUsed: 21.00012
 		}
+	]
+	level2: [
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: Player
@@ -50,47 +76,20 @@ leaderboards: {
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: Player
-			boardId: level1
-			score: 4273
+			boardId: level2
+			score: 3917
 			collectedItems: 0
 			livesLeft: 3
-			timeUsed: 22.783398
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Theo
-			boardId: level1
-			score: 4200
-			collectedItems: 8
-			livesLeft: 2
-			timeUsed: 43.2
+			timeUsed: 58.321644
 		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: Player
-			boardId: level1
-			score: 3924
+			boardId: level2
+			score: 3888
 			collectedItems: 0
 			livesLeft: 3
-			timeUsed: 57.62935
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Charlie
-			boardId: level1
-			score: 3100
-			collectedItems: 6
-			livesLeft: 1
-			timeUsed: 57.8
-		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: Dana
-			boardId: level1
-			score: 1500
-			collectedItems: 3
-			livesLeft: 0
-			timeUsed: 72.4
+			timeUsed: 61.25133
 		}
 	]
 }
