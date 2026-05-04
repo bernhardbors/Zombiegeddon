@@ -47,8 +47,13 @@ public class PlayerTest extends AbstractEntityTest {
 
     @Test
     void testPlayerDies() {
+        GameEventBus.clear();
+        int[] count = {0};
+        GameEventBus.register(event -> {if (event == GameEvent.PLAYER_DEATH) count[0]++;});
+
         player.takeDamage(3);
         assertTrue(player.isDead());
+        assertEquals(1, count[0]);
     }
 
     @Test
@@ -436,6 +441,20 @@ public class PlayerTest extends AbstractEntityTest {
 
         assertEquals(1, count[0]);
         GameEventBus.clear();
+
+    }
+
+    @Test
+    void testPlayerJumpPostedWhenExecuteJump() {
+        GameEventBus.clear();
+        int[] count = {0};
+        GameEventBus.register(event -> {if (event == GameEvent.PLAYER_JUMP) count[0]++;});
+
+        player.setGrounded(true);
+        player.jump();
+        player.update(0.01f);
+
+        assertEquals(1, count[0]);
 
     }
 

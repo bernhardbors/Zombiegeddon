@@ -3,8 +3,8 @@ package inf112.zoombiegeddon.model.world.triggers;
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
 import inf112.zoombiegeddon.model.entity.player.Player;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class GoalActionTest extends AbstractEntityTest {
 
@@ -15,8 +15,9 @@ class GoalActionTest extends AbstractEntityTest {
 
         assertFalse(player.inGoal(), "Player should not be in goal");
 
-        goalAction.onTrigger(player);
+        assertNull(goalAction.onTrigger(player));
 
         assertTrue(player.inGoal(), "Player should be in goal after trigger is activated");
+
     }
 }
