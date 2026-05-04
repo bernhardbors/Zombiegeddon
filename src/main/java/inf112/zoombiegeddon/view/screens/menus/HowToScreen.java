@@ -86,7 +86,7 @@ public class HowToScreen extends AbstractScreen {
         addLabel(contentTable, "Experience the apocalypse in order.\nYour final score will be submitted to the Leaderboard!",
                 Color.WHITE, 2.0f, screenScale);
         addLabel(contentTable, "LEVEL SELECT", Color.CYAN, 2.2f, screenScale);
-        addLabel(contentTable, "Practice any level in any order.\nNote: Highscores are disabled in this mode.",
+        addLabel(contentTable, "Practice any level in any order.",
                 Color.WHITE, 2.0f, screenScale);
 
         ScrollPane scrollPane = new ScrollPane(contentTable, skin);
