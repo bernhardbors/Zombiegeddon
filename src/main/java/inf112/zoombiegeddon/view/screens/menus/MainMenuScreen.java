@@ -10,7 +10,6 @@ import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
-import inf112.zoombiegeddon.view.utils.UIUtils;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 import inf112.zoombiegeddon.view.screens.level.LevelNameScreen;
 import inf112.zoombiegeddon.view.screens.story.StoryNameScreen;
@@ -24,7 +23,7 @@ import inf112.zoombiegeddon.view.utils.UIUtils;
 public class MainMenuScreen extends AbstractScreen {
 
     private static final float BUTTON_SCALE = 1.2f;
-    private static final float COLUMN_PADDING = 2f;
+    private static final float COLUMN_PADDING = 0f;
     private static final float BOTTOM_PADDING = 2f;
 
     /**
@@ -66,7 +65,7 @@ public class MainMenuScreen extends AbstractScreen {
         UIUtils.button("HOW TO PLAY", skin).size(bw, bh)
                 .action(() -> app.setScreen(new HowToScreen(app))).addTo(leftColumn);
         UIUtils.button("SCOREBOARD", skin).size(bw, bh)
-                .action(() -> app.setScreen(new LeaderboardScreen(app, GameApp.STORY_LEADERBOARD_ID, LeaderboardScreen.ScreenType.MAIN_MENU))).addTo(leftColumn);
+                .action(() -> app.setScreen(new MenuLeaderboardScreen(app, this))).addTo(leftColumn);
 
         Table rightColumn = new Table();
         UIUtils.button("LEVELS", skin).size(bw, bh)
@@ -76,8 +75,8 @@ public class MainMenuScreen extends AbstractScreen {
         UIUtils.button("SETTINGS", skin).size(bw, bh)
                 .action(() -> app.setScreen(new SettingsScreen(app, this))).addTo(rightColumn);
 
-        table.add(leftColumn).padRight(COLUMN_PADDING).center();
-        table.add(rightColumn).padLeft(COLUMN_PADDING).center();
+        table.add(leftColumn).padRight(COLUMN_PADDING).right();
+        table.add(rightColumn).padLeft(COLUMN_PADDING).left();
 
         Table bottomRow = new Table();
         UIUtils.button("EXIT", skin).size(bw, bh)

@@ -60,6 +60,7 @@ public class UIUtils {
         private final Skin skin;
         private float width = 200f;
         private float height = 60f;
+        private float textScale = 1f;
         private Runnable action = () -> {};
 
         private ButtonBuilder(String name, Skin skin) {
@@ -79,6 +80,15 @@ public class UIUtils {
         }
 
         /**
+         * Sets the font scale for the button label.
+         * @param scale Multiplier applied to the default font size (e.g. 1.5f for 50% larger).
+         */
+        public ButtonBuilder textScale(float scale) {
+            this.textScale = scale;
+            return this;
+        }
+
+        /**
          * Sets the action to run when the button is clicked.
          * @param action The click handler.
          */
@@ -94,8 +104,9 @@ public class UIUtils {
          */
         public TextButton addTo(Table table) {
             TextButton button = new TextButton(name, skin);
-            button.getLabelCell().padBottom(height / 2);
-            button.getLabelCell().size(width, height);
+            button.getLabel().setFontScale(textScale);
+            button.getLabel().setAlignment(com.badlogic.gdx.utils.Align.center);
+            button.getLabelCell().expand().fill();
             button.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {

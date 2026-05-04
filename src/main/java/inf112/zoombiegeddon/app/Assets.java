@@ -85,6 +85,13 @@ public class Assets {
             pickupEffectShader.dispose();
             pickupEffectShader = null;
         }
+
+        for (BitmapFont.Glyph[] page : font.getData().glyphs) {
+            if (page == null) continue;
+            for (BitmapFont.Glyph g : page) {
+                if (g != null) g.xoffset = 0;
+            }
+        }
     }
 
     public Skin getSkin() { return skin; }
