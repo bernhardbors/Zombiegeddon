@@ -24,4 +24,6 @@ public interface IPlayerController extends InputProcessor {
 
     /** @return {@code true} if a jump key is currently pressed */
     boolean isJumpPressed();
+
+
 }

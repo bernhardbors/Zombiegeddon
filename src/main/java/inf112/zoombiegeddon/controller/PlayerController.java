@@ -100,29 +100,17 @@ public class PlayerController extends InputAdapter implements IPlayerController 
             player.getPhysics().setLinearVelocity(new Vector2(vel.x * FRICTION_COEFFICIENT, vel.y));        }
     }
 
-    /**
-     * Checks whether the player is moving left.
-     *
-     * @return True if A or Left Arrow is pressed, false otherwise.
-     */
+    @Override
     public boolean isLeftPressed() {
         return Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT);
     }
 
-    /**
-     * Checks whether the player is moving right.
-     *
-     * @return True if D or Right Arrow is pressed, false otherwise.
-     */
+    @Override
     public boolean isRightPressed() {
         return Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT);
     }
 
-    /**
-     * Checks whether a jump key was just pressed.
-     *
-     * @return True if Space, W, or Up Arrow was just pressed.
-     */
+    @Override
     public boolean isJumpPressed() {
         return Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP);
     }

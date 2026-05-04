@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import inf112.zoombiegeddon.events.GameEvent;
+import inf112.zoombiegeddon.model.entity.*;
 import inf112.zoombiegeddon.model.entity.Entity;
 import inf112.zoombiegeddon.model.entity.EntityState;
 import inf112.zoombiegeddon.model.entity.HealthComponent;
@@ -58,11 +59,6 @@ public class Enemy extends Entity implements IEnemy {
         updateAnimationState(dt, VELOCITY_THRESHOLD);
     }
 
-    /**
-     * Determines the animation state used while the enemy is moving on the ground.
-     *
-     * @return {@link EntityState#WALKING} for all enemy types.
-     */
     @Override
     public EntityState determineMovingState() {
         return EntityState.WALKING;
@@ -137,7 +133,7 @@ public class Enemy extends Entity implements IEnemy {
     public void setDirection(int direction) { this.direction = direction; }
 
     @Override
-    public PhysicsComponent getPhysics() { return physics; }
+    public IPhysicsComponent getPhysics() { return physics; }
 
     @Override
     public boolean isGrounded() { return isGrounded; }

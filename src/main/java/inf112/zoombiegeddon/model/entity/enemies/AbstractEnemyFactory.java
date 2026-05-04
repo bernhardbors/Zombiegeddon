@@ -26,13 +26,6 @@ public class AbstractEnemyFactory implements IAbstractEnemyFactory {
         this.world = world;
     }
 
-    /**
-     * Creates a single enemy of the given type at the specified position.
-     *
-     * @param type The type of enemy to create.
-     * @param position The spawn position of the enemy.
-     * @return A newly created enemy.
-     */
     @Override
     public IEnemy createEnemy(EnemyType type, Vector2 position) {
         return switch (type) {
@@ -42,13 +35,6 @@ public class AbstractEnemyFactory implements IAbstractEnemyFactory {
         };
     }
 
-    /**
-     * Creates enemies from spawn objects found in a map layer.
-     * Only objects named {@code enemy_spawn} are processed.
-     *
-     * @param layer The map layer containing enemy spawn objects.
-     * @return A list of enemies created from the layer.
-     */
     @Override
     public List<IEnemy> createEnemiesFromLayer(MapLayer layer) {
         List<IEnemy> enemies = new ArrayList<>();

@@ -29,7 +29,7 @@ import java.util.List;
  */
 public class LevelModel implements ILevelModel {
 
-    private final WorldPhysics physics;
+    private final IWorldPhysics physics;
     private final IPlayer player;
     private final List<IEnemy> enemies;
     private final TriggerZone triggerZone;
@@ -43,7 +43,7 @@ public class LevelModel implements ILevelModel {
     public static final float UNIT_SCALE = 1 / PIXELS_PER_TILE;
 
     /**
-     * Constructs and initialises the level from the given Tiled map.
+     * Constructs and initializes the level from the given Tiled map.
      *
      * @param map the Tiled map describing the level layout and spawn points
      */

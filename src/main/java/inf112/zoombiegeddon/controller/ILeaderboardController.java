@@ -19,6 +19,4 @@ public interface ILeaderboardController {
      */
     void registerLevelCompletion(String levelId, String playerName, int collectedItems, int livesLeft, float timeUsed);
 
-    /** @return the current leaderboard manager instance */
-    ILeaderboardManager getLeaderboardManager();
 }
