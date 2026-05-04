@@ -11,7 +11,7 @@ public class AssetConstants {
     public static final String UI_SKIN = "ui/skin/uiskin.json";
     public static final String FONT_PATH = "fonts/WhitePeaberryOutline.fnt";
 
-    // Karakterer og animasjoner
+    // Characters and animations
     public static final String CHARACTER_MALE_SHEET = "assets/sprites/entity/player/playerMale_sheet.png";
     public static final String CHARACTER_FEMALE_SHEET = "assets/sprites/entity/player/playerFemale_sheet.png";
     public static final String ZOMBIE_SHEET = "assets/sprites/entity/enemies/zombie/Zombie-sheet.png";
@@ -19,7 +19,7 @@ public class AssetConstants {
     public static final String HEALTH_BAR = "assets/sprites/Sprites/HealthBar.png";
     public static final String PICKUP_SPEED = "assets/sprites/entity/pickups/pickup_speed.png";
     public static final String PICKUP_HEAL  = "assets/sprites/entity/pickups/pickup_heal.png";
-    // Bakgrunner
+    // Backgrounds
     public static final String BG_SKY = "assets/backgrounds/CityBackgroundSky.png";
     public static final String BG_CITY = "assets/backgrounds/CityBackground.png";
     public static final String BG_L1 = "assets/backgrounds/CityBackgroundLayer1.png";
@@ -36,7 +36,7 @@ public class AssetConstants {
     public static final String SHADER_VERTEX = "assets/shaders/vertex.glsl";
     public static final String SHADER_FRAGMENT_PICKUP = "assets/shaders/pickup_effect_fragment.glsl";
 
-    // Preferanser
+    // Preferences
     public static final String PREFS_NAME = "Prefs";
     public static final String PREF_WIDTH = "width";
     public static final String PREF_HEIGHT = "height";

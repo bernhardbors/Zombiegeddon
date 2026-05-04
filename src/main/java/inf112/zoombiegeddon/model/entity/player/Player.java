@@ -25,7 +25,6 @@ public class Player extends Entity implements IPlayer, IPlayerVisuals {
     private static final float VELOCITY_THRESHOLD = 0.1f;
     private static final float COYOTE_TIME_MAX = 0.15f;
     private static final float JUMP_BUFFER_MAX = 0.10f;
-    //private static final float POSITION_AUDIO_THRESHOLD = 2.0f;
 
     private float coyoteTimer = 0f;
     private float jumpBufferTimer = 0f;
