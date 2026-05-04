@@ -30,9 +30,8 @@ public class LeaderboardScreen extends AbstractScreen {
      *
      * @param app            the application context
      * @param levelId        the leaderboard to display scores from
-     * @param nextScreenType where to navigate when the player continues
      */
-    public LeaderboardScreen(GameApp app, String levelId, ScreenType nextScreenType) {
+    public LeaderboardScreen(GameApp app, String levelId) {
         super(app);
         this.levelId = levelId;
     }

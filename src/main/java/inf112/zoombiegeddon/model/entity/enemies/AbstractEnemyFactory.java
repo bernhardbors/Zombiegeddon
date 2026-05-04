@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import inf112.zoombiegeddon.model.levels.LevelModel;
+import inf112.zoombiegeddon.app.GameConstants;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,8 +45,8 @@ public class AbstractEnemyFactory implements IAbstractEnemyFactory {
                     && "enemy_spawn".equals(object.getName())) {
                 Rectangle rect = rectObj.getRectangle();
                 Vector2 pos = new Vector2(
-                        rect.x * LevelModel.UNIT_SCALE,
-                        rect.y * LevelModel.UNIT_SCALE
+                        rect.x * GameConstants.UNIT_SCALE,
+                        rect.y * GameConstants.UNIT_SCALE
                 );
                 String typeStr = object.getProperties().get("type", String.class);
                 enemies.add(createEnemy(EnemyType.fromString(typeStr), pos));

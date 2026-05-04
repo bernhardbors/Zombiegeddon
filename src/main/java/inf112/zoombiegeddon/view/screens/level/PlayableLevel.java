@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.ScreenUtils;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.controller.IPlayerController;
+import inf112.zoombiegeddon.controller.ILevelController;
 import inf112.zoombiegeddon.controller.LevelController;
 import inf112.zoombiegeddon.controller.PlayerController;
 import inf112.zoombiegeddon.events.GameEvent;
@@ -30,7 +31,7 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
     private final ILevelModel model;
     private final LevelRenderer renderer;
     private final IPlayerController playerController;
-    private final LevelController levelController;
+    private final ILevelController levelController;
     private final TiledMap map;
     private final String mapPath;
     private final String boardId;
@@ -132,8 +133,7 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
         app.getStoryManager().finishRun();
         app.setScreen(new LeaderboardScreen(
                 app,
-                GameApp.STORY_LEADERBOARD_ID,
-                LeaderboardScreen.ScreenType.MAIN_MENU));
+                GameApp.STORY_LEADERBOARD_ID));
     }
 
     private void handleSingleLevelFinished() {
@@ -145,7 +145,7 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
                 model.getLevelTime());
 
         app.setScreen(new LeaderboardScreen(
-                app, boardId, LeaderboardScreen.ScreenType.MAIN_MENU));
+                app, boardId));
     }
 
     /**

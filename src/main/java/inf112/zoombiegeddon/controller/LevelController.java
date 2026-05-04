@@ -9,7 +9,7 @@ import inf112.zoombiegeddon.events.GameEventBus;
 /**
  * Class for handling user input on a global level.
  */
-public class LevelController extends InputAdapter {
+public class LevelController extends InputAdapter implements ILevelController{
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.P) {

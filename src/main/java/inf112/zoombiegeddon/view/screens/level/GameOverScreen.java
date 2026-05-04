@@ -40,8 +40,6 @@ public class GameOverScreen extends AbstractScreen {
     public void buildScreen() {
         clearTable();
 
-        GameEventBus.post(GameEvent.PLAYER_DEATH);
-
         formatText("GAME OVER", Color.RED, 6f);
         table.row().padTop(25);
 

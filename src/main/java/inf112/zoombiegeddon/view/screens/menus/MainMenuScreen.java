@@ -14,7 +14,6 @@ import inf112.zoombiegeddon.view.utils.UIUtils;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 import inf112.zoombiegeddon.view.screens.level.LevelNameScreen;
 import inf112.zoombiegeddon.view.screens.story.StoryNameScreen;
-import inf112.zoombiegeddon.view.utils.UIUtils;
 
 /**
  * Represents the main menu screen of the game.
@@ -66,7 +65,7 @@ public class MainMenuScreen extends AbstractScreen {
         UIUtils.button("HOW TO PLAY", skin).size(bw, bh)
                 .action(() -> app.setScreen(new HowToScreen(app))).addTo(leftColumn);
         UIUtils.button("SCOREBOARD", skin).size(bw, bh)
-                .action(() -> app.setScreen(new LeaderboardScreen(app, GameApp.STORY_LEADERBOARD_ID, LeaderboardScreen.ScreenType.MAIN_MENU))).addTo(leftColumn);
+                .action(() -> app.setScreen(new LeaderboardScreen(app, GameApp.STORY_LEADERBOARD_ID))).addTo(leftColumn);
 
         Table rightColumn = new Table();
         UIUtils.button("LEVELS", skin).size(bw, bh)
