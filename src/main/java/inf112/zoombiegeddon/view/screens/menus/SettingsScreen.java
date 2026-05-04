@@ -33,7 +33,8 @@ public class SettingsScreen extends AbstractScreen {
     /**
      * Constructs the settings screen.
      *
-     * @param app The game application instance.
+     * @param app          the game application instance
+     * @param returnScreen the screen to return to when pressing back
      */
     public SettingsScreen(final GameApp app, Screen returnScreen) {
         super(app);

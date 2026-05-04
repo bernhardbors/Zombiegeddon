@@ -15,6 +15,9 @@ import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 import inf112.zoombiegeddon.view.utils.UIUtils;
 
+/**
+ * Displays the credits screen with project contributors and acknowledgements.
+ */
 public class CreditsScreen extends AbstractScreen {
 
     private static final float SCROLL_SPEED = 2f;
@@ -23,7 +26,12 @@ public class CreditsScreen extends AbstractScreen {
     private final SpriteBatch bgBatch;
     private final OrthographicCamera bgCamera;
 
-
+    /**
+     * Creates a credits screen that returns to the given screen.
+     *
+     * @param app          the game application
+     * @param returnScreen the screen to return to when pressing back
+     */
     public CreditsScreen(GameApp app, Screen returnScreen) {
         super(app);
         this.returnScreen = returnScreen;

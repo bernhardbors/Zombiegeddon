@@ -43,6 +43,13 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
     private float finishTimer = 0;
     private Runnable pendingTransition;
 
+    /**
+     * Creates a playable level from the given map and leaderboard ID.
+     *
+     * @param app     the game application
+     * @param mapPath the path to the Tiled map file
+     * @param boardId the leaderboard ID used when registering scores
+     */
     public PlayableLevel(GameApp app, String mapPath, String boardId) {
         this.app = app;
         this.mapPath = mapPath;

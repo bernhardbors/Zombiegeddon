@@ -5,12 +5,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import inf112.zoombiegeddon.app.GameApp;
@@ -23,6 +21,9 @@ import inf112.zoombiegeddon.view.utils.UIUtils;
 
 import java.util.List;
 
+/**
+ * Displays a menu leaderboard screen with tabs for story mode and individual levels.
+ */
 public class MenuLeaderboardScreen extends AbstractScreen {
 
     private static final float SCROLL_SPEED = 2f;
@@ -39,6 +40,13 @@ public class MenuLeaderboardScreen extends AbstractScreen {
     private final SpriteBatch bgBatch;
     private final OrthographicCamera bgCamera;
     private int selectedBoard = 0;
+
+    /**
+     * Creates a menu leaderboard screen that returns to the given screen.
+     *
+     * @param app          the game application
+     * @param returnScreen the screen to return to when pressing back
+     */
 
     public MenuLeaderboardScreen(GameApp app, Screen returnScreen) {
         super(app);

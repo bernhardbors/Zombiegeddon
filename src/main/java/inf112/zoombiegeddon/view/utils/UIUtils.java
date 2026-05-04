@@ -19,8 +19,10 @@ public class UIUtils {
 
     /**
      * Creates a builder for a {@link TextButton}.
-     * @param name The button label.
-     * @param skin The skin to apply.
+     *
+     * @param name the button label
+     * @param skin the skin to apply
+     * @return a builder for creating a text button
      */
     public static ButtonBuilder button(String name, Skin skin) {
         return new ButtonBuilder(name, skin);
@@ -28,9 +30,12 @@ public class UIUtils {
 
     /**
      * Creates a builder for a {@link SelectBox}.
-     * @param name  The label shown next to the dropdown.
-     * @param items The items to display in the dropdown.
-     * @param skin  The skin to apply.
+     *
+     * @param name  the label shown next to the dropdown
+     * @param items the items to display in the dropdown
+     * @param skin  the skin to apply
+     * @param <T>   the item type used by the select box
+     * @return a builder for creating a select box
      */
     public static <T> SelectBoxBuilder<T> selectBox(String name, T[] items, Skin skin) {
         return new SelectBoxBuilder<>(name, items, skin);
@@ -38,8 +43,10 @@ public class UIUtils {
 
     /**
      * Creates a builder for a {@link CheckBox}.
-     * @param name The label shown next to the checkbox.
-     * @param skin The skin to apply.
+     *
+     * @param name the label shown next to the checkbox
+     * @param skin the skin to apply
+     * @return a builder for creating a checkbox
      */
     public static CheckBoxBuilder checkBox(String name, Skin skin) {
         return new CheckBoxBuilder(name, skin);
@@ -47,8 +54,10 @@ public class UIUtils {
 
     /**
      * Creates a builder for a {@link Slider}.
-     * @param name The label shown above the slider.
-     * @param skin The skin to apply.
+     *
+     * @param name the label shown above the slider
+     * @param skin the skin to apply
+     * @return a builder for creating a slider
      */
     public static SliderBuilder slider(String name, Skin skin) {
         return new SliderBuilder(name, skin);
@@ -63,6 +72,12 @@ public class UIUtils {
         private float textScale = 1f;
         private Runnable action = () -> {};
 
+        /**
+         * Creates a builder for a {@link TextButton}.
+         *
+         * @param name The button label.
+         * @param skin The skin to apply.
+         */
         private ButtonBuilder(String name, Skin skin) {
             this.name = name;
             this.skin = skin;
@@ -70,8 +85,10 @@ public class UIUtils {
 
         /**
          * Sets the button size.
-         * @param width  Button width.
-         * @param height Button height.
+         *
+         * @param width  the button width
+         * @param height the button height
+         * @return this builder
          */
         public ButtonBuilder size(float width, float height) {
             this.width = width;
@@ -81,7 +98,9 @@ public class UIUtils {
 
         /**
          * Sets the font scale for the button label.
-         * @param scale Multiplier applied to the default font size (e.g. 1.5f for 50% larger).
+         *
+         * @param scale multiplier applied to the default font size
+         * @return this builder
          */
         public ButtonBuilder textScale(float scale) {
             this.textScale = scale;
@@ -90,7 +109,9 @@ public class UIUtils {
 
         /**
          * Sets the action to run when the button is clicked.
-         * @param action The click handler.
+         *
+         * @param action the click handler
+         * @return this builder
          */
         public ButtonBuilder action(Runnable action) {
             this.action = action;
@@ -98,8 +119,9 @@ public class UIUtils {
         }
 
         /**
-         * Builds the button without adding it to any tabel.
-         * @return The created {@link TextButton}.
+         * Builds the button without adding it to a table.
+         *
+         * @return the created text button
          */
         public TextButton build() {
             TextButton button = new TextButton(name, skin);
@@ -118,8 +140,9 @@ public class UIUtils {
 
         /**
          * Builds the button and adds it to the given table.
-         * @param table The table to add the button to.
-         * @return The created {@link TextButton}.
+         *
+         * @param table the table to add the button to
+         * @return the created text button
          */
         public TextButton addTo(Table table) {
             TextButton button = build();
@@ -128,7 +151,11 @@ public class UIUtils {
         }
     }
 
-    /** Builder for creating and adding a {@link SelectBox} to a table. */
+    /**
+     * Builder for creating and adding a {@link SelectBox} to a table.
+     *
+     * @param <T> the item type used by the select box
+     */
     public static class SelectBoxBuilder<T> {
         private final String name;
         private final T[] items;
@@ -145,8 +172,10 @@ public class UIUtils {
 
         /**
          * Sets the dropdown size.
-         * @param width  Dropdown width.
-         * @param height Dropdown height.
+         *
+         * @param width  the dropdown width
+         * @param height the dropdown height
+         * @return this builder
          */
         public SelectBoxBuilder<T> size(float width, float height) {
             this.width = width;
@@ -156,7 +185,9 @@ public class UIUtils {
 
         /**
          * Sets the action to run when the selected item changes.
-         * @param action The selection handler.
+         *
+         * @param action the selection handler
+         * @return this builder
          */
         public SelectBoxBuilder<T> action(java.util.function.Consumer<T> action) {
             this.action = action;
@@ -165,8 +196,9 @@ public class UIUtils {
 
         /**
          * Builds the select box and adds it to the given table.
-         * @param table The table to add the select box to.
-         * @return The created {@link SelectBox}.
+         *
+         * @param table the table to add the select box to
+         * @return the created select box
          */
         public SelectBox<T> addTo(Table table) {
             Label label = new Label(name, skin);
@@ -198,7 +230,9 @@ public class UIUtils {
 
         /**
          * Sets the initial checked state.
-         * @param checked True if the checkbox should start checked.
+         *
+         * @param checked true if the checkbox should start checked
+         * @return this builder
          */
         public CheckBoxBuilder checked(boolean checked) {
             this.checked = checked;
@@ -207,7 +241,9 @@ public class UIUtils {
 
         /**
          * Sets the action to run when the checkbox state changes.
-         * @param action The change handler.
+         *
+         * @param action the change handler
+         * @return this builder
          */
         public CheckBoxBuilder action(java.util.function.Consumer<Boolean> action) {
             this.action = action;
@@ -216,8 +252,9 @@ public class UIUtils {
 
         /**
          * Builds the checkbox and adds it to the given table.
-         * @param table The table to add the checkbox to.
-         * @return The created {@link CheckBox}.
+         *
+         * @param table the table to add the checkbox to
+         * @return the created checkbox
          */
         public CheckBox addTo(Table table) {
             Label label = new Label(name, skin);
@@ -252,7 +289,9 @@ public class UIUtils {
 
         /**
          * Sets the initial value of the slider.
-         * @param value The starting value.
+         *
+         * @param value the starting value
+         * @return this builder
          */
         public SliderBuilder value(float value) {
             this.value = value;
@@ -261,9 +300,11 @@ public class UIUtils {
 
         /**
          * Sets the range and step size of the slider.
-         * @param min  Minimum value.
-         * @param max  Maximum value.
-         * @param step Step increment.
+         *
+         * @param min  the minimum value
+         * @param max  the maximum value
+         * @param step the step increment
+         * @return this builder
          */
         public SliderBuilder range(float min, float max, float step) {
             this.min = min;
@@ -274,7 +315,9 @@ public class UIUtils {
 
         /**
          * Sets the action to run when the slider value changes.
-         * @param action The change handler.
+         *
+         * @param action the change handler
+         * @return this builder
          */
         public SliderBuilder action(java.util.function.Consumer<Float> action) {
             this.action = action;
@@ -283,8 +326,9 @@ public class UIUtils {
 
         /**
          * Builds the slider and adds it to the given table.
-         * @param table The table to add the slider to.
-         * @return The created {@link Slider}.
+         *
+         * @param table the table to add the slider to
+         * @return the created slider
          */
         public Slider addTo(Table table) {
             Label label = new Label(name, skin);
