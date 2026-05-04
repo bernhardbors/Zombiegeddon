@@ -1,7 +1,6 @@
 {
 leaderboards: {
 	class: java.util.HashMap
-	storymode: []
 	level1: [
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
@@ -25,19 +24,28 @@ leaderboards: {
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: Player
 			boardId: level1
-			score: 4285
+			score: 4316
 			collectedItems: 0
 			livesLeft: 3
-			timeUsed: 21.500175
+			timeUsed: 18.429749
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: yaya banana
+			boardId: level1
+			score: 4290
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 21.00012
 		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: Player
 			boardId: level1
-			score: 4316
+			score: 4285
 			collectedItems: 0
 			livesLeft: 3
-			timeUsed: 18.429749
+			timeUsed: 21.500175
 		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
