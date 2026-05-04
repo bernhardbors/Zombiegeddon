@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 /**
  * Defines the common behavior for game entities.
- * Provides access to position, physics, size, grounded state, and animations.
+ * Provides access to position, physics, size, grounded state, and animation state.
  */
 public interface IEntity {
 
@@ -39,40 +39,51 @@ public interface IEntity {
     void setGrounded(boolean grounded);
 
     /**
+     * Checks whether the entity is currently on the ground.
      *
-     * @return boolean true if on ground false if not.
+     * @return true if the entity is on the ground, false otherwise
      */
     boolean isGrounded();
 
     /**
-     * @return entity Width
+     * Returns the width of the entity.
+     *
+     * @return the entity width
      */
     float getWidth();
 
     /**
-     * @return entity Height
+     * Returns the height of the entity.
+     *
+     * @return the entity height
      */
     float getHeight();
 
     /**
-     * returns the speed of the entity
+     * Returns the movement speed of the entity.
      *
-     * @return float speed of entity
+     * @return the entity speed
      */
     float getSpeed();
 
     /**
      * Returns the current animation state of the entity.
+     *
+     * @return the current entity state
      */
     EntityState getCurrentState();
 
     /**
      * Returns the time spent in the current state.
+     *
+     * @return time spent in the current state
      */
     float getStateTime();
 
     /**
      * Returns whether the entity is facing right.
+     *
+     * @return true if the entity is facing right, false otherwise
      */
     boolean isFacingRight();
 

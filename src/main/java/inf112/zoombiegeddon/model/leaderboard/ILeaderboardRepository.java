@@ -1,5 +1,8 @@
 package inf112.zoombiegeddon.model.leaderboard;
 
+/**
+ * Defines persistence operations for leaderboard data.
+ */
 public interface ILeaderboardRepository {
 
     /**
@@ -11,9 +14,8 @@ public interface ILeaderboardRepository {
 
     /**
      * Loads and returns an {@link ILeaderboardManager} from the underlying storage.
-     *
-     * <p>If no previously saved state exists, implementations should return
-     * a default/empty implementation rather than {@code null}.</p>
+     * If no previously saved state exists, implementations should return
+     * a default or empty implementation rather than {@code null}.
      *
      * @return the restored manager, never {@code null}
      */

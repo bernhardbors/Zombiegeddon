@@ -6,8 +6,8 @@ import java.util.Map;
 /**
  * Manages a collection of named {@link Leaderboard} instances.
  *
- * <p>Leaderboards are created on demand the first time a given
- * {@code boardId} is referenced.</p>
+ * Leaderboards are created on demand the first time a given
+ * {@code boardId} is referenced.
  */
 public class LeaderboardManager implements ILeaderboardManager {
     private final Map<String, Leaderboard> leaderboards;
