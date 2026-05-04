@@ -3,8 +3,8 @@ package inf112.zoombiegeddon.model.world.triggers;
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
 import inf112.zoombiegeddon.model.entity.player.Player;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class KillActionTest extends AbstractEntityTest {
 
@@ -14,7 +14,7 @@ class KillActionTest extends AbstractEntityTest {
         Player player = new Player(mockedWorld, spawnPos, 3);
         assertFalse(player.isDead(), "Player should not be dead before entering the killzone");
 
-        killAction.onTrigger(player);
+        assertNull(killAction.onTrigger(player));
         assertTrue(player.isDead(), "Player should be dead after entering the killzone");
     }
 }
