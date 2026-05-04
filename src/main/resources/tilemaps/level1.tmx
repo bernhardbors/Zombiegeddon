@@ -143,7 +143,7 @@
     <property name="type" value="sign"/>
    </properties>
   </object>
-  <object id="35" name="death" x="-297.93" y="426.5" width="2543.99" height="287.933">
+  <object id="35" name="death" x="582.07" y="426.5" width="1423.99" height="135.933">
    <properties>
     <property name="info" value="3"/>
     <property name="type" value="killzone"/>

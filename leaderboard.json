@@ -85,5 +85,45 @@ leaderboards: {
 			timeUsed: 72.4
 		}
 	]
+	level3: [
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Player
+			boardId: level3
+			score: 4066
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 43.47026
+		}
+	]
+	level2: [
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Player
+			boardId: level2
+			score: 3934
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 56.602432
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Player
+			boardId: level2
+			score: 3917
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 58.321644
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: Player
+			boardId: level2
+			score: 3888
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 61.25133
+		}
+	]
 }
 }

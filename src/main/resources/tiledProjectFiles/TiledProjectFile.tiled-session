@@ -66,33 +66,37 @@
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level1.tmx": {
             "expandedObjectLayers": [
-                7,
-                6
+                6,
+                7
             ],
             "scale": 0.75,
-            "selectedLayer": 6,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 550.6666666666666,
-                "y": 207.33333333333326
+                "x": 741.3333333333333,
+                "y": 271.33333333333326
             }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level2.tmx": {
-            "scale": 1,
-            "selectedLayer": 4,
+            "expandedObjectLayers": [
+                6
+            ],
+            "scale": 0.5,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 876,
-                "y": 375.5
+                "x": 896,
+                "y": 589
             }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level3.tmx": {
             "expandedObjectLayers": [
+                5,
                 6
             ],
             "scale": 1.5,
-            "selectedLayer": 0,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": -8.666666666666686,
-                "y": 227.66666666666663
+                "x": 2681.333333333333,
+                "y": 138.33333333333331
             }
         },
         "C:/Users/synne/IdeaProjects/a-laget/src/main/resources/tilemaps/level4.tmx": {
