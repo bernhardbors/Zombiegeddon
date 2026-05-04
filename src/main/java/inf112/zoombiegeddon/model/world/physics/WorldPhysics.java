@@ -122,12 +122,12 @@ public class WorldPhysics implements IWorldPhysics {
 
     /**
      * Advances the physics simulation.
-     *
      * Uses an accumulator pattern to ensure that the physics world steps at
      * a constant rate, preventing speed changes caused by fluctuating frame rates.
      *
      * @param delta the time in seconds since the last render frame
      */
+    @Override
     public void update(float delta) {
         float timeStep = 1 / 60f;
         accumulatedTime += delta;
