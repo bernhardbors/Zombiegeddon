@@ -3,6 +3,7 @@ package inf112.zoombiegeddon.view.screens.level;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -16,6 +17,7 @@ import inf112.zoombiegeddon.events.IEventListener;
 import inf112.zoombiegeddon.model.levels.ILevelModel;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 import inf112.zoombiegeddon.view.animations.AnimationHandler;
+import inf112.zoombiegeddon.view.background.LevelBackground;
 import inf112.zoombiegeddon.view.renderer.LevelRenderer;
 import inf112.zoombiegeddon.view.screens.menus.LeaderboardScreen;
 
@@ -35,6 +37,12 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
     private final String mapPath;
     private final String boardId;
 
+    private static final float VICTORY_DURATION = 4.25f;
+
+    private boolean levelFinished = false;
+    private float finishTimer = 0;
+    private Runnable pendingTransition;
+
     public PlayableLevel(GameApp app, String mapPath, String boardId) {
         this.app = app;
         this.mapPath = mapPath;
@@ -42,6 +50,8 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
 
         this.map = new TmxMapLoader().load(mapPath);
         this.model = new LevelModel(map);
+
+        setupBackground();
 
         AnimationHandler playerAnims   = app.getAssets().getPlayerMaleAnimations();
         AnimationHandler zombieAnims   = app.getAssets().getZombieAnimations();
@@ -52,6 +62,18 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
 
         this.playerController = new PlayerController(model.getPlayer());
         this.levelController = new LevelController();
+    }
+
+    private void setupBackground() {
+        app.getBackground().clearLayers();
+        String bgName = (String) map.getProperties().get("background");
+        if (bgName == null) return;
+
+        LevelBackground bg = LevelBackground.valueOf(bgName);
+        for (int i = 0; i < bg.layers.length; i++) {
+            Texture tex = app.getAssets().getManager().get(bg.layers[i], Texture.class);
+            app.getBackground().addLayer(tex, LevelBackground.FACTORS[i]);
+        }
     }
 
     /**
@@ -71,8 +93,16 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
-        playerController.update(delta);
-        model.update(delta);
+        if (levelFinished) {
+            finishTimer -= delta;
+            if (pendingTransition != null && finishTimer <= 0) {
+                pendingTransition.run();
+                return;
+            }
+        } else {
+            playerController.update(delta);
+            model.update(delta);
+        }
         renderer.render();
     }
 
@@ -103,11 +133,11 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
     }
 
     private void handleLevelFinished() {
-        if (app.getStoryManager().isActive()) {
-            handleStoryLevelFinished();
-        } else {
-            handleSingleLevelFinished();
-        }
+        levelFinished = true;
+        finishTimer = VICTORY_DURATION;
+        pendingTransition = app.getStoryManager().isActive()
+                ? this::handleStoryLevelFinished
+                : this::handleSingleLevelFinished;
     }
 
     private void handleStoryLevelFinished() {

@@ -1,9 +1,14 @@
 package inf112.zoombiegeddon.view.screens.menus;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import inf112.zoombiegeddon.app.AssetConstants;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ScreenUtils;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
@@ -15,6 +20,11 @@ import inf112.zoombiegeddon.view.screens.AbstractScreen;
  */
 public class HowToScreen extends AbstractScreen {
 
+    private static final float SCROLL_SPEED = 2f;
+
+    private final SpriteBatch bgBatch;
+    private final OrthographicCamera bgCamera;
+
     /**
      * Constructs the how-to-play screen.
      *
@@ -22,7 +32,35 @@ public class HowToScreen extends AbstractScreen {
      */
     public HowToScreen(GameApp app) {
         super(app);
+        bgBatch = new SpriteBatch();
+        bgCamera = new OrthographicCamera();
+        bgCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
 
+    @Override
+    public void render(float delta) {
+        ScreenUtils.clear(Color.BLACK);
+        bgCamera.position.x += SCROLL_SPEED * delta;
+        bgCamera.update();
+        bgBatch.setProjectionMatrix(bgCamera.combined);
+        bgBatch.begin();
+        parallaxBg.render(bgBatch);
+        bgBatch.end();
+        stage.act(Math.min(delta, 1 / 30f));
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        bgCamera.setToOrtho(false, width, height);
+        bgCamera.update();
+        super.resize(width, height);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        bgBatch.dispose();
     }
 
     @Override
@@ -31,49 +69,46 @@ public class HowToScreen extends AbstractScreen {
         table.top();
 
         GameEventBus.post(GameEvent.MENU_STARTED);
+        parallaxBg = addParallaxBg(bgCamera);
 
-        if (app.getAssets().getManager().isLoaded(AssetConstants.BG_SKY)) {
-            Texture background = app.getAssets().getManager().get(AssetConstants.BG_SKY, Texture.class);
-            table.setBackground(new TextureRegionDrawable(background));
-        }
+        float screenScale = Gdx.graphics.getHeight() / 1080f;
 
-        // Title
-        formatText("HOW TO PLAY", Color.GOLD, 2.5f);
-        table.row().padTop(-10f);
+        Table contentTable = new Table();
+        contentTable.top();
+        contentTable.defaults().padTop(6f * screenScale);
 
-        // --- Controls Section ---
-        formatText("CONTROLS", Color.ORANGE, 1.5f);
-        formatText("""
-                Move: W, A, S, D / Arrows
-                Jump: Space / Up
-                Sprint: Left Shift
-                Pause: P  |  Quit: ESC""",
-                Color.WHITE, 1.2f);
+        addLabel(contentTable, "HOW TO PLAY", Color.GOLD, 3.5f, screenScale);
+        addLabel(contentTable, "CONTROLS", Color.ORANGE, 2.5f, screenScale);
+        addLabel(contentTable, "Move: W, A, S, D / Arrows\nJump: Space / Up\nSprint: Left Shift\nPause: P  |  Quit: ESC",
+                Color.WHITE, 2.2f, screenScale);
+        addLabel(contentTable, "GAME MODES", Color.ORANGE, 2.5f, screenScale);
+        addLabel(contentTable, "STORY MODE", Color.CYAN, 2.2f, screenScale);
+        addLabel(contentTable, "Experience the apocalypse in order.\nYour final score will be submitted to the Leaderboard!",
+                Color.WHITE, 2.0f, screenScale);
+        addLabel(contentTable, "LEVEL SELECT", Color.CYAN, 2.2f, screenScale);
+        addLabel(contentTable, "Practice any level in any order.\nNote: Highscores are disabled in this mode.",
+                Color.WHITE, 2.0f, screenScale);
 
-        table.row().padTop(10);
+        ScrollPane scrollPane = new ScrollPane(contentTable, skin);
+        scrollPane.getStyle().background = null;
+        scrollPane.getStyle().vScroll = null;
+        scrollPane.getStyle().vScrollKnob = null;
+        scrollPane.setForceScroll(false, false);
+        scrollPane.setScrollingDisabled(true, false);
 
-        // --- Game Modes Section ---
-        formatText("GAME MODES", Color.ORANGE, 1.5f);
+        float contentWidth = Math.max(buttonWidth * 2.5f, Gdx.graphics.getWidth() * 0.5f);
+        table.add(scrollPane).width(contentWidth).expand().fill().row();
+        stage.setScrollFocus(scrollPane);
 
-        // Story Mode Description
-        formatText("STORY MODE", Color.CYAN, 1.2f);
-        formatText("Experience the apocalypse in order. \n" +
-                        "Your final score will be submitted to the Leaderboard!",
-                Color.WHITE, 1.0f);
-
-        table.row().padTop(10f);
-
-        // Level Select Description
-        formatText("LEVEL SELECT", Color.CYAN, 1.2f);
-        formatText("Practice any level in any order. \n" +
-                        "Note: Highscores are disabled in this mode.",
-                Color.WHITE, 1.0f);
-
-        // --- Back Button ---
-        table.row().padTop(40f);
         UIUtils.button("Back", skin).size(buttonWidth, buttonHeight)
-                .action(() -> app.setScreen(new MainMenuScreen(app))).addTo(table).row();
+                .action(() -> app.setScreen(new MainMenuScreen(app))).addTo(table);
+    }
 
-        table.row().padBottom(-10);
+    private void addLabel(Table target, String text, Color color, float scale, float screenScale) {
+        Label.LabelStyle style = new Label.LabelStyle(app.getAssets().getFont(), color);
+        Label label = new Label(text, style);
+        label.setFontScale(scale * screenScale);
+        label.setAlignment(Align.center);
+        target.add(label).center().row();
     }
 }
