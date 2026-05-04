@@ -98,11 +98,10 @@ public class UIUtils {
         }
 
         /**
-         * Builds the button and adds it to the given table.
-         * @param table The table to add the button to.
+         * Builds the button without adding it to any tabel.
          * @return The created {@link TextButton}.
          */
-        public TextButton addTo(Table table) {
+        public TextButton build() {
             TextButton button = new TextButton(name, skin);
             button.getLabel().setFontScale(textScale);
             button.getLabel().setAlignment(com.badlogic.gdx.utils.Align.center);
@@ -114,7 +113,17 @@ public class UIUtils {
                     action.run();
                 }
             });
-            table.add(button).fillX().uniformX().size(width, height).pad(5).row();
+            return button;
+        }
+
+        /**
+         * Builds the button and adds it to the given table.
+         * @param table The table to add the button to.
+         * @return The created {@link TextButton}.
+         */
+        public TextButton addTo(Table table) {
+            TextButton button = build();
+            table.add(button).uniform().size(width, height).pad(5).row();
             return button;
         }
     }

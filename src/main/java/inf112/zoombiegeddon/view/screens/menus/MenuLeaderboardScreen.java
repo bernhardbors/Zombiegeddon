@@ -61,24 +61,27 @@ public class MenuLeaderboardScreen extends AbstractScreen {
 
         Table tabRow = new Table();
         tabRow.defaults().pad(5f * screenScale);
+
         for (int i = 0; i < BOARDS.length; i++) {
             final int idx = i;
-            TextButton tabBtn = new TextButton(BOARDS[i][1], skin);
+
+            TextButton tabBtn = UIUtils.button(BOARDS[i][1], app.getAssets().getSkin())
+                    .size(buttonWidth, buttonHeight)
+                    .action(() -> {
+                        selectedBoard = idx;
+                        buildScreen();
+                    })
+                    .build();
+
             tabBtn.getLabelCell().padBottom(buttonHeight / 2);
-            tabBtn.getLabelCell().size(buttonWidth, buttonHeight);
+
             if (i == selectedBoard) {
                 tabBtn.setColor(Color.YELLOW);
             }
-            tabBtn.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    GameEventBus.post(GameEvent.UI_BUTTON_CLICK);
-                    selectedBoard = idx;
-                    buildScreen();
-                }
-            });
+
             tabRow.add(tabBtn).size(buttonWidth, buttonHeight);
         }
+
         table.add(tabRow).padTop(10f * screenScale).row();
 
         Table entryTable = new Table();

@@ -22,6 +22,24 @@ leaderboards: {
 		}
 		{
 			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: a
+			boardId: level1
+			score: 4331
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 16.92972
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
+			playerName: 6767
+			boardId: level1
+			score: 4293
+			collectedItems: 0
+			livesLeft: 3
+			timeUsed: 20.78334
+		}
+		{
+			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
 			playerName: Player
 			boardId: level1
 			score: 4273
