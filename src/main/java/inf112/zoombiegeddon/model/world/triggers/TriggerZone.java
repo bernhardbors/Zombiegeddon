@@ -10,6 +10,11 @@ import inf112.zoombiegeddon.model.entity.player.IPlayer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Manages rectangular trigger zones parsed from a TiledMap layer.
+ * Each zone is associated with an {@link ITriggerAction} that fires when
+ * the player's bounding rectangle overlaps the zone.
+ */
 public class TriggerZone {
     private record Zone(Rectangle bounds, ITriggerAction action) {}
 
