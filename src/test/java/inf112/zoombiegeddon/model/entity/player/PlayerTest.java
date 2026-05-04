@@ -2,12 +2,12 @@ package inf112.zoombiegeddon.model.entity.player;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import inf112.zoombiegeddon.app.GameConstants;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
 import inf112.zoombiegeddon.model.entity.EntityState;
 import inf112.zoombiegeddon.model.entity.enemies.Enemy;
-import inf112.zoombiegeddon.model.levels.LevelModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -96,9 +96,31 @@ public class PlayerTest extends AbstractEntityTest {
     }
 
     @Test
+    void testPlayerNotRunningByDefaultAndFollowsSetMethod() {
+        assertFalse(player.isRunning());
+
+        player.setRunning(true);
+        assertTrue(player.isRunning());
+
+        player.setRunning(false);
+        assertFalse(player.isRunning());
+    }
+
+    @Test
     void testPlayerInGoal() {
         player.setInGoal(true);
         assertTrue(player.inGoal());
+    }
+
+    @Test
+    void testPlayerNotInGoalByDefaultAndFollowsSetterMethod() {
+        assertFalse(player.inGoal());
+
+        player.setInGoal(true);
+        assertTrue(player.inGoal());
+
+        player.setInGoal(false);
+        assertFalse(player.inGoal());
     }
 
     @Test
@@ -113,6 +135,7 @@ public class PlayerTest extends AbstractEntityTest {
 
     @Test
     void testHitEnemy() {
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(4f, -8f));
         when(mockedBody.getWorldCenter()).thenReturn(new Vector2(0,0));
         Enemy enemy = new Enemy(mockedWorld, spawnPos, 3, 1.0f);
 
@@ -123,6 +146,9 @@ public class PlayerTest extends AbstractEntityTest {
 
         //When the player hits the enemy from above, the player should not take damage
         player.hitEnemy(enemy, true);
+        verify(mockedBody).setLinearVelocity(argThat(vector2 -> vector2.x == 4f && vector2.y == 0f));
+
+
         assertEquals(2, enemy.getHealth()); //Enemy should take damage
         assertEquals(2, player.getHealth());
 
@@ -146,8 +172,8 @@ public class PlayerTest extends AbstractEntityTest {
         float playerHeight = player.getHeight();
         float playerWidth = player.getWidth();
 
-        assertEquals(11 * LevelModel.UNIT_SCALE, playerWidth);
-        assertEquals(20 * LevelModel.UNIT_SCALE, playerHeight);
+        assertEquals(11 * GameConstants.UNIT_SCALE, playerWidth);
+        assertEquals(20 * GameConstants.UNIT_SCALE, playerHeight);
     }
 
     @Test
@@ -285,13 +311,16 @@ public class PlayerTest extends AbstractEntityTest {
 
     @Test
     void testPlayerCanNotJumpWhenCoyoteTimerHasRanOut(){
+        when(mockedBody.getWorldCenter()).thenReturn(new Vector2(0,0));
         player.setGrounded(true);
         player.update(0.01f);
+
         player.setGrounded(false);
         player.update(0.2f);
+
         player.jump();
         player.update(0.01f);
-        verify(mockedBody, never()).applyLinearImpulse(argThat(v -> v.x == 0 && v.y > 0), any(Vector2.class), anyBoolean());
+        verify(mockedBody, times(0)).applyLinearImpulse(any(Vector2.class), any(Vector2.class), anyBoolean());
     }
 
     @Test
@@ -410,7 +439,41 @@ public class PlayerTest extends AbstractEntityTest {
 
     }
 
+    @Test
+    void testSetPosition() {
+        player.setPosition(2f, 0f);
+        verify(mockedBody).setTransform(2f, 0f, 0f);
+        verify(mockedBody).setLinearVelocity(argThat(vector2 -> vector2.x == 0 && vector2.y == 0));
+    }
 
+    @Test
+    void testPostHorizontalMoveStateEventsAtThreshold() {
+        GameEventBus.clear();
+        int[] moveStart = {0};
+        GameEventBus.register(event -> {if (event == GameEvent.PLAYER_MOVE_START) moveStart[0]++;});
 
+        player.setGrounded(true);
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(0.1f, 0f));
+
+        player.update(0.1f);
+
+        assertEquals(0, moveStart[0]);
+        GameEventBus.clear();
+    }
+
+    @Test
+    void testPostHorizontalMoveStateEventsOverThreshold() {
+        GameEventBus.clear();
+        int[] moveStart = {0};
+        GameEventBus.register(event -> {if (event == GameEvent.PLAYER_MOVE_START) moveStart[0]++;});
+
+        player.setGrounded(true);
+        when(mockedBody.getLinearVelocity()).thenReturn(new Vector2(0.11f, 0f));
+
+        player.update(0.1f);
+
+        assertEquals(1, moveStart[0]);
+        GameEventBus.clear();
+    }
 
 }

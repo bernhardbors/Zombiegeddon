@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
+import inf112.zoombiegeddon.app.GameConstants;
 import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
 import inf112.zoombiegeddon.model.levels.ILevelModel;
@@ -43,6 +44,7 @@ public class LevelRenderer {
 
     private final Texture healthbar;
     private boolean showDebug;
+    private float victoryElapsed = -1f;
 
     public static final float VIEWPORT_WIDTH = 50.0f;
     public static final float VIEWPORT_HEIGHT = 30.0f;
@@ -52,7 +54,7 @@ public class LevelRenderer {
     private static final float SIGN_FONT_SCALE = 2.0f;
     private static final float SIGN_Y_POSITION = 0.75f;
 
-    private static final float SPRITE_DIM = 32 * LevelModel.UNIT_SCALE;
+    private static final float SPRITE_DIM = 32 * GameConstants.UNIT_SCALE;
 
     /**
      * Creates a level renderer for the given level model and map.
@@ -71,7 +73,7 @@ public class LevelRenderer {
         this.viewport = new ExtendViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, camera);
 
         this.worldRenderer = new WorldRenderer(camera);
-        this.worldRenderer.setMap(map, LevelModel.UNIT_SCALE);
+        this.worldRenderer.setMap(map, GameConstants.UNIT_SCALE);
 
         this.entityRenderer = new EntityRenderer(app);
         this.uiRenderer = new UIRenderer(camera, model.getPlayer());
@@ -109,6 +111,16 @@ public class LevelRenderer {
         entityRenderer.setPickupEffectColor(model.getPlayer(), pickupType);
     }
 
+    /**
+     * Advances the victory celebration timer by delta seconds.
+     * Call this each frame while the level is in its finished state.
+     */
+    public void onVictory(float delta) {
+        if (victoryElapsed < 0) victoryElapsed = 0;
+        victoryElapsed += delta;
+        entityRenderer.setVictoryTime(victoryElapsed);
+    }
+
     /** Renders one frame of the level in draw order. */
     public void render() {
         entityRenderer.syncWithModel(model.getAllEntities());
@@ -129,7 +141,7 @@ public class LevelRenderer {
         if (luckyBlockRenderer != null) {
             batch.setProjectionMatrix(camera.combined);
             batch.begin();
-            luckyBlockRenderer.render(batch, LevelModel.UNIT_SCALE);
+            luckyBlockRenderer.render(batch, GameConstants.UNIT_SCALE);
             batch.end();
         }
 
@@ -151,9 +163,40 @@ public class LevelRenderer {
 
         renderTriggerText();
 
+        if (victoryElapsed >= 0) {
+            renderVictoryOverlay();
+        }
+
         if (showDebug) {
             debugRenderer.render(model.getPhysics().getWorld(), camera.combined);
         }
+    }
+
+    private static final float GOAL_BLINK_INTERVAL = 0.22f;
+    private static final float GOAL_FONT_SCALE     = 7f;
+
+    private void renderVictoryOverlay() {
+        boolean visible = (int)(victoryElapsed / GOAL_BLINK_INTERVAL) % 2 == 0;
+        if (!visible) return;
+
+        int screenW = Gdx.graphics.getWidth();
+        int screenH = Gdx.graphics.getHeight();
+        Matrix4 screenMatrix = new Matrix4().setToOrtho2D(0, 0, screenW, screenH);
+
+        app.getAssets().getFont().getData().setScale(GOAL_FONT_SCALE);
+        GlyphLayout layout = new GlyphLayout(app.getAssets().getFont(), "GOAL!");
+
+        float x = (screenW - layout.width)  / 2f;
+        float y = (screenH + layout.height) / 2f;
+
+        app.getBatch().setProjectionMatrix(screenMatrix);
+        app.getBatch().begin();
+        app.getAssets().getFont().setColor(Color.GOLD);
+        app.getAssets().getFont().draw(app.getBatch(), layout, x, y);
+        app.getAssets().getFont().setColor(Color.WHITE);
+        app.getBatch().end();
+
+        app.getAssets().getFont().getData().setScale(1f);
     }
 
     private void drawPickups() {
@@ -169,7 +212,7 @@ public class LevelRenderer {
 
         for (IPickup pickup : pickups) {
             if (pickup.isCollected()) continue;
-            float s = pickup.getRenderSize() * 10f * LevelModel.UNIT_SCALE;
+            float s = pickup.getRenderSize() * 10f * GameConstants.UNIT_SCALE;
             float x = pickup.getPosition().x - s / 2f;
             float y = pickup.getPosition().y - s / 2f;
             Texture tex = "speed".equals(pickup.getPickupType()) ? speedTex : healTex;

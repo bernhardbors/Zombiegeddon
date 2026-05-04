@@ -27,11 +27,7 @@ public class SettingsController implements ISettingsController {
         this.prefs = app.getPrefs();
     }
 
-    /**
-     * Changes the game resolution and stores the selected value in preferences.
-     *
-     * @param resolution The resolution string to apply, for example {@code "1920 x 1080"}.
-     */
+    @Override
     public void applyResolution(String resolution) {
         try {
             String[] parts = resolution.split("x");
@@ -51,12 +47,7 @@ public class SettingsController implements ISettingsController {
         }
     }
 
-    /**
-     * Toggles fullscreen mode and persists the setting.
-     * Switches to windowed mode using stored resolution if disabled.
-     *
-     * @param enabled True to enable fullscreen, false for windowed mode.
-     */
+    @Override
     public void toggleFullscreen(boolean enabled) {
         prefs.putBoolean(AssetConstants.PREF_FULLSCREEN, enabled);
         prefs.flush();
@@ -70,18 +61,12 @@ public class SettingsController implements ISettingsController {
         }
     }
 
-    /**
-     * Updates the background music volume.
-     * @param volume The desired volume level.
-     */
+    @Override
     public void updateMusicVolume(float volume) {
         app.getAudio().setMusicVolume(volume);
     }
 
-    /**
-     * Updates the sound effects volume.
-     * @param volume The desired volume level.
-     */
+    @Override
     public void updateSfxVolume(float volume) {
         app.getAudio().setSfxVolume(volume);
     }

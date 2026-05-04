@@ -2,6 +2,7 @@ package inf112.zoombiegeddon.model.world.physics;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import inf112.zoombiegeddon.model.entity.IPhysicsComponent;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
 
 import java.util.List;
@@ -45,4 +46,11 @@ public interface IWorldPhysics {
 
     /** Releases all native resources used by the Box2D world. */
     void dispose();
+
+    /**
+     * Removes the physics body belonging to the given component from the world.
+     *
+     * @param component the physics component whose body should be destroyed
+     */
+    void destroyBody(IPhysicsComponent component);
 }

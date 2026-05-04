@@ -19,9 +19,9 @@ import inf112.zoombiegeddon.view.screens.menus.MainMenuScreen;
  */
 public class SplashScreen extends AbstractScreen {
 
-    private static float fadeInDuration = 1.5f;
-    private static float fadeOutDuration = 1.5f;
-    private static float delayDuration = 1f;
+    private static final float FADE_IN_DURATION = 1.5f;
+    private static final float FADE_OUT_DURATION = 1.5f;
+    private static final float DELAY_DURATION = 1f;
 
     /**
      * Constructor for the SplashScreen.
@@ -48,13 +48,13 @@ public class SplashScreen extends AbstractScreen {
 
         text.getColor().a = 0;
         text.addAction(Actions.sequence(
-                Actions.fadeIn(fadeInDuration),
-                Actions.delay(delayDuration),
-                Actions.fadeOut(fadeOutDuration),
+                Actions.fadeIn(FADE_IN_DURATION),
+                Actions.delay(DELAY_DURATION),
+                Actions.fadeOut(FADE_OUT_DURATION),
                 Actions.run(() -> text.setText("Et INF112 Semester Prosjekt")),
-                Actions.fadeIn(fadeInDuration),
-                Actions.delay(delayDuration),
-                Actions.fadeOut(fadeOutDuration),
+                Actions.fadeIn(FADE_IN_DURATION),
+                Actions.delay(DELAY_DURATION),
+                Actions.fadeOut(FADE_OUT_DURATION),
                 Actions.run(toMainMenu)));
 
         skipToMainMenu(toMainMenu);

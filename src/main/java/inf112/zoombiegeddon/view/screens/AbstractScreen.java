@@ -32,9 +32,9 @@ public abstract class AbstractScreen implements IScreen {
     protected float buttonWidth;
     protected float buttonHeight;
 
-    protected AssetManager assetmanager;
+    protected AssetManager assetManager;
 
-    protected ParallaxBackground parallaxBg;
+    protected ParallaxBackground parallaxBg = new ParallaxBackground();
 
     /**
      * Constructs a new abstract screen with shared UI setup.
@@ -50,7 +50,7 @@ public abstract class AbstractScreen implements IScreen {
         this.table = new Table();
         this.stage = new Stage(new ScreenViewport());
 
-        this.assetmanager = app.getAssets().getManager();
+        this.assetManager = app.getAssets().getManager();
 
         table.setFillParent(true);
         stage.addActor(table);
@@ -147,10 +147,10 @@ public abstract class AbstractScreen implements IScreen {
     protected ParallaxBackground addParallaxBg(OrthographicCamera bgCamera) {
         final ParallaxBackground parallaxBg;
         parallaxBg = new ParallaxBackground(bgCamera);
-        parallaxBg.addLayer(assetmanager.get(AssetConstants.BG_SKY, Texture.class), 0.3f);
-        parallaxBg.addLayer(assetmanager.get(AssetConstants.BG_CITY, Texture.class), 0.6f);
-        parallaxBg.addLayer(assetmanager.get(AssetConstants.BG_L1, Texture.class), 1.0f);
-        parallaxBg.addLayer(assetmanager.get(AssetConstants.BG_L2, Texture.class), 1.5f);
+        parallaxBg.addLayer(assetManager.get(AssetConstants.BG_SKY, Texture.class), 0.3f);
+        parallaxBg.addLayer(assetManager.get(AssetConstants.BG_CITY, Texture.class), 0.6f);
+        parallaxBg.addLayer(assetManager.get(AssetConstants.BG_L1, Texture.class), 1.0f);
+        parallaxBg.addLayer(assetManager.get(AssetConstants.BG_L2, Texture.class), 1.5f);
         return parallaxBg;
     }
 }

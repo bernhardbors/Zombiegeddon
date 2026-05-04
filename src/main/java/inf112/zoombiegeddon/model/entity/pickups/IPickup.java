@@ -1,6 +1,7 @@
 package inf112.zoombiegeddon.model.entity.pickups;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import inf112.zoombiegeddon.model.entity.player.IPlayer;
 
 /**
@@ -31,4 +32,12 @@ public interface IPickup {
 
     /** @return A string identifier for the pickup type. */
     String getPickupType();
+
+    /**
+     * Returns the underlying Box2D body.
+     * Intended for use by physics/destruction systems only.
+     *
+     * @return the raw Box2D body
+     */
+    Body getBody();
 }

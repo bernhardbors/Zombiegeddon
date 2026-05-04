@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import inf112.zoombiegeddon.model.world.physics.WorldPhysics;
+import inf112.zoombiegeddon.model.world.physics.IWorldPhysics;
 
 /**
  * Concrete Lucky Block implementation backed by a Box2D static body.
@@ -63,7 +63,7 @@ public class LuckyBlock implements ILuckyBlock {
     }
 
     @Override
-    public void breakBlock(WorldPhysics worldPhysics) {
+    public void breakBlock(IWorldPhysics worldPhysics) {
         if (broken) {
             return;
         }
@@ -72,7 +72,7 @@ public class LuckyBlock implements ILuckyBlock {
     }
 
     @Override
-    public void spawnReward(WorldPhysics worldPhysics) {
+    public void spawnReward(IWorldPhysics worldPhysics) {
         if (worldPhysics == null || rewardType == null || rewardType.isEmpty()) {
             return;
         }

@@ -31,14 +31,17 @@ public abstract class Entity implements IEntity {
         this.physics = physics;
     }
 
+    @Override
     public EntityState getCurrentState() {
         return currentState;
     }
 
+    @Override
     public float getStateTime() {
         return stateTime;
     }
 
+    @Override
     public boolean isFacingRight() {
         return facingRight;
     }

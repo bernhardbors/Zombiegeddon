@@ -80,6 +80,12 @@ public class EntityRenderer  {
         pickupEffectColors.put(entity, color);
     }
 
+    private float victoryTime = -1f;
+
+    public void setVictoryTime(float t) {
+        this.victoryTime = t;
+    }
+
     /**
      * Renders all registered entities in registration order.
      *
@@ -91,10 +97,15 @@ public class EntityRenderer  {
             AnimationHandler handler = entry.getValue();
             float spriteDim = spriteDimensions.get(entity);
 
+            boolean facingRight = entity.isFacingRight();
+            if (victoryTime >= 0 && entity instanceof IPlayerVisuals) {
+                facingRight = (int)(victoryTime * 8) % 2 == 0;
+            }
+
             TextureRegion frame = handler.getFrame(
                     entity.getCurrentState(),
                     entity.getStateTime(),
-                    entity.isFacingRight()
+                    facingRight
             );
             render(batch, entity, frame, spriteDim);
         }

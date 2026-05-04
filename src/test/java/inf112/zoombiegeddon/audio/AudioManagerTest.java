@@ -11,9 +11,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyFloat;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 class AudioManagerTest {
@@ -476,11 +474,120 @@ class AudioManagerTest {
     }
 
     @Test
-    void testSavePrefs() {
+    void testSetMutesSavePrefs() {
         audioManagerWithPrefs.setMuted(true);
 
-        verify(prefs, atLeastOnce()).putFloat(anyString(), anyFloat());
-        verify(prefs, atLeastOnce()).putBoolean(anyString(), anyBoolean());
-        verify(prefs, atLeastOnce()).flush();
+        verify(prefs).putFloat("audio_sfx_volume", 1.0f);
+        verify(prefs).putFloat("audio_music_volume", 0.3f);
+        verify(prefs).putBoolean("audio_muted", true);
+        verify(prefs).flush();
     }
+
+    @Test
+    void testSetSfxVolumeSavesPrefs() {
+        audioManagerWithPrefs.setSfxVolume(0.5f);
+
+        verify(prefs).putFloat("audio_sfx_volume", 0.5f);
+        verify(prefs).putFloat("audio_music_volume", 0.3f);
+        verify(prefs).putBoolean("audio_muted", false);
+        verify(prefs).flush();
+    }
+
+    @Test
+    void testSetMusicSavesPrefs() {
+        audioManagerWithPrefs.setMusicVolume(0.2f);
+
+        verify(prefs).putFloat("audio_sfx_volume", 1.0f);
+        verify(prefs).putFloat("audio_music_volume", 0.2f);
+        verify(prefs).putBoolean("audio_muted", false);
+        verify(prefs).flush();
+    }
+
+    @Test
+    void testPlayerMoveStartTwiceDoesNotRestartFootstepsLoop() {
+        Sfx sfx = Sfx.FOOTSTEPS;
+        MusicTrack track = MusicTrack.GAMEPLAY;
+
+        when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(sfx.path(), Sound.class)).thenReturn(sound);
+
+        when(assetManager.isLoaded(track.path(), Music.class)).thenReturn(true);
+        when(assetManager.get(track.path(), Music.class)).thenReturn(music);
+
+        audioManager.onEvent(GameEvent.PLAYER_MOVE_START);
+        audioManager.onEvent(GameEvent.PLAYER_MOVE_START);
+        verify(sound, times(1)).loop(anyFloat());
+        verify(music, times(1)).play();
+    }
+
+    @Test
+    void testPlayerMoveStartAfterPlayerRunStartStopsRunningSound() {
+        Sfx sfxWalk = Sfx.FOOTSTEPS;
+        Sfx sfxRun = Sfx.FOOTSTEPS_RUN;
+
+        MusicTrack track = MusicTrack.GAMEPLAY;
+
+        when(assetManager.isLoaded(sfxWalk.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(sfxWalk.path(), Sound.class)).thenReturn(sound);
+
+        when(assetManager.isLoaded(sfxRun.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(sfxRun.path(), Sound.class)).thenReturn(sound);
+
+        when(assetManager.isLoaded(track.path(), Music.class)).thenReturn(true);
+        when(assetManager.get(track.path(), Music.class)).thenReturn(music);
+
+        audioManager.onEvent(GameEvent.PLAYER_RUN_START);
+        audioManager.onEvent(GameEvent.PLAYER_MOVE_START);
+
+        verify(sound, atLeastOnce()).stop();
+        verify(sound, times(2)).loop(anyFloat());
+
+    }
+
+    @Test
+    void testPlayerRunStartTwiceDoesNotRestartFootstepsLoop() {
+        Sfx sfx = Sfx.FOOTSTEPS_RUN;
+        MusicTrack track = MusicTrack.GAMEPLAY;
+
+        when(assetManager.isLoaded(sfx.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(sfx.path(), Sound.class)).thenReturn(sound);
+
+        when(assetManager.isLoaded(track.path(), Music.class)).thenReturn(true);
+        when(assetManager.get(track.path(), Music.class)).thenReturn(music);
+
+        audioManager.onEvent(GameEvent.PLAYER_RUN_START);
+        audioManager.onEvent(GameEvent.PLAYER_RUN_START);
+        verify(sound, times(1)).loop(anyFloat());
+    }
+
+    @Test
+    void testPlayerRunStartAfterPlayerMoveStartStopsRunningSound() {
+        Sfx sfxWalk = Sfx.FOOTSTEPS;
+        Sfx sfxRun = Sfx.FOOTSTEPS_RUN;
+
+        MusicTrack track = MusicTrack.GAMEPLAY;
+
+        when(assetManager.isLoaded(sfxWalk.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(sfxWalk.path(), Sound.class)).thenReturn(sound);
+
+        when(assetManager.isLoaded(sfxRun.path(), Sound.class)).thenReturn(true);
+        when(assetManager.get(sfxRun.path(), Sound.class)).thenReturn(sound);
+
+        when(assetManager.isLoaded(track.path(), Music.class)).thenReturn(true);
+        when(assetManager.get(track.path(), Music.class)).thenReturn(music);
+
+        audioManager.onEvent(GameEvent.PLAYER_MOVE_START);
+        audioManager.onEvent(GameEvent.PLAYER_RUN_START);
+
+        verify(sound, atLeastOnce()).stop();
+        verify(sound, times(2)).loop(anyFloat());
+
+    }
+
+
+
+
+
+
+
 }

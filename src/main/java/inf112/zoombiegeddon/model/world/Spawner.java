@@ -25,13 +25,7 @@ public class Spawner implements ISpawner {
         this.unitScale = unitScale;
     }
 
-    /**
-     * Returns the spawn point with the given id from the map.
-     * If no matching spawn point is found, a default fallback position is returned.
-     *
-     * @param spawnID The name of the spawn point to look up.
-     * @return The spawn position in world units.
-     */
+    @Override
     public Vector2 getSpawnPoint(String spawnID) {
         MapObjects objects = map.getLayers().get("SpawnPoints").getObjects();
         for (MapObject object : objects) {

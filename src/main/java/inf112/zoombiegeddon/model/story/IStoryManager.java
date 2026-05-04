@@ -45,9 +45,6 @@ public interface IStoryManager {
     /** @return The ID of the current level. */
     String getCurrentLevelId();
 
-    /** @return The current story session. */
-    StorySession getSession();
-
     /** @return The name of the current player. */
     String getCurrentPlayerName();
 

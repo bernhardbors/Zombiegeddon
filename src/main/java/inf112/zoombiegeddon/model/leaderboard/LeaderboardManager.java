@@ -17,33 +17,17 @@ public class LeaderboardManager implements ILeaderboardManager {
         this.leaderboards = new HashMap<>();
     }
 
-    /**
-     * Returns the {@link Leaderboard} for the given ID, creating it if it
-     * does not yet exist.
-     *
-     * @param boardId the leaderboard identifier; must not be {@code null}
-     * @return the existing or newly created {@link Leaderboard}
-     */
+    @Override
     public Leaderboard getLeaderboard(String boardId) {
         return leaderboards.computeIfAbsent(boardId, id -> new Leaderboard());
     }
 
-    /**
-     * Adds an entry to the leaderboard with the given ID, creating the
-     * leaderboard if it does not yet exist.
-     *
-     * @param boardId the leaderboard identifier; must not be {@code null}
-     * @param entry   the entry to add; must not be {@code null}
-     */
+    @Override
     public void addEntry(String boardId, LeaderboardEntry entry) {
         getLeaderboard(boardId).addEntry(entry);
     }
 
-    /**
-     * Returns a snapshot of all leaderboards, keyed by board ID.
-     *
-     * @return a new map containing all current leaderboards
-     */
+    @Override
     public Map<String, Leaderboard> getLeaderboards() {
         return new HashMap<>(leaderboards);
     }
