@@ -178,6 +178,7 @@ public class MenuLeaderboardScreen extends AbstractScreen {
         bgBatch.begin();
         parallaxBg.render(bgBatch);
         bgBatch.end();
+        dimBackground();
         stage.act(Math.min(delta, 1 / 30f));
         stage.draw();
     }

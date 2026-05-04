@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -28,6 +30,7 @@ public abstract class AbstractScreen implements IScreen {
     protected final GameApp app;
     protected final Table table;
     protected Preferences prefs;
+    protected final ShapeRenderer shapeRenderer;
 
     protected float buttonWidth;
     protected float buttonHeight;
@@ -46,6 +49,7 @@ public abstract class AbstractScreen implements IScreen {
 
         this.skin = app.getAssets().getSkin();
         this.prefs = app.getPrefs();
+        this.shapeRenderer = new ShapeRenderer();
 
         this.table = new Table();
         this.stage = new Stage(new ScreenViewport());
@@ -109,6 +113,9 @@ public abstract class AbstractScreen implements IScreen {
         if (stage != null) {
             stage.dispose();
         }
+        if (shapeRenderer != null) {
+            shapeRenderer.dispose();
+        }
     }
 
     private void calculateButtonSize(){
@@ -152,5 +159,16 @@ public abstract class AbstractScreen implements IScreen {
         parallaxBg.addLayer(assetManager.get(AssetConstants.BG_L1, Texture.class), 1.0f);
         parallaxBg.addLayer(assetManager.get(AssetConstants.BG_L2, Texture.class), 1.5f);
         return parallaxBg;
+    }
+
+    protected void dimBackground() {
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0f, 0f, 0f, 0.6f);
+        shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        shapeRenderer.end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 }
