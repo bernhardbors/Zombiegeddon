@@ -23,7 +23,7 @@ import inf112.zoombiegeddon.view.screens.story.StoryNameScreen;
 public class MainMenuScreen extends AbstractScreen {
 
     private static final float BUTTON_SCALE = 1.2f;
-    private static final float COLUMN_PADDING = 2f;
+    private static final float COLUMN_PADDING = 0f;
     private static final float BOTTOM_PADDING = 2f;
 
     /**
@@ -65,17 +65,23 @@ public class MainMenuScreen extends AbstractScreen {
         UIUtils.button("HOW TO PLAY", skin).size(bw, bh)
                 .action(() -> app.setScreen(new HowToScreen(app))).addTo(leftColumn);
         UIUtils.button("SCOREBOARD", skin).size(bw, bh)
-                .action(() -> app.setScreen(new LeaderboardScreen(app, GameApp.STORY_LEADERBOARD_ID))).addTo(leftColumn);
+                .action(() -> app.setScreen(new MenuLeaderboardScreen(app, this))).addTo(leftColumn);
 
         Table rightColumn = new Table();
         UIUtils.button("LEVELS", skin).size(bw, bh)
                 .action(() -> app.setScreen(new LevelNameScreen(app))).addTo(rightColumn);
+        UIUtils.button("CREDITS", skin).size(bw, bh)
+                .action(() -> app.setScreen(new CreditsScreen(app,this))).addTo(rightColumn);
         UIUtils.button("SETTINGS", skin).size(bw, bh)
                 .action(() -> app.setScreen(new SettingsScreen(app, this))).addTo(rightColumn);
-        UIUtils.button("EXIT", skin).size(bw, bh)
-                .action(Gdx.app::exit).addTo(rightColumn);
 
-        table.add(leftColumn).padRight(COLUMN_PADDING).expandY().center().padBottom(BOTTOM_PADDING);
-        table.add(rightColumn).padLeft(COLUMN_PADDING).expandY().center().padBottom(BOTTOM_PADDING);
+        table.add(leftColumn).padRight(COLUMN_PADDING).right();
+        table.add(rightColumn).padLeft(COLUMN_PADDING).left();
+
+        Table bottomRow = new Table();
+        UIUtils.button("EXIT", skin).size(bw, bh)
+                .action(Gdx.app::exit).addTo(bottomRow);
+        table.row();
+        table.add(bottomRow).colspan(2).center().padBottom(BOTTOM_PADDING);
     }
 }

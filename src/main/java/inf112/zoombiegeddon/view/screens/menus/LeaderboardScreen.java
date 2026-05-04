@@ -1,6 +1,10 @@
 package inf112.zoombiegeddon.view.screens.menus;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.ScreenUtils;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.model.leaderboard.Leaderboard;
 import inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry;
@@ -15,6 +19,10 @@ import java.util.List;
  */
 public class LeaderboardScreen extends AbstractScreen {
 
+    private static final float SCROLL_SPEED = 2f;
+
+    private final SpriteBatch bgBatch;
+    private final OrthographicCamera bgCamera;
     private final String levelId;
 
     /**
@@ -26,11 +34,41 @@ public class LeaderboardScreen extends AbstractScreen {
     public LeaderboardScreen(GameApp app, String levelId) {
         super(app);
         this.levelId = levelId;
+        bgBatch = new SpriteBatch();
+        bgCamera = new OrthographicCamera();
+        bgCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+
+    @Override
+    public void render(float delta) {
+        ScreenUtils.clear(Color.BLACK);
+        bgCamera.position.x += SCROLL_SPEED * delta;
+        bgCamera.update();
+        bgBatch.setProjectionMatrix(bgCamera.combined);
+        bgBatch.begin();
+        parallaxBg.render(bgBatch);
+        bgBatch.end();
+        stage.act(Math.min(delta, 1 / 30f));
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        bgCamera.setToOrtho(false, width, height);
+        bgCamera.update();
+        super.resize(width, height);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        bgBatch.dispose();
     }
 
     @Override
     public void buildScreen() {
         clearTable();
+        parallaxBg = addParallaxBg(bgCamera);
 
         formatText(getLeaderboardTitle(), Color.WHITE, 4f);
         table.row().padTop(10);

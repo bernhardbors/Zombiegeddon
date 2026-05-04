@@ -1,9 +1,10 @@
 package inf112.zoombiegeddon.view.screens.menus;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import inf112.zoombiegeddon.app.AssetConstants;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.ScreenUtils;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 import inf112.zoombiegeddon.view.screens.level.PlayableLevel;
@@ -15,6 +16,11 @@ import inf112.zoombiegeddon.view.utils.UIUtils;
  */
 public class PickLevelScreen extends AbstractScreen {
 
+    private static final float SCROLL_SPEED = 2f;
+
+    private final SpriteBatch bgBatch;
+    private final OrthographicCamera bgCamera;
+
     /**
      * Constructs the level selection screen.
      *
@@ -22,16 +28,41 @@ public class PickLevelScreen extends AbstractScreen {
      */
     public PickLevelScreen(GameApp app) {
         super(app);
+        bgBatch = new SpriteBatch();
+        bgCamera = new OrthographicCamera();
+        bgCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+
+    @Override
+    public void render(float delta) {
+        ScreenUtils.clear(Color.BLACK);
+        bgCamera.position.x += SCROLL_SPEED * delta;
+        bgCamera.update();
+        bgBatch.setProjectionMatrix(bgCamera.combined);
+        bgBatch.begin();
+        parallaxBg.render(bgBatch);
+        bgBatch.end();
+        stage.act(Math.min(delta, 1 / 30f));
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        bgCamera.setToOrtho(false, width, height);
+        bgCamera.update();
+        super.resize(width, height);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        bgBatch.dispose();
     }
 
     @Override
     public void buildScreen() {
         clearTable();
-
-        if (app.getAssets().getManager().isLoaded(AssetConstants.BG_SKY)) {
-            Texture background = app.getAssets().getManager().get(AssetConstants.BG_SKY, Texture.class);
-            table.setBackground(new TextureRegionDrawable(background));
-        }
+        parallaxBg = addParallaxBg(bgCamera);
 
         formatText("PICK LEVEL", Color.WHITE, 6f);
         table.row().padTop(10);

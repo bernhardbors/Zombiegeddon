@@ -40,6 +40,7 @@ public class Main {
 		Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
 		cfg.setTitle("Zoombiegeddon");
 		cfg.setWindowedMode(1280, 768);
+		cfg.setForegroundFPS(320);
 
 		ApplicationListener appListener = new GameApp();
 
