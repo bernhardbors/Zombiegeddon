@@ -3,6 +3,7 @@ package inf112.zoombiegeddon.view.screens.level;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -16,6 +17,7 @@ import inf112.zoombiegeddon.events.IEventListener;
 import inf112.zoombiegeddon.model.levels.ILevelModel;
 import inf112.zoombiegeddon.model.levels.LevelModel;
 import inf112.zoombiegeddon.view.animations.AnimationHandler;
+import inf112.zoombiegeddon.view.background.LevelBackground;
 import inf112.zoombiegeddon.view.renderer.LevelRenderer;
 import inf112.zoombiegeddon.view.screens.menus.LeaderboardScreen;
 
@@ -49,6 +51,8 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
         this.map = new TmxMapLoader().load(mapPath);
         this.model = new LevelModel(map);
 
+        setupBackground();
+
         AnimationHandler playerAnims   = app.getAssets().getPlayerMaleAnimations();
         AnimationHandler zombieAnims   = app.getAssets().getZombieAnimations();
         AnimationHandler chonkerAnims  = app.getAssets().getChonkerAnimations();
@@ -58,6 +62,18 @@ public class PlayableLevel extends ScreenAdapter implements IEventListener {
 
         this.playerController = new PlayerController(model.getPlayer());
         this.levelController = new LevelController();
+    }
+
+    private void setupBackground() {
+        app.getBackground().clearLayers();
+        String bgName = (String) map.getProperties().get("background");
+        if (bgName == null) return;
+
+        LevelBackground bg = LevelBackground.valueOf(bgName);
+        for (int i = 0; i < bg.layers.length; i++) {
+            Texture tex = app.getAssets().getManager().get(bg.layers[i], Texture.class);
+            app.getBackground().addLayer(tex, LevelBackground.FACTORS[i]);
+        }
     }
 
     /**

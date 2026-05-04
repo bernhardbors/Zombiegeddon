@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="276" height="71" tilewidth="8" tileheight="8" infinite="0" nextlayerid="13" nextobjectid="43">
+ <properties>
+  <property name="background" value="LEVEL_1"/>
+ </properties>
  <tileset firstgid="1" source="../tiledProjectFiles/tilemap_packed.tsx"/>
  <tileset firstgid="901" source="../tiledProjectFiles/luckyblock.tsx"/>
  <layer id="4" name="Background2" width="276" height="71">
