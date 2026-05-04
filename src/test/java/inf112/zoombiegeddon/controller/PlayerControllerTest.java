@@ -3,7 +3,6 @@ package inf112.zoombiegeddon.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import inf112.zoombiegeddon.AbstractLibGDXTest;
 import inf112.zoombiegeddon.model.entity.player.IPlayer;
 import inf112.zoombiegeddon.model.entity.PhysicsComponent;
@@ -18,17 +17,13 @@ class PlayerControllerTest extends AbstractLibGDXTest {
 
     private IPlayer player;
     private PlayerController controller;
-    private Body body;
-    private PhysicsComponent physics;
 
     @BeforeEach
     void beforeEach() {
         player = mock(IPlayer.class);
         controller = new PlayerController(player);
-        body = mock(Body.class);
-        physics = mock(PhysicsComponent.class);
+        PhysicsComponent physics = mock(PhysicsComponent.class);
         when(player.getPhysics()).thenReturn(physics);
-        when(physics.getBody()).thenReturn(body);
         when(physics.getVelocity()).thenReturn(new Vector2(0, 0));
         when(player.getActiveSpeedMultiplier()).thenReturn(1.0f);
         Gdx.input = mock(Input.class);

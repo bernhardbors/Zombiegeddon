@@ -4,9 +4,6 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import inf112.zoombiegeddon.AbstractLibGDXTest;
-import inf112.zoombiegeddon.app.Assets;
-import inf112.zoombiegeddon.app.GameApp;
-import inf112.zoombiegeddon.view.animations.AnimationHandler;
 import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
 import org.junit.jupiter.api.AfterEach;
@@ -16,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class LevelModelTest extends AbstractLibGDXTest {
 
@@ -35,16 +31,6 @@ class LevelModelTest extends AbstractLibGDXTest {
     @AfterEach
     void afterEach() {
         map.dispose();
-    }
-
-    private GameApp mockApp() {
-        Assets assets = mock(Assets.class);
-        when(assets.getPlayerMaleAnimations()).thenReturn(mock(AnimationHandler.class));
-        when(assets.getZombieAnimations()).thenReturn(mock(AnimationHandler.class));
-        when(assets.getChonkerAnimations()).thenReturn(mock(AnimationHandler.class));
-        GameApp app = mock(GameApp.class);
-        when(app.getAssets()).thenReturn(assets);
-        return app;
     }
 
     // --- Constants ---

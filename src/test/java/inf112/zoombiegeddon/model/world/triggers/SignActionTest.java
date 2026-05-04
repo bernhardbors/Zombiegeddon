@@ -7,14 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SignActionTest extends AbstractEntityTest {
 
-    private SignAction signAction;
-    private Player player;
-
     @Test
     void testSignActionReturnsCorrectText() {
         String testText = "Test123";
-        signAction = new SignAction(testText);
-        player = new Player(mockedWorld, spawnPos, 3);
+        SignAction signAction = new SignAction(testText);
+        Player player = new Player(mockedWorld, spawnPos, 3);
 
         String result = signAction.onTrigger(player);
 

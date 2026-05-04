@@ -6,13 +6,10 @@ import static org.mockito.Mockito.verify;
 
 class SpawnActionTest extends AbstractEntityTest {
 
-    private SpawnAction spawnAction;
-    private Player player;
-
     @Test
     void testSpawnActionSetsCorrectPosition() {
-        spawnAction = new SpawnAction(10, 10);
-        player = new Player(mockedWorld, spawnPos, 3);
+        SpawnAction spawnAction = new SpawnAction(10, 10);
+        Player player = new Player(mockedWorld, spawnPos, 3);
 
         spawnAction.onTrigger(player);
 

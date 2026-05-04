@@ -11,15 +11,6 @@ leaderboards: {
 			livesLeft: 2
 			timeUsed: 43.2
 		}
-		{
-			class: inf112.zoombiegeddon.model.leaderboard.LeaderboardEntry
-			playerName: JOey
-			boardId: level1
-			score: 4162
-			collectedItems: 0
-			livesLeft: 3
-			timeUsed: 33.86236
-		}
 	]
 }
 }

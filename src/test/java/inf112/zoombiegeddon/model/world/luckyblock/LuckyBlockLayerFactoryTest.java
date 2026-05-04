@@ -25,14 +25,12 @@ import static org.mockito.Mockito.*;
 class LuckyBlockLayerFactoryTest {
 
     private World mockedWorld;
-    private Body mockedBody;
-    private Fixture mockedFixture;
 
     @BeforeEach
     void setUp() {
         mockedWorld = mock(World.class);
-        mockedBody = mock(Body.class);
-        mockedFixture = mock(Fixture.class);
+        Body mockedBody = mock(Body.class);
+        Fixture mockedFixture = mock(Fixture.class);
 
         when(mockedWorld.createBody(any(BodyDef.class))).thenReturn(mockedBody);
         when(mockedBody.createFixture(any(FixtureDef.class))).thenReturn(mockedFixture);

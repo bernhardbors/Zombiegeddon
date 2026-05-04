@@ -27,9 +27,9 @@ stop an evil professor’s experiment.
 # Controls 
 | Key                     | Action     |
 |-------------------------|------------|
-| A/Left                  | Move left  |
-| D/Right                 | Move right |
-| W/Up/Space              | Jump       |
+| A / Left                | Move left  |
+| D / Right               | Move right |
+| W / Up / Space          | Jump       |
 | P                       | Pause      | 
 | Esc                     | Quit       |
 | Hold Shift while moving | Sprint     |
@@ -48,6 +48,7 @@ stop an evil professor’s experiment.
     
 ## Credits
 * https://gafferongames.com/post/fix_your_timestep/ used in the class WorldPhysics
+* https://git.app.uib.no/inf112/25v/inf112.25v.lectures/-/blob/main/src/test/java/inf112/skeleton/app/FlockingTest.java?ref_type=heads used in the test class AbstractLibGDXTest 
 * https://emhuo.itch.io/peaberry-pixel-font Font in the game
 * https://kenney-assets.itch.io/pixel-platformer Tiles for the levels
 * https://fartfish.itch.io/zombie-game-asset-pack Zombies and background 
@@ -69,6 +70,9 @@ stop an evil professor’s experiment.
 ### Build and run the game
 * `mvn package`
 * `java -jar target/zoombiegeddon.jar`
+
+### Run without packaging 
+* `mvn exec:java`
 
 ## Testing
 * Run unit tests with `mvn test`

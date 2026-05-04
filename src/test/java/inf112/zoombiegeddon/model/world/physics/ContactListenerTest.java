@@ -1,10 +1,10 @@
 package inf112.zoombiegeddon.model.world.physics;
 
 import com.badlogic.gdx.physics.box2d.*;
+import inf112.zoombiegeddon.model.entity.IEntity;
+import inf112.zoombiegeddon.model.entity.enemies.IEnemy;
 import inf112.zoombiegeddon.model.entity.pickups.Pickup;
-import inf112.zoombiegeddon.model.entity.player.Player;
-import inf112.zoombiegeddon.model.entity.enemies.Enemy;
-import inf112.zoombiegeddon.model.entity.pickups.IPickup;
+import inf112.zoombiegeddon.model.entity.player.IPlayer;
 import inf112.zoombiegeddon.model.world.luckyblock.ILuckyBlock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,30 +43,30 @@ class ContactListenerTest {
 
     @Test
     void testBeginContact_SetsGroundedTrue() {
-        Player mockPlayer = mock(Player.class);
+        IEntity mockEntity = mock(IEntity.class);
         when(fixtureA.getUserData()).thenReturn("feet");
-        when(bodyA.getUserData()).thenReturn(mockPlayer);
+        when(bodyA.getUserData()).thenReturn(mockEntity);
 
         listener.beginContact(contact);
 
-        verify(mockPlayer).setGrounded(true);
+        verify(mockEntity).setGrounded(true);
     }
 
     @Test
     void testEndContact_SetsGroundedFalse() {
-        Player mockPlayer = mock(Player.class);
+        IEntity mockEntity = mock(IEntity.class);
         when(fixtureB.getUserData()).thenReturn("feet");
-        when(bodyB.getUserData()).thenReturn(mockPlayer);
+        when(bodyB.getUserData()).thenReturn(mockEntity);
 
         listener.endContact(contact);
 
-        verify(mockPlayer).setGrounded(false);
+        verify(mockEntity).setGrounded(false);
     }
 
     @Test
     void testPlayerEnemyCollision_HitWithFeet() {
-        Player mockPlayer = mock(Player.class);
-        Enemy mockEnemy = mock(Enemy.class);
+        IPlayer mockPlayer = mock(IPlayer.class);
+        IEnemy mockEnemy = mock(IEnemy.class);
 
         // A is player feet, B is enemy
         when(fixtureA.getUserData()).thenReturn("feet");
@@ -81,7 +81,7 @@ class ContactListenerTest {
 
     @Test
     void testLuckyBlockCollision_QueuesForRemoval() {
-        Player mockPlayer = mock(Player.class);
+        IPlayer mockPlayer = mock(IPlayer.class);
         ILuckyBlock mockBlock = mock(ILuckyBlock.class);
 
         when(bodyA.getUserData()).thenReturn(mockPlayer);
@@ -101,7 +101,7 @@ class ContactListenerTest {
 
     @Test
     void testPickupCollision_CallsCollect() {
-        Player mockPlayer = mock(Player.class);
+        IPlayer mockPlayer = mock(IPlayer.class);
         Pickup mockPickup = mock(Pickup.class);
 
         when(bodyA.getUserData()).thenReturn(mockPlayer);
@@ -121,7 +121,7 @@ class ContactListenerTest {
     @Test
     void testProcessQueuedRemovals_DoesNothingWhenWorldLocked() {
         ILuckyBlock mockBlock = mock(ILuckyBlock.class);
-        when(bodyA.getUserData()).thenReturn(mock(Player.class));
+        when(bodyA.getUserData()).thenReturn(mock(IPlayer.class));
         when(bodyB.getUserData()).thenReturn(mockBlock);
         when(mockBlock.getBody()).thenReturn(bodyB);
 
