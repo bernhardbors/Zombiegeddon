@@ -3,10 +3,11 @@ package inf112.zoombiegeddon.view.screens.menus;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.ScreenUtils;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.controller.ISettingsController;
@@ -22,6 +23,10 @@ import inf112.zoombiegeddon.view.screens.AbstractScreen;
  */
 public class SettingsScreen extends AbstractScreen {
 
+    private static final float SCROLL_SPEED = 2f;
+
+    private final SpriteBatch bgBatch;
+    private final OrthographicCamera bgCamera;
     private final Screen returnScreen;
     private final ISettingsController controller;
 
@@ -34,16 +39,41 @@ public class SettingsScreen extends AbstractScreen {
         super(app);
         this.returnScreen = returnScreen;
         this.controller = new SettingsController(app);
+        bgBatch = new SpriteBatch();
+        bgCamera = new OrthographicCamera();
+        bgCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+
+    @Override
+    public void render(float delta) {
+        ScreenUtils.clear(Color.BLACK);
+        bgCamera.position.x += SCROLL_SPEED * delta;
+        bgCamera.update();
+        bgBatch.setProjectionMatrix(bgCamera.combined);
+        bgBatch.begin();
+        parallaxBg.render(bgBatch);
+        bgBatch.end();
+        stage.act(Math.min(delta, 1 / 30f));
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        bgCamera.setToOrtho(false, width, height);
+        bgCamera.update();
+        super.resize(width, height);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        bgBatch.dispose();
     }
 
     @Override
     public void buildScreen() {
-        if (app.getAssets().getManager().isLoaded(AssetConstants.BG_SKY)) {
-            Texture background = app.getAssets().getManager().get(AssetConstants.BG_SKY, Texture.class);
-            table.setBackground(new TextureRegionDrawable(background));
-        }
-
         clearTable();
+        parallaxBg = addParallaxBg(bgCamera);
         table.top();
 
         GameEventBus.post(GameEvent.MENU_STARTED);

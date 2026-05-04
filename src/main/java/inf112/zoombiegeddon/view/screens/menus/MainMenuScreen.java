@@ -71,12 +71,18 @@ public class MainMenuScreen extends AbstractScreen {
         Table rightColumn = new Table();
         UIUtils.button("LEVELS", skin).size(bw, bh)
                 .action(() -> app.setScreen(new LevelNameScreen(app))).addTo(rightColumn);
+        UIUtils.button("CREDITS", skin).size(bw, bh)
+                .action(() -> app.setScreen(new CreditsScreen(app,this))).addTo(rightColumn);
         UIUtils.button("SETTINGS", skin).size(bw, bh)
                 .action(() -> app.setScreen(new SettingsScreen(app, this))).addTo(rightColumn);
-        UIUtils.button("EXIT", skin).size(bw, bh)
-                .action(Gdx.app::exit).addTo(rightColumn);
 
-        table.add(leftColumn).padRight(COLUMN_PADDING).expandY().center().padBottom(BOTTOM_PADDING);
-        table.add(rightColumn).padLeft(COLUMN_PADDING).expandY().center().padBottom(BOTTOM_PADDING);
+        table.add(leftColumn).padRight(COLUMN_PADDING).center();
+        table.add(rightColumn).padLeft(COLUMN_PADDING).center();
+
+        Table bottomRow = new Table();
+        UIUtils.button("EXIT", skin).size(bw, bh)
+                .action(Gdx.app::exit).addTo(bottomRow);
+        table.row();
+        table.add(bottomRow).colspan(2).center().padBottom(BOTTOM_PADDING);
     }
 }
