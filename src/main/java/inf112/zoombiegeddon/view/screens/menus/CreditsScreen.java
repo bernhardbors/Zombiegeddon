@@ -50,17 +50,17 @@ public class CreditsScreen extends AbstractScreen {
         creditsTable.defaults().pad(6f * screenScale);
 
         addSection(creditsTable, "PROGRAMMERS", Color.CYAN,
-                "Name Here\nName Here\nName Here", screenScale);
+                "Bernhard Bors\nSynne Hermansen\nTuva Kvamme\nTheodor Flornes\n Johannes Helle Moe \n Isak Graarud", screenScale);
         addSection(creditsTable, "GAME DESIGN", Color.ORANGE,
-                "Name Here\nName Here", screenScale);
+                "Bernhard Bors\nIsak Graarud", screenScale);
         addSection(creditsTable, "ART & GRAPHICS", Color.GREEN,
-                "Name Here\nName Here", screenScale);
+                "Theodor Flornes \nSynne Hermansen", screenScale);
         addSection(creditsTable, "SOUND & MUSIC", Color.PINK,
-                "Name Here", screenScale);
+                "Johannes Helle Moe", screenScale);
         addSection(creditsTable, "TESTING", Color.YELLOW,
-                "Name Here\nName Here", screenScale);
+                "Tuva Kvamme", screenScale);
         addSection(creditsTable, "SPECIAL THANKS", Color.WHITE,
-                "Name Here", screenScale);
+                "Henrik Brogger", screenScale);
 
         ScrollPane scrollPane = new ScrollPane(creditsTable, skin);
         scrollPane.getStyle().background = null;

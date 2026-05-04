@@ -11,6 +11,5 @@ public enum EntityState {
     RUNNING,
     JUMPING,
     FALLING,
-    PUNCHING,
-    DEAD
+    PUNCHING
 }
