@@ -18,14 +18,6 @@ public class LeaderboardScreen extends AbstractScreen {
     private final String levelId;
 
     /**
-     * Defines where the screen navigates after the leaderboard is dismissed.
-     */
-    public enum ScreenType {
-        NEXT_LEVEL,
-        MAIN_MENU
-    }
-
-    /**
      * Constructs the Leaderboard screen.
      *
      * @param app            the application context

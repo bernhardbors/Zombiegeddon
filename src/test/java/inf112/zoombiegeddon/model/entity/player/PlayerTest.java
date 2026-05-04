@@ -2,12 +2,12 @@ package inf112.zoombiegeddon.model.entity.player;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import inf112.zoombiegeddon.app.GameConstants;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.entity.AbstractEntityTest;
 import inf112.zoombiegeddon.model.entity.EntityState;
 import inf112.zoombiegeddon.model.entity.enemies.Enemy;
-import inf112.zoombiegeddon.model.levels.LevelModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -146,8 +146,8 @@ public class PlayerTest extends AbstractEntityTest {
         float playerHeight = player.getHeight();
         float playerWidth = player.getWidth();
 
-        assertEquals(11 * LevelModel.UNIT_SCALE, playerWidth);
-        assertEquals(20 * LevelModel.UNIT_SCALE, playerHeight);
+        assertEquals(11 * GameConstants.UNIT_SCALE, playerWidth);
+        assertEquals(20 * GameConstants.UNIT_SCALE, playerHeight);
     }
 
     @Test

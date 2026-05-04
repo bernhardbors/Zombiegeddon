@@ -8,8 +8,6 @@ import inf112.zoombiegeddon.app.GameApp;
 import inf112.zoombiegeddon.view.screens.AbstractScreen;
 import inf112.zoombiegeddon.view.screens.level.PlayableLevel;
 import inf112.zoombiegeddon.view.utils.UIUtils;
-import inf112.zoombiegeddon.view.screens.AbstractScreen;
-import inf112.zoombiegeddon.view.screens.level.PlayableLevel;
 
 /**
  * Displays the level selection screen.

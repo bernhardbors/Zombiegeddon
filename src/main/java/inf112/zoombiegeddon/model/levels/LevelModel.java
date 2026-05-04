@@ -68,12 +68,7 @@ public class LevelModel implements ILevelModel {
                 map.getLayers().get("SpawnPoints"));
     }
 
-    /**
-     * Advances the level by one frame: steps physics, updates the player and
-     * trigger zones, and removes dead enemies from the world.
-     *
-     * @param delta time in seconds since the last frame
-     */
+    @Override
     public void update(float delta) {
         physics.update(delta);
         levelTime += delta;
@@ -103,12 +98,7 @@ public class LevelModel implements ILevelModel {
         }
     }
 
-    /**
-     * Returns all active entities (player + enemies) as a single list,
-     * suitable for rendering.
-     *
-     * @return a new list of all active entities
-     */
+    @Override
     public List<IEntity> getAllEntities() {
         List<IEntity> all = new ArrayList<>();
         if (player != null) all.add(player);

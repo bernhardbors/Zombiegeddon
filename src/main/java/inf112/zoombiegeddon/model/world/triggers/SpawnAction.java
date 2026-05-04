@@ -8,8 +8,8 @@ import inf112.zoombiegeddon.model.entity.player.IPlayer;
  * and are scaled to world units upon construction.
  */
 public class SpawnAction implements ITriggerAction{
-    private float x;
-    private float y;
+    private final float x;
+    private final float y;
 
     /**
      * Constructs a new SpawnAction with the given spawn coordinates.
