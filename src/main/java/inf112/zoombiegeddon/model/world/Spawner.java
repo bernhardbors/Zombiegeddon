@@ -20,7 +20,7 @@ public class Spawner implements ISpawner {
      * @param map The tiled map containing spawn point objects.
      * @param unitScale conversion factor from pixel coordinates to world units
      */
-    public Spawner (TiledMap map, float unitScale) {
+    public Spawner(TiledMap map, float unitScale) {
         this.map = map;
         this.unitScale = unitScale;
     }

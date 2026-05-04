@@ -20,6 +20,7 @@ public class SpeedBoostPickup extends Pickup {
      * Constructs a speed boost pickup at the given position.
      *
      * @param world         The Box2D world.
+     *
      * @param spawnPosition The position to spawn the pickup.
      */
     public SpeedBoostPickup(World world, Vector2 spawnPosition) {

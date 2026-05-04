@@ -7,8 +7,8 @@ import java.util.Map;
 /**
  * Data transfer object for serializing and deserializing leaderboard state.
  *
- * <p>Used internally by {@link JsonLeaderboardRepository} when reading and
- * writing JSON.</p>
+ * Used internally by {@link JsonLeaderboardRepository} when reading and
+ * writing JSON.
  */
 public class LeaderboardData {
     private Map<String, List<LeaderboardEntry>> leaderboards;

@@ -13,14 +13,16 @@ import inf112.zoombiegeddon.view.utils.UIUtils;
 /**
  * Pause screen rendered on top of the active level.
  *
- * <p>The underlying level is kept alive and rendered as a blurred background
- * behind a semi-transparent overlay.</p>
+ * The underlying level is kept alive and rendered as a blurred background
+ * behind a semi-transparent overlay.
  */
 public class PauseScreen extends AbstractScreen {
 
     private final PlayableLevel previousLevel;
 
     /**
+     * Creates a pause screen for the given active level.
+     *
      * @param app           the application context
      * @param previousLevel the level to return to when the player continues
      */

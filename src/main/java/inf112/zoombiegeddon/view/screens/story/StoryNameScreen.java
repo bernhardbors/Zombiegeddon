@@ -21,6 +21,11 @@ public class StoryNameScreen extends AbstractScreen {
     private final SpriteBatch bgBatch;
     private final OrthographicCamera bgCamera;
 
+    /**
+     * Creates a story name screen for the given game application.
+     *
+     * @param app the game application
+     */
     public StoryNameScreen(GameApp app) {
         super(app);
         bgBatch = new SpriteBatch();

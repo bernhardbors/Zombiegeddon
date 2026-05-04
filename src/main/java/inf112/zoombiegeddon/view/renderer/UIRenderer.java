@@ -33,7 +33,6 @@ public class UIRenderer {
     /**
      * Creates a UI renderer for an entity that can take damage.
      *
-     * @param camera The camera associated with the current view.
      * @param entity The entity whose UI information should be rendered.
      * @param <T> The entity type, which must extend {@link IEntity} and implement {@link IDamageable}.
      */
@@ -47,8 +46,9 @@ public class UIRenderer {
     /**
      * Draws the health hearts for the tracked entity.
      *
-     * @param batch The sprite batch used for rendering.
+     * @param batch   The sprite batch used for rendering.
      * @param texture The texture containing the heart UI frames.
+     * @param scale   The scale used when drawing the heart texture.
      */
     public void drawHearts(Batch batch, Texture texture, float scale) {
         Matrix4 uiMatrix = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

@@ -11,7 +11,9 @@ public class StorySession {
     private float accumulatedTimeSeconds;
 
     /**
-     * @param playerName The player's name. Defaults to "Player" if null or blank.
+     * Creates a new story session for the given player.
+     *
+     * @param playerName the player's name. Defaults to "Player" if null or blank
      */
     public StorySession(String playerName) {
         this.playerName = (playerName == null || playerName.isBlank()) ? "Player" : playerName.trim();
@@ -25,6 +27,7 @@ public class StorySession {
 
     /**
      * Adds time to the accumulated total. Negative values are ignored.
+     *
      * @param seconds Seconds to add.
      */
     public void addTime(float seconds) {
@@ -33,6 +36,7 @@ public class StorySession {
 
     /**
      * Returns total elapsed time including the current level's time.
+     *
      * @param currentLevelTime Time elapsed in the current level.
      * @return Total seconds elapsed, or just currentLevelTime if session is inactive.
      */

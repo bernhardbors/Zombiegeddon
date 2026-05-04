@@ -4,8 +4,8 @@ package inf112.zoombiegeddon.model.leaderboard;
 /**
  * Represents a single leaderboard entry capturing a player's end-of-game stats.
  *
- * <p>Stores extra fields beyond score (items, lives, time) so the leaderboard
- * screen can display a richer summary per player.</p>
+ * Stores extra fields beyond score, such as items, lives, and time, so the
+ * leaderboard screen can display a richer summary per player.
  */
 public class LeaderboardEntry {
     private String playerName;

@@ -8,7 +8,7 @@ import java.util.List;
  * Represents a single leaderboard that maintains a score-sorted list of
  * {@link LeaderboardEntry} objects.
  *
- * <p>Entries are kept in descending order by score at all times.<p>
+ * Entries are kept in descending order by score at all times.
  */
 public class Leaderboard {
 
