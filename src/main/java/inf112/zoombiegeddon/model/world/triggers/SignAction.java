@@ -8,7 +8,7 @@ import inf112.zoombiegeddon.model.entity.player.IPlayer;
  * to the caller for rendering on screen.
  */
 public class SignAction implements ITriggerAction{
-    private String text;
+    private final String text;
 
     /**
      * Constructs a new SignAction with the given display text.

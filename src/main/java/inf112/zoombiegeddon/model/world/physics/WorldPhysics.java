@@ -2,7 +2,7 @@ package inf112.zoombiegeddon.model.world.physics;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import inf112.zoombiegeddon.model.entity.PhysicsComponent;
+import inf112.zoombiegeddon.model.entity.IPhysicsComponent;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,13 +49,7 @@ public class WorldPhysics implements IWorldPhysics {
         this.world.setContactListener(contactListener);
     }
 
-    /**
-     * Registers a factory function for creating pickups of the given type.
-     * Does nothing if either argument is {@code null}.
-     *
-     * @param rewardType the pickup type identifier (case-insensitive)
-     * @param factory    a function that creates a pickup at a given position
-     */
+    @Override
     public void registerPickupFactory(String rewardType, Function<Vector2, IPickup> factory) {
         if (rewardType == null || factory == null) {
             return;
@@ -63,15 +57,7 @@ public class WorldPhysics implements IWorldPhysics {
         pickupFactories.put(rewardType.trim().toLowerCase(), factory);
     }
 
-    /**
-     * Spawns a pickup of the given type at the given position.
-     * If the physics world is currently locked (mid-step), the spawn is queued
-     * and executed at the end of the current step.
-     *
-     * @param rewardType    the pickup type identifier; must not be {@code null}
-     * @param spawnPosition the world position to spawn at; must not be {@code null}
-     * @return true if the spawn was created or queued, false if a required argument was null
-     */
+    @Override
     public boolean spawnPickup(String rewardType, Vector2 spawnPosition) {
         if (rewardType == null || spawnPosition == null) {
             return false;
@@ -106,12 +92,8 @@ public class WorldPhysics implements IWorldPhysics {
         return true;
     }
 
-    /**
-     * Removes a physics body from the world.
-     *
-     * @param component The physics component whose body should be destroyed.
-     */
-    public void destroyBody(PhysicsComponent component) {
+    @Override
+    public void destroyBody(IPhysicsComponent component) {
         world.destroyBody(component.getBody());
     }
 
@@ -128,28 +110,17 @@ public class WorldPhysics implements IWorldPhysics {
         pendingPickupSpawns.clear();
     }
 
+    @Override
     public List<IPickup> getPickups() {
         return Collections.unmodifiableList(pickups);
     }
 
-    /**
-     * @return the underlying Box2D {@link World} instance.
-     */
+    @Override
     public World getWorld() {
         return world;
     }
 
-    /**
-     * Advances the physics simulation.
-     * <p>
-     * Uses an accumulator pattern to ensure that the physics world steps at
-     * a constant rate (60Hz), preventing "speed up" or "slow down" issues
-     * caused by fluctuating frame rates.
-     * </p>
-     * * @param delta the time in seconds since the last render frame.
-     *
-     * @see <a href="https://gafferongames.com/post/fix_your_timestep/"> Fix Your Timestep! </a>
-     */
+    @Override
     public void update(float delta) {
         float timeStep = 1 / 60f;
         accumulatedTime += delta;
@@ -162,10 +133,7 @@ public class WorldPhysics implements IWorldPhysics {
         }
     }
 
-    /**
-     * Releases all native resources used by the Box2D world.
-     * Should be called when the game screen or application is closed.
-     */
+    @Override
     public void dispose() {
         world.dispose();
     }

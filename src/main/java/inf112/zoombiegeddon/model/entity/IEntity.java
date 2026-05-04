@@ -28,7 +28,7 @@ public interface IEntity {
      *
      * @return The PhysicsComponent instance.
      */
-    PhysicsComponent getPhysics();
+    IPhysicsComponent getPhysics();
 
     /**
      * Sets whether the entity is currently touching the ground.

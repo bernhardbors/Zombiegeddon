@@ -2,10 +2,10 @@ package inf112.zoombiegeddon.model.entity.pickups;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import inf112.zoombiegeddon.app.GameConstants;
 import inf112.zoombiegeddon.events.GameEvent;
 import inf112.zoombiegeddon.events.GameEventBus;
 import inf112.zoombiegeddon.model.entity.player.IPlayer;
-import inf112.zoombiegeddon.model.levels.LevelModel;
 
 /**
  * A pickup that restores health to the player upon collection.
@@ -22,7 +22,7 @@ public class HealPickup extends Pickup {
      * @param spawnPosition The position to spawn the pickup.
      */
     public HealPickup(World world, Vector2 spawnPosition) {
-        super(world, spawnPosition, 8f * LevelModel.UNIT_SCALE, "heal");
+        super(world, spawnPosition, 8f * GameConstants.UNIT_SCALE, "heal");
     }
 
     @Override

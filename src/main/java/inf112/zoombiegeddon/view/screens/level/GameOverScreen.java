@@ -39,8 +39,7 @@ public class GameOverScreen extends AbstractScreen {
     @Override
     public void buildScreen() {
         clearTable();
-
-        GameEventBus.post(GameEvent.PLAYER_DEATH);
+        GameEventBus.post(GameEvent.MENU_STARTED);
 
         formatText("GAME OVER", Color.RED, 6f);
         table.row().padTop(25);
@@ -49,7 +48,6 @@ public class GameOverScreen extends AbstractScreen {
             UIUtils.button("TRY STORYMODE AGAIN", skin).size(buttonWidth, buttonHeight)
                     .action(() -> app.setScreen(new StoryNameScreen(app)))
                     .addTo(table);
-        GameEventBus.post(GameEvent.MENU_STARTED);
 
             table.row().padTop(10);
         }

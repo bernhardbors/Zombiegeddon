@@ -86,7 +86,7 @@ public class StoryManager implements IStoryManager{
         return storyLevelIds[currentLevelIndex];
     }
 
-    @Override
+    /** @return The current story session. */
     public StorySession getSession() {
         return storySession;
     }

@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.zoombiegeddon.app.AssetConstants;
 import inf112.zoombiegeddon.app.GameApp;
+import inf112.zoombiegeddon.app.GameConstants;
 import inf112.zoombiegeddon.model.entity.IEntity;
 import inf112.zoombiegeddon.model.entity.pickups.IPickup;
 import inf112.zoombiegeddon.model.levels.ILevelModel;
@@ -52,7 +53,7 @@ public class LevelRenderer {
     private static final float SIGN_FONT_SCALE = 2.0f;
     private static final float SIGN_Y_POSITION = 0.75f;
 
-    private static final float SPRITE_DIM = 32 * LevelModel.UNIT_SCALE;
+    private static final float SPRITE_DIM = 32 * GameConstants.UNIT_SCALE;
 
     /**
      * @param app              the application context, used to access assets and batch
@@ -69,7 +70,7 @@ public class LevelRenderer {
         this.viewport = new ExtendViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, camera);
 
         this.worldRenderer = new WorldRenderer(camera);
-        this.worldRenderer.setMap(map, LevelModel.UNIT_SCALE);
+        this.worldRenderer.setMap(map, GameConstants.UNIT_SCALE);
 
         this.entityRenderer = new EntityRenderer(app);
         this.uiRenderer = new UIRenderer(camera, model.getPlayer());
@@ -127,7 +128,7 @@ public class LevelRenderer {
         if (luckyBlockRenderer != null) {
             batch.setProjectionMatrix(camera.combined);
             batch.begin();
-            luckyBlockRenderer.render(batch, LevelModel.UNIT_SCALE);
+            luckyBlockRenderer.render(batch, GameConstants.UNIT_SCALE);
             batch.end();
         }
 
@@ -167,7 +168,7 @@ public class LevelRenderer {
 
         for (IPickup pickup : pickups) {
             if (pickup.isCollected()) continue;
-            float s = pickup.getRenderSize() * 10f * LevelModel.UNIT_SCALE;
+            float s = pickup.getRenderSize() * 10f * GameConstants.UNIT_SCALE;
             float x = pickup.getPosition().x - s / 2f;
             float y = pickup.getPosition().y - s / 2f;
             Texture tex = "speed".equals(pickup.getPickupType()) ? speedTex : healTex;
